@@ -1,0 +1,156 @@
+Ubuntu  ManjaroLinux
+------  ------------
+# Shells
+_       dash
+_       zsh
+_       shellcheck
+# Git
+git     git
+# Make
+_       make
+# Vim
+neovim  neovim-git
+neovim  neovim-plug
+_       ctags
+# Remote Connections
+_       sshfs
+ssh     openssh
+_       mosh
+_       freerdp
+_       remmina
+# Terminal Emulator
+_       alacritty
+# C/C++
+_       tcc
+_       gcc
+_       clang
+_       conan
+_       gdb
+_       valgrind
+_       cling
+# Python
+_       python
+_       python-pip
+# Octave
+_       octave
+# Lua
+_       luacheck
+# Lisp
+_       clisp
+# Count lines of code
+_       cloc
+# Suckless Stuff
+_       dmenu
+# Notifications
+_       dunst
+# for OSD
+_       dzen2
+# Discord
+_       discord
+# Figlet
+_       figlet
+_       figlet-fonts
+# Images
+_       feh
+_       gimp
+_       imagemagick
+_       sxiv
+# Videos
+_       mpv
+# Fortune
+_       fortune-mod
+_       fortune-mod-bofh-excuses
+_       fortune-mod-br
+_       fortune-mod-calvin
+_       fortune-mod-chucknorris
+_       fortune-mod-montypython
+_       fortune-mod-protolol-git
+_       fortune-mod-question-answer-jokes
+# Misc utils
+_       entr
+_       exa
+_       unzip
+_       upower
+_       xtermcontrol
+_       zenity
+# System Monitor
+_       htop
+_       gotop
+# X Session
+_       lightdm
+_       lightdm-webkit-theme-litarvan
+# Change backlight
+_       lux
+# Set GTK theme
+_       lxappearance
+# GTK icon set
+_       paper-icon-theme-git
+# Email
+_       mailspring
+# Presentations
+_       marp-cli
+# Xinerama (multiple screens)
+_       mons
+# Fonts
+_       nerd-fonts-complete
+_       ttf-lato
+# Networks
+_       networkmanager
+_       networkmanager-fortisslvpn
+_       networkmanager-openvpn
+_       networkmanager-vpnc
+_       openvpn
+# Documents
+# # Pandoc
+_       pandoc
+_       pandoc-citeproc
+_       pandoc-crossref
+# # LaTeX
+_       texlive-most
+# Password manager
+_       pass
+# Audio
+_       pavucontrol
+_       playerctl
+_       pulseaudio
+_       pulseaudio-alsa
+_       pulseaudio-bluetooth
+_       pulseaudio-equalizer
+_       swh-plugins
+# Compositor
+_       picom
+# Status bar
+_       polybar
+# System
+_       preload
+# Browser
+_       qutebrowser
+# File manager
+_       ranger
+# Night color temperature
+_       redshift
+# Program Launcher
+_       rofi
+# Show typed keys
+_       screenkey
+# Slack
+_       slack-desktop
+# Mount disks automatically
+_       udiskie
+# Window Manager & X Server
+_       wmctrl
+_       xclip
+_       xdotool
+_       xmonad
+_       xorg-server
+# Keyboard
+_       xbindkeys
+_       xcape
+# Document Viewer
+_       zathura
+_       zathura-pdf-mupdf
+_       zathura-cb
+_       zathura-djvu
+# Resource Openers
+_       xdg-utils
+_       perl-file-mimeinfo
