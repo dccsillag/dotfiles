@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Stop on errors
 set -e
 
 PACKAGEFILE=$HOME/.csillag/packages
@@ -41,3 +40,8 @@ case $DISTRONAME in
         echo "Unregistered distro: $DISTRONAME"
         exit 2
 esac
+
+set +x
+
+echo "Running post-install scripts..."
+find "$HOME/.csillag/post-package-install/" -exec /bin/sh '{}' \; -name "$DISTRONAME.sh" -or -name all.sh
