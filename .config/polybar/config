@@ -1,0 +1,775 @@
+;  ____         _         _
+; |  _ \  ___  | | _   _ | |__    __ _  _ __
+; | |_) |/ _ \ | || | | || '_ \  / _` || '__|
+; |  __/| (_) || || |_| || |_) || (_| || |
+; |_|    \___/ |_| \__, ||_.__/  \__,_||_|
+;                  |___/
+; @what My Polybar configuration.
+; @author Daniel Csillag (aka. dccsillag)
+;
+; ============================================================================
+;
+; Here is a simple Python function (using the `colour` package) for generating colors for a ramp:
+;
+;    from colour import Color
+;
+;
+;    def make_ramp(ramp_name, start, end):
+;        print('\n'.join("%s-%d = %%{u%s}%%{+u}" % (ramp_name, i, x.hex) for i, x in enumerate(Color(start).range_to(Color(end), 100))))
+;
+; Calls to this function are documented where used.
+
+[bar/csillag]
+width = 100%
+; height = 25
+fixed-center = true
+
+background = #55222222
+foreground = #dfdfdf
+
+line-size = 3
+line-color = #f00
+
+border-color = #00000000
+
+padding-left = 0
+padding-right = 2
+
+margin-bottom = 0
+margin-top    = 0
+
+module-margin-left  = 2
+module-margin-right = 1
+
+; font-0 = Lato-Regular:pixelsize=11;0
+; font-0 = Monospace:pixelsize=11;0
+
+; font-0 = Hack Nerd Font Mono:pixelsize=11;0
+; font-1 = Lato-Regular:pixelsize=11;0
+; font-2 = Hack Nerd Font Mono:pixelsize=7;0
+; font-3 = Hack Nerd Font:pixelsize=14;0
+; font-4 = Hack Nerd Fnot:pixelsize=7;0
+font-0 = CodeNewRoman Nerd Font Mono:pixelsize=11;0
+font-1 = Lato-Regular:pixelsize=11;0
+font-2 = CodeNewRoman Nerd Font Mono:pixelsize=7;0
+font-3 = CodeNewRoman Nerd Font:pixelsize=14;0
+font-4 = CodeNewRoman Nerd Font:pixelsize=7;0
+
+modules-left   = label cpu mem temp netdown netup updates xmonad_recompiling
+modules-center = datetime
+modules-right  = vpn donotdisturb mic volume media netname battery
+; modules-right  = vpn donotdisturb mic volume media xmonad_comm netname battery
+
+tray-position = none
+tray-padding = 2
+;tray-background = #0063ff
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+[module/label]
+type = custom/text
+
+content = %{T4}%{T-}
+
+[module/cpu]
+type = internal/cpu
+
+; interval = 0.5
+interval = 1
+
+format = %{T5}CPU%{T-} <ramp-load><label>%{F-}
+label = %percentage:3%%
+
+; make_ramp('ramp-load', 'green', 'red')
+ramp-load-0  = %{F#008000}
+ramp-load-1  = %{F#038100}
+ramp-load-2  = %{F#058300}
+ramp-load-3  = %{F#088400}
+ramp-load-4  = %{F#0b8500}
+ramp-load-5  = %{F#0e8600}
+ramp-load-6  = %{F#108800}
+ramp-load-7  = %{F#138900}
+ramp-load-8  = %{F#168a00}
+ramp-load-9  = %{F#198c00}
+ramp-load-10 = %{F#1c8d00}
+ramp-load-11 = %{F#208e00}
+ramp-load-12 = %{F#238f00}
+ramp-load-13 = %{F#269100}
+ramp-load-14 = %{F#299200}
+ramp-load-15 = %{F#2d9300}
+ramp-load-16 = %{F#309500}
+ramp-load-17 = %{F#339600}
+ramp-load-18 = %{F#379700}
+ramp-load-19 = %{F#3a9800}
+ramp-load-20 = %{F#3e9a00}
+ramp-load-21 = %{F#429b00}
+ramp-load-22 = %{F#459c00}
+ramp-load-23 = %{F#499e00}
+ramp-load-24 = %{F#4d9f00}
+ramp-load-25 = %{F#51a000}
+ramp-load-26 = %{F#55a100}
+ramp-load-27 = %{F#59a300}
+ramp-load-28 = %{F#5da400}
+ramp-load-29 = %{F#61a500}
+ramp-load-30 = %{F#65a600}
+ramp-load-31 = %{F#69a800}
+ramp-load-32 = %{F#6da900}
+ramp-load-33 = %{F#72aa00}
+ramp-load-34 = %{F#76ac00}
+ramp-load-35 = %{F#7aad00}
+ramp-load-36 = %{F#7fae00}
+ramp-load-37 = %{F#83af00}
+ramp-load-38 = %{F#88b100}
+ramp-load-39 = %{F#8cb200}
+ramp-load-40 = %{F#91b300}
+ramp-load-41 = %{F#96b500}
+ramp-load-42 = %{F#9ab600}
+ramp-load-43 = %{F#9fb700}
+ramp-load-44 = %{F#a4b800}
+ramp-load-45 = %{F#a9ba00}
+ramp-load-46 = %{F#aebb00}
+ramp-load-47 = %{F#b3bc00}
+ramp-load-48 = %{F#b8be00}
+ramp-load-49 = %{F#bdbf00}
+ramp-load-50 = %{F#c0be00}
+ramp-load-51 = %{F#c1bc00}
+ramp-load-52 = %{F#c3b900}
+ramp-load-53 = %{F#c4b600}
+ramp-load-54 = %{F#c5b300}
+ramp-load-55 = %{F#c7b000}
+ramp-load-56 = %{F#c8ae00}
+ramp-load-57 = %{F#c9ab00}
+ramp-load-58 = %{F#caa800}
+ramp-load-59 = %{F#cca500}
+ramp-load-60 = %{F#cda100}
+ramp-load-61 = %{F#ce9e00}
+ramp-load-62 = %{F#d09b00}
+ramp-load-63 = %{F#d19800}
+ramp-load-64 = %{F#d29500}
+ramp-load-65 = %{F#d39100}
+ramp-load-66 = %{F#d58e00}
+ramp-load-67 = %{F#d68a00}
+ramp-load-68 = %{F#d78700}
+ramp-load-69 = %{F#d98300}
+ramp-load-70 = %{F#da8000}
+ramp-load-71 = %{F#db7c00}
+ramp-load-72 = %{F#dc7800}
+ramp-load-73 = %{F#de7400}
+ramp-load-74 = %{F#df7100}
+ramp-load-75 = %{F#e06d00}
+ramp-load-76 = %{F#e16900}
+ramp-load-77 = %{F#e36500}
+ramp-load-78 = %{F#e46100}
+ramp-load-79 = %{F#e55d00}
+ramp-load-80 = %{F#e75900}
+ramp-load-81 = %{F#e85400}
+ramp-load-82 = %{F#e95000}
+ramp-load-83 = %{F#ea4c00}
+ramp-load-84 = %{F#ec4700}
+ramp-load-85 = %{F#ed4300}
+ramp-load-86 = %{F#ee3f00}
+ramp-load-87 = %{F#f03a00}
+ramp-load-88 = %{F#f13600}
+ramp-load-89 = %{F#f23100}
+ramp-load-90 = %{F#f32c00}
+ramp-load-91 = %{F#f52800}
+ramp-load-92 = %{F#f62300}
+ramp-load-93 = %{F#f71e00}
+ramp-load-94 = %{F#f91900}
+ramp-load-95 = %{F#fa1400}
+ramp-load-96 = %{F#fb0f00}
+ramp-load-97 = %{F#fc0a00}
+ramp-load-98 = %{F#fe0500}
+ramp-load-99 = %{F#f00}
+
+[module/mem]
+type = internal/memory
+
+interval = 1
+
+format = %{T5}RAM%{T-} <ramp-used><label>%{F-}
+label = %percentage_used:3%%
+
+; make_ramp('ramp-used', 'green', 'red')
+ramp-used-0  = %{F#008000}
+ramp-used-1  = %{F#038100}
+ramp-used-2  = %{F#058300}
+ramp-used-3  = %{F#088400}
+ramp-used-4  = %{F#0b8500}
+ramp-used-5  = %{F#0e8600}
+ramp-used-6  = %{F#108800}
+ramp-used-7  = %{F#138900}
+ramp-used-8  = %{F#168a00}
+ramp-used-9  = %{F#198c00}
+ramp-used-10 = %{F#1c8d00}
+ramp-used-11 = %{F#208e00}
+ramp-used-12 = %{F#238f00}
+ramp-used-13 = %{F#269100}
+ramp-used-14 = %{F#299200}
+ramp-used-15 = %{F#2d9300}
+ramp-used-16 = %{F#309500}
+ramp-used-17 = %{F#339600}
+ramp-used-18 = %{F#379700}
+ramp-used-19 = %{F#3a9800}
+ramp-used-20 = %{F#3e9a00}
+ramp-used-21 = %{F#429b00}
+ramp-used-22 = %{F#459c00}
+ramp-used-23 = %{F#499e00}
+ramp-used-24 = %{F#4d9f00}
+ramp-used-25 = %{F#51a000}
+ramp-used-26 = %{F#55a100}
+ramp-used-27 = %{F#59a300}
+ramp-used-28 = %{F#5da400}
+ramp-used-29 = %{F#61a500}
+ramp-used-30 = %{F#65a600}
+ramp-used-31 = %{F#69a800}
+ramp-used-32 = %{F#6da900}
+ramp-used-33 = %{F#72aa00}
+ramp-used-34 = %{F#76ac00}
+ramp-used-35 = %{F#7aad00}
+ramp-used-36 = %{F#7fae00}
+ramp-used-37 = %{F#83af00}
+ramp-used-38 = %{F#88b100}
+ramp-used-39 = %{F#8cb200}
+ramp-used-40 = %{F#91b300}
+ramp-used-41 = %{F#96b500}
+ramp-used-42 = %{F#9ab600}
+ramp-used-43 = %{F#9fb700}
+ramp-used-44 = %{F#a4b800}
+ramp-used-45 = %{F#a9ba00}
+ramp-used-46 = %{F#aebb00}
+ramp-used-47 = %{F#b3bc00}
+ramp-used-48 = %{F#b8be00}
+ramp-used-49 = %{F#bdbf00}
+ramp-used-50 = %{F#c0be00}
+ramp-used-51 = %{F#c1bc00}
+ramp-used-52 = %{F#c3b900}
+ramp-used-53 = %{F#c4b600}
+ramp-used-54 = %{F#c5b300}
+ramp-used-55 = %{F#c7b000}
+ramp-used-56 = %{F#c8ae00}
+ramp-used-57 = %{F#c9ab00}
+ramp-used-58 = %{F#caa800}
+ramp-used-59 = %{F#cca500}
+ramp-used-60 = %{F#cda100}
+ramp-used-61 = %{F#ce9e00}
+ramp-used-62 = %{F#d09b00}
+ramp-used-63 = %{F#d19800}
+ramp-used-64 = %{F#d29500}
+ramp-used-65 = %{F#d39100}
+ramp-used-66 = %{F#d58e00}
+ramp-used-67 = %{F#d68a00}
+ramp-used-68 = %{F#d78700}
+ramp-used-69 = %{F#d98300}
+ramp-used-70 = %{F#da8000}
+ramp-used-71 = %{F#db7c00}
+ramp-used-72 = %{F#dc7800}
+ramp-used-73 = %{F#de7400}
+ramp-used-74 = %{F#df7100}
+ramp-used-75 = %{F#e06d00}
+ramp-used-76 = %{F#e16900}
+ramp-used-77 = %{F#e36500}
+ramp-used-78 = %{F#e46100}
+ramp-used-79 = %{F#e55d00}
+ramp-used-80 = %{F#e75900}
+ramp-used-81 = %{F#e85400}
+ramp-used-82 = %{F#e95000}
+ramp-used-83 = %{F#ea4c00}
+ramp-used-84 = %{F#ec4700}
+ramp-used-85 = %{F#ed4300}
+ramp-used-86 = %{F#ee3f00}
+ramp-used-87 = %{F#f03a00}
+ramp-used-88 = %{F#f13600}
+ramp-used-89 = %{F#f23100}
+ramp-used-90 = %{F#f32c00}
+ramp-used-91 = %{F#f52800}
+ramp-used-92 = %{F#f62300}
+ramp-used-93 = %{F#f71e00}
+ramp-used-94 = %{F#f91900}
+ramp-used-95 = %{F#fa1400}
+ramp-used-96 = %{F#fb0f00}
+ramp-used-97 = %{F#fc0a00}
+ramp-used-98 = %{F#fe0500}
+ramp-used-99 = %{F#f00}
+
+[module/temp]
+type = internal/temperature
+
+; interval = 0.5
+interval = 1
+
+format = %{T5}TEMP%{T-} <ramp><label>%{F-}
+label = %temperature-c:2%
+
+thermal-zone = 0
+
+base-temperature = 20
+warn-temperature = 90
+
+; make_ramp('ramp', 'lightblue', 'red')
+ramp-0 = %{F#add8e6}
+ramp-1 = %{F#acd9e6}
+ramp-2 = %{F#aadbe6}
+ramp-3 = %{F#a9dde6}
+ramp-4 = %{F#a7dfe6}
+ramp-5 = %{F#a6e0e6}
+ramp-6 = %{F#a4e2e6}
+ramp-7 = %{F#a3e4e5}
+ramp-8 = %{F#a2e5e4}
+ramp-9 = %{F#a0e5e2}
+ramp-10 = %{F#9fe5e0}
+ramp-11 = %{F#9de5dd}
+ramp-12 = %{F#9ce5da}
+ramp-13 = %{F#9ae5d8}
+ramp-14 = %{F#99e5d5}
+ramp-15 = %{F#97e5d2}
+ramp-16 = %{F#96e5cf}
+ramp-17 = %{F#94e5cc}
+ramp-18 = %{F#93e5c9}
+ramp-19 = %{F#91e5c6}
+ramp-20 = %{F#90e5c2}
+ramp-21 = %{F#8ee6bf}
+ramp-22 = %{F#8de6bb}
+ramp-23 = %{F#8be6b8}
+ramp-24 = %{F#89e6b4}
+ramp-25 = %{F#88e6b0}
+ramp-26 = %{F#86e6ac}
+ramp-27 = %{F#85e6a8}
+ramp-28 = %{F#83e6a4}
+ramp-29 = %{F#81e69f}
+ramp-30 = %{F#80e69b}
+ramp-31 = %{F#7ee696}
+ramp-32 = %{F#7de791}
+ramp-33 = %{F#7be78d}
+ramp-34 = %{F#79e788}
+ramp-35 = %{F#78e783}
+ramp-36 = %{F#76e77d}
+ramp-37 = %{F#74e778}
+ramp-38 = %{F#73e773}
+ramp-39 = %{F#75e871}
+ramp-40 = %{F#77e86f}
+ramp-41 = %{F#7ae86e}
+ramp-42 = %{F#7ce86c}
+ramp-43 = %{F#7fe86a}
+ramp-44 = %{F#82e969}
+ramp-45 = %{F#85e967}
+ramp-46 = %{F#88e965}
+ramp-47 = %{F#8be963}
+ramp-48 = %{F#8ee962}
+ramp-49 = %{F#92ea60}
+ramp-50 = %{F#95ea5e}
+ramp-51 = %{F#99ea5d}
+ramp-52 = %{F#9deb5b}
+ramp-53 = %{F#a1eb59}
+ramp-54 = %{F#a5eb57}
+ramp-55 = %{F#a9eb55}
+ramp-56 = %{F#adec54}
+ramp-57 = %{F#b2ec52}
+ramp-58 = %{F#b6ec50}
+ramp-59 = %{F#bbed4e}
+ramp-60 = %{F#c0ed4c}
+ramp-61 = %{F#c5ed4b}
+ramp-62 = %{F#caee49}
+ramp-63 = %{F#d0ee47}
+ramp-64 = %{F#d5ee45}
+ramp-65 = %{F#dbef43}
+ramp-66 = %{F#e1ef41}
+ramp-67 = %{F#e7ef3f}
+ramp-68 = %{F#edf03e}
+ramp-69 = %{F#f0ed3c}
+ramp-70 = %{F#f1e83a}
+ramp-71 = %{F#f1e238}
+ramp-72 = %{F#f1dc36}
+ramp-73 = %{F#f2d634}
+ramp-74 = %{F#f2d032}
+ramp-75 = %{F#f3c930}
+ramp-76 = %{F#f3c32e}
+ramp-77 = %{F#f3bc2c}
+ramp-78 = %{F#f4b52a}
+ramp-79 = %{F#f4ae29}
+ramp-80 = %{F#f5a727}
+ramp-81 = %{F#f5a025}
+ramp-82 = %{F#f69823}
+ramp-83 = %{F#f69121}
+ramp-84 = %{F#f7891f}
+ramp-85 = %{F#f7811d}
+ramp-86 = %{F#f8791b}
+ramp-87 = %{F#f87119}
+ramp-88 = %{F#f96817}
+ramp-89 = %{F#f96015}
+ramp-90 = %{F#fa5713}
+ramp-91 = %{F#fa4e11}
+ramp-92 = %{F#fb450f}
+ramp-93 = %{F#fc3b0c}
+ramp-94 = %{F#fc320a}
+ramp-95 = %{F#fd2808}
+ramp-96 = %{F#fd1f06}
+ramp-97 = %{F#fe1504}
+ramp-98 = %{F#fe0a02}
+ramp-99 = %{F#f00}
+
+[module/netdown]
+type = internal/network
+interface = wlo1
+
+interval = 1.0
+
+format-connected = ↓<label-connected>
+format-disconnected =
+
+label-connected = %downspeed:6%
+
+[module/netup]
+type = internal/network
+interface = wlo1
+
+interval = 1.0
+
+format-connected = ↑<label-connected>
+format-disconnected =
+
+label-connected = %upspeed:7%
+
+[module/xmonad_recompiling]
+type = custom/script
+
+interval = 0.5
+format-font = 4
+
+; exec = ( ps aux | grep "[x]monad --recompile" > /dev/null ) && echo ">>= --recompile"
+exec = ( ps aux | grep "[x]monad --recompile" > /dev/null ) && echo "recompiling..."
+
+[module/updates]
+
+type = custom/script
+
+interval = 600.0
+
+; format = %{T4}%{T-} <label>
+
+exec = ~/.local/scripts/package-manager-updates.sh
+
+[module/datetime]
+type = internal/date
+
+interval = 1.0
+
+format = <label>
+format-font = 2
+
+label = " %date% %time% "
+
+date = %a, %b %d %Y
+time = %H:%M:%S
+
+[module/vpn]
+type = custom/script
+
+interval = 2
+
+format-font = 4
+
+; exec = if ~/.local/scripts/stone_vpn.sh query; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
+; exec = if stone-vpn query; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
+; exec = if ps aux | grep [v]pn > /dev/null; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
+exec = if [ $(ps aux | grep [s]sh | wc -l) -gt 1 ]; then printf "%%{F#ED8A00}"; else printf "%%{F#00AAEE}"; fi; if ps aux | grep [v]pn > /dev/null; then printf "嬨"; fi; echo "%{F-}"
+
+[module/donotdisturb]
+type = custom/script
+
+interval = 0.5
+
+format-font = 4
+
+exec = if [ -f /home/daniel/.dunst_paused ]; then echo "%{F#00aa88}%{F-}"; else echo; fi
+
+[module/mic]
+type = custom/script
+
+interval = 0.1
+
+format-font = 4
+
+exec = if { pacmd list-sources | grep -q "muted: no"; }; then echo "%{F#ff3333}%{F-}"; else echo ""; fi
+
+[module/volume]
+type = custom/script
+tail = true
+label=%output%
+
+exec = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash listen
+click-right = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash next-sink
+click-left = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash togmute
+scroll-up = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash up
+scroll-down = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash down
+
+[module/brightness]
+type = internal/backlight
+
+card = intel_backlight
+
+format = %{T4} <ramp> %{T-}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-5 = 
+ramp-6 = 
+
+[module/xmonad_comm]
+type = custom/script
+
+interval = 0.1
+
+exec = tail -F /tmp/.xmonad-workspace-log
+exec-if = [ -p /tmp/.xmonad-workspace-log ]
+tail = true
+
+[module/media]
+type = internal/mpd
+
+interval = 1
+
+format-online = <label-online>
+format-offline = <label-offline>
+
+label-online = abc
+label-offline = def
+
+[module/netname]
+type = internal/network
+interface = wlo1
+
+interval = 1.0
+
+; format-connected = <ramp-signal>%{T4}直%{T-}%{F-} <label-connected>
+format-connected = <ramp-signal>%{T4}直%{T-}%{F-}
+format-disconnected = <label-disconnected>
+
+label-connected = %{T2}%essid%%{T-}
+; label-disconnected = %{F#ff0000}%{T4}睊 %{T-}not connected%{F-}
+label-disconnected = %{F#555555}%{T4}睊%{T-}%{F-}
+
+; make_ramp('ramp-signal', 'green', 'red')
+ramp-signal-0 = %{F#f00}
+ramp-signal-1 = %{F#fe0500}
+ramp-signal-2 = %{F#fc0a00}
+ramp-signal-3 = %{F#fb0f00}
+ramp-signal-4 = %{F#fa1400}
+ramp-signal-5 = %{F#f91900}
+ramp-signal-6 = %{F#f71e00}
+ramp-signal-7 = %{F#f62300}
+ramp-signal-8 = %{F#f52800}
+ramp-signal-9 = %{F#f32c00}
+ramp-signal-10 = %{F#f23100}
+ramp-signal-11 = %{F#f13600}
+ramp-signal-12 = %{F#f03a00}
+ramp-signal-13 = %{F#ee3f00}
+ramp-signal-14 = %{F#ed4300}
+ramp-signal-15 = %{F#ec4700}
+ramp-signal-16 = %{F#ea4c00}
+ramp-signal-17 = %{F#e95000}
+ramp-signal-18 = %{F#e85400}
+ramp-signal-19 = %{F#e75900}
+ramp-signal-20 = %{F#e55d00}
+ramp-signal-21 = %{F#e46100}
+ramp-signal-22 = %{F#e36500}
+ramp-signal-23 = %{F#e16900}
+ramp-signal-24 = %{F#e06d00}
+ramp-signal-25 = %{F#df7100}
+ramp-signal-26 = %{F#de7400}
+ramp-signal-27 = %{F#dc7800}
+ramp-signal-28 = %{F#db7c00}
+ramp-signal-29 = %{F#da8000}
+ramp-signal-30 = %{F#d98300}
+ramp-signal-31 = %{F#d78700}
+ramp-signal-32 = %{F#d68a00}
+ramp-signal-33 = %{F#d58e00}
+ramp-signal-34 = %{F#d39100}
+ramp-signal-35 = %{F#d29500}
+ramp-signal-36 = %{F#d19800}
+ramp-signal-37 = %{F#d09b00}
+ramp-signal-38 = %{F#ce9e00}
+ramp-signal-39 = %{F#cda100}
+ramp-signal-40 = %{F#cca500}
+ramp-signal-41 = %{F#caa800}
+ramp-signal-42 = %{F#c9ab00}
+ramp-signal-43 = %{F#c8ae00}
+ramp-signal-44 = %{F#c7b000}
+ramp-signal-45 = %{F#c5b300}
+ramp-signal-46 = %{F#c4b600}
+ramp-signal-47 = %{F#c3b900}
+ramp-signal-48 = %{F#c1bc00}
+ramp-signal-49 = %{F#c0be00}
+ramp-signal-50 = %{F#bdbf00}
+ramp-signal-51 = %{F#b8be00}
+ramp-signal-52 = %{F#b3bc00}
+ramp-signal-53 = %{F#aebb00}
+ramp-signal-54 = %{F#a9ba00}
+ramp-signal-55 = %{F#a4b800}
+ramp-signal-56 = %{F#9fb700}
+ramp-signal-57 = %{F#9ab600}
+ramp-signal-58 = %{F#96b500}
+ramp-signal-59 = %{F#91b300}
+ramp-signal-60 = %{F#8cb200}
+ramp-signal-61 = %{F#88b100}
+ramp-signal-62 = %{F#83af00}
+ramp-signal-63 = %{F#7fae00}
+ramp-signal-64 = %{F#7aad00}
+ramp-signal-65 = %{F#76ac00}
+ramp-signal-66 = %{F#72aa00}
+ramp-signal-67 = %{F#6da900}
+ramp-signal-68 = %{F#69a800}
+ramp-signal-69 = %{F#65a600}
+ramp-signal-70 = %{F#61a500}
+ramp-signal-71 = %{F#5da400}
+ramp-signal-72 = %{F#59a300}
+ramp-signal-73 = %{F#55a100}
+ramp-signal-74 = %{F#51a000}
+ramp-signal-75 = %{F#4d9f00}
+ramp-signal-76 = %{F#499e00}
+ramp-signal-77 = %{F#459c00}
+ramp-signal-78 = %{F#429b00}
+ramp-signal-79 = %{F#3e9a00}
+ramp-signal-80 = %{F#3a9800}
+ramp-signal-81 = %{F#379700}
+ramp-signal-82 = %{F#339600}
+ramp-signal-83 = %{F#309500}
+ramp-signal-84 = %{F#2d9300}
+ramp-signal-85 = %{F#299200}
+ramp-signal-86 = %{F#269100}
+ramp-signal-87 = %{F#238f00}
+ramp-signal-88 = %{F#208e00}
+ramp-signal-89 = %{F#1c8d00}
+ramp-signal-90 = %{F#198c00}
+ramp-signal-91 = %{F#168a00}
+ramp-signal-92 = %{F#138900}
+ramp-signal-93 = %{F#108800}
+ramp-signal-94 = %{F#0e8600}
+ramp-signal-95 = %{F#0b8500}
+ramp-signal-96 = %{F#088400}
+ramp-signal-97 = %{F#058300}
+ramp-signal-98 = %{F#038100}
+ramp-signal-99 = %{F#008000}
+
+[module/battery]
+type = internal/battery
+
+battery = BAT0
+
+format-charging = <ramp-capacity>ﮣ%{F-} <label-charging>
+format-discharging = <ramp-capacity>%{F-} <label-discharging>
+format-full = <ramp-capacity>%{F-} <label-full>
+
+label-charging = %percentage:3%%
+label-discharging = %percentage:3%%
+label-full = %percentage:3%%
+
+; make_ramp('ramp-capacity', 'red', 'green')
+ramp-capacity-0  = %{F#f00}
+ramp-capacity-1  = %{F#fe0500}
+ramp-capacity-2  = %{F#fc0a00}
+ramp-capacity-3  = %{F#fb0f00}
+ramp-capacity-4  = %{F#fa1400}
+ramp-capacity-5  = %{F#f91900}
+ramp-capacity-6  = %{F#f71e00}
+ramp-capacity-7  = %{F#f62300}
+ramp-capacity-8  = %{F#f52800}
+ramp-capacity-9  = %{F#f32c00}
+ramp-capacity-10 = %{F#f23100}
+ramp-capacity-11 = %{F#f13600}
+ramp-capacity-12 = %{F#f03a00}
+ramp-capacity-13 = %{F#ee3f00}
+ramp-capacity-14 = %{F#ed4300}
+ramp-capacity-15 = %{F#ec4700}
+ramp-capacity-16 = %{F#ea4c00}
+ramp-capacity-17 = %{F#e95000}
+ramp-capacity-18 = %{F#e85400}
+ramp-capacity-19 = %{F#e75900}
+ramp-capacity-20 = %{F#e55d00}
+ramp-capacity-21 = %{F#e46100}
+ramp-capacity-22 = %{F#e36500}
+ramp-capacity-23 = %{F#e16900}
+ramp-capacity-24 = %{F#e06d00}
+ramp-capacity-25 = %{F#df7100}
+ramp-capacity-26 = %{F#de7400}
+ramp-capacity-27 = %{F#dc7800}
+ramp-capacity-28 = %{F#db7c00}
+ramp-capacity-29 = %{F#da8000}
+ramp-capacity-30 = %{F#d98300}
+ramp-capacity-31 = %{F#d78700}
+ramp-capacity-32 = %{F#d68a00}
+ramp-capacity-33 = %{F#d58e00}
+ramp-capacity-34 = %{F#d39100}
+ramp-capacity-35 = %{F#d29500}
+ramp-capacity-36 = %{F#d19800}
+ramp-capacity-37 = %{F#d09b00}
+ramp-capacity-38 = %{F#ce9e00}
+ramp-capacity-39 = %{F#cda100}
+ramp-capacity-40 = %{F#cca500}
+ramp-capacity-41 = %{F#caa800}
+ramp-capacity-42 = %{F#c9ab00}
+ramp-capacity-43 = %{F#c8ae00}
+ramp-capacity-44 = %{F#c7b000}
+ramp-capacity-45 = %{F#c5b300}
+ramp-capacity-46 = %{F#c4b600}
+ramp-capacity-47 = %{F#c3b900}
+ramp-capacity-48 = %{F#c1bc00}
+ramp-capacity-49 = %{F#c0be00}
+ramp-capacity-50 = %{F#bdbf00}
+ramp-capacity-51 = %{F#b8be00}
+ramp-capacity-52 = %{F#b3bc00}
+ramp-capacity-53 = %{F#aebb00}
+ramp-capacity-54 = %{F#a9ba00}
+ramp-capacity-55 = %{F#a4b800}
+ramp-capacity-56 = %{F#9fb700}
+ramp-capacity-57 = %{F#9ab600}
+ramp-capacity-58 = %{F#96b500}
+ramp-capacity-59 = %{F#91b300}
+ramp-capacity-60 = %{F#8cb200}
+ramp-capacity-61 = %{F#88b100}
+ramp-capacity-62 = %{F#83af00}
+ramp-capacity-63 = %{F#7fae00}
+ramp-capacity-64 = %{F#7aad00}
+ramp-capacity-65 = %{F#76ac00}
+ramp-capacity-66 = %{F#72aa00}
+ramp-capacity-67 = %{F#6da900}
+ramp-capacity-68 = %{F#69a800}
+ramp-capacity-69 = %{F#65a600}
+ramp-capacity-70 = %{F#61a500}
+ramp-capacity-71 = %{F#5da400}
+ramp-capacity-72 = %{F#59a300}
+ramp-capacity-73 = %{F#55a100}
+ramp-capacity-74 = %{F#51a000}
+ramp-capacity-75 = %{F#4d9f00}
+ramp-capacity-76 = %{F#499e00}
+ramp-capacity-77 = %{F#459c00}
+ramp-capacity-78 = %{F#429b00}
+ramp-capacity-79 = %{F#3e9a00}
+ramp-capacity-80 = %{F#3a9800}
+ramp-capacity-81 = %{F#379700}
+ramp-capacity-82 = %{F#339600}
+ramp-capacity-83 = %{F#309500}
+ramp-capacity-84 = %{F#2d9300}
+ramp-capacity-85 = %{F#299200}
+ramp-capacity-86 = %{F#269100}
+ramp-capacity-87 = %{F#238f00}
+ramp-capacity-88 = %{F#208e00}
+ramp-capacity-89 = %{F#1c8d00}
+ramp-capacity-90 = %{F#198c00}
+ramp-capacity-91 = %{F#168a00}
+ramp-capacity-92 = %{F#138900}
+ramp-capacity-93 = %{F#108800}
+ramp-capacity-94 = %{F#0e8600}
+ramp-capacity-95 = %{F#0b8500}
+ramp-capacity-96 = %{F#088400}
+ramp-capacity-97 = %{F#058300}
+ramp-capacity-98 = %{F#038100}
+ramp-capacity-99 = %{F#008000}
+
+; vim: ft=dosini fdc=3
