@@ -8,6 +8,8 @@
 # @author Daniel Csillag (aka. dccsillag)
 # @what My ZSH configuration.
 
+source ~/.profile
+
 source ~/.config/zgen/zgen.zsh
 
 if ! zgen saved; then
@@ -65,7 +67,7 @@ function ssh() {
     export SSHALIAS=1
     /usr/bin/ssh $@
     export SSHALIAS=0
-    xtermcontrol
+    xtermcontrol --file=$XDG_CONFIG_HOME/xtermcontrol/config
 }
 
 # Open files with external applications
@@ -153,6 +155,8 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
+# # xtermcontrol
+alias xtermcontrol='xtermcontrol --file=$XDG_CONFIG_HOME/xtermcontrol/config'
 # # misc
 alias clear='clear -x'
 alias cls='/usr/bin/clear'
@@ -161,7 +165,7 @@ alias cmd='command'
 # Whenever possible, these should become abbreviations:
 # # Edit Configs
 abbr --quiet -S vimrc='nvim ~/.config/nvim/init.vim'
-abbr --quiet -S zshrc='nvim ~/.config/zsh/.zshrc'
+abbr --quiet -S zshrc='nvim ~/.zshrc'
 # # System management
 abbr --quiet -S defopen='mimeopen -d'
 abbr --quiet -S free='free -h'
