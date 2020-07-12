@@ -11,6 +11,11 @@ The following Linux distributions are supported:
 Installation
 ------------
 
+**WARNING:** This is NOT:
+
+- Tested
+- Working
+
 First, clone this repository (keep in mind this is a Git Bare repository):
 
 ```sh
