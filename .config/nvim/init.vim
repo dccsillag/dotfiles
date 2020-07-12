@@ -50,64 +50,106 @@ call plug#begin(stdpath('data') . '/plugged')
 call s:PlugOwn('csillag-color')
 
 " ALE (linting / ~~LSP~~)
-Plug 'dense-analysis/ale' "{{{
-
-" let g:ale_enabled = 0
-
-let g:ale_cache_executable_check_failures = 1
-" \   'haskell': ['stack-ghc'],
-" \   'haskell': ['hlint'],
-" \   'haskell': ['stack-build'],
-" \   'haskell': ['stack-ghc-mod', 'hlint'],
-" \   'haskell': ['stack-build', 'stack-ghc', 'hlint'],
-" \   'haskell': ['hdevtools', 'hlint'],
-" \   'cpp':     ['gcc'],
-" \   'python':  ['flake8', 'pyls'],
-let g:ale_linters = {
-\   'haskell': ['stack-build', 'hlint'],
-\   'cs':      ['omnisharp'],
-\   'cpp':     ['clangtidy', 'cppcheck'],
-\   'python':  ['pylint', 'pyls'],
-\   'lua':     ['luacheck'],
-\   'yaml':    ['yamllint'],
-\   'tex':     ['lacheck', 'textlint']
-\}
-
-let g:ale_python_flake8_executable = "/usr/bin/flake8"
-let g:ale_python_flake8_use_global = 1
-let g:ale_python_mypy_executable   = "/home/daniel/.local/bin/mypy"
-let g:ale_python_mypy_use_global = 1
-
-" let g:ale_cpp_gcc_options    = '-Wall -std=c++1z'
-let g:ale_cpp_clangtidy_checks = [
-\   'cppcoreguidelines-*',
-\   'clang-analyzer-*',
-\   'misc-*',
-\   'modernize-*',
-\   'performance-*',
-\   'readability-*',
-\   '-modernize-use-trailing-return-type',
-\   '-misc-non-private-member-variables-in-classes',
-\   '-cppcoreguidelines-avoid-magic-numbers',
-\   '-readability-magic-numbers',
-\   '-readability-braces-around-statements',
-\   '-readability-else-after-return'
-\]
-let g:ale_cpp_clangtidy_extra_options = '-extra-arg=-std=c++2a'
-let g:ale_completion_enabled          = 1
-let g:ale_sign_error                  = "Er"
-let g:ale_sign_warning                = "Wa"
-let g:ale_change_sign_column_color    = 0
-let g:ale_hover_to_preview            = 1
-
-nnoremap <Leader>a :ALEToggleBuffer<CR>
-nnoremap ]e :ALENext<CR>
-nnoremap [e :ALEPrevious<CR>
-nnoremap <Leader>D :ALEDetail<CR>
-"}}}
+" Plug 'dense-analysis/ale' "{{{
+"
+" " let g:ale_enabled = 0
+"
+" let g:ale_cache_executable_check_failures = 1
+" " \   'haskell': ['stack-ghc'],
+" " \   'haskell': ['hlint'],
+" " \   'haskell': ['stack-build'],
+" " \   'haskell': ['stack-ghc-mod', 'hlint'],
+" " \   'haskell': ['stack-build', 'stack-ghc', 'hlint'],
+" " \   'haskell': ['hdevtools', 'hlint'],
+" " \   'cpp':     ['gcc'],
+" " \   'python':  ['flake8', 'pyls'],
+" let g:ale_linters = {
+" \   'haskell': ['stack-build', 'hlint'],
+" \   'cs':      ['omnisharp'],
+" \   'cpp':     ['clangtidy', 'cppcheck'],
+" \   'python':  ['pylint', 'pyls'],
+" \   'lua':     ['luacheck'],
+" \   'yaml':    ['yamllint'],
+" \   'tex':     ['lacheck', 'textlint']
+" \}
+"
+" let g:ale_python_flake8_executable = "/usr/bin/flake8"
+" let g:ale_python_flake8_use_global = 1
+" let g:ale_python_mypy_executable   = "/home/daniel/.local/bin/mypy"
+" let g:ale_python_mypy_use_global = 1
+"
+" " let g:ale_cpp_gcc_options    = '-Wall -std=c++1z'
+" let g:ale_cpp_clangtidy_checks = [
+" \   'cppcoreguidelines-*',
+" \   'clang-analyzer-*',
+" \   'misc-*',
+" \   'modernize-*',
+" \   'performance-*',
+" \   'readability-*',
+" \   '-modernize-use-trailing-return-type',
+" \   '-misc-non-private-member-variables-in-classes',
+" \   '-cppcoreguidelines-avoid-magic-numbers',
+" \   '-readability-magic-numbers',
+" \   '-readability-braces-around-statements',
+" \   '-readability-else-after-return'
+" \]
+" let g:ale_cpp_clangtidy_extra_options = '-extra-arg=-std=c++2a'
+" let g:ale_completion_enabled          = 1
+" let g:ale_sign_error                  = "Er"
+" let g:ale_sign_warning                = "Wa"
+" let g:ale_change_sign_column_color    = 0
+" let g:ale_hover_to_preview            = 1
+"
+" nnoremap <Leader>a :ALEToggleBuffer<CR>
+" nnoremap ]e :ALENext<CR>
+" nnoremap [e :ALEPrevious<CR>
+" nnoremap <Leader>D :ALEDetail<CR>
+" "}}}
 
 " Coc (LSP)
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'} "{{{
+
+" Use Tab for completion
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<Tab>" :
+            \ coc#refresh()
+inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Use [e and ]e to navigate diagnostics
+nnoremap <silent> [e <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]e <Plug>(coc-diagnostic-next)
+" GoTo code navigation
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> grg <Plug>(coc-references)
+" Use K to show documentation in preview window
+function! s:show_documentation()
+    if (index(['vim', 'help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Symbol renaming
+nnoremap grr <Plug>(coc-rename)
+" TODO - text objects (in CoC README)
+" List stuff
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<CR>
+nnoremap <silent><nowait> <space>e :<C-u>CocList extensions<CR>
+nnoremap <silent><nowait> <space>c :<C-u>CocList commands<CR>
+nnoremap <silent><nowait> <space>o :<C-u>CocList outline<CR>
+nnoremap <silent><nowait> <space>s :<C-u>CocList -I symbols<CR>
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
+
+"}}}
 
 " asyncrun.vim (??? required by another plugin, don't remember which)
 Plug 'skywind3000/asyncrun.vim' "{{{}}}
@@ -199,10 +241,10 @@ Plug 'junegunn/goyo.vim'
 " onedark.vim (OneDark colorsqueme from Atom)
 Plug 'joshdick/onedark.vim' "{{{}}}
 
-" supertab (do insert completion using TAB)
-Plug 'ervandew/supertab' "{{{
-
-let g:SuperTabDefaultCompletionType = "context" "}}}
+" " supertab (do insert completion using TAB)
+" Plug 'ervandew/supertab' "{{{
+"
+" let g:SuperTabDefaultCompletionType = "context" "}}}
 
 " targets.vim (better text objects)
 Plug 'wellle/targets.vim' "{{{}}}
@@ -755,6 +797,10 @@ set sessionoptions+=tabpages,globals " save tabpages and global vars in sessions
 set ttimeout        " Enable timeout
 set ttimeoutlen=50  " Timeout for keycodes
 set timeoutlen=3000 " Timeout for mappings
+
+"" Setup pseudo-transparency for popup&floating windows
+set pumblend=25 " Pseudo-transparency for popup menus
+set winblend=25 " Pseudo-transparency for floating windows
 
 "}}}
 
