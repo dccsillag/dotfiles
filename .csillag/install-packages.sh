@@ -4,9 +4,37 @@ set -e
 
 PACKAGEFILE=$HOME/.csillag/packages
 
-if [ -z "$DISTRONAME" ]
+if [ "$(id -u)" = 0 ]
 then
-    DISTRONAME=$(lsb_release -is)
+    if [ -z "$DISTRONAME" ]
+    then
+        DISTRONAME=$(lsb_release -is)
+    fi
+elif [ -z "$DISTRONAME" ]
+then
+    echo "This script has not been run as root. By continuing, miniconda will be installed"
+    echo "  and used as the package manager to install packages."
+    echo
+    PS3="Press ENTER to continue, Ctrl+C to abort. "
+    read -r
+
+    # Install Miniconda
+    curl "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" | sh
+
+    # Run this script in a shell which Miniconda supports
+    export DISTRONAME=conda-forge
+    if which bash
+    then
+        bash "$(realpath "$0")"
+    elif which zsh
+    then
+        zsh "$(realpath "$0")"
+    else
+        echo "No shell that is supported was found!"
+        echo "Please install bash or zsh."
+        exit 1
+    fi
+    exit 0
 fi
 
 STARTLINENUM=$(grep -m 1 -n '^-' "$PACKAGEFILE" | sed 's/^\([0-9]\+\):.\+$/\1/')
@@ -29,12 +57,21 @@ set -x
 
 case $DISTRONAME in
     Ubuntu)
-        # shellcheck disable=SC2086 # these word splits are intentional
-        apt install $PACKAGES
+        # shellcheck disable=SC2046 # these word splits are intentional
+        apt install $(echo "$PACKAGES" | tr '\n' ' ')
         ;;
     ManjaroLinux)
-        # shellcheck disable=SC2086,SC2046 # these word splits are intentional
-        yay -Syu $(echo $PACKAGES | tr '\n' ' ')
+        # shellcheck disable=SC2046 # these word splits are intentional
+        yay -Syu $(echo "$PACKAGES" | tr '\n' ' ')
+        ;;
+    conda-forge)
+        if conda env list | grep csillag
+        then
+            conda env create -n csillag
+        fi
+        conda activate csillag
+        # shellcheck disable=SC2046 # these word splits are intentional
+        conda install -c conda-forge $(echo "$PACKAGES" | tr '\n' ' ')
         ;;
     *)
         echo "Unregistered distro: $DISTRONAME"
