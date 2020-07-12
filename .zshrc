@@ -166,6 +166,7 @@ alias cmd='command'
 # # Edit Configs
 abbr --quiet -S vimrc='nvim ~/.config/nvim/init.vim'
 abbr --quiet -S zshrc='nvim ~/.zshrc'
+abbr --quiet -S bibs='nvim ~/library/bibs.bib'
 # # System management
 abbr --quiet -S defopen='mimeopen -d'
 abbr --quiet -S free='free -h'
