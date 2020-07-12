@@ -8,7 +8,7 @@
 # @author Daniel Csillag (aka. dccsillag)
 # @what My ZSH configuration.
 
-source ~/.zgen/zgen.zsh
+source ~/.config/zgen/zgen.zsh
 
 if ! zgen saved; then
     echo "Creating a zgen save"
@@ -76,18 +76,31 @@ function open() {
     done
 }
 
-# Change directory with Ranger
-function rcd() {
-    tmpfile='/tmp/pwd-from-ranger'
-    if ! ranger --choosedir=$tmpfile $argv
-    then
-        return 0
+# Change directory with NNN
+function ncd() {
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
     fi
-    rangerpwd=$(cat $tmpfile)
-    if [ $PWD != $rangerpwd ]
-    then
-        cd $rangerpwd
-        echo "Changed to '$rangerpwd'"
+
+    # The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, remove the "export" as in:
+    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    # NOTE: NNN_TMPFILE is fixed, should not be modified
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
 
@@ -135,8 +148,6 @@ else
 fi
 # # Grep
 alias grep='grep --color=auto'
-# # Ranger
-alias r='ranger'
 # # Directories
 alias -g ...='../..'
 alias -g ....='../../..'
@@ -144,13 +155,13 @@ alias -g .....='../../../..'
 alias -g ......='../../../../..'
 # # misc
 alias clear='clear -x'
-alias clearall='/usr/bin/clear'
+alias cls='/usr/bin/clear'
 alias cmd='command'
 
 # Whenever possible, these should become abbreviations:
 # # Edit Configs
 abbr --quiet -S vimrc='nvim ~/.config/nvim/init.vim'
-abbr --quiet -S zshrc='nvim ~/.zshrc'
+abbr --quiet -S zshrc='nvim ~/.config/zsh/.zshrc'
 # # System management
 abbr --quiet -S defopen='mimeopen -d'
 abbr --quiet -S free='free -h'
@@ -181,6 +192,8 @@ abbr --quiet -S cipu='config push'
 abbr --quiet -S cir='config rebase'
 abbr --quiet -S cis='config status'
 abbr --quiet -S cisl='config shortlog'
+# # NNN
+abbr --quiet -S n='nnn'
 # # Haskell
 abbr --quiet -S hs='stack ghci'
 abbr --quiet -S st='stack'
