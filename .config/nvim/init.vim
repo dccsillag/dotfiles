@@ -750,7 +750,7 @@ set splitright " open new vertical splits to the right
 set splitbelow " open new horizontal splits below
 
 "" Setup undo persistence
-set undodir=~/.vim/undodir " where to save undos
+" set undodir=~/.vim/undodir " where to save undos
 set undofile               " save undos to the file
 
 "" Allow hidden buffers
