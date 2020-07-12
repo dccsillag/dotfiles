@@ -138,10 +138,10 @@ alias rm='rm -iv'
 #alias la='ls -lAh --color=auto'
 if which exa > /dev/null
 then
-    alias ls='exa'
-    alias ll='exa -l'
-    alias la='exa -la'
-    alias tree='exa --tree'
+    alias ls='exa -s type'
+    alias ll='exa -l -s type'
+    alias la='exa -la -s type'
+    alias tree='exa --tree -s type'
 else
     alias ls='ls -h --color=auto'
     alias ll='ls -hl --color=auto'
