@@ -9,11 +9,14 @@ where
 import Data.List
 import Control.Monad
 
+import qualified Text.BibTeX.Entry as BibTeX
+
 import XMonad.Csillag.Internal.KeyBindings
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Layouts (windowGap)
 import XMonad.Csillag.Consts
+import XMonad.Csillag.BibTeX
 
 import XMonad hiding (config)
 import qualified XMonad.StackSet as W
@@ -25,7 +28,7 @@ import XMonad.Actions.Volume (getVolume)
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Spacing
 
-import XMonad.Prompt ( )
+import XMonad.Prompt ( mkComplFunFromList )
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
@@ -224,6 +227,20 @@ myKeys config =
                  , keybinding_key         = xK_slash
                  , keybinding_humankey    = [AlphaKey '/']
                  , keybinding_action      = spawn "python3 /home/daniel/.config/rofi/file_search_do_cache.py; notify-send \"Rebuilt cache\" -u low"
+                 }
+    , KeyBinding { keybinding_description = "Search BibTeX"
+                 , keybinding_mask        = shiftMask
+                 , keybinding_key         = xK_backslash
+                 , keybinding_humankey    = [AlphaKey '|']
+                 , keybinding_action      = do
+                     bibs <- io getBibs
+                     let openPaper bibId = case filter ((==bibId) . BibTeX.identifier) bibs of
+                                                (BibTeX.Cons _ _ fields):_ -> case filter ((=="url") . fst) fields of
+                                                                              ("url", url):_ -> spawn $ "xdg-open '" ++ url ++ "'"
+                                                                              _ -> spawn "notify-send -u critical 'Failed to open paper' 'URL not found'"
+                                                _ -> spawn "notify-send -u critical 'Failed to open paper' 'BibTeX ID not found'"
+                     let bibIds = BibTeX.identifier <$> bibs
+                     inputPromptWithCompl csillagPromptConfig "BibTeX" (mkComplFunFromList bibIds) ?+ openPaper
                  }
     , KeyHeading "Floating Windows"
     , KeySubmap { keysubmap_description = "Manage floating windows"

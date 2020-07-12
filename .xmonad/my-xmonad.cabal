@@ -12,6 +12,7 @@ executable my-xmonad
                      , XMonad.Csillag.Keys
                      , XMonad.Csillag.Layouts
                      , XMonad.Csillag.Scratchpads
+                     , XMonad.Csillag.BibTeX
   build-depends:       base
                      , extra
                      , xmonad >= 0.13
@@ -22,6 +23,8 @@ executable my-xmonad
                      , containers
                      , text
                      , directory
+                     , parsec
+                     , bibtex
   hs-source-dirs:      lib
   default-language:    Haskell2010
   ghc-options:         -Wall -fno-warn-missing-signatures -threaded
