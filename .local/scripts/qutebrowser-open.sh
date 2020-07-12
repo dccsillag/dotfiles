@@ -6,7 +6,8 @@
 if [ $# -gt 0 ]
 then
     _url="$1"
-    _target=null
+    # _target=null
+    _target=\"window\"
 else
     _url="about:blank"
     _target=\"window\"
