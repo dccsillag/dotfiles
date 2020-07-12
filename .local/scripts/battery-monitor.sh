@@ -5,9 +5,11 @@ LOW_BATTERY=25
 SLEEP=5
 LOWBATPATH=/tmp/low_battery
 
+rm -f "$LOWBATPATH"
+
 while true
 do
-    battery=$(upower -i "$(upower -e | grep BAT)" | grep percentage | sed 's/^.\+ \([0-9]\+\)%$/\1/)')
+    battery=$(upower -i "$(upower -e | grep BAT)" | grep percentage | sed 's/^.\+ \([0-9]\+\)%$/\1/')
 
     if [ "$battery" -le "$LOW_BATTERY" ]
     then
