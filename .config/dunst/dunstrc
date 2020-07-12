@@ -1,0 +1,99 @@
+#       ▄▄                               ▄▄▄▄▄▄     ▄▄▄▄
+#       ██                          ██   ██▀▀▀▀██ ██▀▀▀▀█
+#  ▄███▄████    ████▄████▄▄▄█████▄█████████    ████▀
+# ██▀  ▀████    ████▀   ████▄▄▄▄ ▀  ██   ███████ ██
+# ██    ████    ████    ██ ▀▀▀▀██▄  ██   ██  ▀██▄██▄
+# ▀██▄▄█████▄▄▄█████    ███▄▄▄▄▄██  ██▄▄▄██    ██ ██▄▄▄▄█
+#   ▀▀▀ ▀▀ ▀▀▀▀ ▀▀▀▀    ▀▀ ▀▀▀▀▀▀    ▀▀▀▀▀▀    ▀▀▀  ▀▀▀▀
+#
+# @what My configurations for dunst (notifications daemon)
+# @author Daniel Csillag (aka. dccsillag)
+
+[global]
+    monitor              = 0
+
+    font                 = "Lato Regular 11"
+
+    allow_markup         = yes
+    markup               = full
+    # format               = "<u><b>%a %p</b></u>\n%s\n%b"
+    format               = "<u><b>%s</b></u>\n%b"
+    alignment            = left
+    vertical_alignment   = center
+    word_wrap            = yes
+
+    sort                 = yes
+    indicate_hidden      = true
+    stack_duplicates     = false
+
+    # geometry             = "x5"
+    # geometry             = "500x5-50+40"
+    geometry             = "500x5-710+40"
+    # corner_radius        = 5
+    corner_radius        = 1
+
+    idle_threshold       = 120
+    show_age_threshold   = 60
+    show_indicators      = yes
+
+    transparency         = 15
+    frame_color          = "#ffffff"
+    # frame_color          = "#808080"
+
+    sticky_history       = yes
+    history_length       = 50
+    follow               = none
+
+    separator_height     = 2
+    padding              = 10
+    horizontal_padding   = 10
+    separator_color      = auto
+
+    startup_notification = false
+
+    dmenu                = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
+
+    browser              = chromium-browser
+
+    icon_path            = /usr/share/icons/Paper/16x16/actions/:/usr/share/icons/Paper/16x16/apps/:/usr/share/icons/Paper/16x16/categories/:/usr/share/icons/Paper/16x16/devices/:/usr/share/icons/Paper/16x16/emblems/:/usr/share/icons/Paper/16x16/emotes/:/usr/share/icons/Paper/16x16/mimetypes/:/usr/share/icons/Paper/16x16/panel/:/usr/share/icons/Paper/16x16/places/:/usr/share/icons/Paper/16x16/status/:/usr/share/icons/Paper/16x16/web
+    icon_position        = left
+    min_icon_size        = 50
+    max_icon_size        = 50
+
+[shortcuts]
+    close     = mod4+z
+    close_all = mod4+shift+z
+    history   = ctrl+mod4+z
+    # context   = ctrl+mod4+shift+z
+
+[urgency_low]
+    background = "#222222"
+    # background = "#808000"
+    foreground = "#aaaaaa"
+    timeout    = 10
+
+[urgency_normal]
+    background = "#222222"
+    # background = "#222222"
+    foreground = "#ffffff"
+    timeout    = 10
+
+[urgency_critical]
+    background = "#e6194b"
+    foreground = "#ffffff"
+    timeout    = 0
+
+
+[play_sound_low]
+    msg_urgency = low
+    script  = /home/daniel/.config/dunst/play_sound_beep.sh
+
+[play_sound_normal]
+    msg_urgency = normal
+    script  = /home/daniel/.config/dunst/play_sound_drip.sh
+
+[play_sound_critical]
+    msg_urgency = critical
+    script  = /home/daniel/.config/dunst/play_sound_bark.sh
+
+# vim: ft=cfg fdm=indent
