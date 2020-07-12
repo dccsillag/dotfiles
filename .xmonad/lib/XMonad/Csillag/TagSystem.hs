@@ -11,12 +11,12 @@ module XMonad.Csillag.TagSystem
   )
 where
 
-import           Data.Map.Strict                ( Map )
-import qualified Data.Map.Strict               as Map
+import Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
 
-import           XMonad
-import qualified XMonad.StackSet               as W
-import           XMonad.Util.ExtensibleState   as XS
+import XMonad
+import qualified XMonad.StackSet as W
+import XMonad.Util.ExtensibleState as XS
 
 
 type TagId = String

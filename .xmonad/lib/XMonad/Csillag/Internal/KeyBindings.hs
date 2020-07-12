@@ -1,6 +1,7 @@
-module XMonad.Csillag.Internal.KeyBindings where
+module XMonad.Csillag.Internal.KeyBindings
+    where
 
-import           XMonad
+import XMonad
 import XMonad.Actions.Submap
 import qualified Data.Map as M
 

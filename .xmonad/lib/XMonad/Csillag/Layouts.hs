@@ -4,20 +4,19 @@ module XMonad.Csillag.Layouts
   )
 where
 
-import           XMonad                  hiding ( (|||) )
+import XMonad hiding ((|||))
 
-import           XMonad.Layout.LayoutCombinators
-                                                ( (|||) )
+import XMonad.Layout.LayoutCombinators ((|||))
 
-import           XMonad.Layout.Renamed
-import           XMonad.Layout.IfMax
-import           XMonad.Layout.Dwindle
-import           XMonad.Layout.Grid
-import           XMonad.Layout.Tabbed
-import           XMonad.Layout.OneBig
-import           XMonad.Layout.ThreeColumns
+import XMonad.Layout.Renamed
+import XMonad.Layout.IfMax
+import XMonad.Layout.Dwindle
+import XMonad.Layout.Grid
+import XMonad.Layout.Tabbed
+import XMonad.Layout.OneBig
+import XMonad.Layout.ThreeColumns
 
-import           XMonad.Layout.Spacing
+import XMonad.Layout.Spacing
 
 myLayouts =
   renamed [Replace "Dwindle"] (winSpaces $ Dwindle R CW 1 1.1)

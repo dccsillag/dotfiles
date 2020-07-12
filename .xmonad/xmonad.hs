@@ -40,12 +40,13 @@ import XMonad.Csillag.Keys
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Consts
+import XMonad.Csillag.Externals
 
 
 -- Things to do upon startup:
 startup = do
   -- Start the compositor
-  spawn compositor
+  spawn compositor_spawn
   -- spawnOnce "kdeconnect-cli -l"
   spawn $ "feh --no-fehbg --bg-scale " ++ backgroundImage
   spawnOnce "redshift"
@@ -60,7 +61,7 @@ myXMonadConfig = do
     unless tempfileExists $ writeFile workspaceTempFile "."
     wkss <- lines <$> readFile workspaceTempFile
     return $ ewmh $ withNavigation2DConfig def $ def {
-          terminal           = "alacritty"
+          terminal           = term_spawn
         , modMask            = mod4Mask -- Super key
         , focusFollowsMouse  = False
         , normalBorderColor  = "#555555" -- "#cccccc"

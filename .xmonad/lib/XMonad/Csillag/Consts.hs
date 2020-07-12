@@ -19,9 +19,4 @@ brightnessUpIcon   = "\xf5de + "
 brightnessDownIcon = "\xf5de - "
 screenKeyIcon      = "\xf11c "
 
--- Programs:
--- compositor = "compton"
-compositor = "picom"
-
-
 workspaceTempFile = "/tmp/.xmonad_workspaces"

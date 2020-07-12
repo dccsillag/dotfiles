@@ -17,6 +17,7 @@ import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Layouts (windowGap)
 import XMonad.Csillag.Consts
 import XMonad.Csillag.BibTeX
+import XMonad.Csillag.Externals
 
 import XMonad hiding (config)
 import qualified XMonad.StackSet as W
@@ -56,13 +57,13 @@ myKeys config =
                  , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_9
                  , keybinding_humankey    = [AlphaKey '(']
-                 , keybinding_action      = spawn $ "pkill " ++ compositor
+                 , keybinding_action      = spawn compositor_kill
                  }
     , KeyBinding { keybinding_description = "Start the Compositor"
                  , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_0
                  , keybinding_humankey    = [AlphaKey ')']
-                 , keybinding_action      = spawn compositor
+                 , keybinding_action      = spawn compositor_spawn
                  }
     , KeyHeading "Directional Keys"
     , KeyBinding { keybinding_description = "Focus window to the left"
@@ -178,19 +179,19 @@ myKeys config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_t
                                  , keybinding_humankey    = [AlphaKey 't']
-                                 , keybinding_action      = spawn $ terminal config
+                                 , keybinding_action      = spawn term_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch a file manager"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_f
                                  , keybinding_humankey    = [AlphaKey 'f']
-                                 , keybinding_action      = spawn $ terminal config ++ " -e nnn"
+                                 , keybinding_action      = spawn $ filemanager_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Vim"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_v
                                  , keybinding_humankey    = [AlphaKey 'v']
-                                 , keybinding_action      = spawn $ terminal config ++ " -e nvim"
+                                 , keybinding_action      = spawn $ texteditor_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Browser"
                                  , keybinding_mask        = 0
@@ -198,21 +199,21 @@ myKeys config =
                                  , keybinding_humankey    = [AlphaKey 'b']
                                  -- , keybinding_action      = spawn "brave --new-window"
                                  -- , keybinding_action      = spawn "qutebrowser"
-                                 , keybinding_action      = spawn "qutebrowser-quick"
+                                 , keybinding_action      = spawn browser_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Browser in Incognito Mode"
                                  , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_b
                                  , keybinding_humankey    = [ShiftKey, AlphaKey 'b']
                                  -- TODO: switch to qutebrowser
-                                 , keybinding_action      = spawn "brave --new-window --incognito"
+                                 , keybinding_action      = spawn browser_spawn_private
                                  }
                     , KeyBinding { keybinding_description = "Launch MPV with Camera"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_c
                                  , keybinding_humankey    = [AlphaKey 'c']
                                  -- , keybinding_action      = spawn "mpv av://v4l2:/dev/video0"
-                                 , keybinding_action      = spawn "mpv --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=input_format=mjpeg av://v4l2:/dev/video0 || notify-send -u critical 'MPV - failed' 'failed to open camera'"
+                                 , keybinding_action      = spawn camview_spawn
                                  }
                     ]
                 }
@@ -700,22 +701,19 @@ myKeys config =
                                  , keybinding_mask = 0
                                  , keybinding_key = xK_s
                                  , keybinding_humankey = [AlphaKey 's']
-                                 , keybinding_action =
-                                     spawn "cd ~/media/screenshots/ && scrot -z"
+                                 , keybinding_action = spawn scrot_screen
                                  }
                     , KeyBinding { keybinding_description = "Yank a window"
                                  , keybinding_mask = 0
                                  , keybinding_key = xK_w
                                  , keybinding_humankey = [AlphaKey 'w']
-                                 , keybinding_action =
-                                     spawn "cd ~/media/screenshots/ && scrot -s -z"
+                                 , keybinding_action = spawn scrot_window
                                  }
                     , KeyBinding { keybinding_description = "Yank the focused window"
                                  , keybinding_mask = 0
                                  , keybinding_key = xK_f
                                  , keybinding_humankey = [AlphaKey 'f']
-                                 , keybinding_action =
-                                     spawn "cd ~/media/screenshots/ && scrot -u -z"
+                                 , keybinding_action = spawn scrot_thiswindow
                                  }
                     ]
                 }
@@ -896,5 +894,5 @@ keybindingHelp x = case x of
   KeyHeading txt ->
     "\t\t<b><span underline=\"double\">" ++ txt ++ "</span></b>"
 
-pulseaudioControlScript =
-  ".config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash"
+-- pulseaudioControlScript =
+--   ".config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash"

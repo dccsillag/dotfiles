@@ -1,22 +1,24 @@
 module XMonad.Csillag.Scratchpads where
 
-import           Data.List
+import Data.List
 
-import           XMonad
+import XMonad
 
-import qualified XMonad.StackSet               as W
-import           XMonad.Util.NamedScratchpad
+import qualified XMonad.StackSet as W
+import XMonad.Util.NamedScratchpad
+
+import XMonad.Csillag.Externals
 
 
 -- Scratchpads:
 myScratchpads =
   [ NS { name  = "sysmon"
-       , cmd   = "alacritty --class sysmon,sysmon -e gotop"
+       , cmd   = term_run' "sysmon" "gotop"
        , query = className =? "sysmon"
        , hook  = floatingScratchpad
        }
   , NS { name  = "whatsapp"
-       , cmd   = "qutebrowser --target window https://web.whatsapp.com/"
+       , cmd   = browser_open "https://web.whatsapp.com/"
        , query = isSuffixOf "WhatsApp - qutebrowser" <$> title
        , hook  = floatingScratchpad
        }
@@ -26,26 +28,26 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "terminal"
-       , cmd   = "alacritty --class scratchterm,scratchterm"
+       , cmd   = term_spawn' "scratchterm"
        , query = className =? "scratchterm"
        , hook  = floatingScratchpad
        }
   , NS { name  = "audio"
        -- , cmd   = "pavucontrol"
        -- , query = title =? "Volume Control"
-       , cmd   = "alacritty --class audiomanage,audiomanage -e pulsemixer"
+       , cmd   = term_run' "audiomanage" "pulsemixer"
        , query = className =? "audiomanage"
        -- , cmd   = "alacritty --class audiomanage,audiomanage -e alsamixer"
        -- , query = className =? "audiomanage"
        , hook  = floatingScratchpad
        }
   , NS { name  = "music"
-       , cmd   = "alacritty --class musicplayer,musicplayer -e cmus"
+       , cmd   = term_run' "musicplayer" "cmus"
        , query = className =? "musicplayer"
        , hook  = floatingScratchpad
        }
   , NS { name  = "deezer"
-       , cmd   = "qutebrowser --target window http://deezer.com/"
+       , cmd   = browser_open "http://deezer.com"
        , query = isSuffixOf "Deezer - qutebrowser" <$> title
        , hook  = floatingScratchpad
        }
@@ -78,7 +80,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "calendar"
-       , cmd   = "alacritty --class calendar,calendar -e nvim -c Calendar"
+       , cmd   = term_run' "calendar" "nvim -c Calendar"
        , query = className =? "calendar"
        , hook  = floatingScratchpad
        }
