@@ -508,13 +508,7 @@ let g:lightline = {
             \     'right': [ [ 'lineinfo' ],
             \                [ 'percent' ],
             \                [ 'filetype' ],
-            \                [ 'fileformat', 'fileencoding' ],
-            \                [ 'linter_checking',
-            \                  'linter_errors',
-            \                  'linter_warnings',
-            \                  'linter_infos',
-            \                  'linter_ok',
-            \                ],
+            \                [ 'fileformat', 'fileencoding' ]
             \              ]
             \     },
             \ 'component_function': {
@@ -522,32 +516,6 @@ let g:lightline = {
             \ }
             \ }
 "}}}
-
-" lightline-ale (show ALE counts in lightline)
-Plug 'maximbaz/lightline-ale' " {{{
-
-let g:lightline.component_expand = {
-            \ 'linter_checking': 'lightline#ale#checking',
-            \ 'linter_infos':    'lightline#ale#infos',
-            \ 'linter_warnings': 'lightline#ale#warnings',
-            \ 'linter_errors':   'lightline#ale#errors',
-            \ 'linter_ok':       'lightline#ale#ok',
-            \ }
-let g:lightline.component_type = {
-            \ "linter_checking": "right",
-            \ "linter_infos":    "right",
-            \ "linter_warnings": "warning",
-            \ "linter_errors":   "error",
-            \ "linter_ok":       "right",
-            \ }
-
-let g:lightline#ale#indicator_checking = ""
-let g:lightline#ale#indicator_infos = " "
-let g:lightline#ale#indicator_warnings = " "
-let g:lightline#ale#indicator_errors = " "
-" let g:lightline#ale#indicator_ok = ""
-let g:lightline#ale#indicator_ok = ""
-" }}}
 
 " suda.vim (for editting files which require root permission)
 Plug 'lambdalisue/suda.vim' " {{{
