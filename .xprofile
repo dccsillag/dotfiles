@@ -10,6 +10,8 @@
 #
 # XXX: Most of this should be moved to a startupHook in XMonad.
 
+. ~/.profile
+
 # Setup compose key, caps->control/escape
 xmodmap ~/.config/Xmodmap
 # xcape -e "Control_L=Escape;Alt_L=Tab;Control_R=Shift_L|asterisk"
@@ -38,7 +40,7 @@ xset -dpms
 xset s off
 
 # Warn low battery
-batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
+# batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
 
 # Set background image
 # feh --bg-scale /usr/share/backgrounds/FallDrops,AncientLight.jpg &
