@@ -1,156 +1,184 @@
-Ubuntu  ManjaroLinux
-------  ------------
+ ____               _
+|  _ \  __ _   ___ | | __ __ _   __ _   ___  ___
+| |_) |/ _` | / __|| |/ // _` | / _` | / _ \/ __|
+|  __/| (_| || (__ |   <| (_| || (_| ||  __/\__ \
+|_|    \__,_| \___||_|\_\\__,_| \__, | \___||___/
+                                |___/
+                                         _ _o|| _. _
+                                        (__>|||(_|(_|
+                                                   _|
+@author Daniel Csillag (aka. dccsillag)
+@what My packages to autoinstall on a new computer.
+
+Explanation:
+~tag: tag this packages as
+~what: a name for the package that is not distro-specific
+
+~no: this package is unavailable in this distro/package manager
+~skip: this package is unecessary in this distro/package manager - skip.
+
+~tag        ~what                         Ubuntu ManjaroLinux                      conda-forge
+----        -----                         ------ ------------                      -----------
 # Shells
-_       dash
-_       zsh
-_       shellcheck
+core        dash                          _      dash                              _
+core        zsh                           _      zsh                               zsh
+programming shellcheck                    _      shellcheck                        shellcheck
 # Git
-git     git
+core        git                           git    git                               git
 # Make
-_       make
+core        gnu-make                      _      make                              make
 # Vim
-neovim  neovim-git
-neovim  neovim-plug
-_       ctags
+core        neovim                        neovim neovim-git                        neovim
+core        neovim                        neovim neovim-plug                       _
+core        ctags                         _      ctags                             ctags
 # Remote Connections
-_       sshfs
-ssh     openssh
-_       mosh
-_       freerdp
-_       remmina
+util        sshfs                         _      sshfs                             fs.sshfs
+core        ssh                           ssh    openssh                           openssh
+core        mosh                          _      mosh                              mosh
+de          rdp                           _      freerdp                           _
+de          remmina                       _      remmina                           _
 # Terminal Emulator
-_       alacritty
+de          alacritty                     _      alacritty                         _
 # C/C++
-_       tcc
-_       gcc
-_       clang
-_       conan
-_       gdb
-_       valgrind
-_       cling
+programming tcc                           _      tcc                               _
+programming gcc                           _      gcc                               _
+programming clang                         _      clang                             _
+programming conan                         _      conan                             conan
+programming gdb                           _      gdb                               gdb
+programming valgrind                      _      valgrind                          valgrind
+programming cling                         _      cling                             cling
 # Python
-_       python
-_       python-pip
+programming python                        _      python                            _
+programming python-pip                    _      python-pip                        _
 # Octave
-_       octave
+programming gnu-octave                    _      octave                            octave
 # Lua
-_       luacheck
+programming luacheck                      _      luacheck                          _
 # Lisp
-_       clisp
+programming common-lisp                   _      clisp                             _
 # Count lines of code
-_       cloc
+programming cloc                          _      cloc                              _
 # Suckless Stuff
-_       dmenu
+de          dmenu                         _      dmenu                             _
 # Notifications
-_       dunst
+de          dunst                         _      dunst                             _
 # for OSD
-_       dzen2
+de          dzen2                         _      dzen2                             _
 # Discord
-_       discord
+de          discord                       _      discord                           _
 # Figlet
-_       figlet
-_       figlet-fonts
+additional  figlet                        _      figlet                            pyfiglet
+additional  figlet-fonts                  _      figlet-fonts                      _
 # Images
-_       feh
-_       gimp
-_       imagemagick
-_       sxiv
+de          feh                           _      feh                               _
+de          gimp                          _      gimp                              gimp
+de          imagemagick                   _      imagemagick                       imagemagick
+de          sxiv                          _      sxiv                              _
 # Videos
-_       mpv
+de          mpv                           _      mpv                               _
 # Fortune
-_       fortune-mod
-_       fortune-mod-bofh-excuses
-_       fortune-mod-br
-_       fortune-mod-calvin
-_       fortune-mod-chucknorris
-_       fortune-mod-montypython
-_       fortune-mod-protolol-git
-_       fortune-mod-question-answer-jokes
+additional  fortune                       _      fortune-mod                       _
+additional  fortune-bofh-excuses          _      fortune-mod-bofh-excuses          _
+additional  fortune-br                    _      fortune-mod-br                    _
+additional  fortune-calvin                _      fortune-mod-calvin                _
+additional  fortune-chucknorris           _      fortune-mod-chucknorris           _
+additional  fortune-montypython           _      fortune-mod-montypython           _
+additional  fortune-protolol              _      fortune-mod-protolol-git          _
+additional  fortune-question-answer-jokes _      fortune-mod-question-answer-jokes _
 # Misc utils
-_       entr
-_       exa
-_       unzip
-_       upower
-_       xtermcontrol
-_       zenity
+util        entr                          _      entr                              _
+core        exa                           _      exa                               exa
+core        unzip                         _      unzip                             unzip
+core        xtermcontrol                  _      xtermcontrol                      _
+de          zenity                        _      zenity                            _
 # System Monitor
-_       htop
-_       gotop
+core        htop                          _      htop                              htop
+de          gotop                         _      gotop                             _
+de          ytop                          _      ytop                              ytop
 # X Session
-_       lightdm
-_       lightdm-webkit-theme-litarvan
+de          lightdm                       _      lightdm                           _
+de          lightdm-theme                 _      lightdm-webkit-theme-litarvan     _
 # Change backlight
-_       lux
+de          lux                           _      lux                               _
 # Set GTK theme
-_       lxappearance
+de          lxappearance                  _      lxappearance                      _
 # GTK icon set
-_       paper-icon-theme-git
+de          paper-icon-theme              _      paper-icon-theme-git              _
 # Email
-_       mailspring
+# NOTE: this is broken due to the missing polkits
+de          mailspring                    _      mailspring                        _
 # Presentations
-_       marp-cli
+write       marp                          _      marp-cli                          _
 # Xinerama (multiple screens)
-_       mons
+de          mons                          _      mons                              _
 # Fonts
-_       nerd-fonts-complete
-_       ttf-lato
+font        nerdfonts                     _      nerd-fonts-complete               _
+font        latofont                      _      ttf-lato                          _
 # Networks
-_       networkmanager
-_       networkmanager-fortisslvpn
-_       networkmanager-openvpn
-_       networkmanager-vpnc
-_       openvpn
+peripheral  networkmanager                _      networkmanager                    _
+peripheral  networkmanager-gui            _      nm-connection-editor              _
+peripheral  networkmanager-fortivpn       _      networkmanager-fortisslvpn        _
+peripheral  networkmanager-openvpn        _      networkmanager-openvpn            _
+peripheral  networkmanager-vpnc           _      networkmanager-vpnc               _
+peripheral  openvpn                       _      openvpn                           _
 # Documents
 # # Pandoc
-_       pandoc
-_       pandoc-citeproc
-_       pandoc-crossref
+write       pandoc                        _      pandoc                            pandoc
+write       pandoc-citeproc               _      pandoc-citeproc                   _
+write       pandoc-crossref               _      pandoc-crossref                   pandoc-crossref
 # # LaTeX
-_       texlive-most
+write       latex                         _      texlive-most                      texlive-core
 # Password manager
-_       pass
+de          pass                          _      pass                              _
 # Audio
-_       pavucontrol
-_       playerctl
-_       pulseaudio
-_       pulseaudio-alsa
-_       pulseaudio-bluetooth
-_       pulseaudio-equalizer
-_       swh-plugins
+de          pavucontrol                   _      pavucontrol                       _
+de          playerctl                     _      playerctl                         _
+peripheral  pulseaudio                    _      pulseaudio                        pulseaudio
+peripheral  pulseaudio-alsa               _      pulseaudio-alsa                   _
+peripheral  pulseaudio-bluetooth          _      pulseaudio-bluetooth              _
+# peripheral  pulseaudio-equalizer          _      pulseaudio-equalizer              _
+# peripheral  pulseaudio-noisecancel        _      swh-plugins                       _
 # Compositor
-_       picom
+de          picom                         _      picom                             _
 # Status bar
-_       polybar
+de          polybar                       _      polybar                           _
 # System
-_       preload
+perf        preload                       _      preload                           _
 # Browser
-_       qutebrowser
+de          qutebrowser                   _      qutebrowser                       _
 # File manager
-_       ranger
+additional  ranger                        _      ranger                            _
+de          cfiles                        _      cfiles                            _
 # Night color temperature
-_       redshift
+de          redshift                      _      redshift                          _
 # Program Launcher
-_       rofi
+de          rofi                          _      rofi                              _
 # Show typed keys
-_       screenkey
+de          screenkey                     _      screenkey                         _
 # Slack
-_       slack-desktop
+de          slack                         _      slack-desktop                     _
 # Mount disks automatically
-_       udiskie
+peripheral  udiskie                       _      udiskie                           _
 # Window Manager & X Server
-_       wmctrl
-_       xclip
-_       xdotool
-_       xmonad
-_       xorg-server
+de          wmctrl                        _      wmctrl                            wmctrl
+de          xclip                         _      xclip                             _
+de          xdotool                       _      xdotool                           _
+de          xmonad                        _      xmonad                            _
+de          xorg                          _      xorg-server                       _
 # Keyboard
-_       xbindkeys
-_       xcape
+de          xbindkeys                     _      xbindkeys                         _
+de          xcape                         _      xcape                             xcape
 # Document Viewer
-_       zathura
-_       zathura-pdf-mupdf
-_       zathura-cb
-_       zathura-djvu
+util        zathura                       _      zathura                           _
+util        zathura-pdf                   _      zathura-pdf-mupdf                 _
+util        zathura-comic                 _      zathura-cb                        _
+util        zathura-djvu                  _      zathura-djvu                      _
 # Resource Openers
-_       xdg-utils
-_       perl-file-mimeinfo
+de          xdg-utils                     _      xdg-utils                         _
+de          perl-file-mimeinfo            _      perl-file-mimeinfo                _
+# Screenshots
+de          scrot                         scrot  scrot                             _
+# YouTube downloading
+util        youtube-dl                    _      youtube-dl                        _
+# Man alternatives
+util        tldr                          _      tldr                              _
