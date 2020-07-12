@@ -54,11 +54,12 @@ font-1 = Lato-Regular:pixelsize=11;0
 font-2 = CodeNewRoman Nerd Font Mono:pixelsize=7;0
 font-3 = CodeNewRoman Nerd Font:pixelsize=14;0
 font-4 = CodeNewRoman Nerd Font:pixelsize=7;0
+font-5 = CodeNewRoman Nerd Font:pixelsize=17;0
 
 modules-left   = label cpu mem temp netdown netup updates xmonad_recompiling
 modules-center = datetime
-modules-right  = vpn donotdisturb mic volume media netname battery
-; modules-right  = vpn donotdisturb mic volume media xmonad_comm netname battery
+modules-right  = vpn donotdisturb mic alsa netname battery
+; modules-right  = vpn donotdisturb mic volume xmonad_comm netname battery
 
 tray-position = none
 tray-padding = 2
@@ -72,7 +73,7 @@ enable-ipc = true
 [module/label]
 type = custom/text
 
-content = %{T4}%{T-}
+content = %{T6}%{T-}
 
 [module/cpu]
 type = internal/cpu
@@ -472,9 +473,6 @@ interval = 2
 
 format-font = 4
 
-; exec = if ~/.local/scripts/stone_vpn.sh query; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
-; exec = if stone-vpn query; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
-; exec = if ps aux | grep [v]pn > /dev/null; then echo "%{F#00AAEE}嬨%{F-}"; else echo; fi
 exec = if [ $(ps aux | grep [s]sh | wc -l) -gt 1 ]; then printf "%%{F#ED8A00}"; else printf "%%{F#00AAEE}"; fi; if ps aux | grep [v]pn > /dev/null; then printf "嬨"; fi; echo "%{F-}"
 
 [module/donotdisturb]
@@ -493,6 +491,7 @@ interval = 0.1
 
 format-font = 4
 
+; exec = if [ $(amixer sget Capture | grep '[0-9]\+%' | sed 's/^.\+\[\([0-9]\+\)%\].\+$/\1/' | head -n 1) = 0 ]; then echo ""; else echo "%{F#ff3333}%{F-}"; fi
 exec = if { pacmd list-sources | grep -q "muted: no"; }; then echo "%{F#ff3333}%{F-}"; else echo ""; fi
 
 [module/volume]
@@ -505,6 +504,26 @@ click-right = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-co
 click-left = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash togmute
 scroll-up = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash up
 scroll-down = ~/.config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash down
+
+[module/alsa]
+type = internal/alsa
+
+master-mixer = Master
+
+format-volume = <ramp-volume>
+format-volume-font = 4
+
+format-muted = <label-muted>
+format-muted-foreground = #555555
+format-muted-font = 4
+
+label-muted = ﱝ
+
+ramp-volume-0 = 奄
+ramp-volume-1 = 奔
+ramp-volume-2 = 墳
+
+interval = 5
 
 [module/brightness]
 type = internal/backlight
@@ -529,17 +548,6 @@ interval = 0.1
 exec = tail -F /tmp/.xmonad-workspace-log
 exec-if = [ -p /tmp/.xmonad-workspace-log ]
 tail = true
-
-[module/media]
-type = internal/mpd
-
-interval = 1
-
-format-online = <label-online>
-format-offline = <label-offline>
-
-label-online = abc
-label-offline = def
 
 [module/netname]
 type = internal/network
