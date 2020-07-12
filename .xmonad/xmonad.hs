@@ -102,9 +102,10 @@ myXMonadConfig = do
 main :: IO ()
 main = do
   -- Set environment variables:
-  let environment_vars_path = "/home/daniel/.xmonad/environment_variables.txt"
+  -- let environment_vars_path = "/home/daniel/.xmonad/environment_variables.txt"
+  let environment_vars_path = "/home/daniel/.config/environment.d/env.conf"
   whenM (doesPathExist environment_vars_path) $
-    mapM_ (flip whenJust (uncurry setEnv) . splitOnSpace) . lines
+    mapM_ (flip whenJust (uncurry setEnv) . splitOnEqual) . lines
       =<< readFile environment_vars_path
 
   -- xmproc <- spawnPipe "xmobar"
@@ -118,7 +119,7 @@ main = do
   xmonad =<< myXMonadConfig
 
 
-splitOnSpace :: String -> Maybe (String, String)
-splitOnSpace ""        = Nothing
-splitOnSpace (' ':str) = Just ("", str)
-splitOnSpace (c:str)   = first (c:) <$> splitOnSpace str
+splitOnEqual :: String -> Maybe (String, String)
+splitOnEqual ""        = Nothing
+splitOnEqual ('=':str) = Just ("", str)
+splitOnEqual (c:str)   = first (c:) <$> splitOnEqual str
