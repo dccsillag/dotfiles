@@ -41,6 +41,7 @@ xset s off
 
 # Warn low battery
 # batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
+battery-monitor &
 
 # Set background image
 # feh --bg-scale /usr/share/backgrounds/FallDrops,AncientLight.jpg &
