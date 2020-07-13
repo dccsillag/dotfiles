@@ -298,8 +298,8 @@ nnoremap <Leader>G :G<CR>
 
 augroup customfugitivemaps
     autocmd!
-    autocmd FileType fugitive nnoremap <buffer> <Leader>p :term git pull<CR>
-    autocmd FileType fugitive nnoremap <buffer> <Leader>P :term git push<CR>
+    autocmd FileType fugitive nnoremap <buffer> <Leader>p :term cd %:p:h && git pull<CR>i
+    autocmd FileType fugitive nnoremap <buffer> <Leader>P :term cd %:p:h && git push<CR>i
 augroup END
 
 "}}}
@@ -432,6 +432,7 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 
 " vim-haskell-indent (proper autoindent for Haskell)
 Plug 'itchyny/vim-haskell-indent'
+" consider using axelf4/vim-haskell?
 
 " todo.vim (for todo lists)
 call s:PlugOwn('todo.vim')
