@@ -963,10 +963,13 @@ nnoremap <Leader>S :set spell!<CR>
 nnoremap <Leader>s :set spelllang=
 
 " Set a hotkey for `gt` and `gT` (including in terminal mode!)
-nnoremap <C-Tab>   gt
-nnoremap <C-S-Tab> gT
-tnoremap <C-Tab>   <C-w>gt
-tnoremap <C-S-Tab> <C-w>gT
+" nnoremap <C-Tab>   gt
+" nnoremap <C-S-Tab> gT
+" tnoremap <C-Tab>   <C-w>gt
+" tnoremap <C-S-Tab> <C-w>gT
+
+" Set a hotkey for `:Beacon`
+nnoremap <Leader>; :Beacon<CR>
 
 " Set a hotkey for `:nohl`
 nnoremap <Leader>. :nohl<CR>
