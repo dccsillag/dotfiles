@@ -602,6 +602,18 @@ nmap <Leader>R <Plug>(ReplIt)
 
 "}}}
 
+" bullets.vim (for automatic bullet lists in markdown)
+Plug 'dkarter/bullets.vim' "{{{
+
+let g:bullets_enabled_file_types = [
+            \ 'markdown',
+            \ 'gitcommit',
+            \ ]
+
+let g:bullets_enable_in_empty_buffers = 0
+
+" }}}
+
 call plug#end() "}}}
 "}}}
 "}}}
