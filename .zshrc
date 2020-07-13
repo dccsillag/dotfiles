@@ -169,7 +169,7 @@ abbr --quiet -S zshrc='nvim ~/.zshrc'
 abbr --quiet -S bibs='nvim ~/library/bibs.bib'
 # # System management
 abbr --quiet -S defopen='mimeopen -d'
-abbr --quiet -S free='free -h'
+abbr --quiet -S fre='free -h'
 # # Git
 abbr --quiet -S gad='git add'
 abbr --quiet -S gib='git checkout'
