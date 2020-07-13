@@ -593,6 +593,14 @@ nnoremap # #:Beacon<CR>
 
 "}}}
 
+" vim-runit (for playing around with the code in your buffer with ease)
+call s:PlugOwn('vim-runit') "{{{
+
+nmap <Leader>r <Plug>(RunIt)
+nmap <Leader>R <Plug>(ReplIt)
+
+"}}}
+
 call plug#end() "}}}
 "}}}
 "}}}
@@ -946,7 +954,7 @@ nnoremap <Leader><Leader>s :map <Leader><Leader><Leader> <Plug>SlimeParagraphSen
 nnoremap <Leader><Leader>m :nnoremap <Leader><Leader><Leader> :MagmaEvaluate<lt>CR><CR>
 
 " Set a hotkey for `:set relativenumber!`
-nnoremap <Leader>r :set relativenumber!<CR>
+nnoremap <Leader>n :set relativenumber!<CR>
 
 " Set a hotkey for `:set spell!`
 nnoremap <Leader>S :set spell!<CR>
