@@ -197,6 +197,8 @@ abbr --quiet -S cipu='config push'
 abbr --quiet -S cir='config rebase'
 abbr --quiet -S cis='config status'
 abbr --quiet -S cisl='config shortlog'
+# # Edit a file in Vim
+abbr --quiet -S ed='vim +FZF'
 # # NNN
 abbr --quiet -S n='nnn'
 # # Haskell
