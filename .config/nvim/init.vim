@@ -576,7 +576,7 @@ source ~/.cache/calendar.vim/credentials.vim
 "}}}
 
 " vim-table-mode (for painlessly editing tables)
-" Plug 'dhruvasagar/vim-table-mode'
+Plug 'dhruvasagar/vim-table-mode'
 
 " vim-highlightedyank (for briefly highlighting yanked regions)
 Plug 'machakann/vim-highlightedyank'
@@ -608,11 +608,16 @@ Plug 'dkarter/bullets.vim' "{{{
 let g:bullets_enabled_file_types = [
             \ 'markdown',
             \ 'gitcommit',
+            \ 'toq',
             \ ]
 
 let g:bullets_enable_in_empty_buffers = 0
+let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
 
 " }}}
+
+" toq.vim (for my todo management)
+call s:PlugOwn('toq.vim')
 
 call plug#end() "}}}
 "}}}
