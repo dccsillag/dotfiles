@@ -617,7 +617,14 @@ let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
 " }}}
 
 " toq.vim (for my todo management)
-call s:PlugOwn('toq.vim')
+call s:PlugOwn('toq.vim') "{{{
+
+augroup toq
+    autocmd!
+    autocmd FileType toq setl sw=2
+augroup END
+
+"}}}
 
 call plug#end() "}}}
 "}}}
