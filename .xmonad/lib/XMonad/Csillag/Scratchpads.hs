@@ -54,7 +54,7 @@ myScratchpads =
   , NS
     { name  = "todo"
     , cmd   = "alacritty --class todo,todo -e"
-                ++ " sh -c \"nvim $(ls ~/todo/*.todo | tr '\\n' ' ')\""
+                ++ " sh -c \"nvim $(ls ~/todo/*.toq | tr '\\n' ' ')\""
     , query = className =? "todo"
     , hook  = floatingScratchpad
     }
