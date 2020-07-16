@@ -607,6 +607,7 @@ Plug 'dkarter/bullets.vim' "{{{
 
 let g:bullets_enabled_file_types = [
             \ 'markdown',
+            \ 'pandoc',
             \ 'gitcommit',
             \ 'toq',
             \ ]
