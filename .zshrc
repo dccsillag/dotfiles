@@ -214,6 +214,9 @@ abbr --quiet -S tre='tree'
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
+# Setup completion menu colors
+zstyle ':completion:*' menu select
+
 # Enable comments
 setopt interactive_comments
 
