@@ -70,7 +70,7 @@ function ssh() {
     export SSHALIAS=1
     /usr/bin/ssh $@
     export SSHALIAS=0
-    xtermcontrol --file=$XDG_CONFIG_HOME/xtermcontrol/config
+    tmux select-pane -P 'bg=black'
 }
 
 # Open files with external applications
@@ -158,8 +158,6 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
-# # xtermcontrol
-alias xtermcontrol='xtermcontrol --file=$XDG_CONFIG_HOME/xtermcontrol/config'
 # # misc
 alias clear='clear -x'
 alias cls='/usr/bin/clear'
