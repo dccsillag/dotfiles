@@ -52,6 +52,9 @@ SPACESHIP_CHAR_SYMBOL='$ '
 # SPACESHIP_CHAR_SYMBOL='⇒ '
 # SPACESHIP_CHAR_SYMBOL='@ '
 
+# Autosuggestions Color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=236"
+
 # History
 # # How much to save
 HISTSIZE=10000
