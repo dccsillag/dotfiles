@@ -229,3 +229,9 @@ function greet() {
 }
 
 # which fortune > /dev/null && greet
+
+if [ -z "$TMUX" ]
+then
+    tmux
+    exit
+fi
