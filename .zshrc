@@ -200,7 +200,7 @@ abbr --quiet -S cir='config rebase'
 abbr --quiet -S cis='config status'
 abbr --quiet -S cisl='config shortlog'
 # # Edit a file in Vim
-abbr --quiet -S ed='vim +FZF'
+abbr --quiet -S ed='f=$(fzf) && vim $f'
 # # NNN
 abbr --quiet -S n='nnn'
 # # Haskell
