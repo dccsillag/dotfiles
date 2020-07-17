@@ -123,8 +123,7 @@ function vit() {
         ( cd .. && vit )
     fi
 }
-# alias cit='env GIT_WORK_TREE=/home/daniel nvim ~/.dotfiles.git/index'
-alias cit='env GIT_WORK_TREE=/home/daniel nvim ~/.dotfiles.git/index'
+alias cit='nvim ~/.dotfiles.git/index'
 
 # Setup aliases
 # # Vim
@@ -132,7 +131,7 @@ alias vim=nvim
 alias edit=nvim
 alias view='nvim -R'
 # # Config
-alias config='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
+# alias config='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 # # cp / mv / rm
 alias cp='cp -iv'
 alias mv='mv -iv'
