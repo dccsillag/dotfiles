@@ -87,6 +87,7 @@ additional  fortune-protolol              _      fortune-mod-protolol-git       
 additional  fortune-question-answer-jokes _      fortune-mod-question-answer-jokes _
 # Misc utils
 util        entr                          _      entr                              _
+util        fzf                           _      fzf                               fzf
 core        exa                           _      exa                               exa
 core        unzip                         _      unzip                             unzip
 core        tmux                          tmux   tmux                              tmux
