@@ -296,10 +296,11 @@ Plug 'tpope/vim-fugitive' "{{{
 
 nnoremap <Leader>G :G<CR>
 
-augroup customfugitivemaps
+augroup fugitivecustom
     autocmd!
     autocmd FileType fugitive nnoremap <buffer> <Leader>p :term cd %:p:h && git pull<CR>i
     autocmd FileType fugitive nnoremap <buffer> <Leader>P :term cd %:p:h && git push<CR>i
+    autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
 augroup END
 
 "}}}
