@@ -238,7 +238,7 @@ let g:limelight_conceal_guifg   = '#606060' "}}}
 "           elegant presentations)
 Plug 'junegunn/goyo.vim'
 
-" onedark.vim (OneDark colorsqueme from Atom)
+" onedark.vim (OneDark colorscheme from Atom)
 Plug 'joshdick/onedark.vim' "{{{}}}
 
 " " supertab (do insert completion using TAB)
