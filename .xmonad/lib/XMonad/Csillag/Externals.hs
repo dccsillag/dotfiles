@@ -5,16 +5,20 @@ module XMonad.Csillag.Externals
 -- Terminal Emulator
 
 term_spawn :: String
-term_spawn = "alacritty"
+-- term_spawn = "alacritty"
+term_spawn = "st"
 
 term_spawn' :: String -> String
-term_spawn' cls = "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
+-- term_spawn' cls = "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
+-- term_spawn' cls = "st -c '" ++ cls ++ "," ++ cls ++ "'"
+term_spawn' cls = "st -c '" ++ cls ++ "'"
 
 term_run :: String -> String
-term_run cmd = "alacritty -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
+term_run cmd = "st -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
 
 term_run' :: String -> String -> String
-term_run' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
+-- term_run' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
+term_run' cls cmd = "st -c '" ++ cls ++ "' -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
 
 -- Text Editor
 
