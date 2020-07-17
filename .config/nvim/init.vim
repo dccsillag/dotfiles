@@ -436,7 +436,7 @@ Plug 'itchyny/vim-haskell-indent'
 " consider using axelf4/vim-haskell?
 
 " todo.vim (for todo lists)
-call s:PlugOwn('todo.vim')
+" call s:PlugOwn('todo.vim')
 
 " vim-orgmode (for syntax support of orgmode files, but comes with some other
 " features which I don't plan to use as well)
