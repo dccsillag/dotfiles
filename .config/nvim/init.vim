@@ -1019,6 +1019,16 @@ autocmd BufWritePost *.md AsyncRun make
 autocmd FileType *.py setlocal fdm=expr
 autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
 
+" Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
+let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n')
+augroup dotfiles
+    autocmd!
+    for dotfile in s:dotfiles
+        execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let b:git_dir="' . getenv('HOME') . '/.dotfiles.git"'
+        execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let g:gitgutter_git_executable="config"'
+    endfor
+augroup END
+
 " Setup webdevicons
 if exists('g:loaded_webdevicons') "{{{
     call webdevicons#refresh()
