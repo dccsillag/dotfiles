@@ -921,6 +921,9 @@ onoremap <silent> _ g^
 nnoremap ' `
 nnoremap ` '
 
+" Make Y work like D
+nnoremap Y y$
+
 " Abbreviate :w to :up
 cabbrev w up
 
