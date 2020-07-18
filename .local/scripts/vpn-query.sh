@@ -7,7 +7,7 @@ else
     printf "<fc=#00AAEE>"
 fi
 
-if ps aux | grep [v]pn > /dev/null;
+if ps aux | grep -v "$(basename $0)" | grep [v]pn > /dev/null;
 then
     printf "VPN"
 fi
