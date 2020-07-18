@@ -1,30 +1,32 @@
 Config { font = "xft:FantasqueSansMono Nerd Font-12"
+       , additionalFonts = [ "xft:FantasqueSansMono Nerd Font-7" ]
        , borderColor = "black"
        , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
        , position = TopW L 100
-       , commands = [ Run Cpu [ "-L",       "5"
+       , commands = [ Run Cpu [ "-t",       "<fn=1>CPU</fn> <total>%"
+                              , "-L",       "5"
                               , "-H",       "50"
                               , "--low",    "green"
                               , "--normal", "yellow"
                               , "--high",   "red"
                               ] 5
-                    , Run Memory [ "-t", "Mem: <usedratio>%"
+                    , Run Memory [ "-t", "<fn=1>MEM</fn> <usedratio>%"
                                  , "-L", "20"
                                  , "-H", "60"
                                  , "--low", "green"
                                  , "--normal", "yellow"
                                  , "--high", "red"
                                  ] 10
-                    , Run MultiCoreTemp [ "-t", "Temp: <max>°C"
+                    , Run MultiCoreTemp [ "-t", "<fn=1>TEMP</fn> <max>°C"
                                         , "-L", "40"
                                         , "-H", "65"
                                         , "--low", "cyan"
                                         , "--normal", "green" -- "white"
                                         , "--high", "red"
                                         ] 5
-                    , Run DynNetwork [ "-t", "Net: ↓<rx> ↑<tx>"
+                    , Run DynNetwork [ "-t", "<fn=1>NET</fn> ↓<rx> ↑<tx>"
                                      , "-S", "True"
                                      , "-L", "4000"
                                      , "-H", "9600"
@@ -54,7 +56,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %cpu%%memory%%multicoretemp%%dynnetwork%%updates%%xmonad_recompiling%}%datetime%{%vpn%%donotdisturb%%mic%%battery%"
+       , template = "  %cpu% %memory% %multicoretemp% %dynnetwork% %updates% %xmonad_recompiling%}%datetime%{%vpn% %donotdisturb% %mic% %battery%"
        }
 
 -- vim: syntax=haskell
