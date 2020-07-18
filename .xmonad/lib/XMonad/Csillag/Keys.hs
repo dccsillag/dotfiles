@@ -781,6 +781,12 @@ myKeys config =
                                      spawn "alsa-restart"
                                      spawnOSD "A"
                                  }
+                    , KeyBinding { keybinding_description = "Toggle XMobar"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_equal
+                                 , keybinding_humankey    = [AlphaKey '=']
+                                 , keybinding_action      = spawn "toggle_xmobar"
+                                 }
                     ]
                 }
     , KeyHeading "Help"
