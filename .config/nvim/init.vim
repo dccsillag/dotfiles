@@ -322,7 +322,16 @@ augroup END
 "}}}
 
 " vim-gitgutter (show git diff in the gutter)
-Plug 'airblade/vim-gitgutter' "{{{}}}
+Plug 'airblade/vim-gitgutter' "{{{
+
+let g:gitgutter_map_keys = 0
+
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+
+"}}}
 
 " vim-glsl (language support for GLSL)
 Plug 'tikhomirov/vim-glsl' "{{{}}}
