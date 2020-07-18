@@ -4,6 +4,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
+       , alpha = 75
        , position = TopW L 100
        , commands = [ Run Cpu [ "-t",       "<fn=1>CPU</fn> <total>%"
                               , "-p",       "3"
