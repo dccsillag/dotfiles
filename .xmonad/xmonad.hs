@@ -112,6 +112,7 @@ main = do
   -- xmproc <- spawnPipe "xmobar"
   -- _ <- spawnPipe "/home/daniel/.local/scripts/polybar_init.sh csillag"
   -- _ <- spawnPipe "/home/daniel/.local/scripts/blurwal_init.sh"
+  spawn "/home/daniel/.local/scripts/xmobar_init.sh"
 
   -- -- Create pipes for communicating with Polybar
   -- forM_ [".xmonad-workspace-log", ".xmonad-title-log"] $ \file ->
