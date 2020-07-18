@@ -1,0 +1,26 @@
+Config { font = "xft:FantasqueSansMono Nerd Font-15"
+       , borderColor = "black"
+       , border = TopB
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = BottomW L 100
+       , commands = [ Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run MultiCoreTemp [ ] 10
+                    -- diskio
+                    -- netup netdown
+
+                    -- vpn
+                    -- notifications
+                    -- microphone
+                    -- pulseaudio
+                    -- layout
+                    -- wifi
+                    , Run Battery [] 10
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%cpu% %memory% %multicoretemp% }{ %battery%"
+       }
+
+-- vim: syntax=haskell
