@@ -46,9 +46,9 @@ import XMonad.Util.NamedScratchpad
 myKeys config =
     [ KeyHeading "Core"
     , KeyBinding { keybinding_description = "Restart XMonad"
-                 , keybinding_mask        = 0
+                 , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_q
-                 , keybinding_humankey    = [AlphaKey 'q']
+                 , keybinding_humankey    = [ShiftKey, AlphaKey 'q']
                  , keybinding_action      = do
                      withWindowSet $ \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
                      spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
@@ -719,12 +719,12 @@ myKeys config =
                 }
     , KeyHeading "System"
     , KeySubmap { keysubmap_description = "Manage system functions"
-                , keysubmap_mask = shiftMask
+                , keysubmap_mask = 0
                 , keysubmap_key = xK_q
-                , keysubmap_humankey = [ShiftKey, AlphaKey 'q']
+                , keysubmap_humankey = [AlphaKey 'q']
                 , keysubmap_submaps =
                     [ KeyBinding { keybinding_description = "Quit / Exit XMonad"
-                                 , keybinding_mask        = 0
+                                 , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_q
                                  , keybinding_humankey    = [AlphaKey 'q']
                                  , keybinding_action      = quitWithWarning
