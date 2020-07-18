@@ -160,6 +160,13 @@ let g:coc_global_extensions = [
 
 "}}}
 
+" vim-shellcheck (for running shellcheck from Vim, without using ALE)
+Plug 'itspriddle/vim-shellcheck' "{{{
+
+nnoremap <Leader>a :ShellCheck!<CR>
+
+" }}}
+
 " asyncrun.vim (??? required by another plugin, don't remember which)
 Plug 'skywind3000/asyncrun.vim' "{{{}}}
 
