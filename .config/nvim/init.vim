@@ -149,6 +149,15 @@ nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
 
+let g:coc_global_extensions = [
+            \ "coc-json",
+            \ "coc-python",
+            \ "coc-vimlsp",
+            \ "coc-sh",
+            \ "coc-markdownlint",
+            \ "coc-lsp-wl",
+            \ ]
+
 "}}}
 
 " asyncrun.vim (??? required by another plugin, don't remember which)
