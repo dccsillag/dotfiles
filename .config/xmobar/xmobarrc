@@ -1,26 +1,60 @@
-Config { font = "xft:FantasqueSansMono Nerd Font-15"
+Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , borderColor = "black"
        , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
-       , position = BottomW L 100
-       , commands = [ Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run MultiCoreTemp [ ] 10
-                    -- diskio
-                    -- netup netdown
+       , position = TopW L 100
+       , commands = [ Run Cpu [ "-L",       "5"
+                              , "-H",       "50"
+                              , "--low",    "green"
+                              , "--normal", "yellow"
+                              , "--high",   "red"
+                              ] 5
+                    , Run Memory [ "-t", "Mem: <usedratio>%"
+                                 , "-L", "20"
+                                 , "-H", "60"
+                                 , "--low", "green"
+                                 , "--normal", "yellow"
+                                 , "--high", "red"
+                                 ] 10
+                    , Run MultiCoreTemp [ "-t", "Temp: <max>°C"
+                                        , "-L", "40"
+                                        , "-H", "65"
+                                        , "--low", "cyan"
+                                        , "--normal", "green" -- "white"
+                                        , "--high", "red"
+                                        ] 5
+                    , Run DynNetwork [ "-t", "Net: ↓<rx> ↑<tx>"
+                                     , "-S", "True"
+                                     , "-L", "4000"
+                                     , "-H", "9600"
+                                     , "--low", "green"
+                                     , "--normal", "yellow"
+                                     , "--high", "red"
+                                     ] 10
+                    , Run Com "/home/daniel/.local/scripts/package-manager-updates.sh" [] "updates" 1000
+                    , Run Com "/home/daniel/.local/scripts/xmonad-recompiling.sh" [] "xmonad_recompiling" 10
 
-                    -- vpn
-                    -- notifications
-                    -- microphone
-                    -- pulseaudio
-                    -- layout
-                    -- wifi
-                    , Run Battery [] 10
+                    , Run Date "%a, %_d/%m/%Y %H:%M:%S" "datetime" 10
+
+                    , Run Com "/home/daniel/.local/scripts/vpn-query.sh" [] "vpn" 20
+                    , Run Com "/home/daniel/.local/scripts/do-not-disturb-query.sh" [] "donotdisturb" 10
+                    , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 10
+                    , Run Battery [ "-t",       "<acstatus><left>%"
+                                  , "-L",       "25"
+                                  , "-H",       "75"
+                                  , "--low",    "red"
+                                  , "--normal", "yellow"
+                                  , "--high",   "green"
+                                  , "--"
+                                  , "-o",       ""
+                                  , "-i",       ""
+                                  , "-O",       "ﮣ"
+                                  ] 30
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%cpu% %memory% %multicoretemp% }{ %battery%"
+       , template = " %cpu%%memory%%multicoretemp%%dynnetwork%%updates%%xmonad_recompiling%}%datetime%{%vpn%%donotdisturb%%mic%%battery%"
        }
 
 -- vim: syntax=haskell
