@@ -110,7 +110,7 @@ main = do
       =<< readFile environment_vars_path
 
   -- xmproc <- spawnPipe "xmobar"
-  _ <- spawnPipe "/home/daniel/.local/scripts/polybar_init.sh csillag"
+  -- _ <- spawnPipe "/home/daniel/.local/scripts/polybar_init.sh csillag"
   -- _ <- spawnPipe "/home/daniel/.local/scripts/blurwal_init.sh"
 
   -- -- Create pipes for communicating with Polybar
