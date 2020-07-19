@@ -21,7 +21,7 @@ if ! zgen saved; then
     zgen load denysdovhan/spaceship-prompt spaceship
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-autosuggestions
-    zgen load MichaelAquilina/zsh-auto-notify
+    zgen load marzocchi/zsh-notify
     zgen load olets/zsh-abbr
     zgen load ael-code/zsh-colored-man-pages
     zgen load woefe/vi-mode.zsh
@@ -54,6 +54,12 @@ SPACESHIP_CHAR_SYMBOL='$ '
 
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+
+# Done Notifications
+zstyle ':notify:*' command-complete-timeout 10
+zstyle ':notify:*' app-name zsh
+zstyle ':notify:*' error-title "Command FAILED (in #{time_elapsed})"
+zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
 
 # History
 # # How much to save
