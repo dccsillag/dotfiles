@@ -127,6 +127,8 @@ peripheral  openvpn                       _      openvpn                        
 write       pandoc                        _      pandoc                            pandoc
 write       pandoc-citeproc               _      pandoc-citeproc                   _
 write       pandoc-crossref               _      pandoc-crossref                   pandoc-crossref
+# # Mermaid
+write       mermaid                       _      mermaid-cli                       _
 # # LaTeX
 write       latex                         _      texlive-most                      texlive-core
 # Password manager
