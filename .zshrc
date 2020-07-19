@@ -169,6 +169,9 @@ alias -g ......='../../../../..'
 alias clear='clear -x'
 alias cls='/usr/bin/clear'
 alias cmd='command'
+# # Edit a file in Vim
+alias ed='f=$(fzf) && vim $f'
+alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf) && vim $f'
 
 # Whenever possible, these should become abbreviations:
 # # Edit Configs
@@ -205,8 +208,6 @@ abbr --quiet -S cipu='config push'
 abbr --quiet -S cir='config rebase'
 abbr --quiet -S cis='config status'
 abbr --quiet -S cisl='config shortlog'
-# # Edit a file in Vim
-abbr --quiet -S ed='f=$(fzf) && vim $f'
 # # NNN
 abbr --quiet -S n='nnn'
 # # Haskell
