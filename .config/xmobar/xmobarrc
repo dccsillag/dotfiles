@@ -42,7 +42,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     , Run Com "/home/daniel/.local/scripts/package-manager-updates.sh" [] "updates" 1000
                     , Run Com "/home/daniel/.local/scripts/xmonad-recompiling.sh" [] "xmonad_recompiling" 10
 
-                    , Run Date "%a, %_d/%m/%Y %H:%M:%S" "datetime" 10
+                    , Run Date "<fc=#CCCCCC>%a, %_d/%m/%Y %H:%M:%S</fc>" "datetime" 10
 
                     , Run Com "/home/daniel/.local/scripts/vpn-query.sh" [] "vpn" 20
                     , Run Com "/home/daniel/.local/scripts/do-not-disturb-query.sh" [] "donotdisturb" 10
@@ -62,7 +62,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "  %cpu% %memory% %multicoretemp% %dynnetwork% %updates% %xmonad_recompiling%}%datetime%{%vpn% %donotdisturb% %mic% %battery%"
+       , template = "<fc=white></fc>  %cpu% %memory% %multicoretemp% %dynnetwork% %updates% %xmonad_recompiling%}%datetime%{%vpn% %donotdisturb% %mic% %battery%"
        }
 
 -- vim: syntax=haskell
