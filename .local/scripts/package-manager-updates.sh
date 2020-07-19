@@ -6,6 +6,6 @@ set -e
 
 NUPS=$(yay -Qu 2> /dev/null | wc -l)
 
-[ "$NUPS" -gt 0 ] && echo "%{T4}%{T-} $NUPS"
+[ "$NUPS" -gt 0 ] && echo " $NUPS"
 
 :
