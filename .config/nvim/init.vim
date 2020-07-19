@@ -1043,6 +1043,7 @@ autocmd VimResized * redraw
 
 " autocmd BufWritePost *.md Make!
 autocmd BufWritePost *.md AsyncRun make
+autocmd BufWritePost *.mmd AsyncRun mmdc -i % -o %.png
 
 autocmd FileType *.py setlocal fdm=expr
 autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
