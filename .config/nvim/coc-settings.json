@@ -25,5 +25,6 @@
             "rootPatterns": ["Cargo.toml"]
         }
     },
-    "python.jediEnabled": true
+    "python.jediEnabled": true,
+    "python.linting.pylintUseMinimalCheckers": false
 }
