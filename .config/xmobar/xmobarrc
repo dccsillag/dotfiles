@@ -62,7 +62,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=white></fc>  %cpu% %memory% %multicoretemp% %dynnetwork% %updates% %xmonad_recompiling%}%datetime%{%vpn% %donotdisturb% %mic% %battery%"
+       , template = "<fc=white></fc>  %cpu% %memory% %multicoretemp% %dynnetwork%}%datetime%{%xmonad_recompiling% %updates% %vpn% %donotdisturb% %mic% %battery%"
        }
 
 -- vim: syntax=haskell
