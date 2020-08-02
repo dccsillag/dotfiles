@@ -172,6 +172,7 @@ alias cmd='command'
 # # Edit a file in Vim
 alias ed='f=$(fzf) && vim $f'
 alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf) && vim $f'
+alias ge='f=$(git ls-tree --full-tree -r --name-only HEAD | fzf) && vim $f'
 
 # Whenever possible, these should become abbreviations:
 # # Edit Configs
