@@ -36,3 +36,8 @@ export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export STACK_ROOT="$XDG_DATA_HOME/stack"
 export NNN_SSHFS="sshfs -o reconnect,follow_symlinks"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+
+# NNN
+
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_PLUG='p:preview-tabbed'
