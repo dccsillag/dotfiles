@@ -195,6 +195,7 @@ abbr --quiet -S gipu='git push'
 abbr --quiet -S gir='git rebase'
 abbr --quiet -S gis='git status'
 abbr --quiet -S gisl='git shortlog'
+abbr --quiet -S gisu='git submodule'
 # # Git Bare (dotfiles)
 abbr --quiet -S cad='config add'
 abbr --quiet -S cib='config checkout'
