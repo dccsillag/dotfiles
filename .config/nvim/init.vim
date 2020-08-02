@@ -958,6 +958,9 @@ cabbrev w up
 " Unmap Q
 nnoremap Q <nop>
 
+" Bind <C-w>n to go back to normal mode from terminal mode
+tnoremap <C-w>n <C-\><C-N>
+
 " Add wrapper/helper for using figlet for inserting big text
 function! s:BigText(hasbang, text) "{{{
     if a:hasbang == "!"
