@@ -14,7 +14,7 @@ export XDG_CONFIG_DIRS="/etc/xdg"
 
 export EDITOR="nvim"
 export BROWSER="qutebrowser-quick"
-export PATH="/home/daniel/.local/misc/cargo/bin:/home/daniel/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:.gem/ruby/2.7.0/bin"
+export PATH="/home/daniel/.local/share/cargo/bin:/home/daniel/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:.gem/ruby/2.7.0/bin"
 export GOPATH="$XDG_DATA_HOME/go"
 export SSHALIAS="0"
 export OCTAVE_HISTFILE="$XDG_CACHE_HOME/octave-hsts"
