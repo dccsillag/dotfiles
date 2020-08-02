@@ -1053,6 +1053,7 @@ autocmd BufWritePost *.mmd AsyncStop | AsyncRun mmdc -i % -o %.png
 
 autocmd FileType *.py setlocal fdm=expr
 autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
+autocmd FileType *.rs setlocal fdm=syntax
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
 let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n')
