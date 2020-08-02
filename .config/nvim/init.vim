@@ -653,6 +653,9 @@ augroup END
 
 "}}}
 
+" vim-closetag (for automatically closing HTML tags)
+Plug 'alvan/vim-closetag'
+
 call plug#end() "}}}
 "}}}
 "}}}
