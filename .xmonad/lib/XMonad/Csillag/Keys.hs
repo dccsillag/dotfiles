@@ -609,6 +609,12 @@ myKeys config =
                              , keybinding_humankey    = [AlphaKey 'a']
                              , keybinding_action = namedScratchpadAction myScratchpads "audio"
                              }
+                , KeyBinding { keybinding_description = "Toggle Scratchpad 'advancedaudio'"
+                             , keybinding_mask        = 0
+                             , keybinding_key         = xK_z
+                             , keybinding_humankey    = [AlphaKey 'z']
+                             , keybinding_action = namedScratchpadAction myScratchpads "advancedaudio"
+                             }
                 , KeyBinding { keybinding_description = "Toggle Scratchpad 'music'"
                              , keybinding_mask        = 0
                              , keybinding_key         = xK_m
@@ -773,12 +779,13 @@ myKeys config =
                                  , keybinding_humankey    = [AlphaKey 'u']
                                  , keybinding_action      = spawn "rofi -e \"$(uptime)\""
                                  }
-                    , KeyBinding { keybinding_description = "Restart ALSA"
+                    , KeyBinding { keybinding_description = "Fix audio" -- "Restart ALSA"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_a
                                  , keybinding_humankey    = [AlphaKey 'a']
                                  , keybinding_action      = do
-                                     spawn "alsa-restart"
+                                     -- spawn "alsa-restart"
+                                     spawn "fix-audio"
                                      spawnOSD "A"
                                  }
                     , KeyBinding { keybinding_description = "Toggle XMobar"
@@ -900,5 +907,5 @@ keybindingHelp x = case x of
   KeyHeading txt ->
     "\t\t<b><span underline=\"double\">" ++ txt ++ "</span></b>"
 
--- pulseaudioControlScript =
---   ".config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash"
+pulseaudioControlScript =
+  ".config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash"

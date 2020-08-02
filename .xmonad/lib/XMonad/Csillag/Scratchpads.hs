@@ -41,6 +41,11 @@ myScratchpads =
        -- , query = className =? "audiomanage"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "advancedaudio"
+       , cmd   = term_run' "advancedaudio" "alsamixer"
+       , query = className =? "advancedaudio"
+       , hook  = floatingScratchpad
+       }
   , NS { name  = "music"
        , cmd   = term_run' "musicplayer" "cmus"
        , query = className =? "musicplayer"
