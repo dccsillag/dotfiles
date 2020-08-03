@@ -36,6 +36,14 @@ c.url.searchengines = {
 
 config.load_autoconfig()
 
+# Keybindings
+
+config.bind('m', 'enter-mode set_mark')
+config.bind('M', 'nop')
+
+config.bind('<Ctrl-N>', 'completion-item-focus --history next', mode='command')
+config.bind('<Ctrl-P>', 'completion-item-focus --history prev', mode='command')
+
 # config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
 config.bind(",m", 'spawn sh -c \'WID=$(xdo id); xdo hide; mpv --force-window=immediate --save-position-on-quit {url}; xdo show "$WID"\'')
 
