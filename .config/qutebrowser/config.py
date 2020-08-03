@@ -22,6 +22,8 @@ c.tabs.last_close = 'close'
 # c.tabs.wrap = False
 c.tabs.background = True
 
+c.search.wrap = False
+
 c.url.searchengines = {
     'DEFAULT': 'https://duckduckgo.com/?q={}',
     'aw': 'https://wiki.archlinux.org/index.php?search={}',
