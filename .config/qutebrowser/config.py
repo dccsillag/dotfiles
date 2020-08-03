@@ -2,6 +2,8 @@
 My qutebrowser config.
 """
 
+from shlex import quote
+
 from dracula.draw import blood as dracula_theme
 
 
@@ -48,7 +50,7 @@ config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 
 # config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
-config.bind(",m", 'spawn sh -c \'WID=$(xdo id); playerctl pause; xdo hide; mpv --force-window=immediate --save-position-on-quit {url}; xdo show "$WID"\'')
+config.bind(",m", ('spawn sh -c ' + quote('WID=$(xdo id); playerctl pause; xdo hide; mpv --force-window=immediate --save-position-on-quit URL; xdo show "$WID"')).replace('URL', '{url}'))
 
 # Theme
 # config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
