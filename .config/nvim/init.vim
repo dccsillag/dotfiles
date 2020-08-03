@@ -640,6 +640,7 @@ let g:bullets_enabled_file_types = [
             \ 'toq',
             \ ]
 
+let g:bullets_renumber_on_change = 0
 let g:bullets_enable_in_empty_buffers = 0
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
 
