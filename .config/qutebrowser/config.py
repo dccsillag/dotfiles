@@ -23,3 +23,6 @@ c.url.searchengines = {
 config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
 
 config.load_autoconfig()
+
+# config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
+config.bind(",m", 'spawn sh -c \'WID=$(xdo id); xdo hide; mpv --force-window=immediate {url}; xdo show "$WID"\'')
