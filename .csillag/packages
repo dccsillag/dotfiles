@@ -76,6 +76,7 @@ de          imagemagick                   _                      imagemagick    
 de          sxiv                          _                      sxiv                              _
 #           Videos
 de          mpv                           _                      mpv                               _
+de          mpv-mpris                     _                      mpv-mpris                         _
 #           Fortune
 additional  fortune                       _                      fortune-mod                       _
 additional  fortune-bofh-excuses          _                      fortune-mod-bofh-excuses          _
