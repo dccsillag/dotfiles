@@ -48,7 +48,7 @@ config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 
 # config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
-config.bind(",m", 'spawn sh -c \'WID=$(xdo id); xdo hide; mpv --force-window=immediate --save-position-on-quit {url}; xdo show "$WID"\'')
+config.bind(",m", 'spawn sh -c \'WID=$(xdo id); playerctl pause; xdo hide; mpv --force-window=immediate --save-position-on-quit {url}; xdo show "$WID"\'')
 
 # Theme
 # config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
