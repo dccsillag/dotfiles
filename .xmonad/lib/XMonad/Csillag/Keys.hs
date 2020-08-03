@@ -404,6 +404,15 @@ myKeys config =
                                  -- , keybinding_action      = withWorkspace csillagPromptConfig $ \x -> windows (copy x) >> windows (W.view x)
                                  , keybinding_action      = myGridSelectWorkspace myGridSelectConfig $ \x -> windows (copy x) >> windows (W.view x)
                                  }
+                    , KeyBinding { keybinding_description = "Bring from workspace"
+                                 , keybinding_mask = 0
+                                 , keybinding_key = xK_b
+                                 , keybinding_humankey = [AlphaKey 'b']
+                                 , keybinding_action = myGridSelectWorkspace myGridSelectConfig $ \x -> windows $ \ws ->
+                                     case filter ((==x) . W.tag) $ W.hidden ws of
+                                          targetWorkspace:_ -> foldl (\acc w -> copyWindow w (W.tag $ W.workspace $ W.current acc) acc) ws $ W.integrate' $ W.stack targetWorkspace
+                                          _ -> ws
+                                 }
                     , KeySubmap { keysubmap_description = "New workspace.."
                                  , keysubmap_mask = 0
                                  , keysubmap_key = xK_n
