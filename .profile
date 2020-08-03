@@ -34,6 +34,7 @@ export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export STACK_ROOT="$XDG_DATA_HOME/stack"
+export NLTK_DATA="$XDG_DATA_HOME/nltk"
 export NNN_SSHFS="sshfs -o reconnect,follow_symlinks"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
