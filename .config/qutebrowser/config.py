@@ -1,6 +1,17 @@
-from qutebrowser.api import interceptor
-import sys, os
+"""
+My qutebrowser config.
+"""
+
 from dracula.draw import blood as dracula_theme
+
+
+# To silence linter warnings:
+try:
+    c
+    config
+except NameError:
+    c = None
+    config = None
 
 c.tabs.position = 'top'
 
