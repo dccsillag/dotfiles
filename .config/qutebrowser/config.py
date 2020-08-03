@@ -1,5 +1,6 @@
 from qutebrowser.api import interceptor
 import sys, os
+from dracula.draw import blood as dracula_theme
 
 c.tabs.position = 'top'
 
@@ -20,9 +21,22 @@ c.url.searchengines = {
 # Adblocker
 # sys.path.append(os.path.join(sys.path[0], 'jblock'))
 
-config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
-
 config.load_autoconfig()
 
 # config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
 config.bind(",m", 'spawn sh -c \'WID=$(xdo id); xdo hide; mpv --force-window=immediate --keep-open=yes --save-position-on-quit {url}; xdo show "$WID"\'')
+
+# Theme
+# config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
+dracula_theme(c, {
+    'spacing': {
+        'vertical': 2,
+        'horizontal': 4,
+    }
+})
+
+c.tabs.indicator.width = 0
+
+# Statusbar
+
+c.statusbar.widgets = ['keypress', 'url', 'scroll', 'tabs', 'progress']
