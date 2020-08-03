@@ -167,6 +167,7 @@ peripheral  udiskie                       _                      udiskie        
 de          wmctrl                        _                      wmctrl                            wmctrl
 de          xclip                         _                      xclip                             _
 de          xdotool                       _                      xdotool                           _
+de          xdo                           _                      xdo                               _
 de          xmonad                        _                      xmonad                            _
 de          xorg                          _                      xorg-server                       _
 #           Keyboard
