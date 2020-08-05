@@ -1051,8 +1051,8 @@ autocmd VimResized * redraw
 "             \ | endif
 
 " autocmd BufWritePost *.md Make!
-autocmd BufWritePost *.md AsyncRun make
-autocmd BufWritePost *.mmd AsyncStop | AsyncRun mmdc -i % -o %.png
+autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
+autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
 
 autocmd FileType *.py setlocal fdm=expr
 autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
