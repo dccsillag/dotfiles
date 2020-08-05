@@ -27,6 +27,7 @@ c.tabs.position = 'top'
 # c.colors.webpage.darkmode.enabled = False
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = 'smart'
+c.colors.webpage.bg = 'black'
 
 c.tabs.last_close = 'close'
 # c.tabs.wrap = False
