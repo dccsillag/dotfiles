@@ -61,6 +61,11 @@ dracula_theme(c, {
         'horizontal': 4,
     }
 })
+# # Override some colors
+c.colors.hints.bg = '#CCeedd00'
+c.colors.hints.fg = '#222222'
+c.hints.border = '1px solid #000000'
+c.colors.hints.match.fg = '#666666'
 
 c.tabs.indicator.width = 0
 
