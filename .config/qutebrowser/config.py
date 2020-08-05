@@ -1,5 +1,12 @@
-"""
-My qutebrowser config.
+r"""
+  ___          _         ____
+ / _ \  _   _ | |_  ___ | __ )  _ __  ___ __      __ ___   ___  _ __
+| | | || | | || __|/ _ \|  _ \ | '__|/ _ \\ \ /\ / // __| / _ \| '__|
+| |_| || |_| || |_|  __/| |_) || |  | (_) |\ V  V / \__ \|  __/| |
+ \__\_\ \__,_| \__|\___||____/ |_|   \___/  \_/\_/  |___/ \___||_|
+
+@author Daniel Csillag (aka. dccsillag)
+@what My QuteBrowser configs.
 """
 
 from shlex import quote
