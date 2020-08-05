@@ -67,3 +67,23 @@ c.tabs.indicator.width = 0
 # Statusbar
 
 c.statusbar.widgets = ['keypress', 'url', 'scroll', 'tabs', 'progress']
+
+# Fonts
+
+UI_FONT = '12pt FantasqueSansMono Nerd Font'
+BIGGER_UI_FONT = '14pt FantasqueSansMono Nerd Font'
+
+c.fonts.completion.category = 'bold ' + BIGGER_UI_FONT
+c.fonts.completion.entry = UI_FONT
+# c.fonts.contextmenu (keep default)
+c.fonts.debug_console = UI_FONT
+c.fonts.downloads = 'italic ' + UI_FONT
+c.fonts.hints = 'bold ' + UI_FONT
+c.fonts.keyhint = 'bold ' + UI_FONT
+c.fonts.messages.error = 'bold ' + UI_FONT
+c.fonts.messages.info = UI_FONT
+c.fonts.messages.warning = 'italic ' + UI_FONT
+c.fonts.prompts = UI_FONT
+c.fonts.statusbar = UI_FONT
+c.fonts.tabs.selected = 'bold ' + UI_FONT
+c.fonts.tabs.unselected = UI_FONT
