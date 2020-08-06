@@ -391,7 +391,11 @@ Plug 'tpope/vim-surround' "{{{}}}
 Plug 'tpope/vim-vinegar' "{{{}}}
 
 " vim-wordmotion (improve the `w` key and similar)
-Plug 'chaoren/vim-wordmotion' "{{{}}}
+Plug 'chaoren/vim-wordmotion' "{{{
+
+let g:wordmotion_spaces = ''
+
+"}}}
 
 " wolfram-vim (language support for Wolfram Language)
 Plug 'arnoudbuzing/wolfram-vim' "{{{
