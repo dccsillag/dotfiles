@@ -76,6 +76,7 @@ c.hints.border = '1px solid #000000'
 c.colors.hints.match.fg = '#666666'
 
 c.tabs.indicator.width = 0
+c.tabs.favicons.show = 'never'
 
 # Statusbar
 
