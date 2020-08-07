@@ -969,15 +969,7 @@ nnoremap Q <nop>
 tnoremap <C-w>n <C-\><C-N>
 
 " Add wrapper/helper for using figlet for inserting big text
-function! s:BigText(hasbang, text) "{{{
-    if a:hasbang == "!"
-        execute "read! figlet -f mini -S -t \"" . a:text . "\" | sed \"s/\\s\\+\\$//\""
-    else
-        execute "read! figlet -f standard -S -k -t \"" . a:text . "\" | sed \"s/\\s\\+\\$//\""
-    endif
-endfunction
-
-command! -bang -nargs=1 BigText call s:BigText("<bang>", "<args>") "}}}
+command! -bang -nargs=1 BigText execute "read! figlet -f standard -S -k -t " . shellescape("<args>", v:true) . " | sed \"s/\\s\\+\\$//\""
 
 " Neater folds
 function! NeatFoldText() "{{{
