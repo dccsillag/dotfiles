@@ -70,7 +70,7 @@ myXMonadConfig = do
         , borderWidth        = 1
         -- , workspaces         = map show $ init ([0 .. 10 {- 35 -}] :: [Int])
         , workspaces         = wkss
-        , manageHook         = insertPosition Above Newer
+        , manageHook         = insertPosition Below Newer
                                <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
                                <+> manageDocks -- ???
                                <+> composeAll [ className =? "feh" --> doFloat -- Float `feh` windows
