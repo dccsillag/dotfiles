@@ -8,6 +8,8 @@
 # @author Daniel Csillag (aka. dccsillag)
 # @what My ZSH configuration.
 
+# zmodload zsh/zprof
+
 source ~/.profile
 
 source ~/.config/zgen/zgen.zsh
@@ -25,6 +27,56 @@ if ! zgen saved; then
     zgen load olets/zsh-abbr
     zgen load ael-code/zsh-colored-man-pages
     zgen load woefe/vi-mode.zsh
+
+    # Abbreviations
+    # # Remove all
+    for abbrev in $(abbr list)
+    do
+        abbr -U erase $abbrev
+    done
+    # # Create
+    # # # Edit Configs
+    # abbr -U vimrc='nvim ~/.config/nvim/init.vim'
+    abbr -U zshrc='nvim ~/.zshrc'
+    abbr -U bibs='nvim ~/library/bibs.bib'
+    # # # System management
+    abbr -U defopen='mimeopen -d'
+    abbr -U fre='free -h'
+    # # # Git
+    abbr -U gad='git add'
+    abbr -U gib='git checkout'
+    abbr -U gic='git commit'
+    abbr -U gid='git diff'
+    abbr -U gif='git fetch'
+    abbr -U gil='git log'
+    abbr -U gim='git merge'
+    abbr -U gini='git init'
+    abbr -U gip='git pull'
+    abbr -U gipu='git push'
+    abbr -U gir='git rebase'
+    abbr -U gis='git status'
+    abbr -U gisl='git shortlog'
+    abbr -U gisu='git submodule'
+    # # # Git Bare (dotfiles)
+    abbr -U cad='config add'
+    abbr -U cib='config checkout'
+    abbr -U cic='config commit'
+    abbr -U cid='config diff'
+    abbr -U cif='config fetch'
+    abbr -U cil='config log'
+    abbr -U cim='config merge'
+    abbr -U cip='config pull'
+    abbr -U cipu='config push'
+    abbr -U cir='config rebase'
+    abbr -U cis='config status'
+    abbr -U cisl='config shortlog'
+    # # # NNN
+    abbr -U n='nnn'
+    # # # Haskell
+    abbr -U hs='stack ghci'
+    abbr -U st='stack'
+    # # # Tree
+    abbr -U tre='tree'
 
     zgen save
 fi
@@ -174,50 +226,6 @@ alias ed='f=$(fzf) && vim $f'
 alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf) && vim $f'
 alias ge='f=$(git ls-tree --full-tree -r --name-only HEAD | fzf) && vim $f'
 
-# Whenever possible, these should become abbreviations:
-# # Edit Configs
-abbr --quiet -S vimrc='nvim ~/.config/nvim/init.vim'
-abbr --quiet -S zshrc='nvim ~/.zshrc'
-abbr --quiet -S bibs='nvim ~/library/bibs.bib'
-# # System management
-abbr --quiet -S defopen='mimeopen -d'
-abbr --quiet -S fre='free -h'
-# # Git
-abbr --quiet -S gad='git add'
-abbr --quiet -S gib='git checkout'
-abbr --quiet -S gic='git commit'
-abbr --quiet -S gid='git diff'
-abbr --quiet -S gif='git fetch'
-abbr --quiet -S gil='git log'
-abbr --quiet -S gim='git merge'
-abbr --quiet -S gini='git init'
-abbr --quiet -S gip='git pull'
-abbr --quiet -S gipu='git push'
-abbr --quiet -S gir='git rebase'
-abbr --quiet -S gis='git status'
-abbr --quiet -S gisl='git shortlog'
-abbr --quiet -S gisu='git submodule'
-# # Git Bare (dotfiles)
-abbr --quiet -S cad='config add'
-abbr --quiet -S cib='config checkout'
-abbr --quiet -S cic='config commit'
-abbr --quiet -S cid='config diff'
-abbr --quiet -S cif='config fetch'
-abbr --quiet -S cil='config log'
-abbr --quiet -S cim='config merge'
-abbr --quiet -S cip='config pull'
-abbr --quiet -S cipu='config push'
-abbr --quiet -S cir='config rebase'
-abbr --quiet -S cis='config status'
-abbr --quiet -S cisl='config shortlog'
-# # NNN
-abbr --quiet -S n='nnn'
-# # Haskell
-abbr --quiet -S hs='stack ghci'
-abbr --quiet -S st='stack'
-# # Tree
-abbr --quiet -S tre='tree'
-
 # Setup better history completion
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
@@ -248,3 +256,5 @@ then
     tmux
     exit
 fi
+
+# zprof
