@@ -351,7 +351,18 @@ Plug 'MaxMEllon/vim-jsx-pretty' "{{{}}}
 " Plug 'jistr/vim-nerdtree-tabs'
 
 " vim-pandoc (lots of tools for Pandoc)
-Plug 'vim-pandoc/vim-pandoc' "{{{}}}
+Plug 'vim-pandoc/vim-pandoc' "{{{
+
+let g:pandoc#modules#enabled = [
+            \ "formatting",
+            \ "folding",
+            \ "yaml",
+            \ "toc",
+            \ "spell",
+            \ "hypertext"
+            \ ]
+
+"}}}
 
 " vim-pandoc-syntax (language support for Pandoc Markdown)
 Plug 'vim-pandoc/vim-pandoc-syntax' "{{{}}}
