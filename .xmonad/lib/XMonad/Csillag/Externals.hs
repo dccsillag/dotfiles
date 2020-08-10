@@ -63,7 +63,7 @@ scrot_thiswindow = "cd ~/media/screenshots/ && scrot -u -z"
 -- Compositor
 
 compositor_spawn :: String
-compositor_spawn = "picom"
+compositor_spawn = "picom --experimental-backend"
 
 compositor_kill :: String
 compositor_kill = "pkill picom"
