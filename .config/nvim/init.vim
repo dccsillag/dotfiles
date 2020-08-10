@@ -342,10 +342,10 @@ Plug 'tikhomirov/vim-glsl' "{{{}}}
 Plug 'MaxMEllon/vim-jsx-pretty' "{{{}}}
 
 " nerdtree (file system tree explorer)
-Plug 'preservim/nerdtree' " {{{
-
-nnoremap <Leader>f :NERDTreeToggle<CR>
-" }}}
+" Plug 'preservim/nerdtree' " {{{
+"
+" nnoremap <Leader>f :NERDTreeToggle<CR>
+" " }}}
 
 " vim-nerdtree-tabs (keep NERDTree open across tabs)
 " Plug 'jistr/vim-nerdtree-tabs'
