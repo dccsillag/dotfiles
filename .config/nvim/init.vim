@@ -1004,10 +1004,12 @@ augroup autoview "{{{
     autocmd BufWinLeave,VimLeave,BufWritePost *
                 \ if expand("%") != ""
                 \ | silent! mkview
+                \ | call lightline#update()
                 \ | endif
     autocmd BufWinEnter,BufReadPost *
                 \ if expand("%") != ""
                 \ | silent! loadview
+                \ | call lightline#update()
                 \ | endif
 augroup END "}}}
 
