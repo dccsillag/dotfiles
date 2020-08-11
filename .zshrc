@@ -34,7 +34,7 @@ if ! zgen saved; then
     done
     # # Create
     # # # Edit Configs
-    # abbr -U vimrc='nvim ~/.config/nvim/init.vim'
+    abbr -U vimrc='nvim ~/.config/nvim/init.vim'
     abbr -U zshrc='nvim ~/.zshrc'
     abbr -U bibs='nvim ~/library/bibs.bib'
     # # # System management
