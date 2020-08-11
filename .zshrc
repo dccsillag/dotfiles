@@ -8,8 +8,6 @@
 # @author Daniel Csillag (aka. dccsillag)
 # @what My ZSH configuration.
 
-# zmodload zsh/zprof
-
 source ~/.profile
 
 source ~/.config/zgen/zgen.zsh
@@ -256,5 +254,3 @@ then
     tmux
     exit
 fi
-
-# zprof
