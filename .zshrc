@@ -83,12 +83,9 @@ fi
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 # SPACESHIP_PROMPT_ORDER=( user host dir git node exec_time line_sep jobs exit_code char )
 SPACESHIP_PROMPT_ORDER=(
-    user
-    host
     dir
     git_branch
     jobs
-    # vi_mode
     char
 )
 SPACESHIP_RPROMPT_ORDER=(
@@ -101,6 +98,10 @@ SPACESHIP_CHAR_SYMBOL='$ '
 # SPACESHIP_CHAR_SYMBOL='→ '
 # SPACESHIP_CHAR_SYMBOL='⇒ '
 # SPACESHIP_CHAR_SYMBOL='@ '
+SPACESHIP_JOBS_SYMBOL=''
+SPACESHIP_JOBS_AMOUNT_THRESHOLD=0
+SPACESHIP_JOBS_AMOUNT_PREFIX='['
+SPACESHIP_JOBS_AMOUNT_SUFFIX=']'
 
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
