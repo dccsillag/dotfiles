@@ -365,7 +365,11 @@ let g:pandoc#modules#enabled = [
 "}}}
 
 " vim-pandoc-syntax (language support for Pandoc Markdown)
-Plug 'vim-pandoc/vim-pandoc-syntax' "{{{}}}
+Plug 'vim-pandoc/vim-pandoc-syntax' "{{{
+
+let g:pandoc#syntax#protect#codeblocks = 0
+
+"}}}
 
 " vim-racket (language support for Racket)
 Plug 'wlangstroth/vim-racket' "{{{
