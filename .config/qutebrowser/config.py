@@ -24,6 +24,8 @@ except NameError:
 
 c.tabs.position = 'top'
 
+c.session.lazy_restore = True
+
 # c.colors.webpage.darkmode.enabled = False
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = 'smart'
