@@ -763,8 +763,8 @@ set showbreak=…\  " prefix for wrapped lines
 set startofline
 
 "" Set case sensitiveness of the search
-set smartcase " if everything is lowercase, case insensitive. Otherwise, it's
-              "   case sensitive.
+set ignorecase smartcase " if everything is lowercase, case insensitive.
+                         "   Otherwise, it's case sensitive.
 
 "" Show line numbers
 " set number " show absolute line numbers
