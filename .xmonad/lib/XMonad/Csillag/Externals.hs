@@ -14,11 +14,10 @@ term_spawn' :: String -> String
 term_spawn' cls = "st -c '" ++ cls ++ "'"
 
 term_run :: String -> String
-term_run cmd = "st -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
+term_run cmd = "st -e sh -c '" ++ cmd ++ "'"
 
 term_run' :: String -> String -> String
--- term_run' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
-term_run' cls cmd = "st -c '" ++ cls ++ "' -e sh -c 'sleep 0.1 && " ++ cmd ++ "'"
+term_run' cls cmd = "st -c '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
 
 -- Text Editor
 
