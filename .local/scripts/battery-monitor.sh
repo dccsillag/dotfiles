@@ -1,6 +1,7 @@
 #!/bin/sh
 
 LOW_BATTERIES=$(echo 25; echo 15; echo 10; echo 5)
+SUSPEND_BAT=9
 
 SLEEP=5
 LOWBATPATH=/tmp/low_battery
@@ -24,6 +25,17 @@ do
             test -f "$LOWBATPATH$LOW_BATTERY" && rm "$LOWBATPATH$LOW_BATTERY"
         fi
     done
+
+    if [ "$battery" -le "$SUSPEND_BAT" ]
+    then
+        if ! [ -f "$LOWBATPATH"suspend ]
+        then
+            systemctl suspend
+            touch "$LOWBATPATH"suspend
+        fi
+    else
+        test -f "$LOWBATPATH"suspend && rm "$LOWBATPATH"suspend
+    fi
 
     sleep $SLEEP
 done
