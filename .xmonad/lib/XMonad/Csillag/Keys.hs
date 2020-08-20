@@ -810,6 +810,12 @@ myKeys config =
                                  , keybinding_humankey    = [AlphaKey '=']
                                  , keybinding_action      = spawn "toggle_xmobar"
                                  }
+                    , KeyBinding { keybinding_description = "Toggle Screenkey"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_k
+                                 , keybinding_humankey    = [AlphaKey 'k']
+                                 , keybinding_action      = spawn ".local/scripts/screenkey_toggle.sh"
+                                 }
                     ]
                 }
     , KeyHeading "Help"
