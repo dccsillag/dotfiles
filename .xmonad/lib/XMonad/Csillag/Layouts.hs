@@ -7,6 +7,7 @@ where
 import XMonad hiding ((|||))
 
 import XMonad.Layout.LayoutCombinators ((|||))
+import qualified Data.Map as M
 
 import XMonad.Layout.Renamed
 import XMonad.Layout.IfMax
@@ -15,6 +16,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Tabbed
 import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.MosaicAlt
 
 import XMonad.Layout.Spacing
 
@@ -28,6 +30,8 @@ myLayouts =
     ||| renamed [Replace "OneBig"] (winSpaces $ OneBig (3 / 4) (3 / 4))
     ||| renamed [Replace "ThreeColMid"]
                 (winSpaces $ ThreeColMid 1 (3 / 100) (1 / 2))
+    ||| renamed [Replace "Mosaic"]
+                (winSpaces $ MosaicAlt M.empty)
     -- ||| renamed [Replace "Circle"] Circle
  where
   winSpaces = spacingRaw True

@@ -498,6 +498,7 @@ myKeys config =
                                      , "Full"
                                      , "OneBig"
                                      , "ThreeColMid"
+                                     , "Mosaic"
                                      ]) >>= flip whenJust (sendMessage . JumpToLayout)
                                  }
                     , KeySubmap { keysubmap_description = "Set layout"
@@ -540,6 +541,12 @@ myKeys config =
                                                  , keybinding_key         = xK_t
                                                  , keybinding_humankey    = [AlphaKey 't']
                                                  , keybinding_action = sendMessage $ JumpToLayout "ThreeColMid"
+                                                 }
+                                    , KeyBinding { keybinding_description = "Set Layout to 'Mosaic'"
+                                                 , keybinding_mask        = shiftMask
+                                                 , keybinding_key         = xK_m
+                                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'm']
+                                                 , keybinding_action = sendMessage $ JumpToLayout "Mosaic"
                                                  }
                                     ]
                                 }
