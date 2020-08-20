@@ -23,6 +23,14 @@ NSCREENS=$(xrandr | grep -c "\<connected\>")
 MIDX=$(($(xwininfo -root | grep Width: | sed 's/^  Width: \([0-9]\+\)$/\1/') / NSCREENS / 2))
 MIDY=$(($(xwininfo -root | grep Height: | sed 's/^  Height: \([0-9]\+\)$/\1/') / 2))
 
+# Get identifier
+IDENTIFIER=$(echo "$1" | od -t o1 | head -1 | cut -d' ' -f2- | tr ' ' '0')
+FILE=/tmp/osd$IDENTIFIER
+
+test -f "$FILE" && exit
+
+touch "$FILE"
+
 # Create the window
 ( for arg in "$@"; do echo "$arg"; done ) | dzen2 -p \
     -l $(($#-1)) \
@@ -34,3 +42,5 @@ MIDY=$(($(xwininfo -root | grep Height: | sed 's/^  Height: \([0-9]\+\)$/\1/') /
     -ta c \
     -sa c \
     -p $TIMEOUT
+
+rm "$FILE"
