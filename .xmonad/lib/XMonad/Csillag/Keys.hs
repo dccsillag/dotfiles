@@ -65,6 +65,12 @@ myKeys config =
                  , keybinding_humankey    = [AlphaKey ')']
                  , keybinding_action      = spawn compositor_spawn
                  }
+    , KeyBinding { keybinding_description = "Restart the Compositor"
+                 , keybinding_mask        = shiftMask
+                 , keybinding_key         = xK_8
+                 , keybinding_humankey    = [AlphaKey '*']
+                 , keybinding_action      = spawn compositor_restart
+                 }
     , KeyHeading "Directional Keys"
     , KeyBinding { keybinding_description = "Focus window to the left"
                  , keybinding_mask        = 0
