@@ -128,7 +128,7 @@ function ssh() {
     export SSHALIAS=1
     /usr/bin/ssh $@
     export SSHALIAS=0
-    tmux select-pane -P 'bg=black'
+    env TERM=xterm-256color xtermcontrol --file=~/.config/xtermcontrol/config
 }
 
 # Open files with external applications
