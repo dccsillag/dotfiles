@@ -2,9 +2,9 @@
 
 if [ $(ps aux | grep [s]sh | wc -l) -gt 1 ]
 then
-    printf "<fc=#ED8A00>"
+    printf " <fc=#ED8A00>"
 else
-    printf "<fc=#00AAEE>"
+    printf " <fc=#00AAEE>"
 fi
 
 if ps aux | grep -v "$(basename $0)" | grep [v]pn > /dev/null;
