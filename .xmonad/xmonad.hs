@@ -18,6 +18,7 @@ import qualified Data.Map as Map
 import System.Directory (doesPathExist, doesFileExist)
 import System.Environment
 import Data.Bifunctor (first)
+import System.Posix.Signals
 
 -- XMonad imports
 import XMonad hiding ((|||), config)
@@ -103,6 +104,9 @@ myXMonadConfig = do
 
 main :: IO ()
 main = do
+  -- Trap signals:
+  installHandler sigUSR1 (Catch $ spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi") Nothing
+
   -- Set environment variables:
   -- let environment_vars_path = "/home/daniel/.xmonad/environment_variables.txt"
   let environment_vars_path = "/home/daniel/.config/environment.d/env.conf"
