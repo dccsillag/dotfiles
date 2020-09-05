@@ -18,6 +18,17 @@ packages:
       sha256: 42a57a2db0d8b44e04a04905ed56994b7293d2f244595bf3e65480c36d114ac3
   original:
     hackage: netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
+- completed:
+    name: xmonad-contrib
+    version: '0.16'
+    git: git@github.com:xmonad/xmonad-contrib.git
+    pantry-tree:
+      size: 20817
+      sha256: 3503b511836cdabb92361526e4da0e74b88a4796a468c14edec33948c9276700
+    commit: 58feba91d96fee8339d7cf56fb33537be819eb4b
+  original:
+    git: git@github.com:xmonad/xmonad-contrib.git
+    commit: 58feba91d96fee8339d7cf56fb33537be819eb4b
 snapshots:
 - completed:
     size: 494635
