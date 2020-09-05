@@ -241,20 +241,20 @@ myKeys config =
                  , keybinding_humankey    = [AlphaKey '/']
                  , keybinding_action      = spawnNohup "python3 /home/daniel/.config/rofi/file_search_do_cache.py; notify-send \"Rebuilt cache\" -u low"
                  }
-    , KeyBinding { keybinding_description = "Search BibTeX"
-                 , keybinding_mask        = shiftMask
-                 , keybinding_key         = xK_backslash
-                 , keybinding_humankey    = [AlphaKey '|']
-                 , keybinding_action      = do
-                     bibs <- io getBibs
-                     let openPaper bibId = case filter ((==bibId) . BibTeX.identifier) bibs of
-                                                (BibTeX.Cons _ _ fields):_ -> case filter ((=="url") . fst) fields of
-                                                                              ("url", url):_ -> spawnNohup $ "xdg-open '" ++ url ++ "'"
-                                                                              _ -> spawn "notify-send -u critical 'Failed to open paper' 'URL not found'"
-                                                _ -> spawn "notify-send -u critical 'Failed to open paper' 'BibTeX ID not found'"
-                     let bibIds = BibTeX.identifier <$> bibs
-                     inputPromptWithCompl csillagPromptConfig "BibTeX" (mkComplFunFromList bibIds) ?+ openPaper
-                 }
+    -- , KeyBinding { keybinding_description = "Search BibTeX"
+    --              , keybinding_mask        = shiftMask
+    --              , keybinding_key         = xK_backslash
+    --              , keybinding_humankey    = [AlphaKey '|']
+    --              , keybinding_action      = do
+    --                  bibs <- io getBibs
+    --                  let openPaper bibId = case filter ((==bibId) . BibTeX.identifier) bibs of
+    --                                             (BibTeX.Cons _ _ fields):_ -> case filter ((=="url") . fst) fields of
+    --                                                                           ("url", url):_ -> spawnNohup $ "xdg-open '" ++ url ++ "'"
+    --                                                                           _ -> spawn "notify-send -u critical 'Failed to open paper' 'URL not found'"
+    --                                             _ -> spawn "notify-send -u critical 'Failed to open paper' 'BibTeX ID not found'"
+    --                  let bibIds = BibTeX.identifier <$> bibs
+    --                  inputPromptWithCompl csillagPromptConfig "BibTeX" (mkComplFunFromList bibIds) ?+ openPaper
+    --              }
     , KeyHeading "Floating Windows"
     , KeySubmap { keysubmap_description = "Manage floating windows"
                 , keysubmap_mask = 0
