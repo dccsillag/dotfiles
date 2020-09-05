@@ -22,7 +22,6 @@ xbindkeys -f ~/.config/xbindkeys/config
 # Remove key repeat for the push-to-talk key
 xset r rate 300 50
 xset -r 86
-xset -dpms
 
 # Disable tap-to-click
 # synclient MaxTapTime=0
@@ -33,11 +32,9 @@ xset -dpms
 # Enable side scrolling
 # synclient HorizTwoFingerScroll=1
 
-# Disable Display Power Management Service (DPMS)
-xset -dpms
+# Set screensaver timeout to 1 hour
+xset s 3600 3600
 # setterm -blank 0 -powerdown 0
-# Disable black screensaver
-xset s off
 
 # Warn low battery
 # batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
