@@ -46,7 +46,7 @@ browser_open url = "qutebrowser-quick '" ++ url ++ "'"
 -- Camera Viewer
 
 camview_spawn :: String
-camview_spawn = "mpv --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=input_format=mjpeg av://v4l2:/dev/video0 || notify-send -u critical 'MPV - failed' 'failed to open camera'"
+camview_spawn = "mpv --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=input_format=mjpeg av://v4l2:/dev/video0 --no-cache --untimed --no-demuxer-thread || notify-send -u critical 'MPV - failed' 'failed to open camera'"
 
 -- Screenshot Tool
 
