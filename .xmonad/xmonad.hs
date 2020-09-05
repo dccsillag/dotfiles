@@ -22,6 +22,7 @@ import System.Posix.Signals
 
 -- XMonad imports
 import XMonad hiding ((|||), config)
+import XMonad.Actions.ShowText
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (doFullFloat)
 import XMonad.Util.Run
@@ -83,6 +84,7 @@ myXMonadConfig = do
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
         , handleEventHook    = myFullscreenEventHook -- Automatically redraw windows when they become fullscreen
                                <+> docksEventHook -- ???
+                               <+> handleTimerEvent
                                <+> swallowEventHook (className =? "qutebrowser") (className =? "mpv") -- Swallow mpv from qutebrowser
         -- , logHook            = myWorkspaceNamesPP xmobarPP
         --                            { ppOutput = appendFile "/tmp/.xmonad-workspace-log" . (++ "\n") -- Pipe to write data for polybar

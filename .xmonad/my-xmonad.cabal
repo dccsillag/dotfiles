@@ -28,6 +28,7 @@ executable my-xmonad
                      , filepath
                      , split
                      , unix
+                     , process
   hs-source-dirs:      lib
   default-language:    Haskell2010
   ghc-options:         -Wall -fno-warn-missing-signatures -threaded
