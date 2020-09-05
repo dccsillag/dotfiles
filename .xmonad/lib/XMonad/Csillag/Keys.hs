@@ -22,7 +22,7 @@ import XMonad hiding (config, keys)
 import qualified XMonad.StackSet as W
 import Graphics.X11.ExtraTypes.XF86
 -- import XMonad.Util.WorkspaceCompare
-import XMonad.Actions.Volume (getVolume)
+-- import XMonad.Actions.Volume (getVolume)
 -- import XMonad.Actions.TagWindows
 
 import XMonad.Layout.LayoutCombinators
@@ -32,6 +32,7 @@ import XMonad.Prompt ( )
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
+import XMonad.Prompt.XMonad
 import XMonad.Hooks.ManageDocks
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.CopyWindow
@@ -72,6 +73,12 @@ myKeys config =
                  , keybinding_key         = xK_8
                  , keybinding_humankey    = [AlphaKey '*']
                  , keybinding_action      = spawn compositor_restart
+                 }
+    , KeyBinding { keybinding_description = "XMonad Command Prompt"
+                 , keybinding_mask        = 0
+                 , keybinding_key         = xK_semicolon
+                 , keybinding_humankey    = [AlphaKey ';']
+                 , keybinding_action      = xmonadPrompt csillagPromptConfig
                  }
     , KeyHeading "Directional Keys"
     , KeyBinding { keybinding_description = "Focus window to the left"
