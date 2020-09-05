@@ -276,6 +276,7 @@ let g:vcoolor_disable_mappings = 1
 "nnoremap <Leader>crgb :VCoolIns r<CR>
 nnoremap <Leader>crgb :VCoolIns r<CR>
 nnoremap <Leader>chsl :VCoolIns h<CR>
+nnoremap <Leader>chex :VCoolor<CR>
 "}}}
 
 " vim-coloresque (show colors in source code)
