@@ -11,18 +11,14 @@ import Data.List
 import qualified Data.Map as Map
 import Control.Monad
 
-import qualified Text.BibTeX.Entry as BibTeX
-
 import XMonad.Csillag.Internal.KeyBindings
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Layouts (windowGap)
 import XMonad.Csillag.Consts
-import XMonad.Csillag.BibTeX
 import XMonad.Csillag.Externals
--- import XMonad.Csillag.FileManager
 
-import XMonad hiding (config)
+import XMonad hiding (config, keys)
 import qualified XMonad.StackSet as W
 import Graphics.X11.ExtraTypes.XF86
 -- import XMonad.Util.WorkspaceCompare
@@ -32,7 +28,7 @@ import XMonad.Actions.Volume (getVolume)
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Spacing
 
-import XMonad.Prompt ( mkComplFunFromList )
+import XMonad.Prompt ( )
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
@@ -835,7 +831,18 @@ myKeys config =
                  , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_slash
                  , keybinding_humankey    = [AlphaKey '?']
-                 , keybinding_action      = void $ rofi "XMonad Help" (Just "For Csillag configurations") $ keybindingHelp <$> myKeys config
+                 , keybinding_action      = do
+                     let keysToString :: String -> [KeyBinding] -> [String]
+                         keysToString prefix keys = keys >>= \case
+                            KeyBinding d _ _ h _ -> [prefix ++ humankeysToString h ++ "\t\t\t\t" ++ d]
+                            KeySubmap  d _ _ h s -> (prefix ++ humankeysToString h ++ "…" ++ "\t\t\t\t" ++ d) : keysToString (prefix ++ humankeysToString h) s
+                            KeyHeading h         -> ["", "** " ++ h, ""]
+                            KeyMode{}            -> [] -- TODO
+                         humankeysToString :: [HumanKey] -> String
+                         humankeysToString hkey = intercalate "+" $ show <$> hkey
+                     io $ writeFile "/tmp/xmonad-help.txt" $ unlines $ "* Csillag XMonad Help" : keysToString "" (myKeys config)
+                     spawnNohup $ term_run $ "less /tmp/xmonad-help.txt"
+                     return ()
                  }
     ]
 
@@ -843,8 +850,8 @@ myMouseBindings config = Map.fromList
     [ ((modMask config, button1), dragWindow)
     ]
 
-systemFunctionKeys config = [
-      KeyHeading "System Function Keys"
+systemFunctionKeys config =
+    [ KeyHeading "System Function Keys"
     , KeyBinding { keybinding_description = "Raise Brightness"
                  , keybinding_mask        = 0
                  , keybinding_key         = xF86XK_MonBrightnessUp
@@ -862,7 +869,6 @@ systemFunctionKeys config = [
                  , keybinding_key         = xF86XK_AudioLowerVolume
                  , keybinding_humankey    = [AudioLowerKey]
                  , keybinding_action      = do
-                     curVolume <- getVolume
                      spawnOSD volumeDownIcon
                      spawn "amixer sset Master 2%-"
                      spawn ("sleep 0.1; paplay " ++ volumeChangeSound)
@@ -872,7 +878,6 @@ systemFunctionKeys config = [
                  , keybinding_key         = xF86XK_AudioRaiseVolume
                  , keybinding_humankey    = [AudioRaiseKey]
                  , keybinding_action      = do
-                     curVolume <- getVolume
                      spawnOSD volumeUpIcon
                      spawn "amixer sset Master 2%+"
                      spawn ("sleep 0.1; paplay " ++ volumeChangeSound)
@@ -913,31 +918,3 @@ systemFunctionKeys config = [
                  , keybinding_action      = spawn "playerctl previous"
                  }
     ]
-
-keybindingHelp :: KeyBinding -> String
-keybindingHelp x = case x of
-  KeyBinding{} ->
-    let humankey = intercalate "+" $ show <$> keybinding_humankey x
-    in  humankey
-          ++ replicate (4 - length humankey `div` 8) '\t'
-          ++ "<i>"
-          ++ keybinding_description x
-          ++ "</i>"
-  KeySubmap{} ->
-    let humankey = intercalate "+" $ show <$> keysubmap_humankey x
-        in humankey
-          ++ replicate (4 - length humankey `div` 8) '\t'
-          ++ "<i>"
-          ++ keysubmap_description x
-          ++ "</i>"
-          ++ concatMap (("\n\t"++) . keybindingHelp) (keysubmap_submaps x)
-  KeyMode{} ->
-    let humankey = intercalate "+" $ show <$> keymode_humankey x
-        in humankey
-          ++ replicate (4 - length humankey `div` 8) '\t'
-          ++ "<i>"
-          ++ keymode_name x ++ " Mode"
-          ++ "</i>"
-          ++ concatMap (("\n\t"++) . keybindingHelp) (keymode_submaps x)
-  KeyHeading txt ->
-    "\t\t<b><span underline=\"double\">" ++ txt ++ "</span></b>"

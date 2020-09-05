@@ -34,13 +34,13 @@ instance Show HumanKey where
   show AltKey            = "Alt"
   show (AlphaKey    k)   = [k]
   show (FunctionKey n)   = 'F' : show n
-  show BrightnessUpKey   = "\62942+" -- \62942  =  
-  show BrightnessDownKey = "\62942-" -- \62942  =  
-  show AudioRaiseKey     = "墳"
-  show AudioLowerKey     = "奔"
-  show AudioMuteKey      = "婢"
-  show RightArrowKey     = "→"
-  show LeftArrowKey      = "←"
+  show BrightnessUpKey   = "BrightUp" -- \62942  =  
+  show BrightnessDownKey = "BrightDown" -- \62942  =  
+  show AudioRaiseKey     = "VolUp"
+  show AudioLowerKey     = "VolDown"
+  show AudioMuteKey      = "VolMute"
+  show RightArrowKey     = "->"
+  show LeftArrowKey      = "<-"
   show ReturnKey         = "Return" -- \63504 = 
   show TabKey            = "Tab"
   show SpaceKey          = "Space"
