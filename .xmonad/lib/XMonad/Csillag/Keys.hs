@@ -857,7 +857,6 @@ systemFunctionKeys config = [
                      curVolume <- getVolume
                      spawnOSD volumeDownIcon
                      spawn "amixer sset Master 2%-"
-                     -- spawn $ pulseaudioControlScript ++ " down"
                      spawn ("sleep 0.1; paplay " ++ volumeChangeSound)
                  }
     , KeyBinding { keybinding_description = "Raise Volume"
@@ -868,7 +867,6 @@ systemFunctionKeys config = [
                      curVolume <- getVolume
                      spawnOSD volumeUpIcon
                      spawn "amixer sset Master 2%+"
-                     -- spawn $ pulseaudioControlScript ++ " up"
                      spawn ("sleep 0.1; paplay " ++ volumeChangeSound)
                  }
     , KeyBinding { keybinding_description = "Toggle Mute"
@@ -878,7 +876,6 @@ systemFunctionKeys config = [
                  , keybinding_action      = do
                      spawnOSD volumeMuteIcon
                      spawn "amixer sset Master toggle"
-                     -- spawn $ pulseaudioControlScript ++ " togmute"
                      spawn ("sleep 0.1; paplay " ++ volumeChangeSound)
                  }
     , KeyBinding { keybinding_description = "Play Test Sound"
@@ -936,6 +933,3 @@ keybindingHelp x = case x of
           ++ concatMap (("\n\t"++) . keybindingHelp) (keymode_submaps x)
   KeyHeading txt ->
     "\t\t<b><span underline=\"double\">" ++ txt ++ "</span></b>"
-
-pulseaudioControlScript =
-  ".config/polybar/scripts/polybar-pulseaudio-control/pulseaudio-control.bash"
