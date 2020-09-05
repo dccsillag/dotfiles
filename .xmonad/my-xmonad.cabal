@@ -25,6 +25,9 @@ executable my-xmonad
                      , directory
                      , parsec
                      , bibtex
+                     , filepath
+                     , split
+                     , unix
   hs-source-dirs:      lib
   default-language:    Haskell2010
   ghc-options:         -Wall -fno-warn-missing-signatures -threaded
