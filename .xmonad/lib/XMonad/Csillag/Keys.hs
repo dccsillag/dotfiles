@@ -18,6 +18,7 @@ import XMonad.Csillag.Layouts (windowGap)
 import XMonad.Csillag.Consts
 import XMonad.Csillag.BibTeX
 import XMonad.Csillag.Externals
+-- import XMonad.Csillag.FileManager
 
 import XMonad hiding (config)
 import qualified XMonad.StackSet as W
@@ -185,55 +186,56 @@ myKeys config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_t
                                  , keybinding_humankey    = [AlphaKey 't']
-                                 , keybinding_action      = spawn term_spawn
+                                 , keybinding_action      = spawnNohup term_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch a file manager"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_f
                                  , keybinding_humankey    = [AlphaKey 'f']
-                                 , keybinding_action      = spawn $ filemanager_spawn
+                                 , keybinding_action      = spawnNohup $ filemanager_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Vim"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_v
                                  , keybinding_humankey    = [AlphaKey 'v']
-                                 , keybinding_action      = spawn $ texteditor_spawn
+                                 , keybinding_action      = spawnNohup $ texteditor_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Browser"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_b
                                  , keybinding_humankey    = [AlphaKey 'b']
-                                 -- , keybinding_action      = spawn "brave --new-window"
-                                 -- , keybinding_action      = spawn "qutebrowser"
-                                 , keybinding_action      = spawn browser_spawn
+                                 -- , keybinding_action      = spawnNohup "brave --new-window"
+                                 -- , keybinding_action      = spawnNohup "qutebrowser"
+                                 , keybinding_action      = spawnNohup browser_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Browser in Incognito Mode"
                                  , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_b
                                  , keybinding_humankey    = [ShiftKey, AlphaKey 'b']
                                  -- TODO: switch to qutebrowser
-                                 , keybinding_action      = spawn browser_spawn_private
+                                 , keybinding_action      = spawnNohup browser_spawn_private
                                  }
                     , KeyBinding { keybinding_description = "Launch MPV with Camera"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_c
                                  , keybinding_humankey    = [AlphaKey 'c']
-                                 -- , keybinding_action      = spawn "mpv av://v4l2:/dev/video0"
-                                 , keybinding_action      = spawn camview_spawn
+                                 -- , keybinding_action      = spawnNohup "mpv av://v4l2:/dev/video0"
+                                 , keybinding_action      = spawnNohup camview_spawn
                                  }
                     ]
                 }
-    , KeyBinding { keybinding_description = "Open file search"
-                 , keybinding_mask        = 0
-                 , keybinding_key         = xK_slash
-                 , keybinding_humankey    = [AlphaKey '/']
-                 , keybinding_action      = spawn "rofi -matching glob -show-icons -sidebar-mode -show file_search -modi file_search:/home/daniel/.config/rofi/file_search.py"
-                 }
+    -- , KeyBinding { keybinding_description = "Open file search"
+    --              , keybinding_mask        = 0
+    --              , keybinding_key         = xK_slash
+    --              , keybinding_humankey    = [AlphaKey '/']
+    --              -- , keybinding_action      = spawnNohup "rofi -matching glob -show-icons -sidebar-mode -show file_search -modi file_search:/home/daniel/.config/rofi/file_search.py"
+    --              , keybinding_action      = fileManager "/home/daniel/" csillagPromptConfig
+    --              }
     , KeyBinding { keybinding_description = "Recalculate file search cache"
                  , keybinding_mask        = controlMask
                  , keybinding_key         = xK_slash
                  , keybinding_humankey    = [AlphaKey '/']
-                 , keybinding_action      = spawn "python3 /home/daniel/.config/rofi/file_search_do_cache.py; notify-send \"Rebuilt cache\" -u low"
+                 , keybinding_action      = spawnNohup "python3 /home/daniel/.config/rofi/file_search_do_cache.py; notify-send \"Rebuilt cache\" -u low"
                  }
     , KeyBinding { keybinding_description = "Search BibTeX"
                  , keybinding_mask        = shiftMask
@@ -243,7 +245,7 @@ myKeys config =
                      bibs <- io getBibs
                      let openPaper bibId = case filter ((==bibId) . BibTeX.identifier) bibs of
                                                 (BibTeX.Cons _ _ fields):_ -> case filter ((=="url") . fst) fields of
-                                                                              ("url", url):_ -> spawn $ "xdg-open '" ++ url ++ "'"
+                                                                              ("url", url):_ -> spawnNohup $ "xdg-open '" ++ url ++ "'"
                                                                               _ -> spawn "notify-send -u critical 'Failed to open paper' 'URL not found'"
                                                 _ -> spawn "notify-send -u critical 'Failed to open paper' 'BibTeX ID not found'"
                      let bibIds = BibTeX.identifier <$> bibs
@@ -807,7 +809,7 @@ myKeys config =
                                  , keybinding_humankey    = [AlphaKey 'a']
                                  , keybinding_action      = do
                                      -- spawn "alsa-restart"
-                                     spawn "fix-audio"
+                                     spawnNohup "fix-audio"
                                      spawnOSD "A"
                                  }
                     , KeyBinding { keybinding_description = "Toggle XMobar"
