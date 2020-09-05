@@ -33,6 +33,7 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.InsertPosition
+import XMonad.Hooks.WindowSwallowing
 
 -- My Configs
 import XMonad.Csillag.Internal.KeyBindings
@@ -80,9 +81,9 @@ myXMonadConfig = do
                                               ]
                                <+> manageHook def -- The default
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
-        , handleEventHook    = handleEventHook def
+        , handleEventHook    = myFullscreenEventHook -- Automatically redraw windows when they become fullscreen
                                <+> docksEventHook -- ???
-                               <+> myFullscreenEventHook -- Automatically redraw windows when they become fullscreen
+                               <+> swallowEventHook (className =? "qutebrowser") (className =? "mpv") -- Swallow mpv from qutebrowser
         -- , logHook            = myWorkspaceNamesPP xmobarPP
         --                            { ppOutput = appendFile "/tmp/.xmonad-workspace-log" . (++ "\n") -- Pipe to write data for polybar
         --                            , ppTitle            = const "" -- Don't show the title
