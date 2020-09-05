@@ -574,6 +574,7 @@ let g:suda_smart_edit = 1
 " vimtex (for editing LaTeX sanely)
 Plug 'lervag/vimtex' "{{{
 
+let g:tex_flavor = 'latex'
 let g:vimtex_fold_enabled = v:true
 
 "}}}
