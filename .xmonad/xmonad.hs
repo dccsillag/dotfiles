@@ -96,6 +96,7 @@ myXMonadConfig = do
         --                            , ppSep              = "   " -- Separator for the statusbar
         --                            } >>= dynamicLogWithPP
         , startupHook        = startup -- (on startup)
+        , mouseBindings      = myMouseBindings
         , keys               = \x -> let myKeys' = filter (\case KeyHeading _ -> False; _ -> True) (myKeys x)
                                          systemFunctionKeys' = filter (\case KeyHeading _ -> False; _ -> True) (systemFunctionKeys x)
                                          in Map.insert (modMask x, xK_Escape) (modalmap (0, xK_i) $ Map.fromList $ keybindingToTuple 0 <$> myKeys') $

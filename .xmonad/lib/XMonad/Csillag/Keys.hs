@@ -2,11 +2,13 @@
 
 module XMonad.Csillag.Keys
   ( myKeys
+  , myMouseBindings
   , systemFunctionKeys
   )
 where
 
 import Data.List
+import qualified Data.Map as Map
 import Control.Monad
 
 import qualified Text.BibTeX.Entry as BibTeX
@@ -43,6 +45,8 @@ import XMonad.Actions.DynamicWorkspaces
 -- import XMonad.Actions.CycleWS
 import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
+import XMonad.Actions.TiledWindowDragging
+
 
 myKeys config =
     [ KeyHeading "Core"
@@ -833,6 +837,10 @@ myKeys config =
                  , keybinding_humankey    = [AlphaKey '?']
                  , keybinding_action      = void $ rofi "XMonad Help" (Just "For Csillag configurations") $ keybindingHelp <$> myKeys config
                  }
+    ]
+
+myMouseBindings config = Map.fromList
+    [ ((modMask config, button1), dragWindow)
     ]
 
 systemFunctionKeys config = [

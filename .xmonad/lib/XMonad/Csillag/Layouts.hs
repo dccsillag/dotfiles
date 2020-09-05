@@ -18,9 +18,10 @@ import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.MosaicAlt
 
+import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Spacing
 
-myLayouts =
+myLayouts = draggingVisualizer $
   renamed [Replace "Dwindle"] (winSpaces $ Dwindle R CW 1 1.1)
     ||| renamed [Replace "Mirror Dwindle"]
                 (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
