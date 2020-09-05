@@ -679,6 +679,9 @@ augroup END
 " vim-closetag (for automatically closing HTML tags)
 Plug 'alvan/vim-closetag'
 
+" plantuml-syntax (for PlantUML syntax support)
+Plug 'aklt/plantuml-syntax'
+
 call plug#end() "}}}
 "}}}
 "}}}
@@ -1067,6 +1070,7 @@ autocmd VimResized * redraw
 " autocmd BufWritePost *.md Make!
 autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
 autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
+autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
 
 autocmd FileType *.py setlocal fdm=expr
 autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
