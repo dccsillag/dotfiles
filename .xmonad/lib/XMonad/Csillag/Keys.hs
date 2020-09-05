@@ -228,15 +228,8 @@ myKeys config =
     --              , keybinding_mask        = 0
     --              , keybinding_key         = xK_slash
     --              , keybinding_humankey    = [AlphaKey '/']
-    --              -- , keybinding_action      = spawnNohup "rofi -matching glob -show-icons -sidebar-mode -show file_search -modi file_search:/home/daniel/.config/rofi/file_search.py"
     --              , keybinding_action      = fileManager "/home/daniel/" csillagPromptConfig
     --              }
-    , KeyBinding { keybinding_description = "Recalculate file search cache"
-                 , keybinding_mask        = controlMask
-                 , keybinding_key         = xK_slash
-                 , keybinding_humankey    = [AlphaKey '/']
-                 , keybinding_action      = spawnNohup "python3 /home/daniel/.config/rofi/file_search_do_cache.py; notify-send \"Rebuilt cache\" -u low"
-                 }
     -- , KeyBinding { keybinding_description = "Search BibTeX"
     --              , keybinding_mask        = shiftMask
     --              , keybinding_key         = xK_backslash
@@ -797,12 +790,6 @@ myKeys config =
                                                  }
                                     ]
                                 }
-                    , KeyBinding { keybinding_description = "Show Uptime"
-                                 , keybinding_mask        = 0
-                                 , keybinding_key         = xK_u
-                                 , keybinding_humankey    = [AlphaKey 'u']
-                                 , keybinding_action      = spawn "rofi -e \"$(uptime)\""
-                                 }
                     , KeyBinding { keybinding_description = "Fix audio" -- "Restart ALSA"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_a
