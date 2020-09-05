@@ -1,4 +1,4 @@
-{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE NumericUnderscores, LambdaCase #-}
 
 module XMonad.Csillag.CommonActions where
 
@@ -10,6 +10,7 @@ import Data.Function (on)
 import Control.Monad
 import Control.Concurrent
 import System.Exit
+import System.IO
 
 import XMonad hiding (config)
 import qualified XMonad.StackSet as W
@@ -29,6 +30,19 @@ import XMonad.Util.WindowProperties   ( getProp32 )
 
 
 -- Helper functions
+
+-- -- Work with commands
+
+quote :: String -> String
+quote str = "\'" ++ (str >>= (\case '\'' -> "\\'"; s -> [s])) ++ "\'"
+
+-- spawnNohup :: String -> X ()
+-- spawnNohup cmd = do
+--     let identifier = takeWhile (`elem`"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789_") cmd
+--     io $ void $ openTempFile "/tmp/stdout/" $ identifier ++ ".stdout"
+--     spawn $ "nohup sh -c " ++ quote cmd ++ " > /tmp/stdout."
+spawnNohup :: String -> X ()
+spawnNohup = spawn
 
 -- -- Stability
 
