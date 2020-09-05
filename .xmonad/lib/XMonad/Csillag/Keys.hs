@@ -14,7 +14,7 @@ import Control.Monad
 import XMonad.Csillag.Internal.KeyBindings
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts (windowGap)
+import XMonad.Csillag.Layouts (windowGap, MAGNIFIER(..))
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 
@@ -42,6 +42,7 @@ import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.TiledWindowDragging
+import XMonad.Layout.MultiToggle
 
 
 myKeys config =
@@ -595,6 +596,12 @@ myKeys config =
                  , keybinding_humankey = [ControlKey, AlphaKey '0']
                  , keybinding_action = sendMessage $ ModifyWindowBorder $
                      const $ Border windowGap windowGap windowGap windowGap
+                 }
+    , KeyBinding { keybinding_description = "Toggle manifier"
+                 , keybinding_mask = 0
+                 , keybinding_key = xK_Return
+                 , keybinding_humankey = [ReturnKey]
+                 , keybinding_action = sendMessage $ Toggle MAGNIFIER
                  }
     , KeyHeading "Scratchpads"
     , KeySubmap { keysubmap_description = "Show/Hide Scratchpads"
