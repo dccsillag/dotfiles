@@ -615,78 +615,78 @@ myKeys config =
                                  , keybinding_humankey    = [AlphaKey 't']
                                  , keybinding_action      = namedScratchpadAction myScratchpads "sysmon"
                                  }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'bluetooth'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_b
-                             , keybinding_humankey    = [AlphaKey 'b']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "bluetooth"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'terminal'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_q
-                             , keybinding_humankey    = [AlphaKey 'q']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "terminal"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'audio'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_a
-                             , keybinding_humankey    = [AlphaKey 'a']
-                             , keybinding_action = namedScratchpadAction myScratchpads "audio"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'advancedaudio'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_z
-                             , keybinding_humankey    = [AlphaKey 'z']
-                             , keybinding_action = namedScratchpadAction myScratchpads "advancedaudio"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'music'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_m
-                             , keybinding_humankey    = [AlphaKey 'm']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "music"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'deezer'"
-                             , keybinding_mask        = shiftMask
-                             , keybinding_key         = xK_m
-                             , keybinding_humankey    = [ShiftKey, AlphaKey 'm']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "deezer"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'todo'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_x
-                             , keybinding_humankey    = [AlphaKey 'x']
-                             , keybinding_action = namedScratchpadAction myScratchpads "todo"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'slack'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_s
-                             , keybinding_humankey    = [AlphaKey 's']
-                             , keybinding_action = namedScratchpadAction myScratchpads "slack"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'discord'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_d
-                             , keybinding_humankey    = [AlphaKey 'd']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "discord"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'whatsapp'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_w
-                             , keybinding_humankey    = [AlphaKey 'w']
-                             , keybinding_action      = namedScratchpadAction myScratchpads "whatsapp"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'mail'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_e
-                             , keybinding_humankey    = [AlphaKey 'e']
-                             , keybinding_action = namedScratchpadAction myScratchpads "mail"
-                             }
-                , KeyBinding { keybinding_description = "Toggle Scratchpad 'calendar'"
-                             , keybinding_mask        = 0
-                             , keybinding_key         = xK_f
-                             , keybinding_humankey    = [AlphaKey 'f']
-                             , keybinding_action = namedScratchpadAction myScratchpads "calendar"
-                             }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'bluetooth'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_b
+                                 , keybinding_humankey    = [AlphaKey 'b']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "bluetooth"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'terminal'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_q
+                                 , keybinding_humankey    = [AlphaKey 'q']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "terminal"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'audio'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_a
+                                 , keybinding_humankey    = [AlphaKey 'a']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "audio"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'advancedaudio'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_z
+                                 , keybinding_humankey    = [AlphaKey 'z']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "advancedaudio"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'music'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_m
+                                 , keybinding_humankey    = [AlphaKey 'm']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "music"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'deezer'"
+                                 , keybinding_mask        = shiftMask
+                                 , keybinding_key         = xK_m
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'm']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "deezer"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'todo'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_x
+                                 , keybinding_humankey    = [AlphaKey 'x']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "todo"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'slack'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_s
+                                 , keybinding_humankey    = [AlphaKey 's']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "slack"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'discord'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_d
+                                 , keybinding_humankey    = [AlphaKey 'd']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "discord"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'whatsapp'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_w
+                                 , keybinding_humankey    = [AlphaKey 'w']
+                                 , keybinding_action      = namedScratchpadAction myScratchpads "whatsapp"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'mail'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_e
+                                 , keybinding_humankey    = [AlphaKey 'e']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "mail"
+                                 }
+                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'calendar'"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_f
+                                 , keybinding_humankey    = [AlphaKey 'f']
+                                 , keybinding_action = namedScratchpadAction myScratchpads "calendar"
+                                 }
                     ]
                 }
     , KeyHeading "Passwords"
