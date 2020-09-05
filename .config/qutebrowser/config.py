@@ -31,6 +31,8 @@ c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = 'smart'
 c.colors.webpage.bg = 'black'
 
+c.content.javascript.can_access_clipboard = True
+
 c.tabs.last_close = 'close'
 # c.tabs.wrap = False
 c.tabs.background = True
