@@ -63,7 +63,8 @@ config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 
 # config.bind(",m", 'spawn devour mpv --force-window=immediate {url}')
-config.bind(",m", ('spawn sh -c ' + quote('WID=$(xdo id); playerctl pause; xdo hide; mpv --force-window=immediate --save-position-on-quit URL; xdo show "$WID"')).replace('URL', '{url}'))
+# config.bind(",m", ('spawn sh -c ' + quote('WID=$(xdo id); playerctl pause; xdo hide; mpv --force-window=immediate --save-position-on-quit URL; xdo show "$WID"')).replace('URL', '{url}'))
+config.bind(",m", ('spawn sh -c ' + quote('playerctl pause; mpv --force-window=immediate --save-position-on-quit URL')).replace('URL', '{url}'))
 
 # Theme
 # config.source(os.path.expanduser('~/.config/qutebrowser/nord-qutebrowser.py'))
