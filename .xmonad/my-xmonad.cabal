@@ -13,6 +13,8 @@ executable my-xmonad
                      , XMonad.Csillag.Layouts
                      , XMonad.Csillag.Scratchpads
                      , XMonad.Csillag.BibTeX
+                     , XMonad.Csillag.Externals
+                     , XMonad.Csillag.Commands
   build-depends:       base
                      , extra
                      , xmonad >= 0.13
