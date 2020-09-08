@@ -1,0 +1,64 @@
+#    ██                                  ▄▄▄▄▄▄     ▄▄▄▄
+#    ▀▀                             ██   ██▀▀▀▀██ ██▀▀▀▀█
+#  ████   ██▄████▄██▄███▄ ██    ███████████    ████▀
+#    ██   ██▀   ████▀  ▀████    ██  ██   ███████ ██
+#    ██   ██    ████    ████    ██  ██   ██  ▀██▄██▄
+# ▄▄▄██▄▄▄██    █████▄▄██▀██▄▄▄███  ██▄▄▄██    ██ ██▄▄▄▄█
+# ▀▀▀▀▀▀▀▀▀▀    ▀▀██ ▀▀▀   ▀▀▀▀ ▀▀   ▀▀▀▀▀▀    ▀▀▀  ▀▀▀▀
+#
+# @what My configurations for Readline.
+# @author Daniel Csillag (aka. dccsillag)
+
+set editing-mode vi
+# Make it so I can see the vi mode I'm currently in
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[1;39m\2ins\1\e[0m\2:"
+set vi-cmd-mode-string "\1\e[1;90m\2cmd\1\e[0m\2:"
+# Remove delay when switching to normal (command) mode
+set keyseq-timeout 20
+
+set keymap vi-command
+# For normal mode
+
+# Enable Ctrl-L for clearing the screen
+Control-l: clear-screen
+
+# Make history searching (up-arrow and down-arrow) better by enabling partial insertion and then search
+# (probably does nothing)
+"\e\e[A": history-search-backward
+"\e\e[B": history-search-forward
+
+# Make autocomplete better
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+
+# Make history searching (up-arrow and down-arrow) better by enabling partial insertion and then search
+# Vim style history search
+# (actually does something)
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+k: history-search-backward
+j: history-search-forward
+
+set keymap vi-insert
+# For Insert mode now
+
+# Enable Ctrl-L for clearing the screen
+Control-l: clear-screen
+
+# Make autocomplete better
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+
+# Make history searching (up-arrow and down-arrow) better by enabling partial insertion and then search
+# (also probably does nothing)
+"\e\e[A": history-search-backward
+"\e\e[B": history-search-forward
+
+# Make history searching (up-arrow and down-arrow) better by enabling partial insertion and then search
+# Vim style history search
+# (actually does something)
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\e[C": forward-char
+"\e[D": backward-char
