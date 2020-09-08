@@ -16,7 +16,7 @@ then
     echo "  (if not already installed) and used as the package manager to install packages."
     echo
     PS3="Press ENTER to continue, Ctrl+C to abort. "
-    read
+    read tmp
 
     # Install Miniconda
     if ! which conda
