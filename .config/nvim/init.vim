@@ -683,6 +683,9 @@ Plug 'alvan/vim-closetag'
 " plantuml-syntax (for PlantUML syntax support)
 Plug 'aklt/plantuml-syntax'
 
+" rust.vim (for better Rust syntax support)
+Plug 'rust-lang/rust.vim'
+
 call plug#end() "}}}
 "}}}
 "}}}
