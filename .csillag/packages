@@ -91,7 +91,6 @@ util        entr                          _                      entr           
 util        fzf                           _                      fzf                               fzf
 core        exa                           _                      exa                               exa
 core        unzip                         _                      unzip                             unzip
-core        tmux                          tmux                   tmux                              tmux
 de          zenity                        _                      zenity                            _
 #           System                        Monitor
 core        htop                          _                      htop                              htop
