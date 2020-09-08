@@ -13,13 +13,16 @@ then
 elif [ -z "$DISTRONAME" ]
 then
     echo "This script has not been run as root. By continuing, miniconda will be installed"
-    echo "  and used as the package manager to install packages."
+    echo "  (if not already installed) and used as the package manager to install packages."
     echo
     PS3="Press ENTER to continue, Ctrl+C to abort. "
     read -r
 
     # Install Miniconda
-    curl "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" | sh
+    if ! which conda
+    then
+        curl "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" | sh
+    fi
 
     # Run this script in a shell which Miniconda supports
     export DISTRONAME=conda-forge
@@ -50,6 +53,15 @@ then
 fi
 
 PACKAGES=$(tail -n +$((STARTLINENUM+1)) "$PACKAGEFILE" | grep -v '^#' | sed 's/ \+/\t/g' | cut -f "$DISTRONUM" | grep -v _)
+
+# Apply filters
+if [ -n "$1" ]
+then
+    PACKAGES=$(echo $(PACKAGES) | grep "^$1 ")
+fi
+
+# Remove duplicate packages
+PACKAGES=$(echo $(PACKAGES) | uniq)
 
 echo "Your distro is: $DISTRONAME"
 
