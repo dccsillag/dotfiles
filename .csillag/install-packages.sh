@@ -22,22 +22,22 @@ then
     if ! which conda
     then
         curl "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" | sh
-    fi
 
-    # Run this script in a shell which Miniconda supports
-    export DISTRONAME=conda-forge
-    if which bash
-    then
-        bash "$(realpath "$0")"
-    elif which zsh
-    then
-        zsh "$(realpath "$0")"
-    else
-        echo "No shell that is supported was found!"
-        echo "Please install bash or zsh."
-        exit 1
+        # Run this script in a shell which Miniconda supports
+        export DISTRONAME=conda-forge
+        if which bash
+        then
+            bash "$(realpath "$0")"
+        elif which zsh
+        then
+            zsh "$(realpath "$0")"
+        else
+            echo "No shell that is supported was found!"
+            echo "Please install bash or zsh."
+            exit 1
+        fi
+        exit 0
     fi
-    exit 0
 fi
 
 STARTLINENUM=$(grep -m 1 -n '^-' "$PACKAGEFILE" | sed 's/^\([0-9]\+\):.\+$/\1/')
