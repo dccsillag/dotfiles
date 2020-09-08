@@ -16,7 +16,7 @@ then
     echo "  (if not already installed) and used as the package manager to install packages."
     echo
     PS3="Press ENTER to continue, Ctrl+C to abort. "
-    read tmp
+    read -r tmp
 
     # Install Miniconda
     if ! which conda
@@ -57,11 +57,11 @@ PACKAGES=$(tail -n +$((STARTLINENUM+1)) "$PACKAGEFILE" | grep -v '^#' | sed 's/ 
 # Apply filters
 if [ -n "$1" ]
 then
-    PACKAGES=$(echo $(PACKAGES) | grep "^$1 ")
+    PACKAGES=$(echo $PACKAGES | grep "^$1 ")
 fi
 
 # Remove duplicate packages
-PACKAGES=$(echo $(PACKAGES) | uniq)
+PACKAGES=$(echo $PACKAGES | uniq)
 
 echo "Your distro is: $DISTRONAME"
 
