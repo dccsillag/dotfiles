@@ -29,7 +29,8 @@ import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Spacing
 
 import XMonad.Prompt ( )
-import XMonad.Prompt.Shell
+-- import XMonad.Prompt.Shell
+import XMonad.Prompt.Zsh
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
 import XMonad.Prompt.XMonad
@@ -188,7 +189,8 @@ myKeys config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_n
                                  , keybinding_humankey    = [AlphaKey 'n']
-                                 , keybinding_action      = shellPrompt csillagPromptConfig
+                                 -- , keybinding_action      = shellPrompt csillagPromptConfig
+                                 , keybinding_action      = zshPrompt csillagPromptConfig "/home/daniel/.local/scripts/capture.zsh"
                                  }
                     , KeyBinding { keybinding_description = "Launch a terminal"
                                  , keybinding_mask        = 0
