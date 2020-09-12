@@ -1,0 +1,4 @@
+.sw*
+*.sw*
+tags
+.lvimrc
