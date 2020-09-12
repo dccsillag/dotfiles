@@ -105,7 +105,7 @@ let g:wordmotion_spaces = ''
 Plug 'embear/vim-localvimrc' " (for using local [e.g. project-specific] vimrcs) {{{
 
 let g:localvimrc_persistent = 1
-let g:localvimrc_persistence_file = "/home/daniel/.local/misc/localvimrc_persistent"
+let g:localvimrc_persistence_file = expand("~/.local/misc/localvimrc_persistent")
 
 "}}}
 Plug 'vim-scripts/let-modeline.vim' " (have a specific modeline for configuring plugins)
