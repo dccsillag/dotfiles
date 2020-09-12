@@ -646,7 +646,6 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap <Leader>cr <Plug>(coc-rename)
 nnoremap <silent><nowait> <Leader>cl :<C-u>CocList diagnostics<CR>
 nnoremap <silent><nowait> <Leader>co :<C-u>CocList outline<CR>
-" TODO - text objects (in CoC README)
 
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
