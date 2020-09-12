@@ -163,7 +163,6 @@ let g:coc_global_extensions = [
             \ "coc-python",
             \ "coc-vimlsp",
             \ "coc-sh",
-            \ "coc-markdownlint",
             \ "coc-lsp-wl",
             \ "coc-html",
             \ "coc-tsserver"
