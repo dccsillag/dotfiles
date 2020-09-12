@@ -763,8 +763,8 @@ set noshowmode " don't show the current mode below the statusbar
 
 "" Use FISH as the shell
 " set shell=/usr/bin/fish
-" set shell=/bin/dash
-set shell=/bin/zsh
+set shell=/bin/dash
+" set shell=/bin/zsh
 
 "" Setup line wrap
 set wrap          " wrap lines
