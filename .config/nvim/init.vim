@@ -623,7 +623,9 @@ let g:calendar_frame = "unicode"
 
 let g:calendar_google_calendar = 1
 let g:calendar_google_task     = 1
-source ~/.cache/calendar.vim/credentials.vim
+if filereadable("~/.cache/calendar.vim/credentials.vim")
+    source ~/.cache/calendar.vim/credentials.vim
+endif
 
 "}}}
 
