@@ -127,15 +127,9 @@ Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
 Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
 Plug 'puremourning/vimspector' " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
-Plug 'jpalardy/vim-slime' " (send commands to a terminal) {{{
+Plug 'kassio/neoterm' " (proper slime for NeoVim) {{{
 
-let g:slime_target = "neovim"
-let g:slime_vimterminal_config = {
-\   "term_finish": "close"
-\ }
-let g:slime_no_mappings = 1
-
-" let g:slime_python_ipython = 1
+let g:neoterm_default_mod = "botright"
 
 "}}}
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " (LSP -- Diagnostics) {{{
@@ -666,11 +660,10 @@ nmap ]c <Plug>(GitGutterNextHunk)
 nmap <Leader>r <Plug>(RunIt)
 nmap <Leader>R <Plug>(ReplIt)
 
-" Slime mappings
-xmap <Return><Return> <Plug>SlimeRegionSend
-nmap <Return><Return> <Plug>SlimeParagraphSend
-nmap <Return>c <Plug>SlimeConfig
-nmap <Return> <Plug>SlimeMotionSend
+" NeoTerm mappings
+vmap <Return><Return> :TREPLSendSelection<CR>
+nmap <Return><Return> <Plug>(neoterm-repl-send)ip
+nmap <Return> <Plug>(neoterm-repl-send)
 
 " Magma keybindings
 " map <Return> <Plug>MagmaEvaluateN
