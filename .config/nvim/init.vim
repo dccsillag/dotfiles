@@ -9,15 +9,6 @@
 
 " Plugins
 "{{{
-" Check if vim-plug is installed. If it isn't, than install it (XXX: only
-"    works on linux):
-" if empty(glob('~/.vim/autoload/plug.vim'))
-"     echom "Installing vim-plug..."
-"     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-"                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"     autocmd VimEnter * PlugInstall
-" endif
-
 " A function to plug my own plugins, which if available should be used from
 " the local machine.
 function s:PlugOwn(plugin_name) "{{{
@@ -27,8 +18,6 @@ function s:PlugOwn(plugin_name) "{{{
         execute "Plug 'dccsillag/" . a:plugin_name . "'"
     endif
 endfunction "}}}
-
-"{{{
 
 " netrw (configure NetRW, mainly the file tree)
 let g:netrw_liststyle=3 " {{{}}}
@@ -43,17 +32,156 @@ let hs_allow_hash_operator         = 1
 let g:haskell_classic_highlighting = 1 "}}}
 
 
-if has("nvim") "{{{
+if has("nvim")
     call plug#begin(stdpath('data') . '/plugged')
 else
     call plug#begin('~/.vim/plugged')
 endif
 
-" My colorscheme
-call s:PlugOwn('csillag-color') " {{{}}}
+" Interface {{{
+Plug 'itchyny/lightline.vim' " (a nice statusline) {{{
 
-" Coc (LSP)
-Plug 'neoclide/coc.nvim', {'branch': 'release'} "{{{
+function! GitSummaryStr()
+    let [a,m,r] = GitGutterGetHunkSummary()
+    if a == 0 && m == 0 && r == 0
+        return FugitiveHead() . ""
+    else
+        return FugitiveHead() . "'"
+    endif
+    " return printf("+%d ~%d -%d", a, m, r)
+endfunction
+
+let g:lightline = {
+            \ 'active': {
+            \     'left': [ [ 'mode', 'paste' ],
+            \               [ 'git' ],
+            \               [ 'filename',
+            \                 'readonly',
+            \                 'modified',
+            \               ]
+            \             ],
+            \     'right': [ [ 'lineinfo' ],
+            \                [ 'percent' ],
+            \                [ 'filetype' ],
+            \                [ 'fileformat', 'fileencoding' ]
+            \              ]
+            \     },
+            \ 'component_function': {
+            \   'git': 'GitSummaryStr'
+            \ }
+            \ }
+
+"}}}
+Plug 'junegunn/fzf' " (fuzzy finder) {{{
+
+augroup fzfcsillag
+    autocmd!
+    autocmd FileType fzf set laststatus=0
+                \| autocmd BufLeave <buffer> set laststatus=2
+augroup END
+
+"}}}
+Plug 'junegunn/fzf.vim' " ('official' fzf addons) {{{
+
+nnoremap <Leader>e  :Files<CR>
+nnoremap <Leader>t  :BTags<CR>
+nnoremap <Leader>T  :Tags<CR>
+nnoremap <Leader>b  :Buffers<CR>
+nnoremap <Leader>ge :GFiles<CR>
+nnoremap <Leader>gc :Commits<CR>
+nnoremap <Leader>gC :BCommits<CR>
+nnoremap <Leader>H  :Helptags<CR>
+nnoremap <Leader>F  :Filetypes<CR>
+
+"}}}
+Plug 'Konfekt/FastFold' " (to accelerate folding with `expr`)
+Plug 'machakann/vim-highlightedyank' " (for briefly highlighting yanked regions)
+Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
+
+let g:beacon_enable = 0
+let g:beacon_ignore_filetypes = ['fzf']
+
+nnoremap <silent> n n:Beacon<CR>
+nnoremap <silent> N N:Beacon<CR>
+nnoremap <silent> * *:Beacon<CR>
+nnoremap <silent> # #:Beacon<CR>
+
+"}}}
+Plug 'airblade/vim-gitgutter' " (show git diff in the gutter) {{{
+
+let g:gitgutter_map_keys = 0
+
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+
+"}}}
+Plug 'junegunn/limelight.vim' " (a spotlight for code, good for presenting bit-by-bit) {{{
+
+let g:limelight_conceal_ctermfg = 242
+let g:limelight_conceal_guifg   = '#606060'
+
+"}}}
+Plug 'junegunn/goyo.vim' " (make things pretty, for more elegant presentations)
+"}}}
+
+" Behaviour {{{
+Plug 'tpope/vim-repeat' " (better . command)
+Plug 'chaoren/vim-wordmotion' " (improve the `w` key and similar) {{{
+
+let g:wordmotion_spaces = ''
+
+"}}}
+Plug 'embear/vim-localvimrc' " (for using local [e.g. project-specific] vimrcs) {{{
+
+let g:localvimrc_persistent = 1
+let g:localvimrc_persistence_file = "/home/daniel/.local/misc/localvimrc_persistent"
+
+"}}}
+Plug 'vim-scripts/let-modeline.vim' " (have a specific modeline for configuring plugins)
+Plug 'lambdalisue/suda.vim' " (for editting files which require root permission) {{{
+
+let g:suda_smart_edit = 1
+
+"}}}
+Plug 'tpope/vim-vinegar' " (improve NetRW)
+Plug 'KabbAmine/vCoolor.vim' " (color selector) {{{
+
+let g:vcoolor_disable_mappings = 1
+" let g:vcoolor_map              = '<Leader>cc'
+
+nnoremap <Leader>crgb :VCoolIns r<CR>
+nnoremap <Leader>chsl :VCoolIns h<CR>
+nnoremap <Leader>chex :VCoolor<CR>
+
+"}}}
+"}}}
+
+" Peripherals {{{
+Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
+Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
+Plug 'puremourning/vimspector' " (for debugging)
+call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease) {{{
+
+nmap <Leader>r <Plug>(RunIt)
+nmap <Leader>R <Plug>(ReplIt)
+
+"}}}
+Plug 'jpalardy/vim-slime' " (send commands to a terminal) {{{
+
+let g:slime_target = "neovim"
+let g:slime_vimterminal_config = {
+\   "term_finish": "close"
+\ }
+let g:slime_no_mappings = 1
+
+" let g:slime_python_ipython = 1
+
+xmap <Leader><Leader><Leader> <Plug>SlimeRegionSend
+nmap <Leader><Leader><Leader> <Plug>SlimeParagraphSend
+nmap <Leader><Leader>m <Plug>SlimeMotionSend
+
+"}}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " (LSP -- Diagnostics) {{{
 
 " Use Tab for completion
 function! s:check_back_space() abort
@@ -103,114 +231,19 @@ let g:coc_global_extensions = [
             \ ]
 
 "}}}
-
-" vim-shellcheck (for running shellcheck from Vim, without using ALE)
-Plug 'itspriddle/vim-shellcheck' "{{{
+Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE) {{{
 
 nnoremap <Leader>a :ShellCheck!<CR>
 
 " }}}
+call s:PlugOwn('magma.nvim') " (Jupyter client) {{{
 
-" asyncrun.vim (??? required by another plugin, don't remember which)
-Plug 'skywind3000/asyncrun.vim' "{{{}}}
-
-" auto-pairs-gentle (automatically close parentheses and much more)
-Plug 'vim-scripts/auto-pairs-gentle' "{{{
-Plug 'jiangmiao/auto-pairs'
-
-let g:AutoPairsUseInsertedCount = 1
+" map <Return> <Plug>MagmaEvaluateN
+" vmap <Return> <Plug>MagmaEvaluateV
 
 " }}}
-
-" coconut.vim (language support for Coconut)
-Plug 'manicmaniac/coconut.vim' "{{{}}}
-
-" fzf (fuzzy finder)
-Plug 'junegunn/fzf' "{{{
-
-augroup fzfcsillag
-    autocmd!
-    autocmd FileType fzf set laststatus=0
-                \| autocmd BufLeave <buffer> set laststatus=2
-augroup END
-
-"}}}
-
-" fzf.vim ("official" fzf addons)
-Plug 'junegunn/fzf.vim' "{{{
-
-nnoremap <Leader>e  :Files<CR>
-nnoremap <Leader>t  :BTags<CR>
-nnoremap <Leader>T  :Tags<CR>
-nnoremap <Leader>b  :Buffers<CR>
-nnoremap <Leader>ge :GFiles<CR>
-nnoremap <Leader>gc :Commits<CR>
-nnoremap <Leader>gC :BCommits<CR>
-nnoremap <Leader>H  :Helptags<CR>
-nnoremap <Leader>F  :Filetypes<CR>
-
-"}}}
-
-" dart-vim-plugin (language support for Dart)
-Plug 'dart-lang/dart-vim-plugin' "{{{}}}
-
-" let-modeline.vim (have a specific modeline for configuring plugins)
-Plug 'vim-scripts/let-modeline.vim' "{{{}}}
-
-" limelight.vim (a spotlight for code, good for presenting bit-by-bit)
-Plug 'junegunn/limelight.vim' "{{{
-
-let g:limelight_conceal_ctermfg = 242
-let g:limelight_conceal_guifg   = '#606060'
-
-"}}}
-
-" goyo.vim (make things pretty, useful for when I'm more tired or for more
-"           elegant presentations)
-Plug 'junegunn/goyo.vim' "{{{}}}
-
-" onedark.vim (OneDark colorscheme from Atom)
-Plug 'joshdick/onedark.vim' "{{{}}}
-
-" targets.vim (better text objects)
-Plug 'wellle/targets.vim' "{{{}}}
-
-" vCoolor.vim (color selector)
-Plug 'KabbAmine/vCoolor.vim' "{{{
-
-let g:vcoolor_disable_mappings = 1
-" let g:vcoolor_map              = '<Leader>cc'
-
-nnoremap <Leader>crgb :VCoolIns r<CR>
-nnoremap <Leader>chsl :VCoolIns h<CR>
-nnoremap <Leader>chex :VCoolor<CR>
-
-"}}}
-
-" tcomment_vim (comment/uncomment code)
-Plug 'tomtom/tcomment_vim'
-
-" vim-cpp-modern (better C++ syntax highlight)
-Plug 'bfrg/vim-cpp-modern' "{{{
-
-let g:cpp_no_function_highlight        = 0
-let g:cpp_named_requirements_highlight = 1
-
-"}}}
-
-" vim-dg (language support for DogeLang [lol])
-Plug 'rubik/vim-dg' "{{{}}}
-
-" vim-easy-align (align code)
-Plug 'junegunn/vim-easy-align' "{{{
-
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-"}}}
-
-" vim-fugitive (git wrapper)
-Plug 'tpope/vim-fugitive' "{{{
+Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
+Plug 'tpope/vim-fugitive' " (use git from vim) {{{
 
 nnoremap <Leader>G :G<CR>
 
@@ -222,198 +255,66 @@ augroup fugitivecustom
 augroup END
 
 "}}}
-
-" vim-gitgutter (show git diff in the gutter)
-Plug 'airblade/vim-gitgutter' "{{{
-
-let g:gitgutter_map_keys = 0
-
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
-
-"}}}
-
-" vim-glsl (language support for GLSL)
-Plug 'tikhomirov/vim-glsl' "{{{}}}
-
-" vim-jsx-pretty (language support for JSX)
-Plug 'MaxMEllon/vim-jsx-pretty' "{{{}}}
-
-" vim-pandoc (lots of tools for Pandoc)
-Plug 'vim-pandoc/vim-pandoc' "{{{
-
-let g:pandoc#modules#enabled = [
-            \ "formatting",
-            \ "folding",
-            \ "yaml",
-            \ "toc",
-            \ "spell",
-            \ "hypertext"
-            \ ]
-
-"}}}
-
-" vim-pandoc-syntax (language support for Pandoc Markdown)
-Plug 'vim-pandoc/vim-pandoc-syntax' "{{{
-
-let g:pandoc#syntax#protect#codeblocks = 0
-
-"}}}
-
-" vim-racket (language support for Racket)
-Plug 'wlangstroth/vim-racket' "{{{
-
-set lispwords-=if
-
-" }}}
-
-" vim-repeat (better . command)
-Plug 'tpope/vim-repeat' "{{{}}}
-
-" vim-slime (send commands to a terminal)
-Plug 'jpalardy/vim-slime' "{{{
-
-let g:slime_target = "neovim"
-let g:slime_vimterminal_config = {
-\   "term_finish": "close"
-\ }
-let g:slime_no_mappings = 1
-
-" let g:slime_python_ipython = 1
-
-xmap <Leader><Leader><Leader> <Plug>SlimeRegionSend
-nmap <Leader><Leader><Leader> <Plug>SlimeParagraphSend
-nmap <Leader><Leader>m <Plug>SlimeMotionSend
-
-"}}}
-
-" vim-surround (surround text with stuff [parenteses, brackets, and much more])
-Plug 'tpope/vim-surround' "{{{}}}
-
-" vim-vinegar (improve NetRW)
-Plug 'tpope/vim-vinegar' "{{{}}}
-
-" vim-wordmotion (improve the `w` key and similar)
-Plug 'chaoren/vim-wordmotion' "{{{
-
-let g:wordmotion_spaces = ''
-
-"}}}
-
-" wolfram-vim (language support for Wolfram Language)
-Plug 'arnoudbuzing/wolfram-vim' "{{{
-
-" Setup wolfram.vim (WL syntax highlight)
-autocmd BufNewFile,BufRead *.wl set ft=wl
-autocmd BufNewFile,BufRead *.wls set ft=wl
-
-"}}}
-
-" yaml-vim (better language support for YAML)
-Plug 'mrk21/yaml-vim' "{{{}}}
-
-" vim-indent-object (text object for indented text)
-Plug 'michaeljsmith/vim-indent-object' "{{{}}}
-
-" vim-textobj-user (framework for creating text objects [used by other plugins])
-Plug 'kana/vim-textobj-user' "{{{}}}
-
-" vim-textobj-entire (text object for the entire buffer)
-Plug 'kana/vim-textobj-entire' "{{{}}}
-
-" vim-textobj-fold (text object for a fold)
-Plug 'kana/vim-textobj-fold' "{{{}}}
-
-" vim-textobj-syntax (text object for text in the same highlight group)
-Plug 'kana/vim-textobj-syntax' "{{{}}}
-
-" vim-eunuch (for adding nice commands for shell commands)
-Plug 'tpope/vim-eunuch' "{{{}}}
-
-" vim-python-pep8-indent (indent according to PEP8)
-Plug 'Vimjas/vim-python-pep8-indent' "{{{}}}
-
-" vim-haskell-indent (proper autoindent for Haskell)
-Plug 'itchyny/vim-haskell-indent' "{{{
-" consider using axelf4/vim-haskell? }}}
-
-" vim-coiled-snake (automatic folding for Python)
-Plug 'kalekundert/vim-coiled-snake' "{{{}}}
-
-" FastFold (to accelerate folding with `expr`)
-Plug 'Konfekt/FastFold' "{{{}}}
-
-" vim-localvimrc (for using local [e.g. project-specific] vimrcs)
-Plug 'embear/vim-localvimrc' "{{{
-
-let g:localvimrc_persistent = 1
-let g:localvimrc_persistence_file = "/home/daniel/.local/misc/localvimrc_persistent"
-
-"}}}
-
-" magma.nvim (Magma [see magma.vim above] reimplementation for NeoVim)
-call s:PlugOwn('magma.nvim') " {{{
-
-" map <Return> <Plug>MagmaEvaluateN
-" vmap <Return> <Plug>MagmaEvaluateV
-
-" }}}
-
-" lightline.vim (a nice statusline)
-Plug 'itchyny/lightline.vim' "{{{
-
-function! GitSummaryStr()
-    let [a,m,r] = GitGutterGetHunkSummary()
-    if a == 0 && m == 0 && r == 0
-        return FugitiveHead() . ""
-    else
-        return FugitiveHead() . "'"
-    endif
-    " return printf("+%d ~%d -%d", a, m, r)
-endfunction
-
-let g:lightline = {
-            \ 'active': {
-            \     'left': [ [ 'mode', 'paste' ],
-            \               [ 'git' ],
-            \               [ 'filename',
-            \                 'readonly',
-            \                 'modified',
-            \               ]
-            \             ],
-            \     'right': [ [ 'lineinfo' ],
-            \                [ 'percent' ],
-            \                [ 'filetype' ],
-            \                [ 'fileformat', 'fileencoding' ]
-            \              ]
-            \     },
-            \ 'component_function': {
-            \   'git': 'GitSummaryStr'
-            \ }
-            \ }
-
-"}}}
-
-" suda.vim (for editting files which require root permission)
-Plug 'lambdalisue/suda.vim' "{{{
-
-let g:suda_smart_edit = 1
-
-"}}}
-
-" vimtex (for editing LaTeX sanely)
-Plug 'lervag/vimtex' "{{{
+Plug 'lervag/vimtex' " (for editing LaTeX sanely) {{{
 
 let g:tex_flavor = 'latex'
 let g:vimtex_fold_enabled = v:true
 
 "}}}
+"}}}
 
-" vim-gutentags (for automatically running ctags when necessary)
-Plug 'ludovicchabant/vim-gutentags' "{{{}}}
+" Color Schemes {{{
+call s:PlugOwn('csillag-color') " (my colorscheme)
+Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
+"}}}
 
-" python-syntax (for better Python syntax highlight)
-Plug 'vim-python/python-syntax' " {{{
+" Editing Help {{{
+Plug 'tpope/vim-surround' " (surround text with stuff [parenteses, brackets, and much more])
+Plug 'tomtom/tcomment_vim' " (comment/uncomment code)
+Plug 'vim-scripts/auto-pairs-gentle' " (automatically close parentheses and much more) {{{
+" Plug 'jiangmiao/auto-pairs'
+
+let g:AutoPairsUseInsertedCount = 1
+
+" }}}
+Plug 'alvan/vim-closetag' " (for automatically closing HTML tags)
+Plug 'dkarter/bullets.vim' " (for automatic bullet lists) {{{
+
+let g:bullets_enabled_file_types = [
+            \ 'markdown',
+            \ 'pandoc',
+            \ 'gitcommit',
+            \ 'toq',
+            \ 'text',
+            \ ]
+
+let g:bullets_renumber_on_change = 0
+let g:bullets_enable_in_empty_buffers = 0
+let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
+
+"}}}
+Plug 'junegunn/vim-easy-align' " (align code) {{{
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+"}}}
+Plug 'dhruvasagar/vim-table-mode' " (for painlessly editing tables) {{{
+" TODO: change default mappings
+"}}}
+"}}}
+
+" Language Support {{{
+Plug 'wellle/targets.vim' " (better text objects)
+Plug 'michaeljsmith/vim-indent-object' " (text object for indented text)
+Plug 'kana/vim-textobj-entire' " (text object for the entire buffer)
+Plug 'kana/vim-textobj-fold' " (text object for a fold)
+Plug 'kana/vim-textobj-syntax' " (text object for text in the same highlight group)
+Plug 'kana/vim-textobj-user' " (framework for creating text objects [used by other plugins])
+"}}}
+
+" Language Support {{{
+Plug 'vim-python/python-syntax' " (for better Python syntax highlight) {{{
 
 let g:python_version_2                          = 0
 let g:python_highlight_builtins                 = 1
@@ -434,15 +335,66 @@ let g:python_highlight_operators                = 1
 let g:python_highlight_file_headers_as_comments = 1
 
 " }}}
+Plug 'Vimjas/vim-python-pep8-indent' " (indent according to PEP8)
+Plug 'kalekundert/vim-coiled-snake' " (automatic folding for Python)
+Plug 'rubik/vim-dg' " (language support for DogeLang [aka. dg])
+Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
+Plug 'bfrg/vim-cpp-modern' " (better C++ syntax highlight) {{{
 
-" vim-toml (for TOML syntax highlight)
-Plug 'cespare/vim-toml' "{{{}}}
+let g:cpp_no_function_highlight        = 0
+let g:cpp_named_requirements_highlight = 1
 
-" vimspector (for debugging)
-Plug 'puremourning/vimspector' "{{{}}}
+"}}}
+Plug 'rust-lang/rust.vim' " (for better Rust syntax support)
+Plug 'itchyny/vim-haskell-indent' " (proper autoindent for Haskell)
+" XXX: Consider using axelf4/vim-haskell?
+Plug 'vim-pandoc/vim-pandoc-syntax' " (language support for Pandoc Markdown) {{{
 
-" calendar.vim (for a way too fancy calendar)
-Plug 'itchyny/calendar.vim' "{{{
+let g:pandoc#syntax#protect#codeblocks = 0
+
+"}}}
+Plug 'vim-pandoc/vim-pandoc' " (lots of tools for Pandoc) {{{
+
+let g:pandoc#modules#enabled = [
+            \ "formatting",
+            \ "folding",
+            \ "yaml",
+            \ "toc",
+            \ "spell",
+            \ "hypertext"
+            \ ]
+
+"}}}
+Plug 'mrk21/yaml-vim' " (better language support for YAML)
+Plug 'cespare/vim-toml' " (for TOML syntax highlight)
+call s:PlugOwn('toq.vim') " (for my todo management) {{{
+
+augroup toq
+    autocmd!
+    autocmd FileType toq setl sw=2
+augroup END
+
+"}}}
+Plug 'MaxMEllon/vim-jsx-pretty' " (language support for JSX)
+Plug 'dart-lang/dart-vim-plugin' " (language support for Dart)
+Plug 'tikhomirov/vim-glsl' " (language support for GLSL)
+Plug 'aklt/plantuml-syntax' " (for PlantUML syntax support)
+Plug 'arnoudbuzing/wolfram-vim' " (language support for Wolfram Language) {{{
+
+" Setup wolfram.vim (WL syntax highlight)
+autocmd BufNewFile,BufRead *.wl set ft=wl
+autocmd BufNewFile,BufRead *.wls set ft=wl
+
+"}}}
+Plug 'wlangstroth/vim-racket' " (language support for Racket) {{{
+
+set lispwords-=if
+
+" }}}
+"}}}
+
+" Bloat {{{
+Plug 'itchyny/calendar.vim' " (for a way too fancy calendar) {{{
 
 let g:calendar_date_endian = "little"
 let g:calendar_date_separator = "/"
@@ -456,74 +408,10 @@ if filereadable("~/.cache/calendar.vim/credentials.vim")
 endif
 
 "}}}
-
-" vim-table-mode (for painlessly editing tables)
-Plug 'dhruvasagar/vim-table-mode' "{{{
-" TODO: change default mappings
 "}}}
 
-" vim-highlightedyank (for briefly highlighting yanked regions)
-Plug 'machakann/vim-highlightedyank' "{{{}}}
+call plug#end()
 
-" beacon.nvim (show large cursor jumps)
-Plug 'danilamihailov/beacon.nvim' "{{{
-
-let g:beacon_enable = 0
-let g:beacon_ignore_filetypes = ['fzf']
-
-nnoremap <silent> n n:Beacon<CR>
-nnoremap <silent> N N:Beacon<CR>
-nnoremap <silent> * *:Beacon<CR>
-nnoremap <silent> # #:Beacon<CR>
-
-"}}}
-
-" vim-runit (for playing around with the code in your buffer with ease)
-call s:PlugOwn('vim-runit') "{{{
-
-nmap <Leader>r <Plug>(RunIt)
-nmap <Leader>R <Plug>(ReplIt)
-
-"}}}
-
-" bullets.vim (for automatic bullet lists in markdown)
-Plug 'dkarter/bullets.vim' "{{{
-
-let g:bullets_enabled_file_types = [
-            \ 'markdown',
-            \ 'pandoc',
-            \ 'gitcommit',
-            \ 'toq',
-            \ 'text',
-            \ ]
-
-let g:bullets_renumber_on_change = 0
-let g:bullets_enable_in_empty_buffers = 0
-let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
-
-"}}}
-
-" toq.vim (for my todo management)
-call s:PlugOwn('toq.vim') "{{{
-
-augroup toq
-    autocmd!
-    autocmd FileType toq setl sw=2
-augroup END
-
-"}}}
-
-" vim-closetag (for automatically closing HTML tags)
-Plug 'alvan/vim-closetag' "{{{}}}
-
-" plantuml-syntax (for PlantUML syntax support)
-Plug 'aklt/plantuml-syntax' "{{{}}}
-
-" rust.vim (for better Rust syntax support)
-Plug 'rust-lang/rust.vim' "{{{}}}
-
-call plug#end() "}}}
-"}}}
 "}}}
 
 " If running in GVim {{{
