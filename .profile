@@ -42,3 +42,5 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_PLUG='p:preview-tabbed'
+
+test -f ~/.profile_local && . ~/.profile_local
