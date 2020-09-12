@@ -207,7 +207,10 @@ let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
 "}}}
 Plug 'junegunn/vim-easy-align' " (align code)
 Plug 'dhruvasagar/vim-table-mode' " (for painlessly editing tables) {{{
-" TODO: change default mappings
+
+let g:table_mode_map_prefix = "<Leader><Bar>"
+let g:table_mode_toggle_map = "<Bar>"
+
 "}}}
 "}}}
 
