@@ -526,8 +526,7 @@ call plug#end() "}}}
 "}}}
 "}}}
 
-" If running in GVim
-"{{{
+" If running in GVim {{{
 if has('gui_running') " If in GVim
     " Hide the noob tools (GVim)
     set guioptions-=m  " remove menubar
@@ -548,7 +547,7 @@ endif
 " {{{
 " Gently taken/adapted from https://vim.fandom.com/wiki/Change_font_size_quickly
 
-function! AdjustFontSize(amount)
+function! AdjustFontSize(amount) "{{{
     let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
     let s:minfontsize = 6
     let s:maxfontsize = 16
@@ -565,17 +564,17 @@ function! AdjustFontSize(amount)
     else
         echoerr "You need to run the GTK2 version of Vim to use this function."
     endif
-endfunction
+endfunction "}}}
 
-function! LargerFont()
+function! LargerFont() "{{{
     call AdjustFontSize(1)
 endfunction
-command! LargerFont call LargerFont()
+command! LargerFont call LargerFont() "}}}
 
-function! SmallerFont()
+function! SmallerFont() "{{{
     call AdjustFontSize(-1)
 endfunction
-command! SmallerFont call SmallerFont()
+command! SmallerFont call SmallerFont() "}}}
 
 nnoremap <LocalLeader>+ :LargerFont<CR>
 nnoremap <LocalLeader>- :SmallerFont<CR>
@@ -584,8 +583,7 @@ nnoremap <LocalLeader>- :SmallerFont<CR>
 "}}}
 "}}}
 
-" Lots of Vim options
-"{{{
+" Lots of Vim options {{{
 "" Enable the mouse
 set mouse=a " enable all features using the mouse
 
@@ -610,15 +608,9 @@ set startofline
 set ignorecase smartcase " if everything is lowercase, case insensitive.
                          "   Otherwise, it's case sensitive.
 
-"" Show line numbers
-" set number " show absolute line numbers
-
 "" Show the foldcolumn
 " set foldcolumn=1 " have only one column in the fold column
 set foldcolumn=auto:9 " automatically manage foldcolumn width (NeoVim only)
-
-"" Set the foldmethod
-" set foldmethod=manual " set folding to manual
 
 "" Use 4 spaces instead of tabs
 set expandtab     " expand tabs
@@ -655,9 +647,7 @@ set hidden " hide buffers when leaving them, instead of deleting them
 
 "" Remove options from views
 set viewoptions-=options " remove options local to a window/buffer from mkview views
-
-"" Open new buffers in a split instead of replacing the current one
-set switchbuf=split " split instead of replacing current window on new buffers
+set viewoptions-=curdir  " remove current directory from mkview views
 
 "" Highlight search results
 set hlsearch " highlight search results
@@ -679,16 +669,12 @@ set listchars=tab:\ \ ,trail:┈ " show tabs as spaces and highlight trailing wh
 "" Setup autocompletion in a way that is better
 set completeopt=          " clear autocompletion options
 set completeopt+=menu     " Show additional information in a popup menu
-" set completeopt+=noinsert " Don't insert text automatically
 
 "" Always keep 2 lines around the cursor
 set scrolloff=2 " keep 2 lines above & below the cursor at all times
 
 "" Save tabs in sessions
 set sessionoptions+=tabpages,globals " save tabpages and global vars in sessions
-
-"" Always show the tabline
-" set showtabline=2 " show tab line even if only with one tab open
 
 "" Accelerate Esc presses
 set ttimeout        " Enable timeout
@@ -699,96 +685,16 @@ set timeoutlen=3000 " Timeout for mappings
 set pumblend=25 " Pseudo-transparency for popup menus
 set winblend=25 " Pseudo-transparency for floating windows
 
+"" Enable truecolors
+set termguicolors " Use truecolor in a terminal
+
 "}}}
 
-" Setup the statusline
-"{{{
-set laststatus=2
-function! LinterStatus() abort "{{{
-    if g:ale_enabled == 1
-        let l:counts = ale#statusline#Count(bufnr(''))
-
-        let l:errors = l:counts.error
-        let l:style_errors = l:counts.style_error
-        let l:all_non_errors = l:counts.total - l:errors - l:style_errors
-
-        return l:counts.total == 0 ? 'OK' : printf(
-        \   '%dW %dS %dE',
-        \   all_non_errors,
-        \   style_errors,
-        \   errors
-        \)
-    else
-        return 'OFF'
-    end
-endfunction "}}}
-
-function! CheckFTExists() "{{{
-    if getbufvar(bufnr('%'), "current_syntax") == "" && &ft != ""
-        return "*"
-    else
-        return " "
-    end
-endfunction "}}}
-
-let g:do_clock = 0
-function! PossiblyClock() "{{{
-    if g:do_clock
-        return strftime('%H:%M:%S')
-    else
-        return ""
-    endif
-endfunction "}}}
-
-function! MagmaStatus() "{{{
-    return ""
-    let l:kernel_state = MagmaState()
-    if l:kernel_state == 0
-        return "[idle]"
-    elseif l:kernel_state == 1
-        return "[nonidle]"
-    elseif l:kernel_state == 2
-        return "[busy]"
-    elseif l:kernel_state == 3
-        return ""
-    elseif l:kernel_state == 4
-        return "[dead]"
-    endif
-endfunction "}}}
-
-" Configure the statusline
-set statusline=
-"set statusline+=\ %y
-set statusline+=\ %F
-set statusline+=\ %m
-set statusline+=\ %{fugitive#statusline()}
-set statusline+=%=
-set statusline+=%{MagmaStatus()}
-set statusline+=\ \ %{LinterStatus()}
-set statusline+=\ \ %{toupper(&ft)}
-set statusline+=%{CheckFTExists()}
-set statusline+=\ %{PossiblyClock()}
-set statusline+=\ \|
-set statusline+=\ %3p
-set statusline+=%%
-set statusline+=\ %5c
-set statusline+=\ %5l
-set statusline+=/
-set statusline+=%L
-" set statusline+=%5{GetTODOCount()}
-"}}}
-
-" augroup cursorChange
-"     autocmd!
-"     autocmd VimEnter * silent !echo -ne "\e[2 q"
-" augroup END
-
-" Apply the color scheme
-set termguicolors " use truecolor in a terminal
+"" Apply the color scheme
 colorscheme csillag
 
-" Make jk and more go display linewise, not file linewise
-"{{{
+" Make jk and more go display linewise, not file linewise {{{
+
 nnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
 vnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
 nnoremap <silent><expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
@@ -808,6 +714,7 @@ onoremap <silent> $ g$
 nnoremap <silent> _ g^
 vnoremap <silent> _ g^
 onoremap <silent> _ g^
+
 "}}}
 
 " Swap ' and `
@@ -818,7 +725,7 @@ nnoremap ` '
 nnoremap Y y$
 
 " Abbreviate :w to :up
-cabbrev w up
+cnoreabbrev w up
 
 " Unmap Q
 nnoremap Q <nop>
@@ -831,12 +738,10 @@ command! -nargs=1 BigText execute "read! figlet -f standard -S -k -t " . shelles
 
 " Neater folds
 function! NeatFoldText() "{{{
-    " let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
     let line = getline(v:foldstart) . '  '
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = '| ' . printf("(%d) %10s", v:foldlevel, lines_count . ' lines') . ' |'
     let foldchar = matchstr(&fillchars, 'fold:\zs.')
-    " let foldtextstart = strpart(' ' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
     let foldtextstart = strpart('' . line, 0, (winwidth(0)*2)/3)
     let foldtextend = lines_count_text . repeat(foldchar, 8)
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
@@ -869,21 +774,11 @@ augroup SHADA "{{{
                 \ if exists(':wshada') | wshada | endif
 augroup END "}}}
 
-" Set hotkeys for changing between Magma and Slime
-nnoremap <Leader><Leader>s :map <Leader><Leader><Leader> <Plug>SlimeParagraphSend<CR>
-nnoremap <Leader><Leader>m :nnoremap <Leader><Leader><Leader> :MagmaEvaluate<lt>CR><CR>
-
 " Set a hotkey for `:set spell!`
 nnoremap <Leader>S :set spell!<CR>
 
 " Set a hotkey for `:set spelllang=`
 nnoremap <Leader>s :set spelllang=
-
-" Set a hotkey for `gt` and `gT` (including in terminal mode!)
-" nnoremap <C-Tab>   gt
-" nnoremap <C-S-Tab> gT
-" tnoremap <C-Tab>   <C-w>gt
-" tnoremap <C-S-Tab> <C-w>gT
 
 " Set a hotkey for `:Beacon`
 nnoremap <Leader>; :Beacon<CR>
@@ -891,33 +786,19 @@ nnoremap <Leader>; :Beacon<CR>
 " Set a hotkey for `:nohl`
 nnoremap <Leader>. :nohl<CR>
 
-" Automatically redraw Vim if it is resized
-autocmd VimResized * redraw
-
-" " Automatically recompile Pandoc markdown
-" autocmd CursorHold *.md
-"             \ if exists(':Pandoc')
-"             \ |   Pandoc pdf
-"             \ | endif
-
-" autocmd BufWritePost *.md Make!
 autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
 autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
 autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
 
-autocmd FileType *.py setlocal fdm=expr
-autocmd FileType *.coco setlocal fdm=expr foldexpr=coiledsnake#FoldExpr(v:lnum)
-autocmd FileType *.rs setlocal fdm=syntax
-
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
-let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n')
+let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n') "{{{
 augroup dotfiles
     autocmd!
     for dotfile in s:dotfiles
         execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let b:git_dir="' . getenv('HOME') . '/.dotfiles.git"'
         execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let g:gitgutter_git_executable="config"'
     endfor
-augroup END
+augroup END "}}}
 
 "  VIM: let b:countTODOs_offset=-3
 "  vim: fdm=marker
