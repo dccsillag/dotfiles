@@ -83,6 +83,7 @@ fi
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 # SPACESHIP_PROMPT_ORDER=( user host dir git node exec_time line_sep jobs exit_code char )
 SPACESHIP_PROMPT_ORDER=(
+    user
     dir
     # conda
     git_branch
