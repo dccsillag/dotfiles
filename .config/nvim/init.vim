@@ -43,8 +43,11 @@ let hs_allow_hash_operator         = 1
 let g:haskell_classic_highlighting = 1 "}}}
 
 
-" call plug#begin('~/.vim/plugged') "{{{
-call plug#begin(stdpath('data') . '/plugged')
+if has("nvim")
+    call plug#begin(stdpath('data') . '/plugged')
+else
+    call plug#begin('~/.vim/plugged') "{{{
+endif
 
 " My colorscheme
 call s:PlugOwn('csillag-color')
