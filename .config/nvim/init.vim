@@ -7,6 +7,10 @@
 " @author Daniel Csillag (aka. dccsillag)
 " @what My NeoVim configuration.
 
+if filereadable(expand("~/.config/nvim/preinit.vim"))
+    source ~/.config/nvim/preinit.vim
+endif
+
 " Plugins {{{
 " A function to plug my own plugins, which if available should be used from
 " the local machine.
@@ -688,6 +692,10 @@ nnoremap <Leader>; :Beacon<CR>
 nnoremap <Leader>. :nohl<CR>
 
 " }}}
+
+if filereadable(expand("~/.config/nvim/posinit.vim"))
+    source ~/.config/nvim/posinit.vim
+endif
 
 "  VIM: let b:countTODOs_offset=-3
 "  vim: fdm=marker
