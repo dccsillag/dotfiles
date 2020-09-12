@@ -84,6 +84,7 @@ SPACESHIP_PROMPT_ADD_NEWLINE=false
 # SPACESHIP_PROMPT_ORDER=( user host dir git node exec_time line_sep jobs exit_code char )
 SPACESHIP_PROMPT_ORDER=(
     dir
+    # conda
     git_branch
     jobs
     char
@@ -261,6 +262,8 @@ zstyle ':completion:*' menu select
 
 # Enable comments
 setopt interactive_comments
+
+test -f ~/.zshrc_local && source ~/.zshrc_local
 
 # ---
 
