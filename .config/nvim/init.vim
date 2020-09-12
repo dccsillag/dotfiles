@@ -496,8 +496,7 @@ colorscheme csillag
 
 " Remappings {{{
 
-"" Make jk and more go display linewise, not file linewise {{{
-
+"" Make jk and more go display linewise, not file linewise 
 nnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
 vnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
 nnoremap <silent><expr> j v:count == 0 ? 'gj' : "\<Esc>".v:count.'j'
@@ -518,7 +517,6 @@ nnoremap <silent> _ g^
 vnoremap <silent> _ g^
 onoremap <silent> _ g^
 
-"}}}
 
 "" Swap ' and `
 nnoremap ' `
@@ -536,7 +534,7 @@ nnoremap Q <nop>
 "" Bind <C-w>n to go back to normal mode from terminal mode
 tnoremap <C-w>n <C-\><C-N>
 
-" Add Beacon to search jump commands
+"" Add Beacon to search jump commands
 nnoremap <silent> n n:Beacon<CR>
 nnoremap <silent> N N:Beacon<CR>
 nnoremap <silent> * *:Beacon<CR>
@@ -621,22 +619,14 @@ augroup END "}}}
 
 " Mappings {{{
 
-"" Add a mapping for `:set spell!`
+"" Spellcheck related
 nnoremap <Leader>S :set spell!<CR>
-
-"" Add a mapping for `:set spelllang=`
 nnoremap <Leader>s :set spelllang=
-
-"" Add a mapping for `:Beacon`
-nnoremap <Leader>; :Beacon<CR>
-
-"" Add a mapping for `:nohl`
-nnoremap <Leader>. :nohl<CR>
 
 " fzf.vim
 nnoremap <Leader>e  :Files<CR>
-nnoremap <Leader>t  :BTags<CR>
-nnoremap <Leader>T  :Tags<CR>
+nnoremap <Leader>T  :BTags<CR>
+nnoremap <Leader>t  :Tags<CR>
 nnoremap <Leader>b  :Buffers<CR>
 nnoremap <Leader>ge :GFiles<CR>
 nnoremap <Leader>gc :Commits<CR>
@@ -644,61 +634,62 @@ nnoremap <Leader>gC :BCommits<CR>
 nnoremap <Leader>H  :Helptags<CR>
 nnoremap <Leader>F  :Filetypes<CR>
 
+" CoC
+nmap <silent> [e <Plug>(coc-diagnostic-prev)
+nmap <silent> ]e <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gh <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <Leader>cr <Plug>(coc-rename)
+nnoremap <silent><nowait> <Leader>cl :<C-u>CocList diagnostics<CR>
+nnoremap <silent><nowait> <Leader>co :<C-u>CocList outline<CR>
+" TODO - text objects (in CoC README)
+
+" Run shellcheck on the current file
+nnoremap <Leader>cs :ShellCheck!<CR>
+
+" Fugitive
+nnoremap <Leader>G :G<CR>
+augroup FugitiveMappings
+    autocmd!
+    autocmd FileType fugitive nnoremap <buffer> zp :G pull<CR>
+    autocmd FileType fugitive nnoremap <buffer> zP :G push<CR>
+augroup END
+
 " Jump along git hunks
 nmap [c <Plug>(GitGutterPrevHunk)
 nmap ]c <Plug>(GitGutterNextHunk)
 
-" Insert colors (via color picker)
-nnoremap <Leader>crgb :VCoolIns r<CR>
-nnoremap <Leader>chsl :VCoolIns h<CR>
-nnoremap <Leader>chex :VCoolor<CR>
-
-" Run the current file
+" Runit
 nmap <Leader>r <Plug>(RunIt)
 nmap <Leader>R <Plug>(ReplIt)
 
 " Slime mappings
-xmap <Leader><Leader><Leader> <Plug>SlimeRegionSend
-nmap <Leader><Leader><Leader> <Plug>SlimeParagraphSend
-nmap <Leader><Leader>m <Plug>SlimeMotionSend
-
-" Use [e and ]e to navigate diagnostics
-nmap <silent> [e <Plug>(coc-diagnostic-prev)
-nmap <silent> ]e <Plug>(coc-diagnostic-next)
-" GoTo code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> grg <Plug>(coc-references)
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-" Symbol renaming
-nmap <Leader>n <Plug>(coc-rename)
-" TODO - text objects (in CoC README)
-" List stuff
-nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<CR>
-nnoremap <silent><nowait> <space>o :<C-u>CocList outline<CR>
-nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
-nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
-
-" Run shellcheck on the current file
-nnoremap <Leader>a :ShellCheck!<CR>
+xmap <Return><Return> <Plug>SlimeRegionSend
+nmap <Return><Return> <Plug>SlimeParagraphSend
+nmap <Return>c <Plug>SlimeConfig
+nmap <Return> <Plug>SlimeMotionSend
 
 " Magma keybindings
 " map <Return> <Plug>MagmaEvaluateN
 " vmap <Return> <Plug>MagmaEvaluateV
 
-" Open fugitive window
-nnoremap <Leader>G :G<CR>
-augroup FugitiveMappings
-    autocmd!
-    autocmd FileType fugitive nnoremap <buffer> <Leader>p :term cd %:p:h && git pull<CR>i
-    autocmd FileType fugitive nnoremap <buffer> <Leader>P :term cd %:p:h && git push<CR>i
-augroup END
+" Insert colors (via color picker)
+nnoremap <Leader>irgb :VCoolIns r<CR>
+nnoremap <Leader>ihsl :VCoolIns h<CR>
+nnoremap <Leader>ihex :VCoolor<CR>
 
 " EasyAlign mappings
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+"" Beacon
+nnoremap <Leader>; :Beacon<CR>
+
+"" :nohl
+nnoremap <Leader>. :nohl<CR>
 
 " }}}
 
