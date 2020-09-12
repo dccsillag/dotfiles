@@ -71,28 +71,8 @@ let g:lightline = {
             \ }
 
 "}}}
-Plug 'junegunn/fzf' " (fuzzy finder) {{{
-
-augroup fzfcsillag
-    autocmd!
-    autocmd FileType fzf set laststatus=0
-                \| autocmd BufLeave <buffer> set laststatus=2
-augroup END
-
-"}}}
-Plug 'junegunn/fzf.vim' " ('official' fzf addons) {{{
-
-nnoremap <Leader>e  :Files<CR>
-nnoremap <Leader>t  :BTags<CR>
-nnoremap <Leader>T  :Tags<CR>
-nnoremap <Leader>b  :Buffers<CR>
-nnoremap <Leader>ge :GFiles<CR>
-nnoremap <Leader>gc :Commits<CR>
-nnoremap <Leader>gC :BCommits<CR>
-nnoremap <Leader>H  :Helptags<CR>
-nnoremap <Leader>F  :Filetypes<CR>
-
-"}}}
+Plug 'junegunn/fzf' " (fuzzy finder)
+Plug 'junegunn/fzf.vim' " ('official' fzf addons) 
 Plug 'Konfekt/FastFold' " (to accelerate folding with `expr`)
 Plug 'machakann/vim-highlightedyank' " (for briefly highlighting yanked regions)
 Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
@@ -100,18 +80,10 @@ Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
 let g:beacon_enable = 0
 let g:beacon_ignore_filetypes = ['fzf']
 
-nnoremap <silent> n n:Beacon<CR>
-nnoremap <silent> N N:Beacon<CR>
-nnoremap <silent> * *:Beacon<CR>
-nnoremap <silent> # #:Beacon<CR>
-
 "}}}
 Plug 'airblade/vim-gitgutter' " (show git diff in the gutter) {{{
 
 let g:gitgutter_map_keys = 0
-
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
 
 "}}}
 Plug 'junegunn/limelight.vim' " (a spotlight for code, good for presenting bit-by-bit) {{{
@@ -146,11 +118,6 @@ Plug 'tpope/vim-vinegar' " (improve NetRW)
 Plug 'KabbAmine/vCoolor.vim' " (color selector) {{{
 
 let g:vcoolor_disable_mappings = 1
-" let g:vcoolor_map              = '<Leader>cc'
-
-nnoremap <Leader>crgb :VCoolIns r<CR>
-nnoremap <Leader>chsl :VCoolIns h<CR>
-nnoremap <Leader>chex :VCoolor<CR>
 
 "}}}
 "}}}
@@ -159,12 +126,7 @@ nnoremap <Leader>chex :VCoolor<CR>
 Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
 Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
 Plug 'puremourning/vimspector' " (for debugging)
-call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease) {{{
-
-nmap <Leader>r <Plug>(RunIt)
-nmap <Leader>R <Plug>(ReplIt)
-
-"}}}
+call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'jpalardy/vim-slime' " (send commands to a terminal) {{{
 
 let g:slime_target = "neovim"
@@ -174,10 +136,6 @@ let g:slime_vimterminal_config = {
 let g:slime_no_mappings = 1
 
 " let g:slime_python_ipython = 1
-
-xmap <Leader><Leader><Leader> <Plug>SlimeRegionSend
-nmap <Leader><Leader><Leader> <Plug>SlimeParagraphSend
-nmap <Leader><Leader>m <Plug>SlimeMotionSend
 
 "}}}
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " (LSP -- Diagnostics) {{{
@@ -192,15 +150,6 @@ inoremap <silent><expr> <Tab>
             \ <SID>check_back_space() ? "\<Tab>" :
             \ coc#refresh()
 inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-" Use [e and ]e to navigate diagnostics
-nmap <silent> [e <Plug>(coc-diagnostic-prev)
-nmap <silent> ]e <Plug>(coc-diagnostic-next)
-" GoTo code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> grg <Plug>(coc-references)
-" Use K to show documentation in preview window
 function! s:show_documentation()
     if (index(['vim', 'help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
@@ -208,15 +157,6 @@ function! s:show_documentation()
         call CocAction('doHover')
     endif
 endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-" Symbol renaming
-nmap <Leader>n <Plug>(coc-rename)
-" TODO - text objects (in CoC README)
-" List stuff
-nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<CR>
-nnoremap <silent><nowait> <space>o :<C-u>CocList outline<CR>
-nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
-nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 
 let g:coc_global_extensions = [
             \ "coc-json",
@@ -230,30 +170,10 @@ let g:coc_global_extensions = [
             \ ]
 
 "}}}
-Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE) {{{
-
-nnoremap <Leader>a :ShellCheck!<CR>
-
-" }}}
-call s:PlugOwn('magma.nvim') " (Jupyter client) {{{
-
-" map <Return> <Plug>MagmaEvaluateN
-" vmap <Return> <Plug>MagmaEvaluateV
-
-" }}}
+Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
+call s:PlugOwn('magma.nvim') " (Jupyter client)
 Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
-Plug 'tpope/vim-fugitive' " (use git from vim) {{{
-
-nnoremap <Leader>G :G<CR>
-
-augroup fugitivecustom
-    autocmd!
-    autocmd FileType fugitive nnoremap <buffer> <Leader>p :term cd %:p:h && git pull<CR>i
-    autocmd FileType fugitive nnoremap <buffer> <Leader>P :term cd %:p:h && git push<CR>i
-    autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
-augroup END
-
-"}}}
+Plug 'tpope/vim-fugitive' " (use git from vim)
 Plug 'lervag/vimtex' " (for editing LaTeX sanely) {{{
 
 let g:tex_flavor = 'latex'
@@ -292,12 +212,7 @@ let g:bullets_enable_in_empty_buffers = 0
 let g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-']
 
 "}}}
-Plug 'junegunn/vim-easy-align' " (align code) {{{
-
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-"}}}
+Plug 'junegunn/vim-easy-align' " (align code)
 Plug 'dhruvasagar/vim-table-mode' " (for painlessly editing tables) {{{
 " TODO: change default mappings
 "}}}
@@ -622,6 +537,12 @@ nnoremap Q <nop>
 "" Bind <C-w>n to go back to normal mode from terminal mode
 tnoremap <C-w>n <C-\><C-N>
 
+" Add Beacon to search jump commands
+nnoremap <silent> n n:Beacon<CR>
+nnoremap <silent> N N:Beacon<CR>
+nnoremap <silent> * *:Beacon<CR>
+nnoremap <silent> # #:Beacon<CR>
+
 "}}}
 
 " Misc {{{
@@ -687,6 +608,14 @@ augroup dotfiles
         execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let b:git_dir="' . getenv('HOME') . '/.dotfiles.git"'
         execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let g:gitgutter_git_executable="config"'
     endfor
+    autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
+augroup END "}}}
+
+" Hide statusline in fzf window
+augroup FZFHideStatus "{{{
+    autocmd!
+    autocmd FileType fzf set laststatus=0
+                \| autocmd BufLeave <buffer> set laststatus=2
 augroup END "}}}
 
 "}}}
@@ -704,6 +633,73 @@ nnoremap <Leader>; :Beacon<CR>
 
 "" Add a mapping for `:nohl`
 nnoremap <Leader>. :nohl<CR>
+
+" fzf.vim
+nnoremap <Leader>e  :Files<CR>
+nnoremap <Leader>t  :BTags<CR>
+nnoremap <Leader>T  :Tags<CR>
+nnoremap <Leader>b  :Buffers<CR>
+nnoremap <Leader>ge :GFiles<CR>
+nnoremap <Leader>gc :Commits<CR>
+nnoremap <Leader>gC :BCommits<CR>
+nnoremap <Leader>H  :Helptags<CR>
+nnoremap <Leader>F  :Filetypes<CR>
+
+" Jump along git hunks
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+
+" Insert colors (via color picker)
+nnoremap <Leader>crgb :VCoolIns r<CR>
+nnoremap <Leader>chsl :VCoolIns h<CR>
+nnoremap <Leader>chex :VCoolor<CR>
+
+" Run the current file
+nmap <Leader>r <Plug>(RunIt)
+nmap <Leader>R <Plug>(ReplIt)
+
+" Slime mappings
+xmap <Leader><Leader><Leader> <Plug>SlimeRegionSend
+nmap <Leader><Leader><Leader> <Plug>SlimeParagraphSend
+nmap <Leader><Leader>m <Plug>SlimeMotionSend
+
+" Use [e and ]e to navigate diagnostics
+nmap <silent> [e <Plug>(coc-diagnostic-prev)
+nmap <silent> ]e <Plug>(coc-diagnostic-next)
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> grg <Plug>(coc-references)
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Symbol renaming
+nmap <Leader>n <Plug>(coc-rename)
+" TODO - text objects (in CoC README)
+" List stuff
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<CR>
+nnoremap <silent><nowait> <space>o :<C-u>CocList outline<CR>
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
+
+" Run shellcheck on the current file
+nnoremap <Leader>a :ShellCheck!<CR>
+
+" Magma keybindings
+" map <Return> <Plug>MagmaEvaluateN
+" vmap <Return> <Plug>MagmaEvaluateV
+
+" Open fugitive window
+nnoremap <Leader>G :G<CR>
+augroup FugitiveMappings
+    autocmd!
+    autocmd FileType fugitive nnoremap <buffer> <Leader>p :term cd %:p:h && git pull<CR>i
+    autocmd FileType fugitive nnoremap <buffer> <Leader>P :term cd %:p:h && git push<CR>i
+augroup END
+
+" EasyAlign mappings
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " }}}
 
