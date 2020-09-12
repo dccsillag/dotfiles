@@ -7,8 +7,7 @@
 " @author Daniel Csillag (aka. dccsillag)
 " @what My NeoVim configuration.
 
-" Plugins
-"{{{
+" Plugins {{{
 " A function to plug my own plugins, which if available should be used from
 " the local machine.
 function s:PlugOwn(plugin_name) "{{{
@@ -431,7 +430,7 @@ if has('gui_running') " If in GVim
     map <S-ScrollWheelDown> <nop>
 endif
 
-" Add hotkeys for changing the font size
+" Add mappings for changing the font size
 " {{{
 " Gently taken/adapted from https://vim.fandom.com/wiki/Change_font_size_quickly
 
@@ -581,7 +580,9 @@ set termguicolors " Use truecolor in a terminal
 "" Apply the color scheme
 colorscheme csillag
 
-" Make jk and more go display linewise, not file linewise {{{
+" Remappings {{{
+
+"" Make jk and more go display linewise, not file linewise {{{
 
 nnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
 vnoremap <silent><expr> k v:count == 0 ? 'gk' : "\<Esc>".v:count.'k'
@@ -605,26 +606,30 @@ onoremap <silent> _ g^
 
 "}}}
 
-" Swap ' and `
+"" Swap ' and `
 nnoremap ' `
 nnoremap ` '
 
-" Make Y work like D
+"" Make Y work like D
 nnoremap Y y$
 
-" Abbreviate :w to :up
+"" Abbreviate :w to :up
 cnoreabbrev w up
 
-" Unmap Q
+"" Unmap Q
 nnoremap Q <nop>
 
-" Bind <C-w>n to go back to normal mode from terminal mode
+"" Bind <C-w>n to go back to normal mode from terminal mode
 tnoremap <C-w>n <C-\><C-N>
 
-" Add wrapper/helper for using figlet for inserting big text
+"}}}
+
+" Misc {{{
+
+"" Add wrapper/helper for using figlet for inserting big text
 command! -nargs=1 BigText execute "read! figlet -f standard -S -k -t " . shellescape("<args>", v:true) . " | sed 's/\\s\\+$//' | grep -v '^$'"
 
-" Neater folds
+"" Neater folds
 function! NeatFoldText() "{{{
     let line = getline(v:foldstart) . '  '
     let lines_count = v:foldend - v:foldstart + 1
@@ -638,7 +643,11 @@ endfunction
 set fillchars+=fold:\ ,vert:\│
 set foldtext=NeatFoldText() "}}}
 
-" Create and load views automatically
+" }}}
+
+" Autocommands {{{
+
+"" Create and load views automatically
 augroup autoview "{{{
     autocmd!
     autocmd BufWinLeave,VimLeave,BufWritePost *
@@ -653,7 +662,7 @@ augroup autoview "{{{
                 \ | endif
 augroup END "}}}
 
-" Share data between NeoVim instances (marks, registers, etc.)
+"" Share data between NeoVim instances (marks, registers, etc.)
 augroup SHADA "{{{
     autocmd!
     autocmd FocusGained *
@@ -662,21 +671,13 @@ augroup SHADA "{{{
                 \ if exists(':wshada') | wshada | endif
 augroup END "}}}
 
-" Set a hotkey for `:set spell!`
-nnoremap <Leader>S :set spell!<CR>
-
-" Set a hotkey for `:set spelllang=`
-nnoremap <Leader>s :set spelllang=
-
-" Set a hotkey for `:Beacon`
-nnoremap <Leader>; :Beacon<CR>
-
-" Set a hotkey for `:nohl`
-nnoremap <Leader>. :nohl<CR>
-
-autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
-autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
-autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
+"" Automatic compilation of markup files
+augroup AutoCompile "{{{
+    autocmd!
+    autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
+    autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
+    autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
+augroup END "}}}
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
 let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n') "{{{
@@ -687,6 +688,24 @@ augroup dotfiles
         execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let g:gitgutter_git_executable="config"'
     endfor
 augroup END "}}}
+
+"}}}
+
+" Mappings {{{
+
+"" Add a mapping for `:set spell!`
+nnoremap <Leader>S :set spell!<CR>
+
+"" Add a mapping for `:set spelllang=`
+nnoremap <Leader>s :set spelllang=
+
+"" Add a mapping for `:Beacon`
+nnoremap <Leader>; :Beacon<CR>
+
+"" Add a mapping for `:nohl`
+nnoremap <Leader>. :nohl<CR>
+
+" }}}
 
 "  VIM: let b:countTODOs_offset=-3
 "  vim: fdm=marker
