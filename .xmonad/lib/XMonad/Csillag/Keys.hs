@@ -785,7 +785,8 @@ myKeys config =
                                  , keybinding_key         = xK_l
                                  , keybinding_humankey    = [AlphaKey 'l']
                                  -- , keybinding_action      = spawn "i3lock -f -e -r 15 -s 11"
-                                 , keybinding_action      = spawnOSD lockIcon >> spawn "dm-tool lock"
+                                 -- , keybinding_action      = spawnOSD lockIcon >> spawn "dm-tool lock"
+                                 , keybinding_action      = spawn "slock"
                                  }
                     , KeySubmap { keysubmap_description = "'Do Not Disturb'"
                                 , keysubmap_mask = 0
