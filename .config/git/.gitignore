@@ -1,4 +1,6 @@
 .sw*
 *.sw*
 tags
+tags.lock
+tags.temp
 .lvimrc
