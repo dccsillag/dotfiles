@@ -47,7 +47,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "music"
-       , cmd   = term_run' "musicplayer" "cmus"
+       , cmd   = term_run' "musicplayer" "ncmpcpp"
        , query = className =? "musicplayer"
        , hook  = floatingScratchpad
        }
