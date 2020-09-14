@@ -312,28 +312,16 @@ myKeys config =
                 , keysubmap_humankey = [ShiftKey, AlphaKey 's']
                 , keysubmap_submaps =
                     [ KeyBinding { keybinding_description = "Focus 1ˢᵗ screen"
-                                 , keybinding_mask        = 0
-                                 , keybinding_key         = xK_a
-                                 , keybinding_humankey    = [AlphaKey 'a']
-                                 , keybinding_action      = screenWorkspace 0 >>= flip whenJust (windows . W.view)
-                                 }
-                    , KeyBinding { keybinding_description = "Focus 2ⁿᵈ screen"
-                                 , keybinding_mask        = 0
-                                 , keybinding_key         = xK_b
-                                 , keybinding_humankey    = [AlphaKey 'b']
-                                 , keybinding_action      = screenWorkspace 1 >>= flip whenJust (windows . W.view)
-                                 }
-                    , KeyBinding { keybinding_description = "Send to 1ˢᵗ screen"
                                  , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_a
                                  , keybinding_humankey    = [ShiftKey, AlphaKey 'a']
-                                 , keybinding_action      = screenWorkspace 0 >>= flip whenJust (windows . W.shift)
+                                 , keybinding_action      = screenWorkspace 0 >>= flip whenJust (windows . W.view)
                                  }
-                    , KeyBinding { keybinding_description = "Send to 2ⁿᵈ screen"
+                    , KeyBinding { keybinding_description = "Focus 2ⁿᵈ screen"
                                  , keybinding_mask        = shiftMask
-                                 , keybinding_key         = xK_b
-                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'b']
-                                 , keybinding_action      = screenWorkspace 1 >>= flip whenJust (windows . W.shift)
+                                 , keybinding_key         = xK_q
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'q']
+                                 , keybinding_action      = screenWorkspace 1 >>= flip whenJust (windows . W.view)
                                  }
                     , KeyBinding { keybinding_description = "Swap screens"
                                  , keybinding_mask        = shiftMask
@@ -342,23 +330,24 @@ myKeys config =
                                  , keybinding_action      = screenSwap R True
                                  }
                     , KeyBinding { keybinding_description = "Change screen setup"
-                                 , keybinding_mask        = 0
+                                 , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_c
-                                 , keybinding_humankey    = [AlphaKey 'c']
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'c']
                                  , keybinding_action      =
-                                     inputPromptWithCompl csillagPromptConfig "Screen Config"
-                                         (return . myPromptCompletion' [ "Laptop .. HDMI"
-                                                                       , "HDMI .. Laptop"
-                                                                       , "Mirror"
-                                                                       , "Laptop only"
-                                                                       , "HDMI only"
-                                                                       ]) ?+ (\case
-                                              "Laptop .. HDMI" -> spawn "mons -e right"
-                                              "HDMI .. Laptop" -> spawn "mons -e left"
-                                              "Mirror"         -> spawn "mons -m"
-                                              "Laptop only"    -> spawn "mons -o"
-                                              "HDMI only"      -> spawn "mons -s"
-                                              _                -> return ())
+                                     gridselect myGridSelectConfig (map (\x -> (x,x))
+                                         [ "Mirror"
+                                         , "Laptop .. HDMI"
+                                         , "HDMI .. Laptop"
+                                         , "Laptop only"
+                                         , "HDMI only"
+                                         ])
+                                         >>= flip whenJust (\case
+                                             "Laptop .. HDMI" -> spawn "mons -e right"
+                                             "HDMI .. Laptop" -> spawn "mons -e left"
+                                             "Mirror"         -> spawn "mons -m"
+                                             "Laptop only"    -> spawn "mons -o"
+                                             "HDMI only"      -> spawn "mons -s"
+                                             s                -> spawn $ "notify-send XMonad 'unhandled case: \"" ++ s ++ "\"'")
                                  }
                     ]
                 }
