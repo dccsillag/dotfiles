@@ -86,7 +86,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "calendar"
-       , cmd   = term_run' "calendar" "nvim -c Calendar"
+       , cmd   = term_run' "calendar" "lackey"
        , query = className =? "calendar"
        , hook  = floatingScratchpad
        }
