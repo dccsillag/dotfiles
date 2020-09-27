@@ -555,6 +555,10 @@ def_key "g"
 def_key "G"
  move_end
 
+def_key "h"
+ seek_backward
+def_key "l"
+ seek_forward
 def_key "d"
  delete_playlist_items
 def_key "d"

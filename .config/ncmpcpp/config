@@ -3,4 +3,10 @@ visualizer_output_name = "my_fifo"
 visualizer_sync_interval = "30"
 visualizer_in_stereo = "yes"
 visualizer_type = "spectrum"
-visualizer_look = "+█"
+visualizer_look = "+■"
+
+locked_screen_width_part = "50"
+ask_for_locked_screen_width_part = "no"
+
+startup_screen = "browser"
+startup_slave_screen = "playlist"
