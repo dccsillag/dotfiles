@@ -55,6 +55,7 @@ if ! zgen saved; then
     abbr -U gis='git status'
     abbr -U gisl='git shortlog'
     abbr -U gisu='git submodule'
+    abbr -U gist='git stash'
     # # # Git Bare (dotfiles)
     abbr -U cad='config add'
     abbr -U cib='config checkout'
@@ -68,6 +69,7 @@ if ! zgen saved; then
     abbr -U cir='config rebase'
     abbr -U cis='config status'
     abbr -U cisl='config shortlog'
+    abbr -U cist='config stash'
     # # # NNN
     abbr -U n='nnn'
     # # # Haskell
