@@ -840,7 +840,8 @@ myKeys config =
     ]
 
 myMouseBindings config = Map.fromList
-    [ ((modMask config, button1), dragWindow)
+    [ ((modMask config, button1),                 dragWindow)
+    , ((modMask config, button3),                 \w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
     ]
 
 systemFunctionKeys config =
