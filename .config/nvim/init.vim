@@ -218,7 +218,7 @@ let g:table_mode_toggle_map = "<Bar>"
 "}}}
 "}}}
 
-" Language Support {{{
+" Text Objects {{{
 Plug 'wellle/targets.vim' " (better text objects)
 Plug 'michaeljsmith/vim-indent-object' " (text object for indented text)
 Plug 'kana/vim-textobj-entire' " (text object for the entire buffer)
