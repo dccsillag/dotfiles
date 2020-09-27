@@ -609,13 +609,6 @@ augroup dotfiles
     autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
 augroup END "}}}
 
-" Hide statusline in fzf window
-augroup FZFHideStatus "{{{
-    autocmd!
-    autocmd FileType fzf set laststatus=0
-                \| autocmd BufLeave <buffer> set laststatus=2
-augroup END "}}}
-
 "}}}
 
 " Mappings {{{
