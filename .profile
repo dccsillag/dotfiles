@@ -37,6 +37,7 @@ export STACK_ROOT="$XDG_DATA_HOME/stack"
 export NLTK_DATA="$XDG_DATA_HOME/nltk"
 export NNN_SSHFS="sshfs -o reconnect,follow_symlinks"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
 # NNN
 
