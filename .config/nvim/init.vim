@@ -183,6 +183,7 @@ let g:vimtex_fold_enabled = v:true
 " Color Schemes {{{
 call s:PlugOwn('csillag-color') " (my colorscheme)
 Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
+Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables highlighting)
 "}}}
 
 " Editing Help {{{
