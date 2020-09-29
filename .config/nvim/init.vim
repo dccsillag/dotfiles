@@ -217,6 +217,7 @@ let g:table_mode_map_prefix = "<Leader><Bar>"
 let g:table_mode_toggle_map = "<Bar>"
 
 "}}}
+Plug 'tommcdo/vim-exchange' " (for exchanging text around)
 "}}}
 
 " Text Objects {{{
@@ -683,6 +684,16 @@ nnoremap <Leader>; :Beacon<CR>
 
 "" :nohl
 nnoremap <Leader>. :nohl<CR>
+
+"" vim-asterisk mappings
+map *   <Plug>(asterisk-*)
+map #   <Plug>(asterisk-#)
+map g*  <Plug>(asterisk-g*)
+map g#  <Plug>(asterisk-g#)
+map z*  <Plug>(asterisk-z*)
+map gz* <Plug>(asterisk-gz*)
+map z#  <Plug>(asterisk-z#)
+map gz# <Plug>(asterisk-gz#)
 
 " }}}
 
