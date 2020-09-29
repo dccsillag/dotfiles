@@ -544,6 +544,9 @@ nnoremap <silent> N N:Beacon<CR>
 nnoremap <silent> * *:Beacon<CR>
 nnoremap <silent> # #:Beacon<CR>
 
+"" Change S to behave like X
+nmap S Xi
+
 "}}}
 
 " Misc {{{
