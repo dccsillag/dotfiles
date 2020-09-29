@@ -106,6 +106,7 @@ Plug 'chaoren/vim-wordmotion' " (improve the `w` key and similar) {{{
 let g:wordmotion_spaces = ''
 
 "}}}
+Plug 'haya14busa/vim-asterisk' " (improve * and #)
 Plug 'embear/vim-localvimrc' " (for using local [e.g. project-specific] vimrcs) {{{
 
 let g:localvimrc_persistent = 1
