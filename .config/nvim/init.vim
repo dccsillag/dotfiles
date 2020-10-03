@@ -699,6 +699,10 @@ map gz* <Plug>(asterisk-gz*)
 map z#  <Plug>(asterisk-z#)
 map gz# <Plug>(asterisk-gz#)
 
+"" Add empty lines above and below
+nnoremap [o O<Esc>
+nnoremap ]o o<Esc>
+
 " }}}
 
 if filereadable(expand("~/.config/nvim/posinit.vim"))
