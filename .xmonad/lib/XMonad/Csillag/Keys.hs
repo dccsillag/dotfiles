@@ -349,6 +349,41 @@ myKeys config =
                                              "HDMI only"      -> spawn "mons -s"
                                              s                -> spawn $ "notify-send XMonad 'unhandled case: \"" ++ s ++ "\"'")
                                  }
+                    , KeySubmap { keysubmap_description = "Set screen orientation"
+                                , keysubmap_mask = shiftMask
+                                , keysubmap_key = xK_o
+                                , keysubmap_humankey = [ShiftKey, AlphaKey 'o']
+                                , keysubmap_submaps =
+                                    [ KeyBinding { keybinding_description = "Up"
+                                                 , keybinding_mask = shiftMask
+                                                 , keybinding_key = xK_k
+                                                 , keybinding_humankey = [ShiftKey, AlphaKey 'k']
+                                                 , keybinding_action = spawn $
+                                                     set_screen_orientation "normal" 0
+                                                 }
+                                    , KeyBinding { keybinding_description = "Down"
+                                                 , keybinding_mask = shiftMask
+                                                 , keybinding_key = xK_j
+                                                 , keybinding_humankey = [ShiftKey, AlphaKey 'j']
+                                                 , keybinding_action = spawn $
+                                                     set_screen_orientation "inverted" 0
+                                                 }
+                                    , KeyBinding { keybinding_description = "Left"
+                                                 , keybinding_mask = shiftMask
+                                                 , keybinding_key = xK_h
+                                                 , keybinding_humankey = [ShiftKey, AlphaKey 'h']
+                                                 , keybinding_action = spawn $
+                                                     set_screen_orientation "left" 0
+                                                 }
+                                    , KeyBinding { keybinding_description = "Right"
+                                                 , keybinding_mask = shiftMask
+                                                 , keybinding_key = xK_l
+                                                 , keybinding_humankey = [ShiftKey, AlphaKey 'l']
+                                                 , keybinding_action = spawn $
+                                                     set_screen_orientation "right" 0
+                                                 }
+                                    ]
+                                }
                     ]
                 }
     , KeyHeading "Workspaces"

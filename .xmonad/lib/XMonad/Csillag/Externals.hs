@@ -1,6 +1,8 @@
 module XMonad.Csillag.Externals
     where
 
+import XMonad.Csillag.CommonActions (quote)
+
 
 -- Terminal Emulator
 
@@ -69,3 +71,9 @@ compositor_restart = "pkill -USR1 picom"
 
 compositor_kill :: String
 compositor_kill = "pkill picom"
+
+-- Screen Configuration
+
+set_screen_orientation :: String -> Int -> String
+set_screen_orientation orient screen = "sh -c 'xrandr --output \"" ++ screen_name ++ "\" --rotate " ++ orient ++ "'; xinput --map-to-output 'ELAN2513:00 04F3:23EF' \"" ++ screen_name ++ "\""
+    where screen_name = "$(xrandr -q | grep \" connected\" | cut -d\\  -f 1 | sed \"" ++ show (succ screen) ++ "q;d\")"
