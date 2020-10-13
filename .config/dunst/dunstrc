@@ -60,6 +60,8 @@
     min_icon_size        = 50
     max_icon_size        = 50
 
+    mouse_left = do_action
+
 [shortcuts]
     close     = mod4+z
     close_all = mod4+shift+z
