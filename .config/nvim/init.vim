@@ -219,6 +219,7 @@ let g:table_mode_toggle_map = "<Bar>"
 
 "}}}
 Plug 'tommcdo/vim-exchange' " (for exchanging text around)
+Plug 'svermeulen/vim-subversive' " (for replacing text with current yank)
 "}}}
 
 " Text Objects {{{
@@ -702,6 +703,10 @@ map gz# <Plug>(asterisk-gz#)
 "" Add empty lines above and below
 nnoremap [o O<Esc>
 nnoremap ]o o<Esc>
+
+"" vim-subversive mappings
+nmap s <Plug>(SubversiveSubstitute)
+nmap ss <Plug>(SubversiveSubstituteLine)
 
 " }}}
 
