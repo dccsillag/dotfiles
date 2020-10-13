@@ -75,7 +75,7 @@ myGridSelectConfig = (buildDefaultGSConfig colorizer)
   , gs_font         = "xft:Lato-Regular:pixelsize=20"
   , gs_originFractX = 0.5
   , gs_originFractY = 0.5
-  , gs_bordercolor  = "#777777"
+  , gs_bordercolor  = "#666666"
   }
  where
   size   = 150.0 :: Double
@@ -86,7 +86,7 @@ myGridSelectConfig = (buildDefaultGSConfig colorizer)
                                                                (W.visible ws)
     return $ if wks `elem` curWkss
       then if active then ("#aaaaaa", "#000000") else ("#777777", "#222222")
-      else if active then ("#dddddd", "#000000") else ("#444444", "#bbbbbb")
+      else if active then ("#dddddd", "#000000") else ("#333333", "#bbbbbb")
 
 -- -- Rofi
 
@@ -215,14 +215,14 @@ quitWithWarning = io exitSuccess
 -- Prompt config
 
 csillagPromptConfig :: XPConfig
-csillagPromptConfig = def { bgColor             = "#221226"
-                          , fgColor             = "#CCCCCC"
+csillagPromptConfig = def { bgColor             = "#1b2326"
+                          , fgColor             = "#FFFFFF"
                           , bgHLight            = "#00e896"
                           , fgHLight            = "#000000"
-                          , borderColor         = "#FFFFFF"
-                          , promptBorderWidth   = 2
-                          , position            = CenteredAt 0.2 0.5
-                          , alwaysHighlight     = False
+                          , borderColor         = "#AAAAAA"
+                          , promptBorderWidth   = 1
+                          , position            = CenteredAt 0.2 0.8
+                          , alwaysHighlight     = True
                           , font                = "xft:FantasqueSansMono Nerd Font:size=20"
                           , height              = 40
                           , maxComplRows        = Just 15
