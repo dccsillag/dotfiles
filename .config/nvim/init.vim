@@ -416,7 +416,7 @@ set ignorecase smartcase " if everything is lowercase, case insensitive.
 
 "" Show the foldcolumn
 " set foldcolumn=1 " have only one column in the fold column
-set foldcolumn=auto:9 " automatically manage foldcolumn width (NeoVim only)
+set foldcolumn=auto:5 " automatically manage foldcolumn width (NeoVim only)
 
 "" Use 4 spaces instead of tabs
 set expandtab     " expand tabs
