@@ -44,6 +44,7 @@ import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
+import XMonad.Csillag.Commands
 
 
 -- Things to do upon startup:
@@ -85,6 +86,7 @@ myXMonadConfig = do
         , handleEventHook    = myFullscreenEventHook -- Automatically redraw windows when they become fullscreen
                                <+> docksEventHook -- ???
                                <+> handleTimerEvent
+                               <+> myServerModeEventHook
                                <+> swallowEventHook (className =? "qutebrowser") (className =? "mpv") -- Swallow mpv from qutebrowser
         -- , logHook            = myWorkspaceNamesPP xmobarPP
         --                            { ppOutput = appendFile "/tmp/.xmonad-workspace-log" . (++ "\n") -- Pipe to write data for polybar
