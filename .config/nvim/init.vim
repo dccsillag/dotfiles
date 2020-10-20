@@ -66,13 +66,44 @@ let g:lightline = {
             \     'right': [ [ 'lineinfo' ],
             \                [ 'percent' ],
             \                [ 'filetype' ],
-            \                [ 'fileformat', 'fileencoding' ]
+            \                [ 'fileformat', 'fileencoding' ],
+            \                [ 'linter_checking',
+            \                  'linter_errors',
+            \                  'linter_warnings',
+            \                  'linter_infos',
+            \                  'linter_ok',
+            \                ]
             \              ]
             \     },
             \ 'component_function': {
             \   'git': 'GitSummaryStr'
             \ }
             \ }
+
+"}}}
+Plug 'maximbaz/lightline-ale' " (for linting report in the statusline) {{{
+
+let g:lightline.component_expand = {
+            \ 'linter_checking': 'lightline#ale#checking',
+            \ 'linter_infos':    'lightline#ale#infos',
+            \ 'linter_warnings': 'lightline#ale#warnings',
+            \ 'linter_errors':   'lightline#ale#errors',
+            \ 'linter_ok':       'lightline#ale#ok'
+            \ }
+let g:lightline.component_type = {
+            \ 'linter_checking': 'right',
+            \ 'linter_infos':    'right',
+            \ 'linter_warnings': 'warning',
+            \ 'linter_errors':   'error',
+            \ 'linter_ok':       'right'
+            \ }
+
+let g:lightline#ale#indicator_checking = ""
+let g:lightline#ale#indicator_infos = " "
+let g:lightline#ale#indicator_warnings = " "
+let g:lightline#ale#indicator_errors = " "
+let g:lightline#ale#indicator_ok = " "
+" let g:lightline#ale#indicator_ok = ""
 
 "}}}
 Plug 'junegunn/fzf' " (fuzzy finder)
@@ -108,6 +139,7 @@ let g:wordmotion_spaces = ''
 
 "}}}
 Plug 'haya14busa/vim-asterisk' " (improve * and #)
+Plug 'ervandew/supertab' " (for autocomplete with tab)
 Plug 'embear/vim-localvimrc' " (for using local [e.g. project-specific] vimrcs) {{{
 
 let g:localvimrc_persistent = 1
@@ -138,35 +170,33 @@ Plug 'kassio/neoterm' " (proper slime for NeoVim) {{{
 let g:neoterm_default_mod = "botright"
 
 "}}}
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " (LSP -- Diagnostics) {{{
+Plug 'dense-analysis/ale' " (for diagnostics) {{{
 
-" Use Tab for completion
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
-endfunction
-inoremap <silent><expr> <Tab>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<Tab>" :
-            \ coc#refresh()
-inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:show_documentation()
-    if (index(['vim', 'help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
+let g:ale_linters = {
+            \ 'haskell': ['stack-build', 'hlint'],
+            \ 'cs': ['omnisharp'],
+            \ 'cpp': ['clangtidy', 'cppcheck'],
+            \ 'python': ['pylint', 'mypy'],
+            \ 'lua': ['luacheck'],
+            \ 'yaml': ['yamllint'],
+            \ 'tex': ['lacheck', 'textlint']
+            \ }
 
-let g:coc_global_extensions = [
-            \ "coc-json",
-            \ "coc-python",
-            \ "coc-vimlsp",
-            \ "coc-sh",
-            \ "coc-lsp-wl",
-            \ "coc-html",
-            \ "coc-tsserver"
+let g:ale_cpp_clangtidy_checks = [
+            \ 'cppcoreguidelines-*',
+            \ 'clang-analyzer-*',
+            \ 'misc-*',
+            \ 'modernize-*',
+            \ 'performance-*',
+            \ 'readability-*',
+            \ '-modernize-use-trailing-return-type',
+            \ '-misc-non-private-member-variables-in-classes',
+            \ '-readability-braces-around-statements',
+            \ '-readability-else-after-return'
             \ ]
+
+let g:ale_sign_error = "Er"
+let g:ale_sign_warning = "Wa"
 
 "}}}
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
@@ -636,17 +666,11 @@ nnoremap <Leader>gC :BCommits<CR>
 nnoremap <Leader>H  :Helptags<CR>
 nnoremap <Leader>F  :Filetypes<CR>
 
-" CoC
-nmap <silent> [e <Plug>(coc-diagnostic-prev)
-nmap <silent> ]e <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gh <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-nmap <Leader>cr <Plug>(coc-rename)
-nnoremap <silent><nowait> <Leader>cl :<C-u>CocList diagnostics<CR>
-nnoremap <silent><nowait> <Leader>co :<C-u>CocList outline<CR>
+" ALE
+nnoremap <silent> [e :ALENext<CR>
+nnoremap <silent> ]e :ALEPrevious<CR>
+nnoremap <silent> \ce :ALEToggleBuffer<CR>
+nnoremap <silent> \cd :ALEDetail<CR>
 
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
