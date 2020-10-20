@@ -6,3 +6,6 @@
 
 "for SRC in $(pactl list sources short | grep -v monitor | cut -f 1); do pacmd set-source-mute $SRC 0; done"
   shift+c:86
+
+"playerctl play-pause"
+  b:8
