@@ -25,6 +25,7 @@ import XMonad.Actions.GridSelect
 import XMonad.Util.XUtils             ( fi )
 import XMonad.Prompt
 import XMonad.Util.WindowProperties   ( getProp32 )
+import XMonad.Prompt.FuzzyMatch
 
 -- import XMonad.Csillag.Consts
 
@@ -229,22 +230,12 @@ csillagPromptConfig = def { bgColor             = "#1b2326"
                           , historySize         = 200
                           -- , historyFilter       = id
                           -- , promptKeymap        = ???
-                          , completionKey       = (0, xK_Tab)
+                          , completionKey       = (0, xK_F5)
                           , changeModeKey       = xK_F1
                           , defaultText         = ""
                           , autoComplete        = Nothing
                           , showCompletionOnTab = False
-                          -- , searchPredicate     = isInfixOf `on` fmap toLower
-                          -- , searchPredicate     = (==)
-                          , searchPredicate     = isSubstringOf `on` fmap toLower
+                          , searchPredicate     = fuzzyMatch
+                          , sorter              = fuzzySort
+                          , promptKeymap        = vimLikeXPKeymap
                           }
-
-isSubstringOf :: String -> String -> Bool
-s0 `isSubstringOf` s1 = s0 `isPrefixOf` s1 || s0 `isInfixOf` s1 || s0 `isSuffixOf` s1
-
-myPromptCompletion :: [String] -> String -> [String]
-myPromptCompletion l s = filter (\x -> fmap toLower s `isSubstringOf` fmap toLower x) l
-
-myPromptCompletion' :: [String] -> String -> [String]
-myPromptCompletion' l [] = l
-myPromptCompletion' l s = filter (\x -> fmap toLower s `isSubstringOf` fmap toLower x) l
