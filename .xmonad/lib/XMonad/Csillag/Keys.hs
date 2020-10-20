@@ -786,6 +786,58 @@ myKeys config =
                                  }
                     ]
                 }
+    , KeyHeading "Devices"
+    , KeySubmap { keysubmap_description = "Manage devices"
+                , keysubmap_mask = 0
+                , keysubmap_key = xK_d
+                , keysubmap_humankey = [AlphaKey 'd']
+                , keysubmap_submaps =
+                    [ KeySubmap { keysubmap_description = "Manage Wacom Tablet"
+                                , keysubmap_mask = 0
+                                , keysubmap_key = xK_t
+                                , keysubmap_humankey = [AlphaKey 't']
+                                , keysubmap_submaps =
+                                    [ KeySubmap { keysubmap_description = "Map to current window"
+                                                , keysubmap_mask = 0
+                                                , keysubmap_key = xK_w
+                                                , keysubmap_humankey = [AlphaKey 'w']
+                                                , keysubmap_submaps =
+                                                    [ KeyBinding { keybinding_description = "Normal orientation"
+                                                                 , keybinding_mask = 0
+                                                                 , keybinding_key = xK_k
+                                                                 , keybinding_humankey = [AlphaKey 'k']
+                                                                 , keybinding_action = spawn "xwacomcalibrate"
+                                                                 }
+                                                    , KeyBinding { keybinding_description = "Upside-down orientation"
+                                                                 , keybinding_mask = 0
+                                                                 , keybinding_key = xK_j
+                                                                 , keybinding_humankey = [AlphaKey 'j']
+                                                                 , keybinding_action = spawn "xwacomcalibrate -r half"
+                                                                 }
+                                                    , KeyBinding { keybinding_description = "CW orientation"
+                                                                 , keybinding_mask = 0
+                                                                 , keybinding_key = xK_h
+                                                                 , keybinding_humankey = [AlphaKey 'h']
+                                                                 , keybinding_action = spawn "xwacomcalibrate -r cw"
+                                                                 }
+                                                    , KeyBinding { keybinding_description = "CCW orientation"
+                                                                 , keybinding_mask = 0
+                                                                 , keybinding_key = xK_l
+                                                                 , keybinding_humankey = [AlphaKey 'l']
+                                                                 , keybinding_action = spawn "xwacomcalibrate -r ccw"
+                                                                 }
+                                                    ]
+                                                }
+                                    , KeyBinding { keybinding_description = "Map to screen"
+                                                 , keybinding_mask = 0
+                                                 , keybinding_key = xK_s
+                                                 , keybinding_humankey = [AlphaKey 's']
+                                                 , keybinding_action = spawn "xwacomcalibrate -f 1"
+                                                 }
+                                    ]
+                                }
+                    ]
+                }
     , KeyHeading "System"
     , KeySubmap { keysubmap_description = "Manage system functions"
                 , keysubmap_mask = 0
