@@ -722,8 +722,8 @@ myKeys config =
                                  }
                     , KeyBinding { keybinding_description = "Toggle Scratchpad 'calendar'"
                                  , keybinding_mask        = 0
-                                 , keybinding_key         = xK_f
-                                 , keybinding_humankey    = [AlphaKey 'f']
+                                 , keybinding_key         = xK_c
+                                 , keybinding_humankey    = [AlphaKey 'c']
                                  , keybinding_action = namedScratchpadAction myScratchpads "calendar"
                                  }
                     ]
