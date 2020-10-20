@@ -557,7 +557,7 @@ command! -nargs=1 BigText execute "read! figlet -f standard -S -k -t " . shelles
 
 "" Neater folds
 function! NeatFoldText() "{{{
-    let line = getline(v:foldstart) . '  '
+    let line = getline(v:foldstart)
     let lines_count = v:foldend - v:foldstart + 1
     let lines_count_text = '| ' . printf("(%d) %10s", v:foldlevel, lines_count . ' lines') . ' |'
     let foldchar = matchstr(&fillchars, 'fold:\zs.')
@@ -566,7 +566,7 @@ function! NeatFoldText() "{{{
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
     return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
-set fillchars+=fold:\ ,vert:\│
+set fillchars+=fold:—,vert:\│
 set foldtext=NeatFoldText() "}}}
 
 " }}}
