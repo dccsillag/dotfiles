@@ -232,11 +232,11 @@ myKeys config =
                                  -- , keybinding_action      = spawnNohup "mpv av://v4l2:/dev/video0"
                                  , keybinding_action      = spawnNohup camview_spawn
                                  }
-                    , KeyBinding { keybinding_description = "Launch Write Stylus"
+                    , KeyBinding { keybinding_description = "Launch XournalPP"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_w
                                  , keybinding_humankey    = [AlphaKey 'w']
-                                 , keybinding_action      = spawnNohup "write_stylus"
+                                 , keybinding_action      = spawnNohup "xournalpp"
                                  }
                     ]
                 }
