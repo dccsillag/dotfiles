@@ -97,6 +97,7 @@ let g:limelight_conceal_guifg   = '#606060'
 
 "}}}
 Plug 'junegunn/goyo.vim' " (make things pretty, for more elegant presentations)
+Plug 'dstein64/vim-startuptime' " (profile startup time neatly)
 "}}}
 
 " Behaviour {{{
