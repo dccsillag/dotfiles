@@ -715,10 +715,20 @@ nmap ]c <Plug>(GitGutterNextHunk)
 nmap <Leader>r <Plug>(RunIt)
 nmap <Leader>R <Plug>(ReplIt)
 
-" NeoTerm mappings
-vmap <Return><Return> :TREPLSendSelection<CR>
-nmap <Return><Return> <Plug>(neoterm-repl-send)ip
-nmap <Return> <Plug>(neoterm-repl-send)
+" " NeoTerm mappings
+augroup ExecuteMappings
+    autocmd!
+    autocmd BufNew *
+                \ vmap <buffer> <Return><Return> :TREPLSendSelection<CR>
+                \ | nmap <buffer> <Return><Return> <Plug>(neoterm-repl-send)ip
+                \ | nmap <buffer> <Return> <Plug>(neoterm-repl-send)
+    autocmd BufWinEnter *
+                \ if getwininfo(win_getid())[0].quickfix
+                \ | silent! unmap <buffer> <Return><Return>
+                \ | silent! unmap <buffer> <Return><Return>
+                \ | silent! unmap <buffer> <Return>
+                \ | endif
+augroup END
 
 " Magma keybindings
 " map <Return> <Plug>MagmaEvaluateN
