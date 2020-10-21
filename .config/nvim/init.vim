@@ -332,6 +332,8 @@ let g:pandoc#modules#enabled = [
             \ "hypertext"
             \ ]
 
+let g:pandoc#folding#fdc = 0
+
 "}}}
 Plug 'mrk21/yaml-vim' " (better language support for YAML)
 Plug 'cespare/vim-toml' " (for TOML syntax highlight)
