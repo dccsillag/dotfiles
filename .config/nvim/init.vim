@@ -520,7 +520,10 @@ set listchars=tab:\ \ ,trail:┈ " show tabs as spaces and highlight trailing wh
 
 "" Setup autocompletion in a way that is better
 set completeopt=          " clear autocompletion options
-set completeopt+=menu     " Show additional information in a popup menu
+set completeopt+=menu     " show additional information in a popup menu
+set complete=.,i,d,t      " look for completions in the current buffer (.),
+                          "                      in the included files (i,d),
+                          "                      and in the tags (t)
 
 "" Always keep 2 lines around the cursor
 set scrolloff=2 " keep 2 lines above & below the cursor at all times
