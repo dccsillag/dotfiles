@@ -78,6 +78,18 @@ let g:lightline = {
             \ }
             \ }
 
+"" Setup lightline colors
+
+function! s:SetupLightlineColors()
+    let l:pallete = lightline#palette()
+    let l:pallete.insert = l:pallete.normal
+endfunction
+
+augroup lightline_colors
+    autocmd!
+    autocmd VimEnter * call s:SetupLightlineColors()
+augroup END
+
 "}}}
 Plug 'maximbaz/lightline-ale' " (for linting report in the statusline) {{{
 
@@ -89,14 +101,14 @@ let g:lightline.component_expand = {
             \ 'linter_ok':       'lightline#ale#ok'
             \ }
 let g:lightline.component_type = {
-            \ 'linter_checking': 'right',
+            \ 'linter_checking': 'middle',
             \ 'linter_infos':    'right',
             \ 'linter_warnings': 'warning',
             \ 'linter_errors':   'error',
-            \ 'linter_ok':       'right'
+            \ 'linter_ok':       'left'
             \ }
 
-let g:lightline#ale#indicator_checking = ""
+let g:lightline#ale#indicator_checking = " "
 let g:lightline#ale#indicator_infos = " "
 let g:lightline#ale#indicator_warnings = " "
 let g:lightline#ale#indicator_errors = " "
