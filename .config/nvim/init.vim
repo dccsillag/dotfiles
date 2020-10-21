@@ -685,8 +685,8 @@ nnoremap <Leader>H  :Helptags<CR>
 nnoremap <Leader>F  :Filetypes<CR>
 
 " ALE
-nnoremap <silent> [e :ALENext<CR>
-nnoremap <silent> ]e :ALEPrevious<CR>
+nnoremap <silent> [e :ALEPrevious<CR>
+nnoremap <silent> ]e :ALENext<CR>
 nnoremap <silent> \ce :ALEToggleBuffer<CR>
 nnoremap <silent> \cd :ALEDetail<CR>
 
