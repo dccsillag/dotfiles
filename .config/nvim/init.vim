@@ -205,8 +205,13 @@ let g:ale_cpp_clangtidy_checks = [
             \ '-readability-else-after-return'
             \ ]
 
+let g:ale_sign_highlight_linenrs = 1
+
 let g:ale_sign_error = "Er"
 let g:ale_sign_warning = "Wa"
+let g:ale_sign_info = "In"
+let g:ale_sign_style_error = "St"
+let g:ale_sign_style_warning = "St"
 
 "}}}
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
