@@ -300,7 +300,11 @@ let g:python_highlight_file_headers_as_comments = 1
 
 " }}}
 Plug 'Vimjas/vim-python-pep8-indent' " (indent according to PEP8)
-Plug 'kalekundert/vim-coiled-snake' " (automatic folding for Python)
+Plug 'kalekundert/vim-coiled-snake' " (automatic folding for Python) {{{
+
+let g:coiled_snake_set_foldtext = 0
+
+"}}}
 Plug 'rubik/vim-dg' " (language support for DogeLang [aka. dg])
 Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
 Plug 'bfrg/vim-cpp-modern' " (better C++ syntax highlight) {{{
