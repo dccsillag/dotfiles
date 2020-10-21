@@ -56,16 +56,14 @@ endfunction
 
 let g:lightline = {
             \ 'active': {
-            \     'left': [ [ 'mode', 'paste' ],
+            \     'left': [ [ 'paste' ],
             \               [ 'git' ],
             \               [ 'filename',
             \                 'readonly',
             \                 'modified',
             \               ]
             \             ],
-            \     'right': [ [ 'lineinfo' ],
-            \                [ 'percent' ],
-            \                [ 'filetype' ],
+            \     'right': [ [ 'filetype', 'spell' ],
             \                [ 'fileformat', 'fileencoding' ],
             \                [ 'linter_checking',
             \                  'linter_errors',
