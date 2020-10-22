@@ -14,7 +14,7 @@ endif
 " Plugins {{{
 " A function to plug my own plugins, which if available should be used from
 " the local machine.
-function s:PlugOwn(plugin_name) "{{{
+function! s:PlugOwn(plugin_name) "{{{
     if isdirectory(expand('~/code/' . a:plugin_name))
         execute "Plug '" . '~/code/' . a:plugin_name . "/'"
     else
