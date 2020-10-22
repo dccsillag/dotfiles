@@ -340,6 +340,7 @@ let g:pandoc#modules#enabled = [
             \ ]
 
 let g:pandoc#folding#fdc = 0
+let g:pandoc#formatting#mode = "h"
 
 "}}}
 Plug 'mrk21/yaml-vim' " (better language support for YAML)
