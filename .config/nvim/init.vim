@@ -81,8 +81,15 @@ let g:lightline = {
 "" Setup lightline colors
 
 function! s:SetupLightlineColors()
+    if !exists("g:loaded_lightline")
+        return
+    endif
+
     let l:pallete = lightline#palette()
     let l:pallete.insert = l:pallete.normal
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
 endfunction
 
 augroup lightline_colors
