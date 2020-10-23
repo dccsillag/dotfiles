@@ -193,7 +193,7 @@ let g:ale_linters = {
             \ 'haskell': ['stack-build', 'hlint'],
             \ 'cs': ['omnisharp'],
             \ 'cpp': ['clangtidy', 'cppcheck'],
-            \ 'python': ['pylint'],
+            \ 'python': ['pylint', 'flake8'],
             \ 'lua': ['luacheck'],
             \ 'yaml': ['yamllint'],
             \ 'tex': ['lacheck', 'textlint']
