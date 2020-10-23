@@ -461,6 +461,12 @@ set noshowmode " don't show the current mode below the statusbar
 set shell=/bin/dash
 " set shell=/bin/zsh
 
+"" Use ag instead of grep
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
 "" Setup line wrap
 set wrap          " wrap lines
 set linebreak     " don't break words on wrap
