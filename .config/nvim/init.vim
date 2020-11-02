@@ -250,7 +250,7 @@ let g:AutoPairsUseInsertedCount = 1
 
 " }}}
 Plug 'alvan/vim-closetag' " (for automatically closing HTML tags)
-Plug 'dkarter/bullets.vim' " (for automatic bullet lists) {{{
+" Plug 'dkarter/bullets.vim' " (for automatic bullet lists) {{{
 
 let g:bullets_enabled_file_types = [
             \ 'markdown',
