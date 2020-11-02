@@ -806,25 +806,25 @@ myKeys config =
                                                                  , keybinding_mask = 0
                                                                  , keybinding_key = xK_k
                                                                  , keybinding_humankey = [AlphaKey 'k']
-                                                                 , keybinding_action = spawn "xwacomcalibrate"
+                                                                 , keybinding_action = spawn "wacom-map up"
                                                                  }
                                                     , KeyBinding { keybinding_description = "Upside-down orientation"
                                                                  , keybinding_mask = 0
                                                                  , keybinding_key = xK_j
                                                                  , keybinding_humankey = [AlphaKey 'j']
-                                                                 , keybinding_action = spawn "xwacomcalibrate -r half"
+                                                                 , keybinding_action = spawn "wacom-map down"
                                                                  }
                                                     , KeyBinding { keybinding_description = "CW orientation"
                                                                  , keybinding_mask = 0
                                                                  , keybinding_key = xK_h
                                                                  , keybinding_humankey = [AlphaKey 'h']
-                                                                 , keybinding_action = spawn "xwacomcalibrate -r cw"
+                                                                 , keybinding_action = spawn "wacom-map cw"
                                                                  }
                                                     , KeyBinding { keybinding_description = "CCW orientation"
                                                                  , keybinding_mask = 0
                                                                  , keybinding_key = xK_l
                                                                  , keybinding_humankey = [AlphaKey 'l']
-                                                                 , keybinding_action = spawn "xwacomcalibrate -r ccw"
+                                                                 , keybinding_action = spawn "wacom-map ccw"
                                                                  }
                                                     ]
                                                 }
