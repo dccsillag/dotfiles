@@ -832,7 +832,7 @@ myKeys config =
                                                  , keybinding_mask = 0
                                                  , keybinding_key = xK_s
                                                  , keybinding_humankey = [AlphaKey 's']
-                                                 , keybinding_action = spawn "xwacomcalibrate -f 1"
+                                                 , keybinding_action = spawn "wacom-map screen"
                                                  }
                                     ]
                                 }
