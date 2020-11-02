@@ -1,5 +1,5 @@
 Config { font = "xft:FantasqueSansMono Nerd Font-12"
-       , additionalFonts = [ "xft:FantasqueSansMono Nerd Font-7" ]
+       , additionalFonts = [ "xft:FantasqueSansMono Nerd Font-7:antialias=true:autohint=true" ]
        , borderColor = "black"
        , border = TopB
        , bgColor = "black"
