@@ -185,6 +185,7 @@ call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer w
 Plug 'kassio/neoterm' " (proper slime for NeoVim) {{{
 
 let g:neoterm_default_mod = "botright"
+let g:neoterm_automap_keys = "<F10>"
 
 "}}}
 Plug 'dense-analysis/ale' " (for diagnostics) {{{
