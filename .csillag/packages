@@ -22,9 +22,12 @@ Explanation:
 #           Shells
 core        dash                          _                      dash                              _
 core        zsh                           _                      zsh                               zsh
+core        bash                          _                      bash                              _
 programming shellcheck                    _                      shellcheck                        shellcheck
 #           Git
 core        git                           git                    git                               git
+core        git-annex                     _                      git-annex                         _
+core        github-cli                    _                      github-cli                        _
 #           Make
 core        gnu-make                      _                      make                              make
 #           Vim
@@ -47,9 +50,14 @@ programming conan                         _                      conan          
 programming gdb                           _                      gdb                               gdb
 programming valgrind                      _                      valgrind                          valgrind
 programming cling                         _                      cling                             cling
+programming boost                         _                      boost                             _
+programming png++                         _                      png++                             _
+programming meson                         _                      meson                             _
+programming ninja                         _                      ninja                             _
 #           Python
 programming python                        _                      python                            _
 programming python-pip                    _                      python-pip                        _
+programming pypy                          _                      pypy3                             _
 #           Octave
 programming gnu-octave                    _                      octave                            octave
 #           Lua
@@ -58,6 +66,9 @@ programming luacheck                      _                      luacheck       
 programming common-lisp                   _                      clisp                             _
 #           Count                         lines                  of                                code
 programming cloc                          _                      cloc                              _
+#           Bluetooth
+de          blueman                       _                      blueman                           _
+de          bluez-utils                   _                      bluez-utils                       _
 #           Suckless                      Stuff
 de          dmenu                         _                      dmenu                             _
 #           Notifications
@@ -72,6 +83,7 @@ additional  figlet-fonts                  _                      figlet-fonts   
 #           Images
 de          feh                           _                      feh                               _
 de          gimp                          _                      gimp                              gimp
+de          inkscape                      _                      inkscape                          _
 de          imagemagick                   _                      imagemagick                       imagemagick
 de          sxiv                          _                      sxiv                              _
 #           Videos
@@ -91,6 +103,12 @@ util        entr                          _                      entr           
 util        fzf                           _                      fzf                               fzf
 core        exa                           _                      exa                               exa
 core        unzip                         _                      unzip                             unzip
+core        zip                           _                      zip                               _
+core        file                          _                      file                              _
+core        ag                            _                      the_silver_searcher               _
+core        lsof                          _                      lsof                              _
+core        neofetch                      _                      neofetch                          _
+core        tree                          _                      tree                              _
 de          zenity                        _                      zenity                            _
 #           System                        Monitor
 core        htop                          _                      htop                              htop
@@ -105,6 +123,7 @@ de          lux                           _                      lux            
 de          lxappearance                  _                      lxappearance                      _
 #           GTK                           icon                   set
 de          paper-icon-theme              _                      paper-icon-theme-git              _
+de          arc-solid-gtk-theme           _                      arc-solid-gtk-theme               _
 #           Email
 #           NOTE:                         this                   is                                broken               due to the missing polkits
 de          mailspring                    _                      mailspring                        _
@@ -122,6 +141,7 @@ peripheral  networkmanager-fortivpn       _                      networkmanager-
 peripheral  networkmanager-openvpn        _                      networkmanager-openvpn            _
 peripheral  networkmanager-vpnc           _                      networkmanager-vpnc               _
 peripheral  openvpn                       _                      openvpn                           _
+peripheral  vpnc                          _                      vpnc                              _
 #           Documents
 #           #                             Pandoc
 write       pandoc                        _                      pandoc                            pandoc
@@ -139,6 +159,11 @@ de          playerctl                     _                      playerctl      
 peripheral  pulseaudio                    _                      pulseaudio                        pulseaudio
 peripheral  pulseaudio-alsa               _                      pulseaudio-alsa                   _
 peripheral  pulseaudio-bluetooth          _                      pulseaudio-bluetooth              _
+peripheral  alsa-firmware                 _                      alsa-firmware                     _
+peripheral  alsa-tools                    _                      alsa-tools                        _
+peripheral  alsa-utils                    _                      alsa-utils                        _
+peripheral  apulse                        _                      apulse                            _
+de          pulsemixer                    _                      pulsemixer                        _
 #           peripheral                    pulseaudio-equalizer   _                                 pulseaudio-equalizer _
 #           peripheral                    pulseaudio-noisecancel _                                 swh-plugins          _
 #           Compositor
@@ -149,8 +174,9 @@ de          polybar                       _                      polybar        
 perf        preload                       _                      preload                           _
 #           Browser
 de          qutebrowser                   _                      qutebrowser                       _
+de          brave                         _                      brave                             _
 #           File                          manager
-additional  ranger                        _                      ranger                            _
+de          nnn                           _                      nnn                               _
 de          cfiles                        _                      cfiles                            _
 #           Night                         color                  temperature
 de          redshift                      _                      redshift                          _
@@ -178,6 +204,7 @@ util        zathura                       _                      zathura        
 util        zathura-pdf                   _                      zathura-pdf-mupdf                 _
 util        zathura-comic                 _                      zathura-cb                        _
 util        zathura-djvu                  _                      zathura-djvu                      _
+util        zathura-postscript            _                      zathura-ps                        _
 #           Resource                      Openers
 de          xdg-utils                     _                      xdg-utils                         _
 de          perl-file-mimeinfo            _                      perl-file-mimeinfo                _
@@ -189,3 +216,10 @@ util        youtube-dl                    _                      youtube-dl     
 util        tldr                          _                      tldr                              _
 #           Backups
 backup      duplicity                     duplicity              duplicity                         _
+#           Gaming
+extra       desmume                       _                      desmume                           _
+#           Music
+de          mpd                           _                      mpd                               _
+de          ncmpcpp                       _                      ncmpcpp                           _
+#           Wacom
+peripheral  wacom-driver                  _                      xf86-input-wacom                  _
