@@ -22,6 +22,14 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                  , "--normal", "yellow"
                                  , "--high",   "red"
                                  ] 10
+                    , Run Swap [ "-t",       "<fn=1>SWAP</fn> <usedratio>%"
+                               , "-p",       "3"
+                               , "-L",       "20"
+                               , "-H",       "80"
+                               , "--low",    "green"
+                               , "--normal", "yellow"
+                               , "--high",   "red"
+                               ] 10
                     , Run MultiCoreTemp [ "-t",       "<fn=1>TEMP</fn> <max>°C"
                                         , "-p",       "3"
                                         , "-L",       "40"
@@ -62,7 +70,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=white></fc>  %cpu% %memory% %multicoretemp% %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
+       , template = "<fc=white></fc>  %cpu% %memory% %swap% %multicoretemp% %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
        }
 
 -- vim: syntax=haskell
