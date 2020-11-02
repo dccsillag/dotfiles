@@ -202,13 +202,13 @@ myKeys config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_f
                                  , keybinding_humankey    = [AlphaKey 'f']
-                                 , keybinding_action      = spawnNohup $ filemanager_spawn
+                                 , keybinding_action      = spawnNohup filemanager_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Vim"
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_v
                                  , keybinding_humankey    = [AlphaKey 'v']
-                                 , keybinding_action      = spawnNohup $ texteditor_spawn
+                                 , keybinding_action      = spawnNohup texteditor_spawn
                                  }
                     , KeyBinding { keybinding_description = "Launch Browser"
                                  , keybinding_mask        = 0
@@ -927,7 +927,7 @@ myKeys config =
                          humankeysToString :: [HumanKey] -> String
                          humankeysToString hkey = intercalate "+" $ show <$> hkey
                      io $ writeFile "/tmp/xmonad-help.txt" $ unlines $ "* Csillag XMonad Help" : keysToString "" (myKeys config)
-                     spawnNohup $ term_run $ "less /tmp/xmonad-help.txt"
+                     spawnNohup $ term_run "less /tmp/xmonad-help.txt"
                      return ()
                  }
     ]
