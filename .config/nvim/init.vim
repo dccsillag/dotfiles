@@ -775,12 +775,22 @@ map z#  <Plug>(asterisk-z#)
 map gz# <Plug>(asterisk-gz#)
 
 "" Add empty lines above and below
-nnoremap [o O<Esc>
-nnoremap ]o o<Esc>
+function! s:BlankUp(count) abort
+    put! =repeat(nr2char(10), a:count)
+    ']+1
+    exec 'norm! ' . a:count . 'k'
+    silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
+endfunction
+function! s:BlankDown(count) abort
+    put =repeat(nr2char(10), a:count)
+    silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
+endfunction
+nnoremap <silent> O :<C-U>call <SID>BlankUp(v:count1)<CR>
+nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
 
 "" vim-subversive mappings
-nmap s <Plug>(SubversiveSubstitute)
-nmap ss <Plug>(SubversiveSubstituteLine)
+nmap <C-s> <Plug>(SubversiveSubstitute)
+nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
 
 " }}}
 
