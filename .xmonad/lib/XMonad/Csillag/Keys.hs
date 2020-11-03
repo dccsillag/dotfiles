@@ -47,7 +47,24 @@ import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.MultiToggle
 
 
-myKeys config =
+myKeys config =  myKeys_core config
+              ++ myKeys_directional config
+              ++ myKeys_stack config
+              ++ myKeys_spawn config
+              ++ myKeys_float config
+              ++ myKeys_close config
+              ++ myKeys_screens config
+              ++ myKeys_workspaces config
+              ++ myKeys_layouts config
+              ++ myKeys_layoutmsgs config
+              ++ myKeys_scratchpads config
+              ++ myKeys_passwords config
+              ++ myKeys_screenshot config
+              ++ myKeys_devices config
+              ++ myKeys_system config
+              ++ myKeys_help config
+
+myKeys_core config =
     [ KeyHeading "Core"
     , KeyBinding { keybinding_description = "Restart XMonad"
                  , keybinding_mask        = shiftMask
@@ -81,7 +98,10 @@ myKeys config =
                  , keybinding_humankey    = [AlphaKey ';']
                  , keybinding_action      = xmonadPrompt csillagPromptConfig
                  }
-    , KeyHeading "Directional Keys"
+    ]
+
+myKeys_directional config =
+    [ KeyHeading "Directional Keys"
     , KeyBinding { keybinding_description = "Focus window to the left"
                  , keybinding_mask        = 0
                  , keybinding_key         = xK_h
@@ -130,7 +150,10 @@ myKeys config =
                  , keybinding_humankey    = [ShiftKey, AlphaKey 'l']
                  , keybinding_action      = windowSwap R False
                  }
-    , KeyHeading "Stack Keys"
+    ]
+
+myKeys_stack config =
+    [ KeyHeading "Stack Keys"
     , KeyBinding { keybinding_description = "Focus master window"
                  , keybinding_mask        = 0
                  , keybinding_key         = xK_m
@@ -179,7 +202,10 @@ myKeys config =
                  , keybinding_humankey    = [AlphaKey '>']
                  , keybinding_action      = windows W.swapDown
                  }
-    , KeyHeading "Spawn Stuff"
+    ]
+
+myKeys_spawn config =
+    [ KeyHeading "Spawn Stuff"
     , KeySubmap { keysubmap_description = "Spawn stuff"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_n
@@ -260,7 +286,10 @@ myKeys config =
     --                  let bibIds = BibTeX.identifier <$> bibs
     --                  inputPromptWithCompl csillagPromptConfig "BibTeX" (mkComplFunFromList bibIds) ?+ openPaper
     --              }
-    , KeyHeading "Floating Windows"
+    ]
+
+myKeys_float config =
+    [ KeyHeading "Floating Windows"
     , KeySubmap { keysubmap_description = "Manage floating windows"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_f
@@ -280,7 +309,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Close Windows"
+    ]
+
+myKeys_close config =
+    [ KeyHeading "Close Windows"
     , KeySubmap { keysubmap_description = "Close window"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_x
@@ -311,7 +343,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Screens (Xinerama)"
+    ]
+
+myKeys_screens config =
+    [ KeyHeading "Screens (Xinerama)"
     , KeySubmap { keysubmap_description = "Manage Screens"
                 , keysubmap_mask = shiftMask
                 , keysubmap_key = xK_s
@@ -392,7 +427,10 @@ myKeys config =
                                 }
                     ]
                 }
-    , KeyHeading "Workspaces"
+    ]
+
+myKeys_workspaces config =
+    [ KeyHeading "Workspaces"
     , KeySubmap { keysubmap_description = "Manage Workspaces"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_w
@@ -516,7 +554,10 @@ myKeys config =
                                 }
                     ]
                 }
-    , KeyHeading "Layouts"
+    ]
+
+myKeys_layouts config =
+    [ KeyHeading "Layouts"
     , KeySubmap { keysubmap_description = "Change Layout"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_c
@@ -593,7 +634,10 @@ myKeys config =
                                 }
                     ]
                 }
-    , KeyHeading "Layout Messages"
+    ]
+
+myKeys_layoutmsgs config =
+    [ KeyHeading "Layout Messages"
     -- , KeyBinding { keybinding_description = "Toggle struts"
     --              , keybinding_mask        = shiftMask
     --              , keybinding_key         = xK_backslash
@@ -642,7 +686,10 @@ myKeys config =
                  , keybinding_humankey = [ReturnKey]
                  , keybinding_action = sendMessage $ Toggle MAGNIFIER
                  }
-    , KeyHeading "Scratchpads"
+    ]
+
+myKeys_scratchpads config =
+    [ KeyHeading "Scratchpads"
     , KeySubmap { keysubmap_description = "Show/Hide Scratchpads"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_s
@@ -728,7 +775,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Passwords"
+    ]
+
+myKeys_passwords config =
+    [ KeyHeading "Passwords"
     , KeySubmap { keysubmap_description = "Manage passwords"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_p
@@ -760,7 +810,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Screenshots"
+    ]
+
+myKeys_screenshot config =
+    [ KeyHeading "Screenshots"
     , KeySubmap { keysubmap_description = "Yank the screen"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_y
@@ -786,7 +839,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Devices"
+    ]
+
+myKeys_devices config =
+    [ KeyHeading "Devices"
     , KeySubmap { keysubmap_description = "Manage devices"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_d
@@ -838,7 +894,10 @@ myKeys config =
                                 }
                     ]
                 }
-    , KeyHeading "System"
+    ]
+
+myKeys_system config =
+    [ KeyHeading "System"
     , KeySubmap { keysubmap_description = "Manage system functions"
                 , keysubmap_mask = 0
                 , keysubmap_key = xK_q
@@ -912,7 +971,10 @@ myKeys config =
                                  }
                     ]
                 }
-    , KeyHeading "Help"
+    ]
+
+myKeys_help config =
+    [ KeyHeading "Help"
     , KeyBinding { keybinding_description = "Show Help"
                  , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_slash
