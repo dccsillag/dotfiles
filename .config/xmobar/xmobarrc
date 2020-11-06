@@ -47,6 +47,8 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                      , "--normal", "yellow"
                                      , "--high", "red"
                                      ] 10
+                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["mem"] "gpumem" 5
+                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["proc"] "gpuproc" 5
                     , Run Com "/home/daniel/.local/scripts/package-manager-updates.sh" [] "updates" 1000
                     , Run Com "/home/daniel/.local/scripts/xmonad-recompiling.sh" [] "xmonad_recompiling" 10
 
@@ -70,7 +72,8 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=white></fc>  %cpu% %memory% %swap% %multicoretemp% %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
+       -- , template = "<fc=white></fc>  %cpu% %gpuproc% | %memory% %swap% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
+       , template = "<fc=white></fc>  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
        }
 
 -- vim: syntax=haskell
