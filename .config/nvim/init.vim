@@ -618,6 +618,10 @@ nnoremap <silent> # #:Beacon<CR>
 "" Change S to behave like X
 nmap S Xi
 
+"" Change s to ys (normal) / S (visual)
+nmap s ys
+vmap s S
+
 "}}}
 
 " Misc {{{
