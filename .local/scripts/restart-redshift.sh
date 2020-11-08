@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pkill redshift
+killall redshift
 
 while pgrep redshift > /dev/null
 do
