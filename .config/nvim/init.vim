@@ -370,6 +370,7 @@ Plug 'wlangstroth/vim-racket' " (language support for Racket) {{{
 set lispwords-=if
 
 " }}}
+Plug 'goerz/jupytext.vim' " (for editing Jupyter notebooks)
 "}}}
 
 " Bloat {{{
