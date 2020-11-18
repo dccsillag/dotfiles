@@ -156,7 +156,7 @@ let g:wordmotion_spaces = ''
 
 "}}}
 Plug 'haya14busa/vim-asterisk' " (improve * and #)
-Plug 'ervandew/supertab' " (for autocomplete with tab)
+" Plug 'ervandew/supertab' " (for autocomplete with tab)
 Plug 'embear/vim-localvimrc' " (for using local [e.g. project-specific] vimrcs) {{{
 
 let g:localvimrc_persistent = 1
@@ -220,6 +220,24 @@ let g:ale_sign_warning = "Wa"
 let g:ale_sign_info = "In"
 let g:ale_sign_style_error = "St"
 let g:ale_sign_style_warning = "St"
+
+"}}}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " (for smart autocomplete) {{{
+
+function! s:DeopleteInit() abort
+    call deoplete#enable()
+    call deoplete#custom#option(
+                \ {
+                \   'smart_case':          v:true,
+                \   'auto_complete':       v:false,
+                \   'camel_case':          v:true,
+                \   'sources': {
+                \       '_':   ['file', 'around'],
+                \       'cpp': ['file', 'around', 'clang_complete'],
+                \       'py':  ['file', 'around'],
+                \   }
+                \ })
+endfunction
 
 "}}}
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
@@ -691,6 +709,11 @@ augroup dotfiles
     autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
 augroup END "}}}
 
+augroup DeopleteInit "{{{
+    autocmd!
+    autocmd FileType python,haskell call s:DeopleteInit()
+augroup END "}}}
+
 "}}}
 
 " Mappings {{{
@@ -796,6 +819,19 @@ nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
 "" vim-subversive mappings
 nmap <C-s> <Plug>(SubversiveSubstitute)
 nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
+
+"" deoplete mappings
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ deoplete#manual_complete()
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+function! s:my_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+endfunction
 
 " }}}
 
