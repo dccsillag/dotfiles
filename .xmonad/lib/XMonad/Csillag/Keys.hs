@@ -440,7 +440,8 @@ myKeys_workspaces config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_r
                                  , keybinding_humankey    = [AlphaKey 'r']
-                                 , keybinding_action      = renameWorkspace csillagPromptConfig
+                                 -- , keybinding_action      = renameWorkspace csillagPromptConfig
+                                 , keybinding_action      = inputPrompt csillagPromptConfig "Rename Workspace" ?+ renameWorkspaceByName
                                  }
                     , KeyBinding { keybinding_description = "Delete Workspace"
                                  , keybinding_mask        = 0
