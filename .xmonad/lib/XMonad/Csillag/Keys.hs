@@ -906,13 +906,13 @@ myKeys_system config =
                     [ KeyBinding { keybinding_description = "Quit / Exit XMonad"
                                  , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_q
-                                 , keybinding_humankey    = [AlphaKey 'q']
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'q']
                                  , keybinding_action      = quitWithWarning
                                  }
                     , KeyBinding { keybinding_description = "Suspend"
-                                 , keybinding_mask        = 0
+                                 , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_s
-                                 , keybinding_humankey    = [AlphaKey 's']
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 's']
                                  , keybinding_action      = spawn "systemctl suspend"
                                  }
                     , KeyBinding { keybinding_description = "Blank the screen"
