@@ -132,7 +132,7 @@ function ssh() {
     export SSHALIAS=1
     /usr/bin/ssh $@
     export SSHALIAS=0
-    env TERM=xterm-256color xtermcontrol --file=~/.config/xtermcontrol/config
+    bgset %0
 }
 
 # Open files with external applications
