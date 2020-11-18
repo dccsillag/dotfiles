@@ -65,7 +65,7 @@ myXMonadConfig = do
     tempfileExists <- doesFileExist workspaceTempFile
     unless tempfileExists $ writeFile workspaceTempFile "."
     wkss <- lines <$> readFile workspaceTempFile
-    return $ ewmh $ withNavigation2DConfig def $ def {
+    return $ ewmh $ withNavigation2DConfig myNavigation2DConfig $ def {
           terminal           = term_spawn
         , modMask            = mod4Mask -- Super key
         , focusFollowsMouse  = False
@@ -136,3 +136,6 @@ splitOnEqual :: String -> Maybe (String, String)
 splitOnEqual ""        = Nothing
 splitOnEqual ('=':str) = Just ("", str)
 splitOnEqual (c:str)   = first (c:) <$> splitOnEqual str
+
+
+myNavigation2DConfig = def { defaultTiledNavigation = sideNavigationWithBias 1 }
