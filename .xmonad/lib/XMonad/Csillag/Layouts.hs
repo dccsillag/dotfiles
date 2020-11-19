@@ -16,7 +16,7 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.IfMax
 import XMonad.Layout.Dwindle
 import XMonad.Layout.Grid
-import XMonad.Layout.StateFull
+import XMonad.Layout.Tabbed
 import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.MosaicAlt
@@ -43,7 +43,7 @@ myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $
     -- ||| renamed [Replace "Dishes"] (winSpaces $ Dishes 2 (1/6))
     ||| renamed [Replace "Dishes"] (winSpaces $ StackTile 2 (3/100) (5/6))
     ||| renamed [Replace "OneBig"] (winSpaces $ OneBig (6/7) (6/7))
-    ||| renamed [Replace "Full"]   StateFull
+    ||| renamed [Replace "Full"]   simpleTabbed
     ||| renamed [Replace "Dwindle"] (winSpaces $ Dwindle R CW 1 1.1)
     ||| renamed [Replace "Mirror Dwindle"]
                 (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
