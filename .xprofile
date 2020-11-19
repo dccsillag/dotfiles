@@ -41,7 +41,7 @@ xset s 3600 3600
 battery-monitor &
 
 # Set background image
-.local/scripts/background-setter.sh &
+.local/scripts/background-setter.sh set &
 
 # Launch redshift
 # redshift &
