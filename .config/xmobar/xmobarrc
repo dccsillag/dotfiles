@@ -1,7 +1,7 @@
 Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , additionalFonts = [ "xft:FantasqueSansMono Nerd Font-7:antialias=true:autohint=true" ]
-       , borderColor = "black"
-       , border = TopB
+       -- , borderColor = "black"
+       , border = NoBorder
        , bgColor = "black"
        , fgColor = "grey"
        , alpha = 75
