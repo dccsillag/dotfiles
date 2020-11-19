@@ -67,14 +67,30 @@ myKeys config =  myKeys_core config
 
 myKeys_core config =
     [ KeyHeading "Core"
-    , KeyBinding { keybinding_description = "Restart XMonad"
-                 , keybinding_mask        = shiftMask
-                 , keybinding_key         = xK_q
-                 , keybinding_humankey    = [ShiftKey, AlphaKey 'q']
-                 , keybinding_action      = do
-                     withWindowSet $ \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
-                     spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
-                 }
+    , KeySubmap { keysubmap_description = "Restart XMonad..."
+                , keysubmap_mask = 0
+                , keysubmap_key = xK_r
+                , keysubmap_humankey = [AlphaKey 'r']
+                , keysubmap_submaps =
+                    [ KeyBinding { keybinding_description = "Restart XMonad without Optimization"
+                                 , keybinding_mask        = 0
+                                 , keybinding_key         = xK_r
+                                 , keybinding_humankey    = [AlphaKey 'r']
+                                 , keybinding_action      = do
+                                     withWindowSet $ \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
+                                     io $ writeFile "/tmp/.xmonad-nooptimize" "no optimize"
+                                     spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
+                                 }
+                    , KeyBinding { keybinding_description = "Restart XMonad with Optimization"
+                                 , keybinding_mask        = shiftMask
+                                 , keybinding_key         = xK_r
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'r']
+                                 , keybinding_action      = do
+                                     withWindowSet $ \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
+                                     spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
+                                 }
+                    ]
+                }
     , KeyBinding { keybinding_description = "Kill the Compositor"
                  , keybinding_mask        = shiftMask
                  , keybinding_key         = xK_9
