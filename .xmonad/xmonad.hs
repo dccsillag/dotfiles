@@ -52,7 +52,6 @@ startup = do
   -- Start the compositor
   spawn compositor_spawn
   -- spawnOnce "kdeconnect-cli -l"
-  spawn $ "feh --no-fehbg --bg-scale " ++ backgroundImage
   spawnOnce "redshift"
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
 

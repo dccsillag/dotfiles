@@ -1,11 +1,7 @@
 module XMonad.Csillag.Consts where
 
 
-volumeChangeSound =
-  -- "/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-  "~/.xmonad/audio-volume-change.wav"
--- backgroundImage   = "/usr/share/backgrounds/FallDrops,AncientLight.jpg"
-backgroundImage = "/usr/share/backgrounds/gnome/Dark_Ivy.jpg"
+volumeChangeSound = "~/.xmonad/audio-volume-change.wav"
 
 -- Icons:
 lockIcon           = "\xf023"
