@@ -60,6 +60,7 @@ myKeys config =  myKeys_core config
               ++ myKeys_scratchpads config
               ++ myKeys_passwords config
               ++ myKeys_screenshot config
+              ++ myKeys_background config
               ++ myKeys_devices config
               ++ myKeys_system config
               ++ myKeys_help config
@@ -856,6 +857,29 @@ myKeys_screenshot config =
                                  , keybinding_key = xK_f
                                  , keybinding_humankey = [AlphaKey 'f']
                                  , keybinding_action = spawn scrot_thiswindow
+                                 }
+                    ]
+                }
+    ]
+
+myKeys_background config =
+    [ KeyHeading "Background"
+    , KeySubmap { keysubmap_description = "Manage background"
+                , keysubmap_mask = 0
+                , keysubmap_key = xK_b
+                , keysubmap_humankey = [AlphaKey 'b']
+                , keysubmap_submaps =
+                    [ KeyBinding { keybinding_description = "Set a random background"
+                                 , keybinding_mask = 0
+                                 , keybinding_key = xK_r
+                                 , keybinding_humankey = [AlphaKey 'r']
+                                 , keybinding_action = spawn "background-setter set"
+                                 }
+                    , KeyBinding { keybinding_description = "Automatically set a random background every 1h"
+                                 , keybinding_mask = 0
+                                 , keybinding_key = xK_a
+                                 , keybinding_humankey = [AlphaKey 'a']
+                                 , keybinding_action = spawn "background-setter auto"
                                  }
                     ]
                 }
