@@ -664,6 +664,18 @@ myKeys_layoutmsgs config =
                  , keybinding_humankey    = [AlphaKey ']']
                  , keybinding_action      = sendMessage Expand
                  }
+    , KeyBinding { keybinding_description = "Add one window to master pane"
+                 , keybinding_mask        = shiftMask
+                 , keybinding_key         = xK_bracketleft
+                 , keybinding_humankey    = [AlphaKey '{']
+                 , keybinding_action      = sendMessage $ IncMasterN 1
+                 }
+    , KeyBinding { keybinding_description = "Take one window from master pane"
+                 , keybinding_mask        = shiftMask
+                 , keybinding_key         = xK_bracketright
+                 , keybinding_humankey    = [AlphaKey '}']
+                 , keybinding_action      = sendMessage $ IncMasterN (-1)
+                 }
     , KeyBinding { keybinding_description = "Increase window spacing"
                  , keybinding_mask = controlMask
                  , keybinding_key = xK_plus
