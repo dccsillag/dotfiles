@@ -1,10 +1,11 @@
 {-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances #-}
 
 module XMonad.Csillag.Layouts
-  ( myLayouts
-  , windowGap
-  , MAGNIFIER(..)
-  )
+    ( myLayouts
+    , windowGap
+    , MAGNIFIER(..)
+    , WINDOWTITLES(..)
+    )
 where
 
 import XMonad hiding ((|||))
@@ -28,14 +29,20 @@ import XMonad.Layout.Magnifier
 
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Spacing
+import XMonad.Layout.SimpleDecoration
 
 data MAGNIFIER = MAGNIFIER deriving (Read, Show, Eq, Typeable)
+
+data WINDOWTITLES = WINDOWTITLES deriving (Read, Show, Eq, Typeable)
 
 instance Transformer MAGNIFIER Window where
     transform MAGNIFIER x k = k (magnifier x) $ \(ModifiedLayout _ x') -> x'
 
-myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $
-    renamed [Replace "Mosaic"] (winSpaces $ MosaicAlt M.empty)                           |||
+instance Transformer WINDOWTITLES Window where
+    transform WINDOWTITLES x k = k (simpleDeco shrinkText windowbarTheme x) $ \(ModifiedLayout _ x') -> x'
+
+myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $ mkToggle (single WINDOWTITLES) $
+    renamed [Replace "Mosaic"]         (winSpaces $ MosaicAlt M.empty)                   |||
     renamed [Replace "Grid"]           (winSpaces $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
     renamed [Replace "ThreeColMid"]    (winSpaces $ ThreeColMid 1 (3/100) (1/2))         |||
     renamed [Replace "Dishes"]         (winSpaces $ StackTile 2 (3/100) (5/6))           |||
@@ -50,11 +57,23 @@ myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $
                                (Border windowGap windowGap windowGap windowGap)
                                True
 
-        tabbedTheme = def { fontName          = "xft:FantasqueSansMono Nerd Font:size=12"
-                          , activeColor       = "#707070"
-                          , activeTextColor   = "#ffffff"
-                          , inactiveColor     = "#333333"
-                          , inactiveTextColor = "#EEEEEE"
-                          }
+tabbedTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=12"
+                  , activeColor         = "#707070"
+                  , activeTextColor     = "#ffffff"
+                  , activeBorderColor   = "#eeeeee"
+                  , inactiveColor       = "#333333"
+                  , inactiveTextColor   = "#EEEEEE"
+                  , inactiveBorderColor = "#555555"
+                  }
+
+windowbarTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=12"
+                     , activeColor         = "#707070"
+                     , activeTextColor     = "#ffffff"
+                     , activeBorderColor   = "#eeeeee"
+                     , inactiveColor       = "#333333"
+                     , inactiveTextColor   = "#EEEEEE"
+                     , inactiveBorderColor = "#555555"
+                     , decoWidth           = 5000
+                     }
 
 windowGap = 2

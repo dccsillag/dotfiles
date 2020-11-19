@@ -14,7 +14,7 @@ import Control.Monad
 import XMonad.Csillag.Internal.KeyBindings
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts (windowGap, MAGNIFIER(..))
+import XMonad.Csillag.Layouts (windowGap, MAGNIFIER(..), WINDOWTITLES(..))
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 
@@ -722,6 +722,12 @@ myKeys_layoutmsgs config =
                  , keybinding_key = xK_Return
                  , keybinding_humankey = [ReturnKey]
                  , keybinding_action = sendMessage $ Toggle MAGNIFIER
+                 }
+    , KeyBinding { keybinding_description = "Toggle manifier"
+                 , keybinding_mask = shiftMask
+                 , keybinding_key = xK_Return
+                 , keybinding_humankey = [ShiftKey, ReturnKey]
+                 , keybinding_action = sendMessage $ Toggle WINDOWTITLES
                  }
     ]
 
