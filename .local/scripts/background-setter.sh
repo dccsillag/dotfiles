@@ -5,7 +5,11 @@ DOWNTIME=1h
 # Kill other running instances
 for pid in $(pidof -x "$0")
 do
-    [ "$pid" != $$ ] && kill "$pid"
+    if [ "$pid" != $$ ]
+    then
+        echo "kill $pid"
+        kill "$pid"
+    fi
 done
 
 # Main loop
