@@ -575,13 +575,14 @@ myKeys_layouts config =
                                  , keybinding_key         = xK_c
                                  , keybinding_humankey    = [AlphaKey 'c']
                                  , keybinding_action      = gridselect myGridSelectConfig (map (\x -> (x, x))
-                                     [ "Dwindle"
-                                     , "Mirror Dwindle"
+                                     [ "Mosaic"
                                      , "Grid"
-                                     , "Full"
-                                     , "OneBig"
                                      , "ThreeColMid"
-                                     , "Mosaic"
+                                     , "Dishes"
+                                     , "OneBig"
+                                     , "Full"
+                                     , "Dwindle"
+                                     , "Mirror Dwindle"
                                      ]) >>= flip whenJust (sendMessage . JumpToLayout)
                                  }
                     , KeySubmap { keysubmap_description = "Set layout"
@@ -589,29 +590,29 @@ myKeys_layouts config =
                                 , keysubmap_key = xK_l
                                 , keysubmap_humankey = [AlphaKey 'l']
                                 , keysubmap_submaps =
-                                    [ KeyBinding { keybinding_description = "Set Layout to 'Dwindle'"
-                                                 , keybinding_mask        = 0
-                                                 , keybinding_key         = xK_d
-                                                 , keybinding_humankey    = [AlphaKey 'd']
-                                                 , keybinding_action      = sendMessage $ JumpToLayout "Dwindle"
-                                                 }
-                                    , KeyBinding { keybinding_description = "Set Layout to 'Mirror Dwindle'"
+                                    [ KeyBinding { keybinding_description = "Set Layout to 'Mosaic'"
                                                  , keybinding_mask        = 0
                                                  , keybinding_key         = xK_m
                                                  , keybinding_humankey    = [AlphaKey 'm']
-                                                 , keybinding_action = sendMessage $ JumpToLayout "Mirror Dwindle"
+                                                 , keybinding_action      = sendMessage $ JumpToLayout "Mosaic"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'Grid'"
                                                  , keybinding_mask        = 0
                                                  , keybinding_key         = xK_g
                                                  , keybinding_humankey    = [AlphaKey 'g']
-                                                 , keybinding_action      = sendMessage $ JumpToLayout "Grid"
+                                                 , keybinding_action = sendMessage $ JumpToLayout "Grid"
                                                  }
-                                    , KeyBinding { keybinding_description = "Set Layout to 'Full'"
+                                    , KeyBinding { keybinding_description = "Set Layout to 'ThreeColMid'"
                                                  , keybinding_mask        = 0
-                                                 , keybinding_key         = xK_f
-                                                 , keybinding_humankey    = [AlphaKey 'f']
-                                                 , keybinding_action      = sendMessage $ JumpToLayout "Full"
+                                                 , keybinding_key         = xK_t
+                                                 , keybinding_humankey    = [AlphaKey 't']
+                                                 , keybinding_action      = sendMessage $ JumpToLayout "ThreeColMid"
+                                                 }
+                                    , KeyBinding { keybinding_description = "Set Layout to 'Dishes'"
+                                                 , keybinding_mask        = shiftMask
+                                                 , keybinding_key         = xK_d
+                                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'd']
+                                                 , keybinding_action      = sendMessage $ JumpToLayout "Dishes"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'OneBig'"
                                                  , keybinding_mask        = 0
@@ -619,17 +620,23 @@ myKeys_layouts config =
                                                  , keybinding_humankey    = [AlphaKey 'o']
                                                  , keybinding_action      = sendMessage $ JumpToLayout "OneBig"
                                                  }
-                                    , KeyBinding { keybinding_description = "Set Layout to 'ThreeColMid'"
+                                    , KeyBinding { keybinding_description = "Set Layout to 'Full'"
                                                  , keybinding_mask        = 0
-                                                 , keybinding_key         = xK_t
-                                                 , keybinding_humankey    = [AlphaKey 't']
-                                                 , keybinding_action = sendMessage $ JumpToLayout "ThreeColMid"
+                                                 , keybinding_key         = xK_f
+                                                 , keybinding_humankey    = [AlphaKey 'f']
+                                                 , keybinding_action = sendMessage $ JumpToLayout "Full"
                                                  }
-                                    , KeyBinding { keybinding_description = "Set Layout to 'Mosaic'"
+                                    , KeyBinding { keybinding_description = "Set Layout to 'Dwindle'"
+                                                 , keybinding_mask        = 0
+                                                 , keybinding_key         = xK_d
+                                                 , keybinding_humankey    = [AlphaKey 'd']
+                                                 , keybinding_action = sendMessage $ JumpToLayout "Dwindle"
+                                                 }
+                                    , KeyBinding { keybinding_description = "Set Layout to 'Mirror Dwindle'"
                                                  , keybinding_mask        = shiftMask
                                                  , keybinding_key         = xK_m
                                                  , keybinding_humankey    = [ShiftKey, AlphaKey 'm']
-                                                 , keybinding_action = sendMessage $ JumpToLayout "Mosaic"
+                                                 , keybinding_action = sendMessage $ JumpToLayout "Mirror Dwindle"
                                                  }
                                     ]
                                 }

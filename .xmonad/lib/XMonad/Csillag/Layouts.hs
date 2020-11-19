@@ -20,6 +20,7 @@ import XMonad.Layout.StateFull
 import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.MosaicAlt
+import XMonad.Layout.StackTile
 
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.MultiToggle
@@ -35,15 +36,17 @@ instance Transformer MAGNIFIER Window where
 
 myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $
   renamed [Replace "Mosaic"] (winSpaces $ MosaicAlt M.empty)
+    ||| renamed [Replace "Grid"]
+                (winSpaces $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid)
+    ||| renamed [Replace "ThreeColMid"]
+                (winSpaces $ ThreeColMid 1 (3/100) (1/2))
+    -- ||| renamed [Replace "Dishes"] (winSpaces $ Dishes 2 (1/6))
+    ||| renamed [Replace "Dishes"] (winSpaces $ StackTile 2 (3/100) (5/6))
+    ||| renamed [Replace "OneBig"] (winSpaces $ OneBig (6/7) (6/7))
+    ||| renamed [Replace "Full"]   StateFull
+    ||| renamed [Replace "Dwindle"] (winSpaces $ Dwindle R CW 1 1.1)
     ||| renamed [Replace "Mirror Dwindle"]
                 (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
-    ||| renamed [Replace "Grid"]
-                (winSpaces $ IfMax 2 (Tall 1 (3 / 100) (1 / 2)) Grid)
-    ||| renamed [Replace "Full"]   StateFull
-    ||| renamed [Replace "OneBig"] (winSpaces $ OneBig (3 / 4) (3 / 4))
-    ||| renamed [Replace "ThreeColMid"]
-                (winSpaces $ ThreeColMid 1 (3 / 100) (1 / 2))
-    ||| renamed [Replace "Dwindle"] (winSpaces $ Dwindle R CW 1 1.1)
     -- ||| renamed [Replace "Circle"] Circle
  where
   winSpaces = spacingRaw True
