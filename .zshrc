@@ -25,6 +25,7 @@ if ! zgen saved; then
     zgen load olets/zsh-abbr
     zgen load ael-code/zsh-colored-man-pages
     zgen load woefe/vi-mode.zsh
+    zgen load pawel-slowik/zsh-term-title
 
     # Abbreviations
     # # Remove all
