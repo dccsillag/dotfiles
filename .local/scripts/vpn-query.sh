@@ -9,6 +9,6 @@ fi
 
 if pgrep -l vpn | grep -v "$(basename $0)" | cut -d' ' -f 2 | grep [v]pn > /dev/null;
 then
-    printf "VPN"
+    printf "嬨"
 fi
 echo "</fc>"

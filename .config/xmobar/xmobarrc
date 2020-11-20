@@ -3,10 +3,10 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        -- , borderColor = "black"
        , border = NoBorder
        , bgColor = "black"
-       , fgColor = "grey"
-       , alpha = 75
+       , fgColor = "gray"
+       , alpha = 150
        , position = TopW L 100
-       , commands = [ Run Cpu [ "-t",       "<fn=1>CPU</fn> <total>%"
+       , commands = [ Run Cpu [ "-t",       "﬙ <total>%"
                               , "-p",       "3"
                               , "-L",       "5"
                               , "-H",       "50"
@@ -14,7 +14,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                               , "--normal", "yellow"
                               , "--high",   "red"
                               ] 5
-                    , Run Memory [ "-t",       "<fn=1>MEM</fn> <usedratio>%"
+                    , Run Memory [ "-t",       " <usedratio>%"
                                  , "-p",       "3"
                                  , "-L",       "20"
                                  , "-H",       "80"
@@ -22,7 +22,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                  , "--normal", "yellow"
                                  , "--high",   "red"
                                  ] 10
-                    , Run Swap [ "-t",       "<fn=1>SWAP</fn> <usedratio>%"
+                    , Run Swap [ "-t",       "易 <usedratio>%" -- 
                                , "-p",       "3"
                                , "-L",       "20"
                                , "-H",       "80"
@@ -30,7 +30,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                , "--normal", "yellow"
                                , "--high",   "red"
                                ] 10
-                    , Run MultiCoreTemp [ "-t",       "<fn=1>TEMP</fn> <max>°C"
+                    , Run MultiCoreTemp [ "-t",       "﨎 <max>°C"
                                         , "-p",       "3"
                                         , "-L",       "40"
                                         , "-H",       "65"
@@ -38,7 +38,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                         , "--normal", "green" -- "white"
                                         , "--high",   "red"
                                         ] 5
-                    , Run DynNetwork [ "-t", "<fn=1>NET</fn> ↓<rx> ↑<tx>"
+                    , Run DynNetwork [ "-t", "  ↓<rx> ↑<tx>"
                                      , "-p",       "3"
                                      , "-S", "True"
                                      , "-L", "4000"
@@ -47,16 +47,16 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                      , "--normal", "yellow"
                                      , "--high", "red"
                                      ] 10
-                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["mem"] "gpumem" 5
-                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["proc"] "gpuproc" 5
+                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["mem"] "gpumem" 10
+                    , Run Com "/home/daniel/.local/scripts/gpu-query.sh" ["proc"] "gpuproc" 10
                     , Run Com "/home/daniel/.local/scripts/package-manager-updates.sh" [] "updates" 1000
                     , Run Com "/home/daniel/.local/scripts/xmonad-recompiling.sh" [] "xmonad_recompiling" 10
 
-                    , Run Date "<fc=#FFFFFF>%a, %_d/%m/%Y %H:%M:%S</fc>" "datetime" 10
+                    , Run Date "<fc=#FFFFFF>   %a, %_d/%m/%Y %H:%M:%S</fc>" "datetime" 10
 
                     , Run Com "/home/daniel/.local/scripts/vpn-query.sh" [] "vpn" 20
                     , Run Com "/home/daniel/.local/scripts/do-not-disturb-query.sh" [] "donotdisturb" 10
-                    , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 10
+                    , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 2
                     , Run Battery [ "-t",       "<acstatus><left>%"
                                   , "-p",       "3"
                                   , "-L",       "25"
@@ -66,14 +66,14 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                   , "--high",   "green"
                                   , "--"
                                   , "-o",       ""
-                                  , "-i",       ""
+                                  , "-i",       " "
                                   , "-O",       "ﮣ"
                                   ] 30
                     ]
        , sepChar = "%"
        , alignSep = "}{"
        -- , template = "<fc=white></fc>  %cpu% %gpuproc% | %memory% %swap% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
-       , template = "<fc=white></fc>  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
+       , template = "  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb% %mic% %battery%  "
        }
 
 -- vim: syntax=haskell

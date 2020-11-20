@@ -11,7 +11,8 @@ case "$1" in
           else
               color='red'
           fi
-          printf "<fn=1>GPU</fn> <fc=$color>%3d</fc>%%\n" "$percent"
+          # printf "ﯟ <fc=$color>%3d</fc>%%\n" "$percent"
+          printf " <fc=$color>%3d</fc>%%\n" "$percent"
           ;;
     mem)  percent=$(nvidia-smi dmon -s u -c 1 | tail -1 | awk '{print $3}')
           if [ "$percent" -lt 20 ]
@@ -23,7 +24,7 @@ case "$1" in
           else
               color='red'
           fi
-          printf "<fn=1>GMEM</fn> <fc=$color>%3d</fc>%%\n" "$percent"
+          printf "舘 <fc=$color>%3d</fc>%%\n" "$percent"
           ;;
     *)    echo must be \'proc\' or \'mem\'
           exit 2
