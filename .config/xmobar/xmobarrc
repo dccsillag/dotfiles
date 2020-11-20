@@ -5,7 +5,9 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , bgColor = "black"
        , fgColor = "gray"
        , alpha = 150
-       , position = TopW L 100
+       , position = TopSize C 100 30
+       , textOffset = 19
+       , lowerOnStart = True
        , commands = [ Run Cpu [ "-t",       "﬙ <total>%"
                               , "-p",       "3"
                               , "-L",       "5"
@@ -73,7 +75,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , sepChar = "%"
        , alignSep = "}{"
        -- , template = "<fc=white></fc>  %cpu% %gpuproc% | %memory% %swap% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
-       , template = "  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb% %mic% %battery%  "
+       , template = "  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%  "
        }
 
 -- vim: syntax=haskell
