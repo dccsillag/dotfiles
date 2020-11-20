@@ -3,14 +3,19 @@
 # author: Thore Bödecker (foxxx0)
 # source: https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh
 
+if [ $# -gt 0 ] && [ "$1" = '--private' ]
+then
+    _target=\"private-window\"
+    shift 1
+else
+    _target=\"window\"
+fi
+
 if [ $# -gt 0 ]
 then
     _url="$1"
-    # _target=null
-    _target=\"window\"
 else
     _url="about:blank"
-    _target=\"window\"
 fi
 _qb_version='1.0.4'
 _proto_version=1
