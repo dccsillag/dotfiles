@@ -25,7 +25,8 @@ except NameError:
 
 config.load_autoconfig()
 
-# Misc Interface settings (behaviour)
+# Misc Interface settings (behaviour) {{{
+
 c.tabs.position = 'top'
 c.session.lazy_restore = True
 c.search.wrap = False
@@ -33,15 +34,16 @@ c.tabs.last_close = 'close'
 c.tabs.background = True
 # c.tabs.wrap = False
 
-# Dark mode
-c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.darkmode.policy.images = 'smart'
-c.colors.webpage.bg = 'black'
+# }}}
 
-# Behaviour
+# Behaviour {{{
+
 c.content.javascript.can_access_clipboard = True
 
-# Search Engines
+# }}}
+
+# Search Engines {{{
+
 c.url.searchengines = {
     'DEFAULT': 'https://duckduckgo.com/?q={}',
     'aw': 'https://wiki.archlinux.org/index.php?search={}',
@@ -49,7 +51,10 @@ c.url.searchengines = {
     'lib': 'http://gen.lib.rus.ec/search.php?req={}',
 }
 
-# Keybindings
+# }}}
+
+# Keybindings {{{
+
 config.bind('m', 'enter-mode set_mark')
 config.bind('M', 'nop')
 config.bind('<Ctrl-N>', 'completion-item-focus --history next', mode='command')
@@ -58,12 +63,18 @@ config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 config.bind(",m", ('spawn sh -c ' + quote('playerctl pause; mpv --force-window=immediate --save-position-on-quit URL')).replace('URL', '{url}'))
 
-# Statusbar
+# }}}
+
+# Statusbar {{{
+
 c.statusbar.widgets = ['keypress', 'url', 'scroll', 'tabs', 'progress']
 
-# Fonts
+# }}}
+
+# Fonts {{{
+
 UI_FONT = '12pt FantasqueSansMono Nerd Font'
-BIGGER_UI_FONT = '14pt FantasqueSansMono Nerd Font'
+BIGGER_UI_FONT = '13pt FantasqueSansMono Nerd Font'
 
 c.fonts.completion.category = 'bold ' + BIGGER_UI_FONT
 c.fonts.completion.entry = UI_FONT
@@ -80,7 +91,10 @@ c.fonts.statusbar = UI_FONT
 c.fonts.tabs.selected = 'bold ' + UI_FONT
 c.fonts.tabs.unselected = UI_FONT
 
-# Theme / Colors
+# }}}
+
+# Theme / Colors {{{
+
 c.colors.completion.fg                          = '#ffffff'
 c.colors.completion.category.fg                 = '#ffffff'
 c.colors.completion.category.bg                 = '#4b5356'
@@ -175,6 +189,22 @@ c.colors.tabs.selected.odd.fg                   = '#ffffff'
 c.colors.tabs.selected.odd.bg                   = '#444448'
 c.colors.webpage.bg                             = '#1b2326'
 
+# }}}
+
+# Other appearance stuff {{{
+
 c.hints.border = '1px solid #000000'
 c.tabs.indicator.width = 0
 c.tabs.favicons.show = 'never'
+
+# # Dark mode {{{
+
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.policy.images = 'smart'
+c.colors.webpage.bg = 'black'
+
+# }}}
+
+# }}}
+
+# vim: fdm=marker
