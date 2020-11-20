@@ -5,7 +5,7 @@ module XMonad.Csillag.CommonActions where
 import Data.Maybe
 import Data.List
 import Data.Semigroup
-import Data.Char (toLower)
+import Data.Char (toLower, isSpace)
 import Data.Function (on)
 import Control.Monad
 import Control.Concurrent
@@ -226,16 +226,16 @@ csillagPromptConfig = def { bgColor             = "#1b2326"
                           , alwaysHighlight     = True
                           , font                = "xft:FantasqueSansMono Nerd Font:size=20"
                           , height              = 50
-                          , maxComplRows        = Just 15
+                          , maxComplRows        = Just 12
                           , historySize         = 200
                           -- , historyFilter       = id
                           -- , promptKeymap        = ???
-                          , completionKey       = (0, xK_F5)
+                          , completionKey       = (controlMask, xK_n)
                           , changeModeKey       = xK_F1
                           , defaultText         = ""
                           , autoComplete        = Nothing
                           , showCompletionOnTab = False
                           , searchPredicate     = fuzzyMatch
                           , sorter              = fuzzySort
-                          , promptKeymap        = vimLikeXPKeymap
+                          , promptKeymap        = vimLikeXPKeymap' (\c -> c { bgNormal = "grey22" }) id id isSpace
                           }
