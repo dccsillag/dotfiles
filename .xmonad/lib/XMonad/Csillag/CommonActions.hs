@@ -69,25 +69,22 @@ myGridSelectWorkspace config func = withWindowSet $ \ws -> do
           $ W.workspaces ws
   gridselect config (zip wss wss) >>= flip whenJust func
 
-myGridSelectConfig = (buildDefaultGSConfig colorizer)
-  { gs_cellheight   = round size
-  , gs_cellwidth    = round $ silver * size
-  , gs_cellpadding  = 30
-  , gs_font         = "xft:Lato-Regular:pixelsize=20"
-  , gs_originFractX = 0.5
-  , gs_originFractY = 0.5
-  , gs_bordercolor  = "#666666"
-  }
- where
-  size   = 150.0 :: Double
-  silver = 2.4142135623 :: Double
-  colorizer :: WorkspaceId -> Bool -> X (String, String)
-  colorizer wks active = withWindowSet $ \ws -> do
-    let curWkss = map W.tag $ W.workspace (W.current ws) : map W.workspace
-                                                               (W.visible ws)
-    return $ if wks `elem` curWkss
-      then if active then ("#aaaaaa", "#000000") else ("#777777", "#222222")
-      else if active then ("#dddddd", "#000000") else ("#333333", "#bbbbbb")
+myGridSelectConfig = (buildDefaultGSConfig colorizer) { gs_cellheight   = round size
+                                                      , gs_cellwidth    = round $ silver * size
+                                                      , gs_cellpadding  = 30
+                                                      , gs_font         = "xft:Lato-Regular:pixelsize=20"
+                                                      , gs_originFractX = 0.5
+                                                      , gs_originFractY = 0.5
+                                                      , gs_bordercolor  = "#666666"
+                                                      }
+    where size   = 150.0 :: Double
+          silver = 2.4142135623 :: Double
+          colorizer :: WorkspaceId -> Bool -> X (String, String)
+          colorizer wks active = withWindowSet $ \ws -> do
+              let curWkss = map W.tag $ W.workspace (W.current ws) : map W.workspace (W.visible ws)
+              return $ if wks `elem` curWkss
+                          then if active then ("#aaaaaa", "#000000") else ("#777777", "#222222")
+                          else if active then ("#dddddd", "#000000") else ("#333333", "#bbbbbb")
 
 -- -- Rofi
 
