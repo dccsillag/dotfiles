@@ -40,7 +40,7 @@ browser_spawn :: String
 browser_spawn = "qutebrowser-quick"
 
 browser_spawn_private :: String
-browser_spawn_private = "brave --new-window --incognito"
+browser_spawn_private = "qutebrowser-quick --private"
 
 browser_open :: String -> String
 browser_open url = "qutebrowser-quick '" ++ url ++ "'"
