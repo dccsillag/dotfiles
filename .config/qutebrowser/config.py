@@ -67,7 +67,7 @@ config.bind(",m", ('spawn sh -c ' + quote('playerctl pause; mpv --force-window=i
 
 # Statusbar {{{
 
-c.statusbar.widgets = ['keypress', 'url', 'scroll', 'tabs', 'progress']
+c.statusbar.widgets = ['keypress', 'progress', 'history', 'scroll', 'tabs']
 
 # }}}
 
