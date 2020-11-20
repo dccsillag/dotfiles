@@ -221,11 +221,11 @@ csillagPromptConfig = def { bgColor             = "#1b2326"
                           , bgHLight            = "#00e896"
                           , fgHLight            = "#000000"
                           , borderColor         = "#AAAAAA"
-                          , promptBorderWidth   = 1
+                          , promptBorderWidth   = 0
                           , position            = CenteredAt 0.2 0.8
                           , alwaysHighlight     = True
                           , font                = "xft:FantasqueSansMono Nerd Font:size=20"
-                          , height              = 40
+                          , height              = 50
                           , maxComplRows        = Just 15
                           , historySize         = 200
                           -- , historyFilter       = id
