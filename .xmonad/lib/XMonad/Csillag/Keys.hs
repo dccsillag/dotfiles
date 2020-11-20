@@ -34,6 +34,7 @@ import XMonad.Prompt.Shell
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
 import XMonad.Prompt.XMonad
+import XMonad.Prompt.Ssh
 import XMonad.Hooks.ManageDocks
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.CopyWindow
@@ -240,6 +241,12 @@ myKeys_spawn config =
                                  , keybinding_key         = xK_t
                                  , keybinding_humankey    = [AlphaKey 't']
                                  , keybinding_action      = spawnNohup term_spawn
+                                 }
+                    , KeyBinding { keybinding_description = "Launch a terminal with SSH"
+                                 , keybinding_mask        = shiftMask
+                                 , keybinding_key         = xK_t
+                                 , keybinding_humankey    = [ShiftKey, AlphaKey 't']
+                                 , keybinding_action      = sshPrompt csillagPromptConfig
                                  }
                     , KeyBinding { keybinding_description = "Launch a file manager"
                                  , keybinding_mask        = 0
