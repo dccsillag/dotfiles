@@ -633,9 +633,9 @@ myKeys_layouts config =
                                                  , keybinding_action      = sendMessage $ JumpToLayout "ThreeColMid"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'Dishes'"
-                                                 , keybinding_mask        = shiftMask
+                                                 , keybinding_mask        = 0
                                                  , keybinding_key         = xK_d
-                                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'd']
+                                                 , keybinding_humankey    = [AlphaKey 'd']
                                                  , keybinding_action      = sendMessage $ JumpToLayout "Dishes"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'OneBig'"
@@ -651,9 +651,9 @@ myKeys_layouts config =
                                                  , keybinding_action = sendMessage $ JumpToLayout "Full"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'Dwindle'"
-                                                 , keybinding_mask        = 0
+                                                 , keybinding_mask        = shiftMask
                                                  , keybinding_key         = xK_d
-                                                 , keybinding_humankey    = [AlphaKey 'd']
+                                                 , keybinding_humankey    = [ShiftKey, AlphaKey 'd']
                                                  , keybinding_action = sendMessage $ JumpToLayout "Dwindle"
                                                  }
                                     , KeyBinding { keybinding_description = "Set Layout to 'Mirror Dwindle'"
