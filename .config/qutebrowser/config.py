@@ -71,28 +71,6 @@ c.statusbar.widgets = ['keypress', 'progress', 'history', 'scroll', 'tabs']
 
 # }}}
 
-# Fonts {{{
-
-UI_FONT = '12pt FantasqueSansMono Nerd Font'
-BIGGER_UI_FONT = '13pt FantasqueSansMono Nerd Font'
-
-c.fonts.completion.category = 'bold ' + BIGGER_UI_FONT
-c.fonts.completion.entry = UI_FONT
-# c.fonts.contextmenu (keep default)
-c.fonts.debug_console = UI_FONT
-c.fonts.downloads = 'italic ' + UI_FONT
-c.fonts.hints = 'bold ' + UI_FONT
-c.fonts.keyhint = 'bold ' + UI_FONT
-c.fonts.messages.error = 'bold ' + UI_FONT
-c.fonts.messages.info = UI_FONT
-c.fonts.messages.warning = 'italic ' + UI_FONT
-c.fonts.prompts = UI_FONT
-c.fonts.statusbar = UI_FONT
-c.fonts.tabs.selected = 'bold ' + UI_FONT
-c.fonts.tabs.unselected = UI_FONT
-
-# }}}
-
 # Theme / Colors {{{
 
 c.colors.completion.fg                          = '#ffffff'
@@ -188,6 +166,39 @@ c.colors.tabs.selected.even.bg                  = '#444448'
 c.colors.tabs.selected.odd.fg                   = '#ffffff'
 c.colors.tabs.selected.odd.bg                   = '#444448'
 c.colors.webpage.bg                             = '#1b2326'
+
+# }}}
+
+# Fonts {{{
+
+UI_FONT = '13px FantasqueSansMono Nerd Font'
+
+c.fonts.completion.category = 'bold ' + UI_FONT
+c.fonts.completion.entry = UI_FONT
+c.fonts.debug_console = UI_FONT
+c.fonts.downloads = 'italic ' + UI_FONT
+c.fonts.hints = 'bold ' + UI_FONT
+c.fonts.keyhint = 'bold ' + UI_FONT
+c.fonts.messages.error = 'bold ' + UI_FONT
+c.fonts.messages.info = UI_FONT
+c.fonts.messages.warning = 'italic ' + UI_FONT
+c.fonts.prompts = UI_FONT
+c.fonts.statusbar = UI_FONT
+c.fonts.tabs.selected = 'bold ' + UI_FONT
+c.fonts.tabs.unselected = UI_FONT
+c.fonts.contextmenu = UI_FONT
+c.fonts.default_family = 'Lato Regular'
+c.fonts.default_size = '13px'
+c.fonts.web.family.fixed = 'FantasqueSansMono Nerd Font'
+c.fonts.web.size.default_fixed = '13px'
+c.fonts.web.family.sans_serif = 'Lato Regular'
+c.fonts.web.family.serif = 'LiterationSerif Nerd Font'
+c.fonts.web.family.standard = 'Lato Regular'
+c.fonts.web.size.default = '13px'
+c.fonts.web.size.minimum = 6
+c.fonts.web.size.minimum_logical = 6
+# c.fonts.web.family.cursive = ...
+# c.fonts.web.family.fantasy = ...
 
 # }}}
 
