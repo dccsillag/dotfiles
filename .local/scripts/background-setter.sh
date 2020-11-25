@@ -20,7 +20,7 @@ then
     set_background
 elif [ "$1" = auto ]
 then
-    DOWNTIME=30m
+    DOWNTIME=2h
 
     # Main loop
     while true
