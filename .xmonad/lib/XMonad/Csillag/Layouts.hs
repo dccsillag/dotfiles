@@ -51,7 +51,7 @@ myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $ mkToggle (single 
     renamed [Replace "Dwindle"]        (winSpaces $ Dwindle R CW 1 1.1)                  |||
     renamed [Replace "Mirror Dwindle"] (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
     where
-        winSpaces = spacingRaw True
+        winSpaces = spacingRaw False
                                (Border 0 windowGap windowGap windowGap)
                                True
                                (Border windowGap windowGap windowGap windowGap)
