@@ -13,7 +13,7 @@ import XMonad.Csillag.Externals
 -- Scratchpads:
 myScratchpads =
   [ NS { name  = "sysmon"
-       , cmd   = term_run' "sysmon" "ytop"
+       , cmd   = term_run' "sysmon" "btm --battery"
        , query = className =? "sysmon"
        , hook  = floatingScratchpad
        }
