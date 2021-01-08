@@ -558,12 +558,6 @@ augroup dotfiles
     autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
 augroup END "}}}
 
-augroup DeopleteInit "{{{
-    autocmd!
-    autocmd FileType python,haskell call s:DeopleteInit()
-augroup END "}}}
-
-
 function! s:MarkdownIndent() abort "{{{
     if !exists('g:markdown_sourced_indent')
         let g:markdown_sourced_indent = "markdown"
@@ -733,19 +727,6 @@ nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
 "" vim-subversive mappings
 nmap <C-s> <Plug>(SubversiveSubstitute)
 nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
-
-"" deoplete mappings
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ deoplete#manual_complete()
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-function! s:my_cr_function() abort
-    return deoplete#close_popup() . "\<CR>"
-endfunction
 
 " }}}
 
