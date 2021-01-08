@@ -42,6 +42,17 @@ c.content.javascript.can_access_clipboard = True
 
 # }}}
 
+# Adblocking {{{
+
+c.content.blocking.method = 'adblock'
+c.content.blocking.adblock.lists = ["https://easylist.to/easylist/easylist.txt",
+                                    "https://easylist.to/easylist/easyprivacy.txt",
+                                    "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
+                                    "https://easylist-downloads.adblockplus.org/antiadblockfilters.txt",
+                                    "https://www.fanboy.co.nz/fanboy-espanol.txt"]
+
+# }}}
+
 # Search Engines {{{
 
 c.url.searchengines = {
