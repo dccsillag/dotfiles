@@ -130,7 +130,9 @@ HIST_STAMPS="mm/dd/yyyy"
 
 # Reset xterm style after SSH
 function ssh() {
+    export SSHALIAS=1
     /usr/bin/ssh $@
+    export SSHALIAS=0
     exitcode=$?
     bgset %0
     return $exitcode
