@@ -579,6 +579,12 @@ myKeys_workspaces config =
                                 }
                     ]
                 }
+    , KeyBinding { keybinding_description = "Switch with last workspace"
+                 , keybinding_mask = 0
+                 , keybinding_key = xK_6
+                 , keybinding_humankey = [AlphaKey '6']
+                 , keybinding_action = windows $ \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws
+                 }
     ]
 
 myKeys_layouts config =
