@@ -334,11 +334,8 @@ set noruler                                           " remove the ruler
 set shell=/bin/dash
 " set shell=/bin/zsh
 
-"" Use ag instead of grep
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
+"" Setup :grep
+set grepprg=grep\ -R\ --exclude-dir=.git\ -n\ $*\ .\ /dev/null
 
 "" Setup line wrap
 set wrap          " wrap lines
