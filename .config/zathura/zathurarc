@@ -1,9 +1,9 @@
-set recolor true
-
-set default-bg '#1b2326'
+set default-bg 'rgba(27, 35, 38, 0.8)'
 set default-fg '#ffffff'
 
-set recolor-lightcolor '#1b2326'
+set recolor-lightcolor 'rgba(27, 35, 38, 0)'
 set recolor-darkcolor '#ffffff'
+
+set recolor true
 
 set font "FantasqueSansMono Nerd Font 10"
