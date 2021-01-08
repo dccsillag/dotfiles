@@ -304,23 +304,6 @@ set lispwords-=if
 Plug 'goerz/jupytext.vim' " (for editing Jupyter notebooks)
 "}}}
 
-" Bloat {{{
-Plug 'itchyny/calendar.vim' " (for a way too fancy calendar) {{{
-
-let g:calendar_date_endian = "little"
-let g:calendar_date_separator = "/"
-
-let g:calendar_frame = "unicode"
-
-let g:calendar_google_calendar = 1
-let g:calendar_google_task     = 1
-if filereadable("~/.cache/calendar.vim/credentials.vim")
-    source ~/.cache/calendar.vim/credentials.vim
-endif
-
-"}}}
-"}}}
-
 call plug#end()
 
 "}}}
