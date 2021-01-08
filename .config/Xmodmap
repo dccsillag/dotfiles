@@ -1,0 +1,47 @@
+! Clear some default keys
+clear lock
+clear control
+clear mod1
+clear mod2
+clear mod3
+clear mod4
+clear mod5
+
+! Ctrl_L -> Hyper_L
+keycode 37 = Hyper_L
+! Caps -> Ctrl
+keycode 66 = Control_L
+! Tab -> Alt_L
+! keycode 23 = Alt_L
+keycode 23 = Super_R
+! Alt_R -> Compose
+keycode 108 = Multi_key
+! Escape -> Super_L
+keycode 9 = Super_L Super_R
+! Fix space
+keycode 65 = space
+! Fix Grave&Tilde
+keycode 49 = grave asciitilde
+! Control_R -> Asterisk / Ampersand
+keycode 105 = asterisk ampersand
+
+! Unused keycode -> Tab (so that xcape can still use Tab)
+keycode any = Tab
+! Unused keycode -> Escape (so that xcape can still use Escape)
+keycode any = Escape
+! Unused keycode -> grave&asciitilde (so that xcape can still use grave&asciitilde)
+! keycode any = grave
+! keycode any = asciitilde
+
+! Set control keys
+add control = Control_L Control_R
+! Set mod1 keys
+add mod1 = Alt_L Alt_R Meta_L
+! Set mod2 keys
+add mod2 = Num_Lock
+! Set mod3 keys
+add mod3 = Hyper_L
+! Set mod4 keys
+add mod4 = Super_L Super_R
+! Set mod5 keys
+add mod5 = Mode_switch ISO_Level3_Shift
