@@ -709,6 +709,77 @@ augroup DeopleteInit "{{{
     autocmd FileType python,haskell call s:DeopleteInit()
 augroup END "}}}
 
+
+function! s:MarkdownIndent() abort "{{{
+    if !exists('g:markdown_sourced_indent')
+        let g:markdown_sourced_indent = "markdown"
+    endif
+
+    " FIXME: don't change cursor position, window position or folding
+    "        (probably better done by recovering what they were before)
+
+    let l:highlight_name = synIDattr(synID(line('.'), 1, 0), 'name')
+    let l:is_code_block = (l:highlight_name =~ '^mkd\%(Code$\|Snippet\)' || l:highlight_name != '' && l:highlight_name !~ '^\%(mkd\|html\)')
+
+    if strlen(l:highlight_name) == 0
+        return
+    endif
+
+    if l:is_code_block
+        let l:language_to_source = matchstr(l:highlight_name, '\C^[a-z]\+')
+        if len(l:language_to_source) == 0
+            return
+        endif
+        if l:language_to_source == 'mkd'
+            let l:language_to_source = tolower(matchstr(l:highlight_name, '\C^mkd\(Snippet\|Code\)\zs[A-Z]\+\ze$'))
+        endif
+
+        if g:markdown_sourced_indent != l:language_to_source
+            let g:markdown_sourced_indent = l:language_to_source
+            setlocal indentexpr=
+            if exists('b:undo_ftplugin') | execute b:undo_ftplugin | endif
+            if exists('b:undo_indent')   | execute b:undo_indent   | endif
+            unlet! b:did_indent
+            unlet! b:did_ftplugin
+            echo l:language_to_source . "..."
+            execute 'runtime! indent/' . l:language_to_source . '.vim'
+            execute 'runtime! ftplugin/' . l:language_to_source . '.vim'
+
+            let l:changed = 1
+        else
+            let l:changed = 0
+        endif
+    else
+        if g:markdown_sourced_indent != "markdown"
+            let g:markdown_sourced_indent = "markdown"
+            setlocal indentexpr=
+            if exists('b:undo_ftplugin') | execute b:undo_ftplugin | endif
+            if exists('b:undo_indent')   | execute b:undo_indent   | endif
+            unlet! b:did_indent
+            unlet! b:did_ftplugin
+            echo "markdown..."
+            runtime! indent/markdown.vim
+            runtime! ftplugin/markdown.vim
+
+            let l:changed = 1
+        else
+            let l:changed = 0
+        endif
+    endif
+
+    if l:changed
+        setl fdl=1
+        setl fml=1
+        setl fml=1
+        setl fen
+    endif
+endfunction "}}}
+augroup MarkdownIndent "{{{
+    autocmd!
+    " autocmd CursorMoved  *.md call s:MarkdownIndent()
+    " autocmd CursorMovedI *.md call s:MarkdownIndent()
+augroup END "}}}
+
 "}}}
 
 " Mappings {{{
