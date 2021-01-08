@@ -42,90 +42,9 @@ else
 endif
 
 " Interface {{{
-Plug 'itchyny/lightline.vim' " (a nice statusline) {{{
-
-function! GitSummaryStr()
-    let [a,m,r] = GitGutterGetHunkSummary()
-    if a == 0 && m == 0 && r == 0
-        return FugitiveHead() . ""
-    else
-        return FugitiveHead() . "'"
-    endif
-    " return printf("+%d ~%d -%d", a, m, r)
-endfunction
-
-let g:lightline = {
-            \ 'active': {
-            \     'left': [ [ 'paste' ],
-            \               [ 'git' ],
-            \               [ 'filename',
-            \                 'readonly',
-            \                 'modified',
-            \               ]
-            \             ],
-            \     'right': [ [ 'filetype', 'spell' ],
-            \                [ 'fileformat', 'fileencoding' ],
-            \                [ 'linter_checking',
-            \                  'linter_errors',
-            \                  'linter_warnings',
-            \                  'linter_infos',
-            \                  'linter_ok',
-            \                ]
-            \              ]
-            \     },
-            \ 'component_function': {
-            \   'git': 'GitSummaryStr'
-            \ }
-            \ }
-
-"" Setup lightline colors
-
-function! s:SetupLightlineColors()
-    if !exists("g:loaded_lightline")
-        return
-    endif
-
-    let l:pallete = lightline#palette()
-    let l:pallete.insert = l:pallete.normal
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
-endfunction
-
-augroup lightline_colors
-    autocmd!
-    autocmd VimEnter * call s:SetupLightlineColors()
-augroup END
-
-"}}}
-Plug 'maximbaz/lightline-ale' " (for linting report in the statusline) {{{
-
-let g:lightline.component_expand = {
-            \ 'linter_checking': 'lightline#ale#checking',
-            \ 'linter_infos':    'lightline#ale#infos',
-            \ 'linter_warnings': 'lightline#ale#warnings',
-            \ 'linter_errors':   'lightline#ale#errors',
-            \ 'linter_ok':       'lightline#ale#ok'
-            \ }
-let g:lightline.component_type = {
-            \ 'linter_checking': 'middle',
-            \ 'linter_infos':    'right',
-            \ 'linter_warnings': 'warning',
-            \ 'linter_errors':   'error',
-            \ 'linter_ok':       'left'
-            \ }
-
-let g:lightline#ale#indicator_checking = " "
-let g:lightline#ale#indicator_infos = " "
-let g:lightline#ale#indicator_warnings = " "
-let g:lightline#ale#indicator_errors = " "
-let g:lightline#ale#indicator_ok = " "
-" let g:lightline#ale#indicator_ok = ""
-
-"}}}
 Plug 'junegunn/fzf' " (fuzzy finder)
-Plug 'junegunn/fzf.vim' " ('official' fzf addons) 
-Plug 'Konfekt/FastFold' " (to accelerate folding with `expr`)
+Plug 'junegunn/fzf.vim' " ('official' fzf addons)
+" Plug 'Konfekt/FastFold' " (to accelerate folding with `expr`)
 Plug 'machakann/vim-highlightedyank' " (for briefly highlighting yanked regions)
 Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
 
@@ -467,8 +386,17 @@ nnoremap <LocalLeader>- :SmallerFont<CR>
 "" Enable the mouse
 set mouse=a " enable all features using the mouse
 
-"" Let only LightLine show the current mode
-set noshowmode " don't show the current mode below the statusbar
+"" Setup statusbar
+set noshowmode                                        " don't show the current
+                                                      "   mode below the
+                                                      "   statusbar
+set laststatus=0                                      " only show the
+                                                      "   statusline when in
+                                                      "   between two windows
+set statusline=%{repeat('―',\ nvim_win_get_width(0))} " set the statusline to
+                                                      "   a horizontal
+                                                      "   separator
+set noruler                                           " remove the ruler
 
 "" Use FISH as the shell
 " set shell=/usr/bin/fish
@@ -667,12 +595,10 @@ augroup autoview "{{{
     autocmd BufWinLeave,VimLeave,BufWritePost *
                 \ if expand("%") != ""
                 \ | silent! mkview
-                \ | call lightline#update()
                 \ | endif
     autocmd BufWinEnter,BufReadPost *
                 \ if expand("%") != ""
                 \ | silent! loadview
-                \ | call lightline#update()
                 \ | endif
 augroup END "}}}
 
