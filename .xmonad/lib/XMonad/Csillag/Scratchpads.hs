@@ -69,7 +69,7 @@ myScratchpads =
     , cmd   = "slack"
     , query =
       (\x ->
-          "Slack | " `isPrefixOf` x && not (" | Slack call with " `isInfixOf` x)
+          ("Slack | " `isPrefixOf` x || " | Slack" `isSuffixOf` x) && not (" | Slack call with " `isInfixOf` x)
         )
         <$> title
     , hook  = floatingScratchpad
