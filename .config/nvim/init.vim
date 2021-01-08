@@ -99,64 +99,12 @@ let g:vcoolor_disable_mappings = 1
 " Peripherals {{{
 Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
 Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
-Plug 'puremourning/vimspector' " (for debugging)
+call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'kassio/neoterm' " (proper slime for NeoVim) {{{
 
 let g:neoterm_default_mod = "botright"
 let g:neoterm_automap_keys = "<F10>"
-
-"}}}
-Plug 'dense-analysis/ale' " (for diagnostics) {{{
-
-let g:ale_linters = {
-            \ 'haskell': ['stack-build', 'hlint'],
-            \ 'cs': ['omnisharp'],
-            \ 'cpp': ['clangtidy', 'cppcheck'],
-            \ 'python': ['pylint'],
-            \ 'lua': ['luacheck'],
-            \ 'yaml': ['yamllint'],
-            \ 'tex': ['lacheck', 'textlint']
-            \ }
-
-let g:ale_cpp_clangtidy_checks = [
-            \ 'cppcoreguidelines-*',
-            \ 'clang-analyzer-*',
-            \ 'misc-*',
-            \ 'modernize-*',
-            \ 'performance-*',
-            \ 'readability-*',
-            \ '-modernize-use-trailing-return-type',
-            \ '-misc-non-private-member-variables-in-classes',
-            \ '-readability-braces-around-statements',
-            \ '-readability-else-after-return'
-            \ ]
-
-let g:ale_sign_highlight_linenrs = 1
-
-let g:ale_sign_error = "Er"
-let g:ale_sign_warning = "Wa"
-let g:ale_sign_info = "In"
-let g:ale_sign_style_error = "St"
-let g:ale_sign_style_warning = "St"
-
-"}}}
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " (for smart autocomplete) {{{
-
-function! s:DeopleteInit() abort
-    call deoplete#enable()
-    call deoplete#custom#option(
-                \ {
-                \   'smart_case':          v:true,
-                \   'auto_complete':       v:false,
-                \   'camel_case':          v:true,
-                \   'sources': {
-                \       '_':   ['file', 'around'],
-                \       'cpp': ['file', 'around', 'clang_complete'],
-                \       'py':  ['file', 'around'],
-                \   }
-                \ })
-endfunction
 
 "}}}
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
@@ -707,12 +655,6 @@ nnoremap <Leader>gc :Commits<CR>
 nnoremap <Leader>gC :BCommits<CR>
 nnoremap <Leader>H  :Helptags<CR>
 nnoremap <Leader>F  :Filetypes<CR>
-
-" ALE
-nnoremap <silent> [e :ALEPrevious<CR>
-nnoremap <silent> ]e :ALENext<CR>
-nnoremap <silent> \ce :ALEToggleBuffer<CR>
-nnoremap <silent> \cd :ALEDetail<CR>
 
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
