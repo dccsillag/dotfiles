@@ -292,6 +292,7 @@ let g:table_mode_toggle_map = "<Bar>"
 "}}}
 Plug 'tommcdo/vim-exchange' " (for exchanging text around)
 Plug 'svermeulen/vim-subversive' " (for replacing text with current yank)
+Plug 'godlygeek/tabular' " (also for aligning text, required by vim-markdown)
 "}}}
 
 " Text Objects {{{
@@ -331,37 +332,30 @@ Plug 'kalekundert/vim-coiled-snake' " (automatic folding for Python) {{{
 let g:coiled_snake_set_foldtext = 0
 
 "}}}
-Plug 'rubik/vim-dg' " (language support for DogeLang [aka. dg])
-Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
 Plug 'bfrg/vim-cpp-modern' " (better C++ syntax highlight) {{{
 
 let g:cpp_no_function_highlight        = 0
 let g:cpp_named_requirements_highlight = 1
 
 "}}}
+Plug 'plasticboy/vim-markdown' " (better Markdown support) {{{
+
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_override_foldtext = 0
+let g:vim_markdown_no_default_key_mappings = 1
+" let g:vim_markdown_emphasis_multiline = 0
+let g:vim_markdown_fenced_languages = ['c++=cpp', 'scm=scheme', 'py=python']
+
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+
+"}}}
+Plug 'rubik/vim-dg' " (language support for DogeLang [aka. dg])
+Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
 Plug 'rust-lang/rust.vim' " (for better Rust syntax support)
 Plug 'itchyny/vim-haskell-indent' " (proper autoindent for Haskell)
 " XXX: Consider using axelf4/vim-haskell?
-Plug 'vim-pandoc/vim-pandoc-syntax' " (language support for Pandoc Markdown) {{{
-
-let g:pandoc#syntax#protect#codeblocks = 0
-
-"}}}
-Plug 'vim-pandoc/vim-pandoc' " (lots of tools for Pandoc) {{{
-
-let g:pandoc#modules#enabled = [
-            \ "formatting",
-            \ "folding",
-            \ "yaml",
-            \ "toc",
-            \ "spell",
-            \ "hypertext"
-            \ ]
-
-let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting#mode = "h"
-
-"}}}
 Plug 'mrk21/yaml-vim' " (better language support for YAML)
 Plug 'cespare/vim-toml' " (for TOML syntax highlight)
 call s:PlugOwn('toq.vim') " (for my todo management) {{{
