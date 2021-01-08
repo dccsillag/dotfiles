@@ -248,6 +248,7 @@ Plug 'lervag/vimtex' " (for editing LaTeX sanely) {{{
 
 let g:tex_flavor = 'latex'
 let g:vimtex_fold_enabled = v:true
+let g:vimtex_quickfix_mode = 0
 
 "}}}
 "}}}
