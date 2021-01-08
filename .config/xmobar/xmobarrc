@@ -56,6 +56,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
 
                     , Run Date "<fc=#FFFFFF>   %a, %_d/%m/%Y %H:%M:%S</fc>" "datetime" 10
 
+                    , Run Com "/home/daniel/.local/scripts/recording-query.sh" [] "rec" 2
                     , Run Com "/home/daniel/.local/scripts/vpn-query.sh" [] "vpn" 20
                     , Run Com "/home/daniel/.local/scripts/do-not-disturb-query.sh" [] "donotdisturb" 10
                     , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 2
@@ -75,7 +76,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , sepChar = "%"
        , alignSep = "}{"
        -- , template = "<fc=white></fc>  %cpu% %gpuproc% | %memory% %swap% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%"
-       , template = "  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%vpn%%donotdisturb%%mic% %battery%  "
+       , template = "  %cpu% %memory% %swap% | %gpuproc% %gpumem% | %multicoretemp% | %dynnetwork%}<action=`xmonadctl view-select` button=1>%datetime%</action>{%xmonad_recompiling%%updates%%rec%%vpn%%donotdisturb%%mic% %battery%  "
        }
 
 -- vim: syntax=haskell
