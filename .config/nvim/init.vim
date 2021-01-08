@@ -273,7 +273,6 @@ Plug 'alvan/vim-closetag' " (for automatically closing HTML tags)
 
 let g:bullets_enabled_file_types = [
             \ 'markdown',
-            \ 'pandoc',
             \ 'gitcommit',
             \ 'toq',
             \ 'text',
