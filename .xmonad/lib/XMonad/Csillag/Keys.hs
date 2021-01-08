@@ -471,7 +471,7 @@ myKeys_workspaces config =
                                  , keybinding_mask        = 0
                                  , keybinding_key         = xK_d
                                  , keybinding_humankey    = [AlphaKey 'd']
-                                 , keybinding_action      = removeEmptyWorkspace
+                                 , keybinding_action      = removeEmptyWorkspaceAfter (windows $ \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws)
                                  }
                     , KeyBinding { keybinding_description = "Go to workspace"
                                  , keybinding_mask        = 0
