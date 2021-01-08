@@ -545,8 +545,9 @@ set inccommand=nosplit " live preview command (:s, :g, etc.) results
 "" Show possible tab completions above
 set wildmenu " show completion menu in Ex commands
 
-"" Never conceal the current line
+"" Setup conceal
 set concealcursor= " don't conceal the current line in any mode
+set conceallevel=2 " conceal everything, hiding concealed text completely
 
 "" Show trailing whitespace and tabs
 set list                       " show listchars
