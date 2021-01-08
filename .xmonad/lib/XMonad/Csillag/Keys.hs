@@ -1084,13 +1084,13 @@ systemFunctionKeys config =
                  , keybinding_mask        = 0
                  , keybinding_key         = xF86XK_MonBrightnessUp
                  , keybinding_humankey    = [BrightnessUpKey]
-                 , keybinding_action      = spawn "lux -a 2%" >> spawnOSD brightnessUpIcon
+                 , keybinding_action      = spawn "lux -a 1%" >> spawnOSD brightnessUpIcon
                  }
     , KeyBinding { keybinding_description = "Lower Brightness"
                  , keybinding_mask        = 0
                  , keybinding_key         = xF86XK_MonBrightnessDown
                  , keybinding_humankey    = [BrightnessDownKey]
-                 , keybinding_action      = spawn "lux -s 2%" >> spawnOSD brightnessDownIcon
+                 , keybinding_action      = spawn "lux -s 1%" >> spawnOSD brightnessDownIcon
                  }
     , KeyBinding { keybinding_description = "Lower Volume"
                  , keybinding_mask        = 0
