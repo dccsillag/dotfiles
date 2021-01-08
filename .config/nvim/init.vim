@@ -652,9 +652,9 @@ function! NeatFoldText() "{{{
     let foldtextstart = strpart('' . line, 0, (winwidth(0)*2)/3)
     let foldtextend = lines_count_text . repeat(foldchar, 8)
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+    return foldtextstart . ' ' . repeat(foldchar, winwidth(0)-foldtextlength-1) . foldtextend
 endfunction
-set fillchars+=fold:—,vert:\│
+set fillchars+=fold:―,vert:\│
 set foldtext=NeatFoldText() "}}}
 
 " }}}
