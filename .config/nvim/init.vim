@@ -195,6 +195,7 @@ let g:vim_markdown_override_foldtext = 0
 let g:vim_markdown_no_default_key_mappings = 1
 " let g:vim_markdown_emphasis_multiline = 0
 let g:vim_markdown_fenced_languages = ['c++=cpp', 'scm=scheme', 'py=python']
+let g:vim_markdown_conceal_code_blocks = 0
 
 let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1
