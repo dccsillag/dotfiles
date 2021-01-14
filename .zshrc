@@ -140,9 +140,10 @@ function ssh() {
 
 # Open files with external applications
 function open() {
-    for file in $@
+    (($# < 1)) && echo 'bad params for open' && return 1
+    for file in "$@"
     do
-        xdg-open $file & disown
+        nohup xdg-open "$1" &> /dev/null &!
     done
 }
 
