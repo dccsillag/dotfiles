@@ -116,12 +116,7 @@ Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables 
 " Editing Help {{{
 Plug 'tpope/vim-surround' " (surround text with stuff [parenteses, brackets, and much more])
 Plug 'tomtom/tcomment_vim' " (comment/uncomment code)
-Plug 'vim-scripts/auto-pairs-gentle' " (automatically close parentheses and much more) {{{
-" Plug 'jiangmiao/auto-pairs'
-
-let g:AutoPairsUseInsertedCount = 1
-
-" }}}
+Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag' " (for automatically closing HTML tags)
 " Plug 'dkarter/bullets.vim' " (for automatic bullet lists) {{{
 
@@ -721,6 +716,25 @@ nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
 "" vim-subversive mappings
 nmap <C-s> <Plug>(SubversiveSubstitute)
 nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
+
+"" lexima.vim rules
+
+for filetype in ['tex', 'markdown']
+    call lexima#add_rule({ 'char': '$', 'input_after': '$', 'filetype': filetype })
+    call lexima#add_rule({ 'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype })
+    call lexima#add_rule({ 'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype })
+endfor
+
+"" Keymap for opening a LaTeX environment
+function! s:OpenLatexEnvironment() abort
+    let l:env_name = input("env> ")
+    exec 'normal! a\begin{' . l:env_name . '}'
+    normal! o
+    exec 'normal! a\end{' . l:env_name . '}'
+    normal! Oa
+    normal! x$
+endfunction
+inoremap <C-l> <C-\><C-o>:call <SID>OpenLatexEnvironment()<CR>
 
 " }}}
 
