@@ -6,3 +6,4 @@ tags.temp
 .lvimrc
 .clangd/
 compile_commands.json
+.latex-build/
