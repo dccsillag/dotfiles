@@ -630,6 +630,20 @@ augroup END "}}}
 nnoremap <Leader>S :set spell!<CR>
 nnoremap <Leader>s :set spelllang=
 
+"" Correct last spelling error
+let g:refix_counter = 0
+function! g:FixSpelling() abort
+    let g:refix_counter = 1
+    normal! [s1z=
+endfunction
+function! g:ReFixSpelling() abort
+    let g:refix_counter = g:refix_counter + 1
+    undo
+    exec 'normal! [s' . g:refix_counter . 'z='
+endfunction
+inoremap <C-f> <C-g>u<Esc>:call g:FixSpelling()<CR>`]a<C-g>u
+inoremap <C-l> <C-g>u<Esc>:call g:ReFixSpelling()<CR>`]a<C-g>u
+
 " fzf.vim
 nnoremap <Leader>e  :Files<CR>
 nnoremap <Leader>T  :BTags<CR>
