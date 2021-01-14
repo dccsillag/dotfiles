@@ -275,14 +275,9 @@ test -f ~/.zshrc_local && source ~/.zshrc_local
 
 function greet() {
     # Show a fun greeting!
-    # RANDCOLOR=$(echo -e "31\n32\n33\n34\n35\n36\n37" | shuf -n 1)
-    RANDCOLOR="40"
-    echo -n "\e[2;3;${RANDCOLOR}m"
-    # fortune -s -e calvin chucknorris bofh-excuses protolol question-answer-jokes brasil
-    # fortune -s 50% calvin 15% chucknorris 15% question-answer-jokes 15% protolol 5% bofh-excuses
+    echo -n "\e[1;30m"
     fortune -s 5% calvin 5% chucknorris 5% question-answer-jokes 5% protolol 40% bofh-excuses 40% brasil | grep -v '^$'
     echo -n '\e[0m'
-    unset RANDCOLOR
     echo
 }
 
