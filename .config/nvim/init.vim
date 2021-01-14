@@ -101,12 +101,6 @@ Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
 Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
 call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
-Plug 'kassio/neoterm' " (proper slime for NeoVim) {{{
-
-let g:neoterm_default_mod = "botright"
-let g:neoterm_automap_keys = "<F10>"
-
-"}}}
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
 call s:PlugOwn('magma.nvim') " (Jupyter client)
 Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
@@ -665,25 +659,6 @@ nmap ]c <Plug>(GitGutterNextHunk)
 " Runit
 nmap <Leader>r <Plug>(RunIt)
 nmap <Leader>R <Plug>(ReplIt)
-
-" " NeoTerm mappings
-augroup ExecuteMappings
-    autocmd!
-    autocmd BufNew *
-                \ vmap <buffer> <Return><Return> :TREPLSendSelection<CR>
-                \ | nmap <buffer> <Return><Return> <Plug>(neoterm-repl-send)ip
-                \ | nmap <buffer> <Return> <Plug>(neoterm-repl-send)
-    autocmd BufWinEnter *
-                \ if getwininfo(win_getid())[0].quickfix
-                \ | silent! unmap <buffer> <Return><Return>
-                \ | silent! unmap <buffer> <Return><Return>
-                \ | silent! unmap <buffer> <Return>
-                \ | endif
-augroup END
-
-" Magma keybindings
-" map <Return> <Plug>MagmaEvaluateN
-" vmap <Return> <Plug>MagmaEvaluateV
 
 " Insert colors (via color picker)
 nnoremap <Leader>irgb :VCoolIns r<CR>
