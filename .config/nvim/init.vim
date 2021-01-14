@@ -105,13 +105,6 @@ Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without usi
 call s:PlugOwn('magma.nvim') " (Jupyter client)
 Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
 Plug 'tpope/vim-fugitive' " (use git from vim)
-Plug 'lervag/vimtex' " (for editing LaTeX sanely) {{{
-
-let g:tex_flavor = 'latex'
-let g:vimtex_fold_enabled = v:true
-let g:vimtex_quickfix_mode = 0
-
-"}}}
 "}}}
 
 " Color Schemes {{{
@@ -533,10 +526,20 @@ augroup SHADA "{{{
                 \ if exists(':wshada') | wshada | endif
 augroup END "}}}
 
+"" Automatically enable the spellchecker on markup documents
+augroup SpellCheck "{{{
+    autocmd!
+    autocmd FileType markdown  set spell
+    autocmd FileType tex       set spell
+    autocmd FileType html      set spell
+    autocmd FileType gitcommit set spell
+augroup END "}}}
+
 "" Automatic compilation of markup files
 augroup AutoCompile "{{{
     autocmd!
-    autocmd BufWritePost *.md AsyncStop | sleep 100m | AsyncRun make
+    autocmd BufWritePost *.tex AsyncStop | sleep 100m | AsyncRun cd %:h && latexmk -pdf -f %:t
+    autocmd BufWritePost *.md  AsyncStop | sleep 100m | AsyncRun make
     autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
     autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
 augroup END "}}}
@@ -640,6 +643,22 @@ nnoremap <Leader>gc :Commits<CR>
 nnoremap <Leader>gC :BCommits<CR>
 nnoremap <Leader>H  :Helptags<CR>
 nnoremap <Leader>F  :Filetypes<CR>
+
+" Open the compiled PDF for the current [markup] file
+function! s:OpenCorrespondingPDF() abort
+    if &filetype == "tex"
+        let l:filename = expand('%:h') . '/.latex-build/' . expand('%:t:r') . '.pdf'
+    else
+        let l:filename = expand('%:r') . '.pdf'
+    endif
+
+    if !filereadable(l:filename)
+        echoerr "No such file: " . l:filename
+        return
+    endif
+    silent exec '!nohup zathura ' . l:filename . ' > /dev/null 2>&1 &'
+endfunction
+nnoremap <Leader>p :call <SID>OpenCorrespondingPDF()<CR>
 
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
