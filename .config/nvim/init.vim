@@ -752,6 +752,9 @@ function! s:OpenLatexEnvironment() abort
 endfunction
 inoremap <C-l> <C-\><C-o>:call <SID>OpenLatexEnvironment()<CR>
 
+"" Keymap for inserting a block comment
+nnoremap gci :TCommentBlock<CR>
+
 " }}}
 
 if filereadable(expand("~/.config/nvim/posinit.vim"))
