@@ -535,9 +535,14 @@ augroup END "}}}
 "" Automatic compilation of markup files
 augroup AutoCompile "{{{
     autocmd!
+    " TeX
     autocmd BufWritePost *.tex AsyncStop | sleep 100m | AsyncRun cd %:h && latexmk -pdf -f %:t
-    autocmd BufWritePost *.md  AsyncStop | sleep 100m | AsyncRun make
+    " Markdown (via Pandoc/Panzer)
+    autocmd BufWritePost *.lmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f latex    -o "%:t:r.pdf"  -i "%:t"
+    autocmd BufWritePost *.pmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f revealjs -o "%:t:r.html" -i "%:t"
+    " Mermaid
     autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
+    " PlantUML
     autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
 augroup END "}}}
 
