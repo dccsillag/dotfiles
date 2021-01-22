@@ -222,6 +222,8 @@ function extract() {
 alias vim=nvim
 alias edit=nvim
 alias view='nvim -R'
+# # Sudo
+alias sudo='doas -- '
 # # Config
 # alias config='git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME'
 # # cp / mv / rm
