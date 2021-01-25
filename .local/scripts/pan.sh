@@ -39,7 +39,7 @@ test -n "$INPUT"  || { echo "no input (-i) defined";  exit 2; }
 
 TMPFILE="$INPUT.tmp.md"
 
-alias gpp_='gpp -U "#[" "]" " " ";" "]" "[" "]" "#" "" -M "#[" "]" " " ";" "]" "[" "]"'
+alias gpp_='gpp -x -U "#[" "]" " " ";" "]" "[" "]" "#" "" -M "#[" "]" " " ";" "]" "[" "]"'
 
 gpp_ "$INPUT" -o "$TMPFILE"
 
