@@ -532,18 +532,25 @@ augroup SpellCheck "{{{
     autocmd FileType gitcommit set spell
 augroup END "}}}
 
+"" Some extra ftdetect autocmds
+augroup FtdetectExtra
+    autocmd!
+    autocmd BufRead,BufNewFile *.lmd setf markdown
+    autocmd BufRead,BufNewFile *.pmd setf markdown
+augroup END
+
 "" Automatic compilation of markup files
 augroup AutoCompile "{{{
     autocmd!
     " TeX
-    autocmd BufWritePost *.tex AsyncStop | sleep 100m | AsyncRun cd %:h && latexmk -pdf -f %:t
+    autocmd BufWritePost,BufReadPre *.tex AsyncStop | sleep 100m | AsyncRun cd %:h && latexmk -pdf %:t:r
     " Markdown (via Pandoc/Panzer)
-    autocmd BufWritePost *.lmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f latex    -o "%:t:r.pdf"  -i "%:t"
-    autocmd BufWritePost *.pmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f revealjs -o "%:t:r.html" -i "%:t"
+    autocmd BufWritePost,BufReadPre *.lmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f latex    -o "%:t:r.pdf"  -i "%:t"
+    autocmd BufWritePost,BufReadPre *.pmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f revealjs -o "%:t:r.html" -i "%:t"
     " Mermaid
-    autocmd BufWritePost *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
+    autocmd BufWritePost,BufReadPre *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
     " PlantUML
-    autocmd BufWritePost *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
+    autocmd BufWritePost,BufReadPre *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
 augroup END "}}}
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
