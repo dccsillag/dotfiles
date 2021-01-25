@@ -681,6 +681,7 @@ nnoremap <Leader>cs :ShellCheck!<CR>
 
 " Fugitive
 nnoremap <Leader>G :G<CR>
+nnoremap <Leader>gp :G pull<CR>
 augroup FugitiveMappings
     autocmd!
     autocmd FileType fugitive nnoremap <buffer> zp :G pull<CR>
