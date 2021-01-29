@@ -54,5 +54,6 @@ battery-monitor &
 # Disable touch
 # disable-touch
 
-mpd
-mpDris2 &
+# mpd
+# mpDris2 &
+mmd &

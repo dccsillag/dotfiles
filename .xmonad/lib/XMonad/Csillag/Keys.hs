@@ -1125,18 +1125,13 @@ systemFunctionKeys config =
                  , keybinding_mask        = modMask config
                  , keybinding_key         = xK_backslash
                  , keybinding_humankey    = [ModKey, AlphaKey '\\']
-                 , keybinding_action      = spawn "playerctl play-pause"
+                 -- , keybinding_action      = spawn "playerctl play-pause"
+                 , keybinding_action      = spawn "mmc toggle"
                  }
     , KeyBinding { keybinding_description = "Next Track"
-                 , keybinding_mask        = modMask config
-                 , keybinding_key         = xK_Right
-                 , keybinding_humankey    = [ModKey, RightArrowKey]
-                 , keybinding_action      = spawn "playerctl next"
-                 }
-    , KeyBinding { keybinding_description = "Previous Track"
-                 , keybinding_mask        = modMask config
-                 , keybinding_key         = xK_Left
-                 , keybinding_humankey    = [ModKey, LeftArrowKey]
-                 , keybinding_action      = spawn "playerctl previous"
+                 , keybinding_mask        = modMask config .|. shiftMask
+                 , keybinding_key         = xK_backslash
+                 , keybinding_humankey    = [ModKey, ShiftKey, AlphaKey '\\']
+                 , keybinding_action      = spawn "mmc next"
                  }
     ]
