@@ -804,6 +804,10 @@ for filetype in ['c', 'cpp', 'rust', 'java', 'javascript']
     call lexima#add_rule({ 'char': '*', 'at': '\/\%#', 'input': '*', 'input_after': ' */', 'filetype': filetype })
     " call lexima#add_rule({ 'char': '*', 'at': '\/\*\%#', 'input': "*\n", 'input_after': '<Return>', 'filetype': filetype })
 endfor
+call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<\(then\|do\)\>\%#', 'input': "\n", 'input_after': '<CR>end' })
+call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<function\>\(\s\+[A-Za-z_][A-Za-z0-9_]*\([:.][A-Za-z_][A-Za-z0-9_]*\)*\)\?(.*)\%#', 'except': '^.*\<end\>.*\%#', 'input': "\n", 'input_after': '<CR>end' })
+call lexima#add_rule({ 'filetype': 'lua', 'char': '[', 'at': '--\%#', 'input': '[[ ', 'input_after': ' ]]' })
+call lexima#add_rule({ 'filetype': 'lua', 'char': ':', 'at': ':\%#', 'input_after': '::' })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
 inoremap <C-\> <C-o>f<C-k><C-\><C-\><Del>
