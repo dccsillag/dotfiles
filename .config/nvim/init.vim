@@ -773,11 +773,29 @@ nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
 "" lexima.vim rules
 
 for filetype in ['tex', 'markdown']
-    call lexima#add_rule({ 'char': '$', 'input_after': '$', 'filetype': filetype })
-    call lexima#add_rule({ 'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype })
-    call lexima#add_rule({ 'char': '(', 'at': '\\\%#', 'input_after': '\)', 'filetype': filetype })
-    call lexima#add_rule({ 'char': '[', 'at': '\\\%#', 'input_after': '\]', 'filetype': filetype })
-    call lexima#add_rule({ 'char': '{', 'at': '\\\%#', 'input_after': '\}', 'filetype': filetype })
+    call lexima#add_rule({ 'filetype': filetype, 'char': '$',                                    'input_after': '$'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\$\$\%#\$\$',         'delete': 2, 'input': '<BS><BS>'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\$\%#\$',             'delete': 1})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '^',                                    'input': '^{', 'input_after': '}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '_',                                    'input': '_{', 'input_after': '}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '(',       'at': '\\\%#',               'input_after': '\)'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\\\%#',               'input_after': '\]'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\\\%#',               'input_after': '\}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '(',       'at': '\C\\left\%#',         'input_after': '\right)'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\left\%#',         'input_after': '\right]'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\%#',         'input': '\{', 'input_after': '\right\}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\\\%#',       'input': '{', 'input_after': '\right\}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\frac\%#',         'input': '{', 'input_after': '}{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\inn\%#',          'input': '{', 'input_after': '}{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\diff\%#',         'input': '{', 'input_after': '}{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\pdiff\%#',        'input': '{', 'input_after': '}{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lceil\%#',        'input_after': ' \rceil'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lceil\%#',  'input_after': ' \right\rceil'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lfloor\%#',       'input_after': ' \rfloor'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lfloor\%#', 'input_after': ' \right\rfloor'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lvert\%#',        'input_after': ' \rvert'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lVert\%#',        'input_after': ' \rVert'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',            'input_after': ']{<C-\>}'})
 endfor
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
@@ -786,6 +804,9 @@ for filetype in ['c', 'cpp', 'rust', 'java', 'javascript']
     call lexima#add_rule({ 'char': '*', 'at': '\/\%#', 'input': '*', 'input_after': ' */', 'filetype': filetype })
     " call lexima#add_rule({ 'char': '*', 'at': '\/\*\%#', 'input': "*\n", 'input_after': '<Return>', 'filetype': filetype })
 endfor
+
+" FIXME: breaks undo sequence (and . sequence, most likely)
+inoremap <C-\> <C-o>f<C-k><C-\><C-\><Del>
 
 "" Keymap for opening a LaTeX environment
 function! s:OpenLatexEnvironment() abort
