@@ -71,6 +71,13 @@ if ! zgen saved; then
     abbr -U cis='config status'
     abbr -U cisl='config shortlog'
     abbr -U cist='config stash'
+    # # # MMC
+    abbr -U mca='mmc append'
+    abbr -U mcp='mmc prepend'
+    abbr -U mcl='mmc list'
+    abbr -U mcs='mmc status'
+    abbr -U mcr='mmc restart'
+    abbr -U mce='mmc edit'
     # # # NNN
     abbr -U n='nnn'
     # # # Haskell
