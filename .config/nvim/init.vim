@@ -774,8 +774,17 @@ nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
 
 for filetype in ['tex', 'markdown']
     call lexima#add_rule({ 'char': '$', 'input_after': '$', 'filetype': filetype })
-    call lexima#add_rule({ 'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype })
     call lexima#add_rule({ 'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype })
+    call lexima#add_rule({ 'char': '(', 'at': '\\\%#', 'input_after': '\)', 'filetype': filetype })
+    call lexima#add_rule({ 'char': '[', 'at': '\\\%#', 'input_after': '\]', 'filetype': filetype })
+    call lexima#add_rule({ 'char': '{', 'at': '\\\%#', 'input_after': '\}', 'filetype': filetype })
+endfor
+for filetype in ['html', 'xml', 'markdown']
+    call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
+endfor
+for filetype in ['c', 'cpp', 'rust', 'java', 'javascript']
+    call lexima#add_rule({ 'char': '*', 'at': '\/\%#', 'input': '*', 'input_after': ' */', 'filetype': filetype })
+    " call lexima#add_rule({ 'char': '*', 'at': '\/\*\%#', 'input': "*\n", 'input_after': '<Return>', 'filetype': filetype })
 endfor
 
 "" Keymap for opening a LaTeX environment
