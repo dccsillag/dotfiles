@@ -551,6 +551,8 @@ augroup AutoCompile "{{{
     autocmd BufWritePost,BufReadPre *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
     " PlantUML
     autocmd BufWritePost,BufReadPre *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
+    " LilyPond
+    autocmd BufWritePost,BufReadPre *.ly,*.ily AsyncStop | sleep 100m | AsyncRun cd %:h && lilypond %:t
 augroup END "}}}
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
