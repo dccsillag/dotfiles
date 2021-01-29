@@ -39,6 +39,7 @@ c.tabs.background = True
 # Behaviour {{{
 
 c.content.javascript.can_access_clipboard = True
+c.url.default_page = 'about:blank'
 
 # }}}
 
