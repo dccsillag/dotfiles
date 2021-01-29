@@ -476,6 +476,36 @@ nmap S Xi
 nmap s ys
 vmap s S
 
+"" vim-asterisk mappings
+map *   <Plug>(asterisk-*)
+map #   <Plug>(asterisk-#)
+map g*  <Plug>(asterisk-g*)
+map g#  <Plug>(asterisk-g#)
+map z*  <Plug>(asterisk-z*)
+map gz* <Plug>(asterisk-gz*)
+map z#  <Plug>(asterisk-z#)
+map gz# <Plug>(asterisk-gz#)
+
+"" Add empty lines above and below
+function! s:BlankUp(count) abort
+    put! =repeat(nr2char(10), a:count)
+    ']+1
+    exec 'norm! ' . a:count . 'k'
+    silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
+    norm! "_cca
+    norm! "_x
+    startinsert!
+endfunction
+function! s:BlankDown(count) abort
+    put =repeat(nr2char(10), a:count)
+    silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
+    norm! "_cca
+    norm! "_x
+    startinsert!
+endfunction
+nnoremap <silent> O :<C-U>call <SID>BlankUp(v:count1)<CR>
+nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
+
 "}}}
 
 " Misc {{{
@@ -741,30 +771,6 @@ nnoremap <Leader>; :Beacon<CR>
 
 "" :nohl
 nnoremap <Leader>. :nohl<CR>
-
-"" vim-asterisk mappings
-map *   <Plug>(asterisk-*)
-map #   <Plug>(asterisk-#)
-map g*  <Plug>(asterisk-g*)
-map g#  <Plug>(asterisk-g#)
-map z*  <Plug>(asterisk-z*)
-map gz* <Plug>(asterisk-gz*)
-map z#  <Plug>(asterisk-z#)
-map gz# <Plug>(asterisk-gz#)
-
-"" Add empty lines above and below
-function! s:BlankUp(count) abort
-    put! =repeat(nr2char(10), a:count)
-    ']+1
-    exec 'norm! ' . a:count . 'k'
-    silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
-endfunction
-function! s:BlankDown(count) abort
-    put =repeat(nr2char(10), a:count)
-    silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
-endfunction
-nnoremap <silent> O :<C-U>call <SID>BlankUp(v:count1)<CR>
-nnoremap <silent> o :<C-U>call <SID>BlankDown(v:count1)<CR>
 
 "" vim-subversive mappings
 nmap <C-s> <Plug>(SubversiveSubstitute)
