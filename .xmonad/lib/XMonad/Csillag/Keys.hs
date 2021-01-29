@@ -781,12 +781,6 @@ myKeys_scratchpads config =
                                  , keybinding_humankey    = [AlphaKey 'z']
                                  , keybinding_action = namedScratchpadAction myScratchpads "advancedaudio"
                                  }
-                    , KeyBinding { keybinding_description = "Toggle Scratchpad 'music'"
-                                 , keybinding_mask        = 0
-                                 , keybinding_key         = xK_m
-                                 , keybinding_humankey    = [AlphaKey 'm']
-                                 , keybinding_action      = namedScratchpadAction myScratchpads "music"
-                                 }
                     , KeyBinding { keybinding_description = "Toggle Scratchpad 'deezer'"
                                  , keybinding_mask        = shiftMask
                                  , keybinding_key         = xK_m
