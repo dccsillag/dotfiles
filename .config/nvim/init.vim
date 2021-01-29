@@ -636,6 +636,28 @@ augroup MarkdownIndent "{{{
     " autocmd CursorMovedI *.md call s:MarkdownIndent()
 augroup END "}}}
 
+let g:asyncrun_prevstatus = ''
+function! CheckAsyncRunStatus(timer) abort
+    if g:asyncrun_status == g:asyncrun_prevstatus
+        return
+    endif
+
+    if g:asyncrun_status == 'running'
+        " started running
+        echo 'started async command'
+    elseif g:asyncrun_status == 'success'
+        " done running, all OK
+        echo 'done running'
+    elseif g:asyncrun_status == 'failure'
+        " done running, command failed
+        echo 'failed run! (exit code = ' . g:asyncrun_code . ')'
+        copen
+    endif
+
+    let g:asyncrun_prevstatus = g:asyncrun_status
+endfunction
+call timer_start(1000, 'CheckAsyncRunStatus', {'repeat': -1})
+
 "}}}
 
 " Mappings {{{
