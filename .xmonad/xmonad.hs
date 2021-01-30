@@ -35,6 +35,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.WindowSwallowing
+import XMonad.Util.NamedActions
 
 -- My Configs
 import XMonad.Csillag.Layouts
@@ -64,7 +65,11 @@ myXMonadConfig = do
     tempfileExists <- doesFileExist workspaceTempFile
     unless tempfileExists $ writeFile workspaceTempFile "."
     wkss <- lines <$> readFile workspaceTempFile
-    return $ ewmh $ withNavigation2DConfig myNavigation2DConfig $ def {
+    return
+        $ ewmh
+        $ withNavigation2DConfig myNavigation2DConfig
+        $ addDescrKeys' ((mod4Mask .|. shiftMask, xK_slash), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (term_run "less /tmp/xmonad-help.txt")) myKeys
+        $ def {
           terminal           = term_spawn
         , modMask            = mod4Mask -- Super key
         , focusFollowsMouse  = False
@@ -100,7 +105,6 @@ myXMonadConfig = do
         --                            } >>= dynamicLogWithPP
         , startupHook        = startup -- (on startup)
         , mouseBindings      = myMouseBindings
-        , keys               = myKeys
         }
 
 
