@@ -11,7 +11,6 @@ executable my-xmonad
                      , XMonad.Csillag.Keys
                      , XMonad.Csillag.Layouts
                      , XMonad.Csillag.Scratchpads
-                     , XMonad.Csillag.BibTeX
                      , XMonad.Csillag.Externals
                      , XMonad.Csillag.Commands
   build-depends:       base

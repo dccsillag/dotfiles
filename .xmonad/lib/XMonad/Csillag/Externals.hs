@@ -7,12 +7,9 @@ import XMonad.Csillag.CommonActions (quote)
 -- Terminal Emulator
 
 term_spawn :: String
--- term_spawn = "alacritty"
 term_spawn = "st"
 
 term_spawn' :: String -> String
--- term_spawn' cls = "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
--- term_spawn' cls = "st -c '" ++ cls ++ "," ++ cls ++ "'"
 term_spawn' cls = "st -c '" ++ cls ++ "'"
 
 term_run :: String -> String

@@ -16,9 +16,7 @@ import XMonad hiding (config)
 import qualified XMonad.StackSet as W
 
 import XMonad.Hooks.ManageDocks
--- import XMonad.Hooks.DynamicLog
 
--- import XMonad.Actions.WorkspaceNames
 import XMonad.Util.Dmenu
 import XMonad.Actions.GridSelect
 
@@ -27,8 +25,6 @@ import XMonad.Prompt
 import XMonad.Util.WindowProperties   ( getProp32 )
 import XMonad.Prompt.FuzzyMatch
 
--- import XMonad.Csillag.Consts
-
 
 -- Helper functions
 
@@ -36,14 +32,6 @@ import XMonad.Prompt.FuzzyMatch
 
 quote :: String -> String
 quote str = "\'" ++ (str >>= (\case '\'' -> "\\'"; s -> [s])) ++ "\'"
-
--- spawnNohup :: String -> X ()
--- spawnNohup cmd = do
---     let identifier = takeWhile (`elem`"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789_") cmd
---     io $ void $ openTempFile "/tmp/stdout/" $ identifier ++ ".stdout"
---     spawn $ "nohup sh -c " ++ quote cmd ++ " > /tmp/stdout."
-spawnNohup :: String -> X ()
-spawnNohup = spawn
 
 -- -- Stability
 
@@ -63,7 +51,6 @@ myGridSelectWorkspace config func = withWindowSet $ \ws -> do
   let wss =
         filter (/= "NSP")
           $ map W.tag
-          -- $ filter (\x -> isJust (W.stack x) || isJust (lookup' $ W.tag x))
           $ filter ((/="NSP") . W.tag)
           $ circshiftN (succ $ length $ W.visible ws)
           $ W.workspaces ws
@@ -97,9 +84,6 @@ rofi prompt (Just msg) options =
     <$> menuArgs "rofi"
                  ["-dmenu", "-markup-rows", "-i", "-p", prompt, "-e", msg]
                  options
-
--- showMessage :: String -> X ()
--- showMessage msg = void $ menuArgs "rofi" ["-e", msg] []
 
 -- -- PP
 
@@ -154,22 +138,6 @@ stripWhitespace = dropWhile (== ' ') . reverse . dropWhile (== ' ') . reverse
 spawnOSD :: String -> X ()
 spawnOSD icon = spawn $ "show-osd '" ++ icon ++ "'"
 
--- spawnOSD' :: String -> String -> X ()
--- spawnOSD' icon compl = spawn $ "show-osd '" ++ icon ++ "' '" ++ compl ++ "'"
-
--- myWorkspaceNamesPP :: PP -> X PP
--- myWorkspaceNamesPP pp = do
---   names <- do
---     lookup' <- getWorkspaceNames'
---     return $ \wks ->
---       if wks == "NSP" then "" else maybe "" wrapStdFont (lookup' wks)
---   return $ pp { ppCurrent         = ppCurrent pp . names
---               , ppVisible         = ppVisible pp . names
---               , ppHidden          = ppHidden pp . names
---               , ppHiddenNoWindows = ppHiddenNoWindows pp . names
---               , ppUrgent          = ppUrgent pp . names
---               }
-
 myFullscreenEventHook :: Event -> X All
 myFullscreenEventHook (ClientMessageEvent _ _ _ dpy win typ (_ : dats)) = do
   wmstate <- getAtom "_NET_WM_STATE"
@@ -194,21 +162,6 @@ myFullscreenEventHook _ = return $ All True
 
 quitWithWarning :: X ()
 quitWithWarning = io exitSuccess
--- quitWithWarning = do
---   let shutdown = "shutdown"
---       reboot   = "reboot"
---       lock     = "lock"
---       logout   = "logout"
---       suspend  = "suspend"
---       cancelop = "cancel"
---   s <- rofi "Quit" Nothing [cancelop, lock, suspend, logout, shutdown, reboot]
---
---   -- TODO when (s `elem` options) $ mapM_ killWindow
---   when (s == lock) $ spawnOSD lockIcon >> spawn "dm-tool lock"
---   when (s == suspend) $ spawn "systemctl suspend"
---   when (s == logout) $ io exitSuccess
---   when (s == shutdown) $ spawnOSD shutdownIcon >> spawn "systemctl poweroff"
---   when (s == reboot) $ spawnOSD rebootIcon >> spawn "systemctl reboot"
 
 -- Prompt config
 
@@ -226,7 +179,6 @@ csillagPromptConfig = def { bgColor             = "#1b2326"
                           , maxComplRows        = Just 12
                           , historySize         = 200
                           -- , historyFilter       = id
-                          -- , promptKeymap        = ???
                           , completionKey       = (controlMask, xK_n)
                           , changeModeKey       = xK_F1
                           , defaultText         = ""

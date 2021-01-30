@@ -19,9 +19,6 @@ import XMonad.Csillag.Externals
 import XMonad hiding (config, keys)
 import qualified XMonad.StackSet as W
 import Graphics.X11.ExtraTypes.XF86
--- import XMonad.Util.WorkspaceCompare
--- import XMonad.Actions.Volume (getVolume)
--- import XMonad.Actions.TagWindows
 
 import XMonad.Util.EZConfig
 import XMonad.Layout.LayoutCombinators
@@ -29,7 +26,6 @@ import XMonad.Layout.Spacing
 
 import XMonad.Prompt ( )
 import XMonad.Prompt.Shell
--- import XMonad.Prompt.Zsh
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
 import XMonad.Prompt.XMonad
@@ -37,33 +33,13 @@ import XMonad.Prompt.Ssh
 import XMonad.Hooks.ManageDocks
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.CopyWindow
--- import XMonad.Actions.Volume
 import XMonad.Actions.DynamicWorkspaces
--- import XMonad.Actions.WorkspaceNames
--- import XMonad.Actions.CycleWS
 import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.MultiToggle
 
 
--- myKeys config =  myKeys_core config
---               ++ myKeys_directional config
---               ++ myKeys_stack config
---               ++ myKeys_spawn config
---               ++ myKeys_float config
---               ++ myKeys_close config
---               ++ myKeys_screens config
---               ++ myKeys_workspaces config
---               ++ myKeys_layouts config
---               ++ myKeys_layoutmsgs config
---               ++ myKeys_scratchpads config
---               ++ myKeys_passwords config
---               ++ myKeys_screenshot config
---               ++ myKeys_background config
---               ++ myKeys_devices config
---               ++ myKeys_system config
---               ++ myKeys_help config
 myKeys = flip mkKeymap $
     -- Core:
     [ ("M-r M-r",   restart_xmonad False)
@@ -92,14 +68,14 @@ myKeys = flip mkKeymap $
     , ("M-S-.",     windows W.swapDown)
     -- Spawn Stuff
     , ("M-n M-n",   shellPrompt csillagPromptConfig)
-    , ("M-n M-t",   spawnNohup term_spawn)
+    , ("M-n M-t",   spawn term_spawn)
     , ("M-n M-S-t", sshPrompt csillagPromptConfig)
-    , ("M-n M-f",   spawnNohup filemanager_spawn)
-    , ("M-n M-v",   spawnNohup texteditor_spawn)
-    , ("M-n M-b",   spawnNohup browser_spawn)
-    , ("M-n M-S-b", spawnNohup browser_spawn_private)
-    , ("M-n M-c",   spawnNohup camview_spawn)
-    , ("M-n M-w",   spawnNohup "xournalpp")
+    , ("M-n M-f",   spawn filemanager_spawn)
+    , ("M-n M-v",   spawn texteditor_spawn)
+    , ("M-n M-b",   spawn browser_spawn)
+    , ("M-n M-S-b", spawn browser_spawn_private)
+    , ("M-n M-c",   spawn camview_spawn)
+    , ("M-n M-w",   spawn "xournalpp")
     -- Floating Windows
     , ("M-f M-t",   withFocused $ windows . W.sink)
     , ("M-f M-s",   withFocused $ windows . flip W.float (W.RationalRect 0.05 0.05 0.9 0.9))
@@ -188,7 +164,7 @@ myKeys = flip mkKeymap $
     , ("M-q M-l",     spawn "slock")
     , ("M-q M-d M-[", spawn "notify-send \"DUNST_COMMAND_PAUSE\" && touch /home/daniel/.dunst_paused")
     , ("M-q M-d M-]", spawn "notify-send \"DUNST_COMMAND_RESUME\" && rm -f /home/daniel/.dunst_paused")
-    , ("M-q M-a",     spawnNohup "fix-audio" >> spawnOSD "A")
+    , ("M-q M-a",     spawn "fix-audio" >> spawnOSD "A")
     , ("M-q M-=",     spawn "toggle_xmobar")
     , ("M-q M-k",     spawn ".local/scripts/screenkey_toggle.sh")
     -- Function Keys

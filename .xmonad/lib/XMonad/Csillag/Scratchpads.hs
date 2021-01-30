@@ -33,12 +33,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "audio"
-       -- , cmd   = "pavucontrol"
-       -- , query = title =? "Volume Control"
        , cmd   = term_run' "audiomanage" "pulsemixer"
        , query = className =? "audiomanage"
-       -- , cmd   = "alacritty --class audiomanage,audiomanage -e alsamixer"
-       -- , query = className =? "audiomanage"
        , hook  = floatingScratchpad
        }
   , NS { name  = "advancedaudio"
@@ -53,9 +49,7 @@ myScratchpads =
        }
   , NS
     { name  = "todo"
-    -- , cmd   = "alacritty --class todo,todo -e"
-    , cmd   = "st -c todo -e"
-                ++ " sh -c \"nvim $(ls ~/todo/*.toq | tr '\\n' ' ')\""
+    , cmd   = "st -c todo -e sh -c \"nvim $(ls ~/todo/*.toq | tr '\\n' ' ')\""
     , query = className =? "todo"
     , hook  = floatingScratchpad
     }
@@ -75,7 +69,6 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       -- , cmd   = "alacritty --class email,email -e aerc"
        , cmd   = "mailspring"
        , query = className =? "Mailspring"
        , hook  = floatingScratchpad
