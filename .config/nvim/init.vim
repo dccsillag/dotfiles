@@ -814,6 +814,15 @@ call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<\(then\|do\
 call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<function\>\(\s\+[A-Za-z_][A-Za-z0-9_]*\([:.][A-Za-z_][A-Za-z0-9_]*\)*\)\?(.*)\%#', 'except': '^.*\<end\>.*\%#', 'input': "\n", 'input_after': '<CR>end' })
 call lexima#add_rule({ 'filetype': 'lua', 'char': '[', 'at': '--\%#', 'input': '[[ ', 'input_after': ' ]]' })
 call lexima#add_rule({ 'filetype': 'lua', 'char': ':', 'at': ':\%#', 'input_after': '::' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '-', 'at': '{\%#', 'input_after': '-' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Space>', 'at': '{-#\?\%#', 'input_after': '<Space>' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '#', 'at': '{-\%#', 'input': '# ', 'input_after': ' #' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\? \%# #\?-}', 'delete': 1 })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-\%#-}', 'input': '<BS><BS>', 'delete': 2 })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\%##-}', 'input': '<BS><BS><BS>', 'delete': 3 })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Bar>', 'at': '\[\%#', 'input': '', 'input_after': '|<C-\>|' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "\\(^\\|[^A-Za-z0-9_']\\)\\%#", 'input_after': "'" })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "'.\\%#'", 'leave': 1 })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
 inoremap <C-\> <C-o>f<C-k><C-\><C-\><Del>
