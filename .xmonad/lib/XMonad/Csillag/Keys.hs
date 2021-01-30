@@ -119,8 +119,8 @@ myKeys = flip mkNamedKeymap $
     -- Layout Messages
     , ("M-[",          addName "Shrink master area"               $ sendMessage Shrink)
     , ("M-]",          addName "Expand master area"               $ sendMessage Expand)
-    , ("M-{",          addName "Add one window to master pane"    $ sendMessage $ IncMasterN 1)
-    , ("M-}",          addName "Take one window from master pane" $ sendMessage $ IncMasterN (-1))
+    , ("M-S-[",        addName "Add one window to master pane"    $ sendMessage $ IncMasterN 1)
+    , ("M-S-]",        addName "Take one window from master pane" $ sendMessage $ IncMasterN (-1))
     , ("M-<Return>",   addName "Toggle magnifier"                 $ sendMessage $ Toggle MAGNIFIER)
     , ("M-S-<Return>", addName "Toggle window titles"             $ sendMessage $ Toggle WINDOWTITLES)
     -- Scratchpads
