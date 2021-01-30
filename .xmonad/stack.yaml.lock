@@ -23,12 +23,12 @@ packages:
     version: '0.16'
     git: git@github.com:xmonad/xmonad-contrib.git
     pantry-tree:
-      size: 21141
-      sha256: 02345145d5a058de0236891f332c911d4c63041840a390b2c8049d0418d7c2ee
-    commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
+      size: 21712
+      sha256: 2aa601e36c78fbe9090fc54ae9858ebe68e168dd0cb81e055210040a2136d55c
+    commit: f42989112c63c6945223a86c562d0454e1ad842d
   original:
     git: git@github.com:xmonad/xmonad-contrib.git
-    commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
+    commit: f42989112c63c6945223a86c562d0454e1ad842d
 snapshots:
 - completed:
     size: 563100

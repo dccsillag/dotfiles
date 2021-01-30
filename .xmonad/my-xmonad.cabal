@@ -17,7 +17,6 @@ executable my-xmonad
                      , extra
                      , xmonad >= 0.13
                      , xmonad-contrib >= 0.13
-                     , xmonad-extras
                      , xmobar
                      , X11
                      , containers
