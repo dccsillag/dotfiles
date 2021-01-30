@@ -6,24 +6,21 @@ module XMonad.Csillag.Keys
   )
 where
 
-import Data.List
 import qualified Data.Map as Map
 import Control.Monad
 
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts (windowGap, MAGNIFIER(..), WINDOWTITLES(..))
+import XMonad.Csillag.Layouts (MAGNIFIER(..), WINDOWTITLES(..))
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 
 import XMonad hiding (config, keys)
 import qualified XMonad.StackSet as W
-import Graphics.X11.ExtraTypes.XF86
 
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
 import XMonad.Layout.LayoutCombinators
-import XMonad.Layout.Spacing
 
 import XMonad.Prompt ( )
 import XMonad.Prompt.Shell

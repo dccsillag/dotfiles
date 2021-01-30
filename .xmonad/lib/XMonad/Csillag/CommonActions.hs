@@ -5,12 +5,10 @@ module XMonad.Csillag.CommonActions where
 import Data.Maybe
 import Data.List
 import Data.Semigroup
-import Data.Char (toLower, isSpace)
-import Data.Function (on)
+import Data.Char (isSpace)
 import Control.Monad
 import Control.Concurrent
 import System.Exit
-import System.IO
 
 import XMonad hiding (config)
 import qualified XMonad.StackSet as W

@@ -1,9 +1,6 @@
 module XMonad.Csillag.Externals
     where
 
-import XMonad.Csillag.CommonActions (quote)
-
-
 -- Terminal Emulator
 
 term_spawn :: String

@@ -12,9 +12,8 @@
 -- Imports.
 
 -- Standard Haskell
-import Control.Monad (forM_, when, unless)
+import Control.Monad (unless, void)
 import Control.Monad.Extra (whenM)
-import qualified Data.Map as Map
 import System.Directory (doesPathExist, doesFileExist)
 import System.Environment
 import Data.Bifunctor (first)
@@ -23,9 +22,7 @@ import System.Posix.Signals
 -- XMonad imports
 import XMonad hiding ((|||), config)
 import XMonad.Actions.ShowText
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (doFullFloat)
-import XMonad.Util.Run
 import XMonad.Hooks.SetWMName
 import XMonad.Util.Cursor
 import XMonad.Hooks.EwmhDesktops
@@ -111,7 +108,7 @@ myXMonadConfig = do
 main :: IO ()
 main = do
   -- Trap signals:
-  installHandler sigUSR1 (Catch $ spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi") Nothing
+  void $ installHandler sigUSR1 (Catch $ spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi") Nothing
 
   -- Set environment variables:
   -- let environment_vars_path = "/home/daniel/.xmonad/environment_variables.txt"
