@@ -5,12 +5,12 @@
 
 packages:
 - completed:
-    hackage: xmobar-0.33@sha256:94044fed8ff6c032720e731b8dc1ab987a55f741058a0d1cf798597fcd641fff,11451
+    hackage: xmobar-0.37@sha256:42cfb68788901364a1b4ddfdc213106e18851dda2575420e532ee31c4cce4e51,12020
     pantry-tree:
-      size: 6194
-      sha256: 73caec1013ae89e7e2d5243c1c77fde7e1e0b998864c8cc3adf31f157872ff3c
+      size: 6479
+      sha256: b110f67f00fdb59cd2a1988937eda1934889c3ba71d03823011df48791175ee5
   original:
-    hackage: xmobar-0.33@sha256:94044fed8ff6c032720e731b8dc1ab987a55f741058a0d1cf798597fcd641fff,11451
+    hackage: xmobar-0.37
 - completed:
     hackage: netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
     pantry-tree:
@@ -31,7 +31,7 @@ packages:
     commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
 snapshots:
 - completed:
-    size: 494635
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/12.yaml
-    sha256: a71c4293d8f461f455ff0d9815dfe4ab2f1adacd7e0bbc9a218f46ced8c4929a
-  original: lts-15.12
+    size: 563100
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/0.yaml
+    sha256: e93a85871577ea3423d5f3454b2b6bd37c2c2123c79faf511dfb64f5b49a9f8b
+  original: lts-17.0
