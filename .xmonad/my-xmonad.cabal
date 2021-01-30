@@ -8,7 +8,6 @@ executable my-xmonad
   -- other-modules lists custom modules in my ~/.xmonad/lib/ directory
   other-modules:       XMonad.Csillag.CommonActions
                      , XMonad.Csillag.Consts
-                     , XMonad.Csillag.Internal.KeyBindings
                      , XMonad.Csillag.Keys
                      , XMonad.Csillag.Layouts
                      , XMonad.Csillag.Scratchpads

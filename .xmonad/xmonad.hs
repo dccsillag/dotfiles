@@ -37,7 +37,6 @@ import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.WindowSwallowing
 
 -- My Configs
-import XMonad.Csillag.Internal.KeyBindings
 import XMonad.Csillag.Layouts
 import XMonad.Csillag.Keys
 import XMonad.Csillag.Scratchpads
@@ -101,10 +100,7 @@ myXMonadConfig = do
         --                            } >>= dynamicLogWithPP
         , startupHook        = startup -- (on startup)
         , mouseBindings      = myMouseBindings
-        , keys               = \x -> let myKeys' = filter (\case KeyHeading _ -> False; _ -> True) (myKeys x)
-                                         systemFunctionKeys' = filter (\case KeyHeading _ -> False; _ -> True) (systemFunctionKeys x)
-                                         in Map.insert (modMask x, xK_Escape) (modalmap (0, xK_i) $ Map.fromList $ keybindingToTuple 0 <$> myKeys') $
-                                             Map.fromList $ (keybindingToTuple 0 <$> systemFunctionKeys') ++ (keybindingToTuple (modMask x) <$> myKeys')
+        , keys               = myKeys
         }
 
 
