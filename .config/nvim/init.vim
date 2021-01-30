@@ -802,6 +802,8 @@ for filetype in ['tex', 'markdown']
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lvert\%#',        'input_after': ' \rvert'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lVert\%#',        'input_after': ' \rVert'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',            'input_after': ']{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'execpt': '\\\%#',           'input_after': '|' })
+    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\\\%#',               'input_after': '\|' })
 endfor
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
