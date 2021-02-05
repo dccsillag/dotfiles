@@ -265,9 +265,10 @@ alias clear='clear -x'
 alias cls='/usr/bin/clear'
 alias cmd='command'
 # # Edit a file in Vim
-alias ed='f=$(fzf) && vim $f'
-alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf) && vim $f'
-alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf) }) && vim $f'
+alias fzf-inline='fzf --height 50% --reverse'
+alias ed='f=$(fzf-inline) && vim $f'
+alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && vim $f'
+alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && vim $f'
 
 # Setup better history completion
 bindkey "^[[A" history-beginning-search-backward
