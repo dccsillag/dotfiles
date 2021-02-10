@@ -42,10 +42,11 @@ packages:
 extra-deps:
 - xmobar-0.37
 - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
-- git: git@github.com:xmonad/xmonad-contrib.git
-  # commit: 58feba91d96fee8339d7cf56fb33537be819eb4b
-  # commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
-  commit: f42989112c63c6945223a86c562d0454e1ad842d
+- /home/daniel/code/xmonad-contrib/
+# - git: git@github.com:xmonad/xmonad-contrib.git
+#   # commit: 58feba91d96fee8339d7cf56fb33537be819eb4b
+#   # commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
+#   commit: f42989112c63c6945223a86c562d0454e1ad842d
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
