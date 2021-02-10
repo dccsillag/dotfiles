@@ -69,13 +69,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = "mailspring"
-       , query = className =? "Mailspring"
-       , hook  = floatingScratchpad
-       }
-  , NS { name  = "calendar"
-       , cmd   = term_run' "calendar" "lackey"
-       , query = className =? "calendar"
+       , cmd   = term_run' "email" "alot"
+       , query = className =? "email"
        , hook  = floatingScratchpad
        }
   ]
