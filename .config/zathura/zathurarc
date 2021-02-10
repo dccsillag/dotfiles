@@ -1,8 +1,11 @@
-set default-bg 'rgba(27, 35, 38, 0.8)'
+# set default-bg 'rgba(27, 35, 38, 0.5)'
+set default-bg 'rgba(0, 0, 0, 0.5)'
 set default-fg '#ffffff'
 
-set recolor-lightcolor 'rgba(27, 35, 38, 0)'
+# set recolor-lightcolor 'rgba(27, 35, 38, 0)'
+set recolor-lightcolor 'rgba(0, 0, 0, 0)'
 set recolor-darkcolor '#ffffff'
+set recolor-keephue true
 
 set recolor true
 
