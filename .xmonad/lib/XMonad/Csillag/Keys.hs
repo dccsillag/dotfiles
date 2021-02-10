@@ -85,7 +85,7 @@ myKeys = flip mkNamedKeymap $
     -- Screens (Xinerama)
     , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ screenWorkspace 0 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ screenWorkspace 1 >>= flip whenJust (windows . W.view))
-    , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap R True)
+    , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap U True)
     , ("M-S-s M-S-c",       addName "Change screen setup"               $ change_screen_config)
     , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ set_screen_orientation "normal" 0)
     , ("M-S-s M-S-o M-S-j", addName "Set screen orientation to 'down'"  $ spawn $ set_screen_orientation "inverted" 0)
@@ -205,8 +205,8 @@ change_screen_config = gridselect myGridSelectConfig (map (\x -> (x,x))
     , "Laptop only"
     , "HDMI only"
     ]) >>= flip whenJust (\case
-        "Laptop .. HDMI" -> spawn "mons -e right"
-        "HDMI .. Laptop" -> spawn "mons -e left"
+        "Laptop .. HDMI" -> spawn "mons -e top"
+        "HDMI .. Laptop" -> spawn "mons -e bottom"
         "Mirror"         -> spawn "mons -m"
         "Laptop only"    -> spawn "mons -o"
         "HDMI only"      -> spawn "mons -s"

@@ -20,8 +20,8 @@ TIMEOUT=1
 
 # Get middle of screen
 NSCREENS=$(xrandr | grep -c "\<connected\>")
-MIDX=$(($(xwininfo -root | grep Width: | sed 's/^  Width: \([0-9]\+\)$/\1/') / NSCREENS / 2))
-MIDY=$(($(xwininfo -root | grep Height: | sed 's/^  Height: \([0-9]\+\)$/\1/') / 2))
+MIDX=$(($(xwininfo -root | grep Width: | sed 's/^  Width: \([0-9]\+\)$/\1/') / 2))
+MIDY=$(($(xwininfo -root | grep Height: | sed 's/^  Height: \([0-9]\+\)$/\1/') / NSCREENS / 2))
 
 # Get identifier
 IDENTIFIER=$(echo "$1" | od -t o1 | head -1 | cut -d' ' -f2- | tr ' ' '0')
