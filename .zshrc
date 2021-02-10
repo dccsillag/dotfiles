@@ -224,6 +224,15 @@ function extract() {
     fi
 }
 
+# Manage the calendar
+function cal() {
+    test -z "$1" && NMONTHS=2 || { NMONTHS=$1; shift 1; }
+    remind -b1 -@2 -w$(tput cols) -cu$NMONTHS $@ ~/agenda/calendar/ | sed 's/\o14/\n\n\n\n\n\n\n\n/g' | less -r
+}
+function rem() {
+    remind -b1 -dl -@2 -g $@ ~/agenda/calendar/
+}
+
 # Setup aliases
 # # Vim
 alias vim=nvim
