@@ -136,7 +136,6 @@ myKeys = flip mkNamedKeymap $
     , ("M-s M-d",   addName "Toggle scratchpad 'discord'"       $ namedScratchpadAction myScratchpads "discord")
     , ("M-s M-w",   addName "Toggle scratchpad 'whatsapp'"      $ namedScratchpadAction myScratchpads "whatsapp")
     , ("M-s M-e",   addName "Toggle scratchpad 'mail'"          $ namedScratchpadAction myScratchpads "mail")
-    , ("M-s M-c",   addName "Toggle scratchpad 'calendar'"      $ namedScratchpadAction myScratchpads "calendar")
     -- Passwords
     , ("M-p M-p",   addName "Get a password"             $ passPrompt csillagPromptConfig)
     , ("M-p M-g",   addName "Generate a random password" $ passGeneratePrompt csillagPromptConfig)
