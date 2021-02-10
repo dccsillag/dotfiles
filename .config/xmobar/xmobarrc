@@ -10,12 +10,12 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
        , lowerOnStart = True
        , commands = [ Run Cpu [ "-t",       "﬙ <total>%"
                               , "-p",       "3"
-                              , "-L",       "5"
-                              , "-H",       "50"
+                              , "-L",       "10"
+                              , "-H",       "70"
                               , "--low",    "green"
                               , "--normal", "yellow"
                               , "--high",   "red"
-                              ] 5
+                              ] 10
                     , Run Memory [ "-t",       " <usedratio>%"
                                  , "-p",       "3"
                                  , "-L",       "20"
@@ -23,7 +23,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                  , "--low",    "green"
                                  , "--normal", "yellow"
                                  , "--high",   "red"
-                                 ] 10
+                                 ] 20
                     , Run Swap [ "-t",       "易 <usedratio>%" -- 
                                , "-p",       "3"
                                , "-L",       "20"
@@ -31,7 +31,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                , "--low",    "green"
                                , "--normal", "yellow"
                                , "--high",   "red"
-                               ] 10
+                               ] 20
                     , Run MultiCoreTemp [ "-t",       "﨎 <max>°C"
                                         , "-p",       "3"
                                         , "-L",       "40"
@@ -39,7 +39,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                         , "--low",    "cyan"
                                         , "--normal", "green" -- "white"
                                         , "--high",   "red"
-                                        ] 5
+                                        ] 10
                     , Run DynNetwork [ "-t", "  ↓<rx> ↑<tx>"
                                      , "-p",       "3"
                                      , "-S", "True"
@@ -56,10 +56,10 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
 
                     , Run Date "<fc=#FFFFFF>   %a, %_d/%m/%Y %H:%M:%S</fc>" "datetime" 10
 
-                    , Run Com "/home/daniel/.local/scripts/recording-query.sh" [] "rec" 2
+                    , Run Com "/home/daniel/.local/scripts/recording-query.sh" [] "rec" 10
                     , Run Com "/home/daniel/.local/scripts/vpn-query.sh" [] "vpn" 20
                     , Run Com "/home/daniel/.local/scripts/do-not-disturb-query.sh" [] "donotdisturb" 10
-                    , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 2
+                    , Run Com "/home/daniel/.local/scripts/mic-query.sh" [] "mic" 10
                     , Run Battery [ "-t",       "<acstatus><left>%"
                                   , "-p",       "3"
                                   , "-L",       "25"
