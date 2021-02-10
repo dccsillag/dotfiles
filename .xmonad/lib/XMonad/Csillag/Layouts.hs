@@ -41,7 +41,7 @@ instance Transformer MAGNIFIER Window where
 instance Transformer WINDOWTITLES Window where
     transform WINDOWTITLES x k = k (simpleDeco shrinkText windowbarTheme x) $ \(ModifiedLayout _ x') -> x'
 
-myLayouts = draggingVisualizer $ mkToggle (single MAGNIFIER) $ mkToggle (single WINDOWTITLES) $
+myLayouts = draggingVisualizer $ mkToggle (single WINDOWTITLES) $ mkToggle (single MAGNIFIER) $
     renamed [Replace "Grid"]           (winSpaces $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
     renamed [Replace "Mosaic"]         (winSpaces $ MosaicAlt M.empty)                   |||
     renamed [Replace "ThreeColMid"]    (winSpaces $ ThreeColMid 1 (3/100) (1/2))         |||
