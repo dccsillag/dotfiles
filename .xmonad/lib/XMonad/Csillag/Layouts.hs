@@ -51,8 +51,8 @@ myLayouts = draggingVisualizer $ mkToggle (single WINDOWTITLES) $ mkToggle (sing
     renamed [Replace "Dwindle"]        (winSpaces $ Dwindle R CW 1 1.1)                  |||
     renamed [Replace "Mirror Dwindle"] (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
     where
-        winSpaces = spacingRaw False
-                               (Border 0 windowGap windowGap windowGap)
+        winSpaces = spacingRaw True
+                               (Border windowGap' windowGap' windowGap' windowGap')
                                True
                                (Border windowGap windowGap windowGap windowGap)
                                True
@@ -76,4 +76,5 @@ windowbarTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:si
                      , decoWidth           = 5000
                      }
 
-windowGap = 2
+windowGap  = 7
+windowGap' = 2
