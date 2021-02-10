@@ -169,9 +169,9 @@ myKeys = flip mkNamedKeymap $
     -- Function Keys
     , ("<XF86MonBrightnessUp>",   addName "Raise brightness"  $ spawn "lux -a 1%" >> spawnOSD brightnessUpIcon)
     , ("<XF86MonBrightnessDown>", addName "Lower brightness"  $ spawn "lux -s 1%" >> spawnOSD brightnessDownIcon)
-    , ("<XF86AudioRaiseVolume>",  addName "Raise volume"      $ spawnOSD volumeUpIcon >> spawn "amixer sset Master 2%+" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
-    , ("<XF86AudioLowerVolume>",  addName "Lower volume"      $ spawnOSD volumeDownIcon >> spawn "amixer sset Master 2%-" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
-    , ("<XF86AudioMute>",         addName "Toggle mute"       $ spawnOSD volumeMuteIcon >> spawn "amixer sset Master toggle" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
+    , ("<XF86AudioRaiseVolume>",  addName "Raise volume"      $ spawnOSD volumeUpIcon   >> spawn "pactl set-sink-volume @DEFAULT_SINK@ +2%"  >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
+    , ("<XF86AudioLowerVolume>",  addName "Lower volume"      $ spawnOSD volumeDownIcon >> spawn "pactl set-sink-volume @DEFAULT_SINK@ -2%"  >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
+    , ("<XF86AudioMute>",         addName "Toggle mute"       $ spawnOSD volumeMuteIcon >> spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
     , ("M-C-v",                   addName "Play test sound"   $ spawnOSD volumePlayIcon >> spawn ("paplay " ++ volumeChangeSound))
     , ("M-\\",                    addName "Toggle play/pause" $ spawn "mmc toggle")
     , ("M-S-\\",                  addName "Go to next track"  $ spawn "mmc next")
