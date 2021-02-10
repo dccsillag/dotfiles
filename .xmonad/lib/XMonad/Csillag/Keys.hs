@@ -73,7 +73,8 @@ myKeys = flip mkNamedKeymap $
     , ("M-n M-b",   addName "Spawn a browser"           $ spawn browser_spawn)
     , ("M-n M-S-b", addName "Spawn a private browser"   $ spawn browser_spawn_private)
     , ("M-n M-c",   addName "Spawn a camera view"       $ spawn camview_spawn)
-    , ("M-n M-w",   addName "Spawn a notebook"          $ spawn "xournalpp")
+    , ("M-n M-w",   addName "Spawn a notebook"          $ spawn "write_stylus")
+    , ("M-n M-r",   addName "Spawn a calculator"        $ spawn calculator_spawn)
     -- Floating Windows
     , ("M-f M-t",   addName "Tile floating window"         $ withFocused $ windows . W.sink)
     , ("M-f M-s",   addName "Float window as a scratchpad" $ withFocused $ windows . flip W.float (W.RationalRect 0.05 0.05 0.9 0.9))

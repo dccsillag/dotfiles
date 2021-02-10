@@ -77,3 +77,8 @@ set_screen_orientation orient screen = "sh -c 'xrandr --output \"" ++ screen_nam
 
 system_monitor :: String
 system_monitor = "btm --battery"
+
+-- Calculator
+
+calculator_spawn :: String
+calculator_spawn = term_run "insect"
