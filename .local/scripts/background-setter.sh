@@ -11,17 +11,18 @@ do
 done
 
 set_background() {
-    file="$(find ~/static/backgrounds -type f | shuf -n 1)"
+    [ -z "$1" ] \
+        && file="$(find ~/static/backgrounds -type f | shuf -n 1)" \
+        || file="$(echo "$1" | shuf -n 1)"
     feh --no-fehbg --bg-scale "$file"
 }
+DOWNTIME=2h
 
 if [ "$1" = set ]
 then
     set_background
 elif [ "$1" = auto ]
 then
-    DOWNTIME=2h
-
     # Main loop
     while true
     do
@@ -29,6 +30,19 @@ then
 
         sleep $DOWNTIME
     done
+elif [ "$1" = choose ]
+then
+    files="$(sxiv -otr ~/static/backgrounds)"
+    nfiles="$(echo "$files" | wc -l)"
+    if [ "$nfiles" -eq 1 ]; then
+        set_background "$files"
+    elif [ "$nfiles" -gt 1 ]; then
+        while true; do
+            set_background "$files"
+            sleep $DOWNTIME
+        done
+    fi
+    set_background "$files"
 else
     echo "no such command: $1. Must be 'set' or 'auto'" 1>&2
     exit 2

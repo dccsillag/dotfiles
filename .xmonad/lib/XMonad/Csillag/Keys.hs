@@ -148,6 +148,7 @@ myKeys = flip mkNamedKeymap $
     -- Background
     , ("M-b M-r", addName "Set a random background"                        $ spawn "background-setter set")
     , ("M-b M-a", addName "Automatically set a random background every 1h" $ spawn "background-setter auto")
+    , ("M-b M-b", addName "Automatically set a random background every 1h" $ spawn "background-setter choose")
     -- Devices
     , ("M-d M-t M-w M-k", addName "Map wacom tablet to current window, with orientation 'up'"   $ spawn "wacom-map up")
     , ("M-d M-t M-w M-j", addName "Map wacom tablet to current window, with orientation 'down'" $ spawn "wacom-map down")
