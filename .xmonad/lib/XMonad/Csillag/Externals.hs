@@ -58,7 +58,8 @@ scrot_thiswindow = "cd ~/media/screenshots/ && scrot -u -z"
 -- Compositor
 
 compositor_spawn :: String
-compositor_spawn = "picom --experimental-backend"
+-- compositor_spawn = "picom --experimental-backend"
+compositor_spawn = "sh -c 'picom --glx-fshader-win \"$(cat ~/.config/picom-opacity-shader.glsl)\"'"
 
 compositor_restart :: String
 compositor_restart = "pkill -USR1 picom"
