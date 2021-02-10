@@ -55,7 +55,7 @@
 
     browser              = chromium-browser
 
-    icon_path            = /usr/share/icons/Paper/16x16/actions/:/usr/share/icons/Paper/16x16/apps/:/usr/share/icons/Paper/16x16/categories/:/usr/share/icons/Paper/16x16/devices/:/usr/share/icons/Paper/16x16/emblems/:/usr/share/icons/Paper/16x16/emotes/:/usr/share/icons/Paper/16x16/mimetypes/:/usr/share/icons/Paper/16x16/panel/:/usr/share/icons/Paper/16x16/places/:/usr/share/icons/Paper/16x16/status/:/usr/share/icons/Paper/16x16/web
+    icon_path            = /usr/share/icons/Paper/512x512/actions/:/usr/share/icons/Paper/512x512/apps/:/usr/share/icons/Paper/512x512/categories/:/usr/share/icons/Paper/512x512/devices/:/usr/share/icons/Paper/512x512/emblems/:/usr/share/icons/Paper/512x512/emotes/:/usr/share/icons/Paper/512x512/mimetypes/:/usr/share/icons/Paper/512x512/panel/:/usr/share/icons/Paper/512x512/places/:/usr/share/icons/Paper/512x512/status/:/usr/share/icons/Paper/512x512/web
     icon_position        = left
     min_icon_size        = 50
     max_icon_size        = 50
