@@ -32,9 +32,11 @@ void main() {
     vec3 c_mix_hsv  = rgb2hsv(c_mix.xyz); // .x = hue, .y = saturation, .z = value
     vec3 c_here_hsv = rgb2hsv(c_rgb.xyz); // .x = hue, .y = saturation, .z = value
 
-    /* if (invert_color && (c_here_hsv.z < 0.01 || c_here_hsv.z > 0.99)) */
-    /*     c_rgb = vec4(vec3(c_rgb.a, c_rgb.a, c_rgb.a) - vec3(c_rgb), c_rgb.a); */
-    if (c_mix_hsv.z < 0.25)
+    if (invert_color /* && c_mix.z > 0.8 */)
+        c_rgb = vec4(vec3(c_rgb.a, c_rgb.a, c_rgb.a) - vec3(c_rgb), c_rgb.a);
+
+    float opacity_threshold = 0.25;
+    if ((!invert_color && c_mix_hsv.z < 0.25) || (invert_color && c_mix_hsv.z > 1 - opacity_threshold))
         c_rgb *= opacity;
     /* else */
     /*     c_rgb *= mix(opacity, 1.0, clamp(10*abs(c_mix_hsv.z - c_here_hsv.z), 0.0, 1.0)); */
