@@ -26,7 +26,7 @@ texteditor_edit path = term_run $ "nvim " ++ path
 -- File Manager
 
 filemanager_spawn :: String
-filemanager_spawn = term_run "nnn -nA"
+filemanager_spawn = term_run "lf" -- "nnn -nA"
 
 -- Browser
 
