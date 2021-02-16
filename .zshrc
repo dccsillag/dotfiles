@@ -146,6 +146,14 @@ function ssh() {
     bgset %0
     return $exitcode
 }
+function mosh() {
+    export SSHALIAS=1
+    /usr/bin/mosh $@
+    export SSHALIAS=0
+    exitcode=$?
+    bgset %0
+    return $exitcode
+}
 
 # Open files with external applications
 function open() {
