@@ -11,7 +11,6 @@ import Control.Monad
 
 import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts (MAGNIFIER(..), WINDOWTITLES(..))
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 
@@ -35,7 +34,7 @@ import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.TiledWindowDragging
-import XMonad.Layout.MultiToggle
+import XMonad.Layout.Maximize
 
 
 myKeys = flip mkNamedKeymap $
@@ -122,16 +121,13 @@ myKeys = flip mkNamedKeymap $
     , ("M-]",          addName "Expand master area"               $ sendMessage Expand)
     , ("M-S-[",        addName "Add one window to master pane"    $ sendMessage $ IncMasterN 1)
     , ("M-S-]",        addName "Take one window from master pane" $ sendMessage $ IncMasterN (-1))
-    , ("M-<Return>",   addName "Toggle magnifier"                 $ sendMessage $ Toggle MAGNIFIER)
-    , ("M-S-<Return>", addName "Toggle window titles"             $ sendMessage $ Toggle WINDOWTITLES)
+    , ("M-<Return>",   addName "Toggle magnifier"                 $ withFocused $ sendMessage . maximizeRestore)
     -- Scratchpads
     , ("M-s M-t",   addName "Toggle scratchpad 'sysmon'"        $ namedScratchpadAction myScratchpads "sysmon")
     , ("M-s M-b",   addName "Toggle scratchpad 'bluetooth'"     $ namedScratchpadAction myScratchpads "bluetooth")
     , ("M-s M-q",   addName "Toggle scratchpad 'terminal'"      $ namedScratchpadAction myScratchpads "terminal")
     , ("M-s M-a",   addName "Toggle scratchpad 'audio'"         $ namedScratchpadAction myScratchpads "audio")
-    , ("M-s M-z",   addName "Toggle scratchpad 'advancedaudio'" $ namedScratchpadAction myScratchpads "advancedaudio")
     , ("M-s M-S-m", addName "Toggle scratchpad 'deezer'"        $ namedScratchpadAction myScratchpads "deezer")
-    , ("M-s M-x",   addName "Toggle scratchpad 'todo'"          $ namedScratchpadAction myScratchpads "todo")
     , ("M-s M-s",   addName "Toggle scratchpad 'slack'"         $ namedScratchpadAction myScratchpads "slack")
     , ("M-s M-d",   addName "Toggle scratchpad 'discord'"       $ namedScratchpadAction myScratchpads "discord")
     , ("M-s M-w",   addName "Toggle scratchpad 'whatsapp'"      $ namedScratchpadAction myScratchpads "whatsapp")

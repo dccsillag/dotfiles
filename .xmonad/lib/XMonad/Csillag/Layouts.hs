@@ -2,9 +2,6 @@
 
 module XMonad.Csillag.Layouts
     ( myLayouts
-    , windowGap
-    , MAGNIFIER(..)
-    , WINDOWTITLES(..)
     )
 where
 
@@ -23,39 +20,20 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.MosaicAlt
 import XMonad.Layout.StackTile
 
-import XMonad.Layout.LayoutModifier
-import XMonad.Layout.MultiToggle
-import XMonad.Layout.Magnifier
-
 import XMonad.Layout.DraggingVisualizer
-import XMonad.Layout.Spacing
-import XMonad.Layout.SimpleDecoration
+import XMonad.Layout.Maximize
 
-data MAGNIFIER = MAGNIFIER deriving (Read, Show, Eq, Typeable)
 
-data WINDOWTITLES = WINDOWTITLES deriving (Read, Show, Eq, Typeable)
-
-instance Transformer MAGNIFIER Window where
-    transform MAGNIFIER x k = k (magnifier x) $ \(ModifiedLayout _ x') -> x'
-
-instance Transformer WINDOWTITLES Window where
-    transform WINDOWTITLES x k = k (simpleDeco shrinkText windowbarTheme x) $ \(ModifiedLayout _ x') -> x'
-
-myLayouts = draggingVisualizer $ mkToggle (single WINDOWTITLES) $ mkToggle (single MAGNIFIER) $
-    renamed [Replace "Grid"]           (winSpaces $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
-    renamed [Replace "Mosaic"]         (winSpaces $ MosaicAlt M.empty)                   |||
-    renamed [Replace "ThreeColMid"]    (winSpaces $ ThreeColMid 1 (3/100) (1/2))         |||
-    renamed [Replace "Dishes"]         (winSpaces $ StackTile 2 (3/100) (5/6))           |||
-    renamed [Replace "OneBig"]         (winSpaces $ OneBig (6/7) (6/7))                  |||
-    renamed [Replace "Full"]           (tabbed shrinkText tabbedTheme)                   |||
-    renamed [Replace "Dwindle"]        (winSpaces $ Dwindle R CW 1 1.1)                  |||
-    renamed [Replace "Mirror Dwindle"] (Mirror $ winSpaces $ Dwindle R CW 1 1.1)
+myLayouts = draggingVisualizer $ maximize $
+    renamed [Replace "Grid"]           (IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
+    renamed [Replace "Mosaic"]         (MosaicAlt M.empty)                   |||
+    renamed [Replace "ThreeColMid"]    (ThreeColMid 1 (3/100) (1/2))         |||
+    renamed [Replace "Dishes"]         (StackTile 2 (3/100) (5/6))           |||
+    renamed [Replace "OneBig"]         (OneBig (6/7) (6/7))                  |||
+    renamed [Replace "Full"]           (tabbed shrinkText tabbedTheme)       |||
+    renamed [Replace "Dwindle"]        (Dwindle R CW 1 1.1)                  |||
+    renamed [Replace "Mirror Dwindle"] (Mirror $ Dwindle R CW 1 1.1)
     where
-        winSpaces = spacingRaw True
-                               (Border windowGap' windowGap' windowGap' windowGap')
-                               True
-                               (Border windowGap windowGap windowGap windowGap)
-                               True
 
 tabbedTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=12"
                   , activeColor         = "#707070"
@@ -65,16 +43,3 @@ tabbedTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=
                   , inactiveTextColor   = "#EEEEEE"
                   , inactiveBorderColor = "#555555"
                   }
-
-windowbarTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=12"
-                     , activeColor         = "#707070"
-                     , activeTextColor     = "#ffffff"
-                     , activeBorderColor   = "#eeeeee"
-                     , inactiveColor       = "#333333"
-                     , inactiveTextColor   = "#EEEEEE"
-                     , inactiveBorderColor = "#555555"
-                     , decoWidth           = 5000
-                     }
-
-windowGap  = 7
-windowGap' = 2
