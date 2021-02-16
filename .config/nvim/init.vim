@@ -470,7 +470,7 @@ nnoremap <silent> * *:Beacon<CR>
 nnoremap <silent> # #:Beacon<CR>
 
 "" Change S to behave like X
-nmap S Xi
+nmap <silent> S "_Xi<CR><Esc>l
 
 "" Change s to ys (normal) / S (visual)
 nmap s ys
