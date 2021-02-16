@@ -68,8 +68,8 @@ myGridSelectConfig = (buildDefaultGSConfig colorizer) { gs_cellheight   = round 
           colorizer wks active = withWindowSet $ \ws -> do
               let curWkss = map W.tag $ W.workspace (W.current ws) : map W.workspace (W.visible ws)
               return $ if wks `elem` curWkss
-                          then if active then ("#aaaaaa", "#000000") else ("#777777", "#222222")
-                          else if active then ("#dddddd", "#000000") else ("#333333", "#bbbbbb")
+                          then if active then ("#aaaaaa", "#000000") else ("#777777", "#000000")
+                          else if active then ("#ffffff", "#000000") else ("#000000", "#ffffff")
 
 -- -- Rofi
 
