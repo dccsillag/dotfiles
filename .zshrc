@@ -85,6 +85,8 @@ if ! zgen saved; then
     abbr -U st='stack'
     # # # Tree
     abbr -U tre='tree'
+    # # # Abduco
+    abbr -U ab='abduco'
 
     zgen save
 fi
