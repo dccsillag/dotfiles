@@ -9,7 +9,7 @@
 }
 
 is_number() {
-    test -z "${1//[0-9]}"
+    echo "$1" | head -1 | grep '^[0-9]\+$'
     return $?
 }
 
