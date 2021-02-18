@@ -20,5 +20,5 @@ elif is_number "$1"; then
     test "$2" = "-e" && READONLY= || READONLY=-r
     abduco $READONLY -a "$(abduco | sed '1d' | rev | cut -f1 | rev | sed "$1"'q;d')"
 else
-    abduco -c "$*" "$*"
+    abduco -f -c "$*" "$*"
 fi
