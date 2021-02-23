@@ -313,6 +313,9 @@ set statusline=%{repeat('―',\ nvim_win_get_width(0))} " set the statusline to
                                                       "   separator
 set noruler                                           " remove the ruler
 
+"" Hide tabbar
+set showtabline=0 " never show the tabline
+
 "" Use FISH as the shell
 " set shell=/usr/bin/fish
 set shell=/bin/dash
