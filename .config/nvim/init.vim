@@ -799,10 +799,10 @@ for filetype in ['tex', 'markdown']
     call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\left\%#',                   'input_after': '\right]'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\%#',                   'input': '\{', 'input_after': '\right\}'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\\\%#',                 'input': '{', 'input_after': '\right\}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\frac\%#',                   'input': '{', 'input_after': '}{<C-\>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\inn\%#',                    'input': '{', 'input_after': '}{<C-\>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\diff\%#',                   'input': '{', 'input_after': '}{<C-\>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\pdiff\%#',                  'input': '{', 'input_after': '}{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\frac\%#',                   'input': '{', 'input_after': '}{<C-l>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\inn\%#',                    'input': '{', 'input_after': '}{<C-l>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\diff\%#',                   'input': '{', 'input_after': '}{<C-l>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\pdiff\%#',                  'input': '{', 'input_after': '}{<C-l>}'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lceil\%#',                  'input_after': ' \rceil'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lceil\%#',            'input_after': ' \right\rceil'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lfloor\%#',                 'input_after': ' \rfloor'})
@@ -817,13 +817,14 @@ for filetype in ['tex', 'markdown']
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\. \%# \\right\\.',    'delete': 1})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left.\%#\\right.',          'input': '<BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del>'})          " FIXME: use 'delete'
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\.\%#\\right\\.',      'input': '<BS><BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del><Del>'}) " FIXME: use 'delete'
-    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',                      'input_after': ']{<C-\>}'})
+    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',                      'input_after': ']{<C-l>}'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\%#|',                          'leave': 1 })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'execpt': '\\\%#',                     'input_after': '|' })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\left\%#',                   'input_after': '\right|' })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\\%#',                       'input_after': '\|' })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\left\\\%#',                 'input_after': '\right\|' })
 endfor
+call lexima#add_rule({ 'filetype': 'markdown', 'char': '[', 'at': '^\s*[-+*] \%#$', 'input': '[ ] '})
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
 endfor
@@ -841,7 +842,7 @@ call lexima#add_rule({ 'filetype': 'haskell', 'char': '#', 'at': '{-\%#', 'input
 call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\? \%# #\?-}', 'delete': 1 })
 call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-\%#-}', 'input': '<BS><BS>', 'delete': 2 })
 call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\%##-}', 'input': '<BS><BS><BS>', 'delete': 3 })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Bar>', 'at': '\[\%#', 'input': '', 'input_after': '|<C-\>|' })
+call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Bar>', 'at': '\[\%#', 'input': '', 'input_after': '|<C-l>|' })
 call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "\C\\(^\\|[^A-Za-z0-9_']\\)\\%#", 'input_after': "'" })
 call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "'.\\%#'", 'leave': 1 })
 call lexima#add_rule({ 'filetype': 'cpp',     'char': '<', 'at': '\C\([A-Za-z0-9_]\|^\s*template \|^#\s*include\s\+\)\%#', 'input_after': '>' })
@@ -850,18 +851,7 @@ call lexima#add_rule({ 'filetype': 'cpp',     'char': '<BS>', 'at': '<\%#>', 'de
 call lexima#add_rule({ 'filetype': 'remind', 'char': '"', 'at': '%\%#', 'input_after': '%"' })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
-inoremap <C-\> <C-o>f<C-k><C-\><C-\><Del>
-
-"" Keymap for opening a LaTeX environment
-function! s:OpenLatexEnvironment() abort
-    let l:env_name = input("env> ")
-    exec 'normal! a\begin{' . l:env_name . '}'
-    normal! o
-    exec 'normal! a\end{' . l:env_name . '}'
-    normal! Oa
-    normal! x$
-endfunction
-inoremap <C-l> <C-\><C-o>:call <SID>OpenLatexEnvironment()<CR>
+inoremap <C-l> <C-o>f<C-k><C-l><C-l><Del>
 
 " }}}
 
