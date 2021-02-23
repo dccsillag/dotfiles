@@ -347,7 +347,9 @@ set shiftwidth=4  " how many spaces to use for >> and <<
 set softtabstop=4 " how many spaces to use for tab
 
 "" Keep indentation structure
-set autoindent " use same indentation level for the neighboring lines
+set autoindent                           " use same indentation level for the
+                                         "   neighboring lines
+set cinoptions=L0,N-s,E-s,(0,mN,j1,J1,P1 " setup better C/C++ autoindent
 
 "" Highlight past the textwidth
 set colorcolumn=+1 " highlight the column after the one specified in 'textwidth'
