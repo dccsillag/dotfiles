@@ -395,8 +395,8 @@ set concealcursor= " don't conceal the current line in any mode
 set conceallevel=2 " conceal everything, hiding concealed text completely
 
 "" Show trailing whitespace and tabs
-set list                       " show listchars
-set listchars=tab:\ \ ,trail:┈ " show tabs as spaces and highlight trailing whitespace
+set list                     " show listchars
+set listchars=tab:--,trail:┈ " show tabs as spaces and highlight trailing whitespace
 
 "" Setup autocompletion in a way that is better
 set completeopt=          " clear autocompletion options
