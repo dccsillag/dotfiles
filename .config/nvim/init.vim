@@ -98,19 +98,22 @@ let g:vcoolor_disable_mappings = 1
 
 " Peripherals {{{
 Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
-Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
+" Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
+Plug 'tpope/vim-dispatch' " (for running stuff in the background, async)
 call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
 call s:PlugOwn('magma.nvim') " (Jupyter client)
 Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
 Plug 'tpope/vim-fugitive' " (use git from vim)
+Plug 'junegunn/gv.vim' " (git commit browser)
 "}}}
 
 " Color Schemes {{{
 call s:PlugOwn('csillag-color') " (my colorscheme)
 Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
 Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables highlighting)
+Plug 'arcticicestudio/nord-vim' " (Nord colorscheme)
 "}}}
 
 " Editing Help {{{
@@ -574,20 +577,18 @@ augroup FtdetectExtra
     autocmd BufRead,BufNewFile *.pmd setf markdown
 augroup END
 
-"" Automatic compilation of markup files
+"" Automatic compilation
 augroup AutoCompile "{{{
     autocmd!
-    " TeX
-    autocmd BufWritePost,BufReadPre *.tex AsyncStop | sleep 100m | AsyncRun cd %:h && latexmk -pdf %:t:r
-    " Markdown (via Pandoc/Panzer)
-    autocmd BufWritePost,BufReadPre *.lmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f latex    -o "%:t:r.pdf"  -i "%:t"
-    autocmd BufWritePost,BufReadPre *.pmd AsyncStop | sleep 100m | AsyncRun cd %:h && pan -f revealjs -o "%:t:r.html" -i "%:t"
-    " Mermaid
-    autocmd BufWritePost,BufReadPre *.mmd AsyncStop | sleep 100m | AsyncRun mmdc -i % -o %.png
-    " PlantUML
-    autocmd BufWritePost,BufReadPre *.uml AsyncStop | sleep 100m | AsyncRun plantuml %
-    " LilyPond
-    autocmd BufWritePost,BufReadPre *.ly,*.ily AsyncStop | sleep 100m | AsyncRun cd %:h && lilypond %:t
+    autocmd BufReadPre *.tex               compiler latexmk
+    autocmd BufReadPre *.lmd               compiler pan-latex
+    autocmd BufReadPre *.pmd               compiler pan-revealjs
+    autocmd BufReadPre *.mmd               compiler mermaid
+    autocmd BufReadPre *.uml               compiler plantuml
+    autocmd BufReadPre *.ly,*.ily          compiler lilypond
+    autocmd BufReadPre *.c,*.h,*.cpp,*.hpp compiler tap
+
+    autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AbortDispatch | Make!
 augroup END "}}}
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
@@ -670,28 +671,6 @@ augroup MarkdownIndent "{{{
     " autocmd CursorMoved  *.md call s:MarkdownIndent()
     " autocmd CursorMovedI *.md call s:MarkdownIndent()
 augroup END "}}}
-
-let g:asyncrun_prevstatus = ''
-function! CheckAsyncRunStatus(timer) abort
-    if g:asyncrun_status == g:asyncrun_prevstatus
-        return
-    endif
-
-    if g:asyncrun_status == 'running'
-        " started running
-        echo 'started async command'
-    elseif g:asyncrun_status == 'success'
-        " done running, all OK
-        echo 'done running'
-    elseif g:asyncrun_status == 'failure'
-        " done running, command failed
-        echo 'failed run! (exit code = ' . g:asyncrun_code . ')'
-        copen
-    endif
-
-    let g:asyncrun_prevstatus = g:asyncrun_status
-endfunction
-call timer_start(1000, 'CheckAsyncRunStatus', {'repeat': -1})
 
 "}}}
 
