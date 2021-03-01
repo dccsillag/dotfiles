@@ -237,6 +237,12 @@ function extract() {
     fi
 }
 
+# Create and cd into a directory
+function take() {
+    [ "$#" -ne 1 ] && { echo 'Usage: take <DIR_NAME>' 2>&1; return 2; }
+    mkdir -p "$1" && cd "$1"
+}
+
 # Manage the calendar
 function cal() {
     test -z "$1" && NMONTHS=2 || { NMONTHS=$1; shift 1; }
