@@ -208,6 +208,9 @@ function vit() {
 }
 alias cit='nvim ~/.dotfiles.git/index'
 
+# Open gv
+alias giv='nvim +GV'
+
 # Extract a file
 function extract() {
     if [ -f $1 ]
