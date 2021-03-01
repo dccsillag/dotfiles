@@ -87,6 +87,8 @@ if ! zgen saved; then
     abbr -U tre='tree'
     # # # Abduco
     abbr -U ab='abduco'
+    # # # Taskell
+    abbr -U ta='taskell'
 
     zgen save
 fi
