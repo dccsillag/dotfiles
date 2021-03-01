@@ -14,30 +14,28 @@ vec3 rgb2hsv(vec3 c) {
     return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 
-vec2 coord_mod(vec2 coord, float x_axis, float y_axis) {
-    return vec2(clamp(coord.x + x_axis, 0, 1), clamp(coord.y + y_axis, 0, 1));
+vec3 hsv2rgb(vec3 c) {
+    /* Taken from https://stackoverflow.com/a/17897228/4803382 */
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+float square(float x) {
+    return x*x;
 }
 
 void main() {
-    vec2 texture_size = textureSize(tex, 0);
-    float xstep = 1 / texture_size.x;
-    float ystep = 1 / texture_size.y;
-    vec4 c_rgb   = texture2D(tex, coord_mod(gl_TexCoord[0].xy, 0,      0));
-    vec4 c_rgb_l = texture2D(tex, coord_mod(gl_TexCoord[0].xy, -xstep, 0));
-    vec4 c_rgb_r = texture2D(tex, coord_mod(gl_TexCoord[0].xy, xstep,  0));
-    vec4 c_rgb_u = texture2D(tex, coord_mod(gl_TexCoord[0].xy, 0,      -ystep));
-    vec4 c_rgb_d = texture2D(tex, coord_mod(gl_TexCoord[0].xy, 0,      ystep));
-    /* vec4 c_mix = min(min(min(min(c_rgb_l, c_rgb_r), c_rgb_u), c_rgb_d), c_rgb); */
-    vec4 c_mix = (c_rgb + c_rgb_l + c_rgb_r + c_rgb_u + c_rgb_d) * 0.2;
-    vec3 c_mix_hsv  = rgb2hsv(c_mix.xyz); // .x = hue, .y = saturation, .z = value
-    vec3 c_here_hsv = rgb2hsv(c_rgb.xyz); // .x = hue, .y = saturation, .z = value
+    vec4 c_rgb = texture2D(tex, gl_TexCoord[0].xy);
+    vec3 c_hsv = rgb2hsv(c_rgb.xyz); // .x = hue, .y = saturation, .z = value
 
-    if (invert_color /* && c_mix.z > 0.8 */)
-        c_rgb = vec4(vec3(c_rgb.a, c_rgb.a, c_rgb.a) - vec3(c_rgb), c_rgb.a);
+    //if (invert_color) {
+    //    /* c_hsv.z = clamp(c_rgb.a - c_hsv.z, 0.0, 1.0); */
+    //    /* c_rgb.xyz = hsv2rgb(c_hsv); */
+    //    c_rgb = vec4(vec3(c_rgb.a, c_rgb.a, c_rgb.a) - vec3(c_rgb), c_rgb.a);
+    //}
 
-    const float opacity_threshold = 0.25;
-    float luminance = invert_color ? 1 - c_mix_hsv.z : c_mix_hsv.z;
-    c_rgb *= mix(opacity, 1.0, clamp(5*(luminance - opacity_threshold), 0.0, 1.0));
+    c_rgb *= mix(opacity, 1.0, clamp(square(2.5*c_hsv.z), 0.0, 1.0));
 
     gl_FragColor = c_rgb;
 }
