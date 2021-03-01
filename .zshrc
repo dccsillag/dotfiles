@@ -164,15 +164,6 @@ function mosh() {
     return $exitcode
 }
 
-# Open files with external applications
-function open() {
-    (($# < 1)) && echo 'bad params for open' && return 1
-    for file in "$@"
-    do
-        nohup xdg-open "$1" &> /dev/null &!
-    done
-}
-
 # Change directory with NNN
 function ncd() {
     # Block nesting of nnn in subshells
