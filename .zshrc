@@ -20,7 +20,7 @@ if ! zgen saved; then
     # plugins
     zgen load denysdovhan/spaceship-prompt spaceship
     zgen load zsh-users/zsh-syntax-highlighting
-    zgen load zsh-users/zsh-autosuggestions
+    # zgen load zsh-users/zsh-autosuggestions
     zgen load marzocchi/zsh-notify
     zgen load olets/zsh-abbr
     zgen load ael-code/zsh-colored-man-pages
