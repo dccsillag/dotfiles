@@ -120,6 +120,13 @@ SPACESHIP_JOBS_AMOUNT_PREFIX='['
 SPACESHIP_JOBS_AMOUNT_SUFFIX=']'
 SPACESHIP_GIT_BRANCH_SUFFIX=' '
 
+function my_prompt() {
+    echo
+    spaceship_prompt
+}
+
+PROMPT='$(my_prompt)'
+
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 
