@@ -318,7 +318,6 @@ function greet() {
     echo -n "\e[1;30m"
     fortune -s 5% calvin 5% chucknorris 5% question-answer-jokes 5% protolol 40% bofh-excuses 40% brasil | grep -v '^$'
     echo -n '\e[0m'
-    echo
 }
 
 which fortune > /dev/null && greet
