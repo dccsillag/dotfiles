@@ -1,0 +1,29 @@
+[user]
+	email = dccsillag@gmail.com
+	name = Daniel Csillag
+[core]
+	excludesfile = ~/.config/git/.gitignore
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[credential]
+	helper = store
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[pull]
+	rebase = true
+[push]
+	rebase = true
+	followTags = True
+[rebase]
+	autoStash = true
+[delta]
+	features = line-numbers decorations
+	whitespace-error-style = 22 reverse
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold yellow ul
+	file-decoration-style = none
