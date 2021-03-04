@@ -18,7 +18,6 @@ if ! zgen saved; then
     # zgen oh-my-zsh
 
     # plugins
-    zgen load denysdovhan/spaceship-prompt spaceship
     zgen load zsh-users/zsh-syntax-highlighting
     # zgen load zsh-users/zsh-autosuggestions
     zgen load marzocchi/zsh-notify
@@ -93,39 +92,8 @@ if ! zgen saved; then
     zgen save
 fi
 
-# Spaceship theme configs:
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-# SPACESHIP_PROMPT_ORDER=( user host dir git node exec_time line_sep jobs exit_code char )
-SPACESHIP_PROMPT_ORDER=(
-    user
-    dir
-    # conda
-    git_branch
-    jobs
-    char
-)
-SPACESHIP_RPROMPT_ORDER=(
-    exec_time
-    exit_code
-)
-SPACESHIP_EXIT_CODE_SHOW=true
-SPACESHIP_EXIT_CODE_SYMBOL='✗ '
-SPACESHIP_CHAR_SYMBOL='$ '
-# SPACESHIP_CHAR_SYMBOL='→ '
-# SPACESHIP_CHAR_SYMBOL='⇒ '
-# SPACESHIP_CHAR_SYMBOL='@ '
-SPACESHIP_JOBS_SYMBOL=''
-SPACESHIP_JOBS_AMOUNT_THRESHOLD=0
-SPACESHIP_JOBS_AMOUNT_PREFIX='['
-SPACESHIP_JOBS_AMOUNT_SUFFIX=']'
-SPACESHIP_GIT_BRANCH_SUFFIX=' '
-
-function my_prompt() {
-    echo
-    spaceship_prompt
-}
-
-PROMPT='$(my_prompt)'
+# Setup starship prompt
+eval "$(starship init zsh)"
 
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
