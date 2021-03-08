@@ -132,6 +132,21 @@ function mosh() {
     return $exitcode
 }
 
+# fg, bg
+function fgbg() {
+    command="$1"
+
+    if [[ "$#" -eq 1 && "$1" = - ]]; then
+        builtin "$command" %-
+    else
+        shift 1
+        builtin "$command" %"$@"
+    fi
+}
+alias fg="fgbg fg"
+alias bg="fgbg bg"
+alias disown="fgbg disown"
+
 # Change directory with NNN
 function ncd() {
     # Block nesting of nnn in subshells
