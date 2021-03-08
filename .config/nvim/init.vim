@@ -805,6 +805,7 @@ for filetype in ['tex', 'markdown']
 endfor
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '[', 'at': '^\s*[-+*] \%#$', 'input': '[ ] '})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'input_after': '*'})
+call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'at': '\%#\*', 'leave': 1})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '<BS>', 'at': '\*\%#\*', 'delete': 1})
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
