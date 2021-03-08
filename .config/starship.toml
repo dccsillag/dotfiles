@@ -37,3 +37,9 @@ staged = "+"
 renamed = "~"
 deleted = "-"
 style = "bold red"
+
+[jobs]
+format = "[$symbol$number]($style) "
+#symbol = ": "
+symbol = "+"
+threshold = 0
