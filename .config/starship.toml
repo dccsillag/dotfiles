@@ -35,7 +35,7 @@ modified = "~"
 staged = "+"
 renamed = "~"
 deleted = "-"
-style = "bold red"
+style = "bold purple"
 
 [jobs]
 format = "[$symbol$number]($style) "
