@@ -32,7 +32,7 @@ Config { font = "xft:FantasqueSansMono Nerd Font-12"
                                , "--normal", "yellow"
                                , "--high",   "red"
                                ] 20
-                    , Run MultiCoreTemp [ "-t",       "﨎 <max>°C"
+                    , Run MultiCoreTemp [ "-t",       "﨎 <avg>°C"
                                         , "-p",       "3"
                                         , "-L",       "40"
                                         , "-H",       "65"
