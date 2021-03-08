@@ -3,7 +3,7 @@
 	name = Daniel Csillag
 [core]
 	excludesfile = ~/.config/git/.gitignore
-	pager = delta
+	pager = delta --paging always
 [interactive]
 	diffFilter = delta --color-only
 [credential]

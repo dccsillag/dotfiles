@@ -43,6 +43,7 @@ export NNN_SSHFS="sshfs -o reconnect,follow_symlinks"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 export OPENER='open'
+export LESS='SRX'
 
 # NNN
 
