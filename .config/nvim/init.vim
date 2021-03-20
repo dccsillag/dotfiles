@@ -837,7 +837,10 @@ call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "'.\\%#'", 'lea
 call lexima#add_rule({ 'filetype': 'cpp',     'char': '<', 'at': '\C\([A-Za-z0-9_]\|^\s*template \|^#\s*include\s\+\)\%#', 'input_after': '>' })
 call lexima#add_rule({ 'filetype': 'cpp',     'char': '>', 'at': '\%#>', 'leave': 1 })
 call lexima#add_rule({ 'filetype': 'cpp',     'char': '<BS>', 'at': '<\%#>', 'delete': 1 })
+call lexima#add_rule({ 'filetype': 'rust',    'char': '<', 'at': '\C[A-Za-z0-9_]\%#', 'input_after': '>' })
 call lexima#add_rule({ 'filetype': 'remind', 'char': '"', 'at': '%\%#', 'input_after': '%"' })
+call lexima#add_rule({ 'filetype': 'scheme',  'char': "'", })
+call lexima#add_rule({ 'filetype': 'scheme',  'char': "<BS>", 'at': "'\\%#", })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
 inoremap <C-l> <C-o>f<C-k><C-l><C-l><Del>
