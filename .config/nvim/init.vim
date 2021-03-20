@@ -64,6 +64,13 @@ let g:limelight_conceal_guifg   = '#606060'
 
 "}}}
 Plug 'junegunn/goyo.vim' " (make things pretty, for more elegant presentations)
+Plug 'romainl/vim-qf' " (better quickfix management)
+Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' } " (show indent guides on blank lines as well) {{{
+
+let g:indent_blankline_char = '⎜'
+let g:indent_blankline_show_trailing_blankline_indent = v:false
+
+"}}}
 Plug 'dstein64/vim-startuptime' " (profile startup time neatly)
 "}}}
 
