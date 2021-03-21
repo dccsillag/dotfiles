@@ -44,12 +44,8 @@ myScratchpads =
        }
   , NS
     { name  = "slack"
-    , cmd   = "slack"
-    , query =
-      (\x ->
-          ("Slack | " `isPrefixOf` x || " | Slack" `isSuffixOf` x) && not (" | Slack call with " `isInfixOf` x)
-        )
-        <$> title
+    , cmd   = "slack -s"
+    , query = className =? "Slack"
     , hook  = floatingScratchpad
     }
   , NS { name  = "discord"
