@@ -1,7 +1,7 @@
 #!/bin/sh
 
 is_number() {
-    echo "$1" | head -1 | grep '^[0-9]\+$' > /dev/null
+    echo "$1" | head -1 | grep '^[0-9ABCDEFabcdef]\+$' > /dev/null
     return $?
 }
 
