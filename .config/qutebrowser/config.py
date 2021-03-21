@@ -73,7 +73,7 @@ config.bind('<Ctrl-N>', 'completion-item-focus --history next', mode='command')
 config.bind('<Ctrl-P>', 'completion-item-focus --history prev', mode='command')
 config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
-config.bind(",m", ('spawn sh -c ' + quote('playerctl pause; mpv --force-window=immediate --save-position-on-quit URL')).replace('URL', '{url}'))
+config.bind(",m", ('spawn sh -c ' + quote('playerctl pause; mpv --force-window=immediate --save-position-on-quit "--ytdl-format=best[width<=1920]" URL')).replace('URL', '{url}'))
 
 # }}}
 
