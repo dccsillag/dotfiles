@@ -184,7 +184,7 @@ function te() {
         return
     }
 
-    t=$(grep -v '^!_' tags | fzf-inline)
+    t=$(grep -v '^!_' tags | fzf-inline --nth 1..2 -d '\t' --tiebreak=begin)
     f=$(echo "$t" | cut -f 2)
     p=$(echo "$t" | cut -f 3 | sed 's|^/\^\(.\+\)\$/;"$|\1|')
     l=$(grep -F -n -m 1 "$p" "$f" | sed 's/^\([0-9]\+\):.\+$/\1/')
