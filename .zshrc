@@ -175,6 +175,21 @@ function ncd() {
     fi
 }
 
+# Goto tag
+function te() {
+    [ "$PWD" = "/" ] && return
+    [ -f tags ] || {
+        ( cd .. && te $@ )
+        return
+    }
+
+    t=$(grep -v '^!_' tags | fzf-inline)
+    f=$(echo "$t" | cut -f 2)
+    p=$(echo "$t" | cut -f 3 | sed 's|^/\^\(.\+\)\$/;"$|\1|')
+    l=$(grep -F -n -m 1 "$p" "$f" | sed 's/^\([0-9]\+\):.\+$/\1/')
+    [ -n "$f" ] && [ -n "$l" ] && nvim "$f" +"$l"
+}
+
 # Open vim-fugitive
 function vit() {
     if [ $PWD = / ]
