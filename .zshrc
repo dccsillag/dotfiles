@@ -136,11 +136,12 @@ function mosh() {
 function fgbg() {
     command="$1"
 
-    if [[ "$#" -eq 1 && "$1" = - ]]; then
-        builtin "$command" %-
+    if [ "$#" -eq 1 ]; then
+        builtin "$command"
+    elif [ "$#" -eq 2 ]; then
+        builtin "$command" %"$2"
     else
-        shift 1
-        builtin "$command" %"$@"
+        echo "bad job number: $2" 1>&2
     fi
 }
 alias fg="fgbg fg"
