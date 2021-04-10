@@ -196,19 +196,12 @@ workspace_bring = myGridSelectWorkspace myGridSelectConfig $ \x -> windows $ \ws
          targetWorkspace:_ -> foldl (\acc w -> copyWindow w (W.tag $ W.workspace $ W.current acc) acc) ws $ W.integrate' $ W.stack targetWorkspace
          _ -> ws
 
-change_screen_config = gridselect myGridSelectConfig (map (\x -> (x,x))
-    [ "Mirror"
-    , "Laptop .. HDMI"
-    , "HDMI .. Laptop"
-    , "Laptop only"
-    , "HDMI only"
-    ]) >>= flip whenJust (\case
-        "Laptop .. HDMI" -> spawn "mons -e top"
-        "HDMI .. Laptop" -> spawn "mons -e bottom"
-        "Mirror"         -> spawn "mons -m"
-        "Laptop only"    -> spawn "mons -o"
-        "HDMI only"      -> spawn "mons -s"
-        s                -> spawn $ "notify-send XMonad 'unhandled case: \"" ++ s ++ "\"'")
+change_screen_config = do
+    profiles <- io $ listDirectory ".config/autorandr"
+    maybe_profile_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> profiles)
+    case maybe_profile_name of
+         Just profile_name -> spawn $ "autorandr --load " ++ profile_name
+         Nothing -> return ()
 
 change_layout_gridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
     [ "Mosaic"
