@@ -139,9 +139,10 @@ myKeys = flip mkNamedKeymap $
     , ("M-p M-n",   addName "Insert a new password"      $ passTypePrompt csillagPromptConfig)
     , ("M-p M-S-d", addName "Remove a password"          $ passRemovePrompt csillagPromptConfig)
     -- Screenshots
-    , ("M-y M-s",   addName "Yank the whole screen"   $ spawn scrot_screen)
-    , ("M-y M-w",   addName "Yank a window"           $ spawn scrot_window)
-    , ("M-y M-f",   addName "Yank the current window" $ spawn scrot_thiswindow)
+    , ("M-y M-s",   addName "Yank the whole screen"      $ spawn scrot_screen)
+    , ("M-y M-w",   addName "Yank a window"              $ spawn scrot_window)
+    , ("M-y M-f",   addName "Yank the current window"    $ spawn scrot_thiswindow)
+    , ("M-y M-a",   addName "Yank an area of the screen" $ spawn scrot_region)
     -- Background
     , ("M-b M-r", addName "Set a random background"                        $ spawn "background-setter set")
     , ("M-b M-a", addName "Automatically set a random background every 1h" $ spawn "background-setter auto")

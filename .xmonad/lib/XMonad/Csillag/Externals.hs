@@ -52,6 +52,9 @@ scrot_screen = "cd ~/media/screenshots/ && scrot -z"
 scrot_window :: String
 scrot_window = "cd ~/media/screenshots/ && scrot -s -z"
 
+scrot_region :: String
+scrot_region = "cd ~/media/screenshots/ && scrot -s -z"
+
 scrot_thiswindow :: String
 scrot_thiswindow = "cd ~/media/screenshots/ && scrot -u -z"
 
