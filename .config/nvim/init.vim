@@ -212,6 +212,7 @@ Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
 Plug 'rust-lang/rust.vim' " (for better Rust syntax support)
 Plug 'itchyny/vim-haskell-indent' " (proper autoindent for Haskell)
 " XXX: Consider using axelf4/vim-haskell?
+Plug 'edwinb/idris2-vim' " (language support for Idris)
 Plug 'mrk21/yaml-vim' " (better language support for YAML)
 Plug 'cespare/vim-toml' " (for TOML syntax highlight)
 call s:PlugOwn('toq.vim') " (for my todo management) {{{
