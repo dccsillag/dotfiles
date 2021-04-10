@@ -7,6 +7,7 @@ module XMonad.Csillag.Keys
 where
 
 import qualified Data.Map as Map
+import System.Directory (listDirectory)
 import Control.Monad
 
 import XMonad.Csillag.CommonActions
@@ -219,3 +220,11 @@ change_layout_gridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
     , "Dwindle"
     , "Mirror Dwindle"
     ]) >>= flip whenJust (sendMessage . JumpToLayout)
+
+mvpn :: String -> X ()
+mvpn action = do
+    vpns <- io $ listDirectory ".local/share/vpns"
+    maybe_vpn_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> vpns)
+    case maybe_vpn_name of
+         Just vpn_name -> spawn $ "mvpn " ++ action ++ " " ++ vpn_name
+         Nothing -> return ()
