@@ -67,7 +67,7 @@ c.url.searchengines = {
 
 # Keybindings {{{
 
-config.bind('m', 'enter-mode set_mark')
+config.bind('m', 'mode-enter set_mark')
 config.bind('M', 'nop')
 config.bind('<Ctrl-N>', 'completion-item-focus --history next', mode='command')
 config.bind('<Ctrl-P>', 'completion-item-focus --history prev', mode='command')
