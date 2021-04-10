@@ -48,7 +48,7 @@ startup = do
   spawnOnce "redshift"
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
   spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
-  spawnOnce "/home/daniel/.local/scripts/xmobar_init.sh"
+  spawnOnce "toggle_statusbar"
 
   -- Set window manager name to LG3D, for compatibility with some finicky software
   setWMName "LG3D"

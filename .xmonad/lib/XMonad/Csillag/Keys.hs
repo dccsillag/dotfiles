@@ -159,8 +159,10 @@ myKeys = flip mkNamedKeymap $
     , ("M-q M-d M-[", addName "Enable 'do not disturb'"  $ spawn "notify-send \"DUNST_COMMAND_PAUSE\" && touch /home/daniel/.dunst_paused")
     , ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "notify-send \"DUNST_COMMAND_RESUME\" && rm -f /home/daniel/.dunst_paused")
     , ("M-q M-a",     addName "Fix audio"                $ spawn "fix-audio" >> spawnOSD "A")
-    , ("M-q M-=",     addName "Toggle XMobar"            $ spawn "toggle_xmobar")
+    , ("M-q M-=",     addName "Toggle Statusbar"         $ spawn "toggle_statusbar")
     , ("M-q M-k",     addName "Toggle Screenkey"         $ spawn ".local/scripts/screenkey_toggle.sh")
+    , ("M-q M-v M-u", addName "Enable VPN"               $ mvpn "up")
+    , ("M-q M-v M-d", addName "Disable VPN"              $ mvpn "down")
     -- Function Keys
     , ("M-<Right>",                  addName "Raise brightness"  $ spawn "lux -a 5%" >> spawnOSD brightnessUpIcon)
     , ("M-<Left>",                addName "Lower brightness"  $ spawn "lux -s 5%" >> spawnOSD brightnessDownIcon)
