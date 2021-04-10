@@ -1,5 +1,5 @@
 # set default-bg 'rgba(27, 35, 38, 0.5)'
-set default-bg 'rgba(0, 0, 0, 0.5)'
+set default-bg 'rgba(0, 0, 0, 0.75)'
 set default-fg '#ffffff'
 
 # set recolor-lightcolor 'rgba(27, 35, 38, 0)'
