@@ -4,7 +4,8 @@
     echo "Usage:"
     echo "  $0 -l        # list sessions"
     echo "  $0 <COMMAND> # create a session"
-    echo "  $0 <ID>      # attach a session"
+    echo "  $0 <ID>      # attach a session, readonly"
+    echo "  $0 <ID> -e   # attach a session, interactive"
     exit 0
 }
 
@@ -20,5 +21,5 @@ elif is_number "$1"; then
     test "$2" = "-e" && READONLY= || READONLY=-r
     abduco $READONLY -a "$(abduco | sed '1d' | rev | cut -f1 | rev | sed "$1"'q;d')"
 else
-    abduco -f -c "$*" "$*"
+    abduco -f -c "$*" dvtm "$*"
 fi
