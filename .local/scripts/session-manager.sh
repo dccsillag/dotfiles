@@ -14,12 +14,26 @@ is_number() {
     return $?
 }
 
+list_ids() {
+    ls ~/.abduco | grep '.name$' | sed 's|^\([-a-z0-9]\+\)\.name$|\1|'
+}
+
+for id in $(list_ids)
+do
+    [ -S "$HOME/.abduco/$id@$(hostname)" ] || rm "$HOME/.abduco/$id.name"
+done
+
 if [ "$1" = '-l' ]; then
-    abduco | head -1
-    abduco | sed '1d' | cat -n
+    for id in $(list_ids)
+    do
+        cat "$HOME/.abduco/$id.name"
+    done | cat -n
 elif is_number "$1"; then
-    test "$2" = "-e" && READONLY= || READONLY=-r
-    abduco $READONLY -a "$(abduco | sed '1d' | rev | cut -f1 | rev | sed "$1"'q;d')"
+    [ "$2" = "-e" ] && READONLY= || READONLY=-r
+    abduco $READONLY -a "$(list_ids | sed "$1"'q;d')"
 else
-    abduco -f -c "$*" dvtm "$*"
+    uuid=$(uuidgen)
+
+    echo "$*" > "$HOME/.abduco/$uuid.name"
+    abduco -f -c "$uuid" dvtm "$*; echo Done running. Press ENTER to exit.; read -r"
 fi
