@@ -10,6 +10,21 @@
 
 source ~/.profile
 
+# Setup starship prompt
+eval "$(starship init zsh)"
+
+# Autosuggestions Color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
+
+# Done Notifications
+zstyle ':notify:*' command-complete-timeout 10
+zstyle ':notify:*' app-name zsh
+zstyle ':notify:*' error-title "Command FAILED (in #{time_elapsed})"
+zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
+
+# Abbreviations temp directory
+ABBR_TMPDIR="$HOME/.local/share/zsh-abbr/"
+
 source ~/.config/zgen/zgen.zsh
 
 if ! zgen saved; then
@@ -91,18 +106,6 @@ if ! zgen saved; then
 
     zgen save
 fi
-
-# Setup starship prompt
-eval "$(starship init zsh)"
-
-# Autosuggestions Color
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
-
-# Done Notifications
-zstyle ':notify:*' command-complete-timeout 10
-zstyle ':notify:*' app-name zsh
-zstyle ':notify:*' error-title "Command FAILED (in #{time_elapsed})"
-zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
 
 # History
 # # How much to save
