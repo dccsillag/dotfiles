@@ -84,7 +84,7 @@ case "$1" in
     *)  id=$(uuidgen)
         echo "$(date)" > "$ROOTDIR/$id.date"
         nohup "$@" > "$ROOTDIR/$id.out" 2>&1 &
-        pid="$(lsof -t "$ROOTDIR/$id.out")"
+        pid="$!"
         echo "$pid" > "$ROOTDIR/$id.pid"
         echo "$*" > "$ROOTDIR/$id.cmd"
 
