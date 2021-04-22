@@ -75,6 +75,7 @@ case "$1" in
         set -x
         rm "$ROOTDIR/$id.cmd"
         rm "$ROOTDIR/$id.out"
+        rm "$ROOTDIR/$id.date"
         ;;
     -c) kill -SIGINT  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -t) kill -SIGTERM "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
