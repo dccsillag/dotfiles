@@ -21,7 +21,7 @@ ROOTDIR="$HOME/.local/share/se"
 mkdir -p "$ROOTDIR"
 
 list_ids() {
-    ls "$ROOTDIR" | grep '.cmd$' | sed 's|^\([-a-z0-9]\+\)\.cmd$|\1|'
+    [ -n "$(ls "$ROOTDIR"/*.cmd 2>/dev/null)" ] && find "$ROOTDIR"/*.cmd | sed 's|^.\+/\([-a-z0-9]\+\)\.cmd$|\1|'
 }
 
 get_id() {
@@ -40,8 +40,8 @@ do
 done
 
 is_number "$1" && {
-    echo 'WARNING: The usage `se <NUMBER>` is deprecated and now has no meaning.'
-    echo '         Use `se -v '"$1"'` instead.'
+    echo "WARNING: The usage \`se <NUMBER>\` is deprecated and now has no meaning."
+    echo "         Use \`se -v $1\` instead."
     exit 1
 }
 
@@ -50,9 +50,9 @@ case "$1" in
         do
             if [ -f "$ROOTDIR/$id.pid" ]
             then
-                echo "[running] $id  --  $(head -1 "$ROOTDIR/$id.out")\t$(cat "$ROOTDIR/$id.cmd")"
+                printf "[running] %s  --  %s\t%s\n" "$id" "$(head -1 "$ROOTDIR/$id.out")" "$(cat "$ROOTDIR/$id.cmd")"
             else
-                echo "[done] $id  --  $(head -1 "$ROOTDIR/$id.out") .. $(tail -1 "$ROOTDIR/$id.out")\t$(cat "$ROOTDIR/$id.cmd")"
+                printf "[done] %s  --  %s .. %s\t%s\n" "$id" "$(head -1 "$ROOTDIR/$id.out")" "$(tail -1 "$ROOTDIR/$id.out")" "$(cat "$ROOTDIR/$id.cmd")"
             fi
         done | sort | tac | cat -n | tac | sed 's/^\(.\+\t.\+\)\t\(.\+\)/\1\n\t\2/'
         ;;
