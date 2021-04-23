@@ -36,7 +36,7 @@ get_id() {
 for id in $(list_ids)
 do
     [ -f "$ROOTDIR/$id.pid" ] || continue
-    ( kill -0 "$(cat "$ROOTDIR/$id.pid")" 2> /dev/null ) || rm "$ROOTDIR/$id.pid"
+    ( kill -0 "$(cat "$ROOTDIR/$id.pid")" 2> /dev/null ) || rm "$ROOTDIR/$id.pid" "$ROOTDIR/$id.sh"
 done
 
 is_number "$1" && {
@@ -48,8 +48,12 @@ is_number "$1" && {
 case "$1" in
     -l) for id in $(list_ids)
         do
-            [ -f "$ROOTDIR/$id.pid" ] && STATUS=running || STATUS=done
-            echo "[$STATUS] $id  --  $(cat "$ROOTDIR/$id.date")\t$(cat "$ROOTDIR/$id.cmd")"
+            if [ -f "$ROOTDIR/$id.pid" ]
+            then
+                echo "[running] $id  --  $(head -1 "$ROOTDIR/$id.out")\t$(cat "$ROOTDIR/$id.cmd")"
+            else
+                echo "[done] $id  --  $(head -1 "$ROOTDIR/$id.out") .. $(tail -1 "$ROOTDIR/$id.out")\t$(cat "$ROOTDIR/$id.cmd")"
+            fi
         done | sort | tac | cat -n | tac | sed 's/^\(.\+\t.\+\)\t\(.\+\)/\1\n\t\2/'
         ;;
     -v) "${PAGER:-less}" "$ROOTDIR/$(get_id "$2").out" ;;
@@ -62,7 +66,8 @@ case "$1" in
         echo "Are you sure you want to delete this session?"
         echo "  UUID: $id"
         echo "  COMMAND: $(cat "$ROOTDIR/$id.cmd")"
-        echo "  STARTED RUNNING: $(cat "$ROOTDIR/$id.date")"
+        echo "  STARTED RUNNING:  $(head -1 "$ROOTDIR/$id.out")"
+        echo "  FINISHED RUNNING: $(tail -1 "$ROOTDIR/$id.out")"
         echo
         printf '[yn] '
         read -r yn
@@ -75,15 +80,23 @@ case "$1" in
         set -x
         rm "$ROOTDIR/$id.cmd"
         rm "$ROOTDIR/$id.out"
-        rm "$ROOTDIR/$id.date"
         ;;
     -c) kill -2  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -t) kill -15 "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -K) kill -9  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -*) echo "Bad flag: $1. See \`se -h\`." ;;
     *)  id=$(uuidgen)
-        echo "$(date)" > "$ROOTDIR/$id.date"
-        nohup "$@" > "$ROOTDIR/$id.out" 2>&1 &
+
+        echo date > "$ROOTDIR/$id.sh"
+        for arg in "$@"
+        do
+            printf "'%s' " "$(echo "$arg" | sed s/\'/\'\\\\\'\'/g)"
+        done >> "$ROOTDIR/$id.sh"
+        echo >> "$ROOTDIR/$id.sh"
+        echo date >> "$ROOTDIR/$id.sh"
+        chmod +x "$ROOTDIR/$id.sh"
+
+        nohup "$ROOTDIR/$id.sh" > "$ROOTDIR/$id.out" 2>&1 &
         pid="$!"
         echo "$pid" > "$ROOTDIR/$id.pid"
         echo "$*" > "$ROOTDIR/$id.cmd"
