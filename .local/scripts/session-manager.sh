@@ -77,9 +77,9 @@ case "$1" in
         rm "$ROOTDIR/$id.out"
         rm "$ROOTDIR/$id.date"
         ;;
-    -c) kill -SIGINT  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
-    -t) kill -SIGTERM "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
-    -K) kill -SIGKILL "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
+    -c) kill -2  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
+    -t) kill -15 "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
+    -K) kill -9  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -*) echo "Bad flag: $1. See \`se -h\`." ;;
     *)  id=$(uuidgen)
         echo "$(date)" > "$ROOTDIR/$id.date"
