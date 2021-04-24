@@ -21,7 +21,10 @@ ROOTDIR="$HOME/.local/share/se"
 mkdir -p "$ROOTDIR"
 
 list_ids() {
-    [ -n "$(ls "$ROOTDIR"/*.cmd 2>/dev/null)" ] && find "$ROOTDIR"/*.cmd | sed 's|^.\+/\([-a-z0-9]\+\)\.cmd$|\1|'
+    for id in $([ -n "$(ls "$ROOTDIR"/*.cmd 2>/dev/null)" ] && find "$ROOTDIR"/*.cmd | sed 's|^.\+/\([-a-z0-9]\+\)\.cmd$|\1|')
+    do
+        [ "$(cat "$ROOTDIR/$id.host")" = "$(hostname)" ] && echo "$id"
+    done
 }
 
 get_id() {
@@ -80,6 +83,7 @@ case "$1" in
         set -x
         rm "$ROOTDIR/$id.cmd"
         rm "$ROOTDIR/$id.out"
+        rm "$ROOTDIR/$id.host"
         ;;
     -c) kill -2  "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
     -t) kill -15 "$(cat "$ROOTDIR/$(get_id "$2").pid")" ;;
@@ -88,21 +92,25 @@ case "$1" in
     *)  id=$(uuidgen)
 
         echo date > "$ROOTDIR/$id.sh"
+        echo echo >> "$ROOTDIR/$id.sh"
         for arg in "$@"
         do
             printf "'%s' " "$(echo "$arg" | sed s/\'/\'\\\\\'\'/g)"
         done >> "$ROOTDIR/$id.sh"
         echo >> "$ROOTDIR/$id.sh"
+        echo echo >> "$ROOTDIR/$id.sh"
         echo date >> "$ROOTDIR/$id.sh"
         chmod +x "$ROOTDIR/$id.sh"
 
         nohup "$ROOTDIR/$id.sh" > "$ROOTDIR/$id.out" 2>&1 &
         pid="$!"
         echo "$pid" > "$ROOTDIR/$id.pid"
+        echo "$(hostname)" > "$ROOTDIR/$id.host"
         echo "$*" > "$ROOTDIR/$id.cmd"
 
         echo "Running in the background."
         echo "  COMMAND: $*"
+        echo "  HOST: $(hostname)"
         echo "  PID: $pid"
         echo "  UUID: $id"
         ;;
