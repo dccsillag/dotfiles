@@ -30,7 +30,7 @@ list_ids() {
 get_id() {
     if is_number "$1"
     then
-        list_ids | sort | tac | sed -n "$1p"
+        "$0" -l | sed -n '1~2p' | tac | sed -n "$1p" | sed 's/^.\+] \([-a-z0-9]\+\)  --.\+$/\1/'
     else
         echo "$1"
     fi
