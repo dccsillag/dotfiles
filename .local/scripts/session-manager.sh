@@ -59,7 +59,16 @@ case "$1" in
             fi
         done | sort | tac | cat -n | tac | sed 's/^\(.\+\t.\+\)\t\(.\+\)/\1\n\t\2/'
         ;;
-    -v) "${PAGER:-less}" "$ROOTDIR/$(get_id "$2").out" ;;
+    -v) if [ -z "$3" ]
+        then
+            clear -x
+            se -v "$2" tail -f
+        else
+            f="$ROOTDIR/$(get_id "$2").out"
+            shift 2
+            "$@" "$f"
+        fi
+        ;;
     -d)
         id="$(get_id "$2")"
         [ -f "$ROOTDIR/$id.pid" ] && {
