@@ -57,7 +57,8 @@ if ! zgen saved; then
     abbr -U fre='free -h'
     # # # Git
     abbr -U gad='git add'
-    abbr -U gib='git checkout'
+    abbr -U gib='git branch'
+    abbr -U gich='git checkout'
     abbr -U gic='git commit'
     abbr -U gid='git diff'
     abbr -U gif='git fetch'
@@ -71,9 +72,11 @@ if ! zgen saved; then
     abbr -U gisl='git shortlog'
     abbr -U gisu='git submodule'
     abbr -U gist='git stash'
+    abbr -U gilr='git log @{1}..'
     # # # Git Bare (dotfiles)
     abbr -U cad='config add'
-    abbr -U cib='config checkout'
+    abbr -U cib='config branch'
+    abbr -U cicr='config checkout'
     abbr -U cic='config commit'
     abbr -U cid='config diff'
     abbr -U cif='config fetch'
@@ -85,6 +88,7 @@ if ! zgen saved; then
     abbr -U cis='config status'
     abbr -U cisl='config shortlog'
     abbr -U cist='config stash'
+    abbr -U cilr='config log @{1}..'
     # # # MMC
     abbr -U mca='mmc append'
     abbr -U mcp='mmc prepend'
