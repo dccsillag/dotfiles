@@ -302,6 +302,7 @@ alias cls='/usr/bin/clear'
 alias cmd='command'
 # # Bottom
 alias btmb='btm -ba'
+alias btmp="btm -C $HOME/.config/bottom/bottom-proc.toml"
 # # Edit a file in Vim
 alias fzf-inline='fzf --height 50% --reverse'
 alias ed='f=$(fzf-inline) && vim $f'
