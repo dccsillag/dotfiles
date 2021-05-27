@@ -109,14 +109,13 @@ myKeys = flip mkNamedKeymap $
     -- Layouts
     , ("M-c M-<Space>", addName "Cycle to next layout"           $ sendMessage NextLayout)
     , ("M-c M-c",       addName "Change layout"                  $ change_layout_gridselect)
-    , ("M-c M-l M-m",   addName "Set layout to 'Mosaic'"         $ sendMessage $ JumpToLayout "Mosaic")
     , ("M-c M-l M-g",   addName "Set layout to 'Grid'"           $ sendMessage $ JumpToLayout "Grid")
     , ("M-c M-l M-t",   addName "Set layout to 'ThreeColMid'"    $ sendMessage $ JumpToLayout "ThreeColMid")
     , ("M-c M-l M-d",   addName "Set layout to 'Dishes'"         $ sendMessage $ JumpToLayout "Dishes")
     , ("M-c M-l M-o",   addName "Set layout to 'OneBig'"         $ sendMessage $ JumpToLayout "OneBig")
     , ("M-c M-l M-f",   addName "Set layout to 'Full'"           $ sendMessage $ JumpToLayout "Full")
     , ("M-c M-l M-S-d", addName "Set layout to 'Dwindle'"        $ sendMessage $ JumpToLayout "Dwindle")
-    , ("M-c M-l M-S-m", addName "Set layout to 'Mirror Dwindle'" $ sendMessage $ JumpToLayout "Mirror Dwindle")
+    , ("M-c M-l M-m",   addName "Set layout to 'Mirror Dwindle'" $ sendMessage $ JumpToLayout "Mirror Dwindle")
     -- Layout Messages
     , ("M-[",          addName "Shrink master area"               $ sendMessage Shrink)
     , ("M-]",          addName "Expand master area"               $ sendMessage Expand)
@@ -205,8 +204,7 @@ change_screen_config = do
          Nothing -> return ()
 
 change_layout_gridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
-    [ "Mosaic"
-    , "Grid"
+    [ "Grid"
     , "ThreeColMid"
     , "Dishes"
     , "OneBig"
