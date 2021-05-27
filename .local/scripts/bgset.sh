@@ -6,7 +6,7 @@ is_number() {
 }
 
 if is_number "$1"; then
-    printf '\e]11;#%s\a' "$1"
+    printf '\033]11;#%s\a' "$1"
 else
-    printf '\e]11;%s\a' "$1"
+    printf '\033]11;%s\a' "$1"
 fi
