@@ -1,7 +1,7 @@
 # vim: ft=sh
 
 install_manual() {
-    command_exists zgen && return 0
+    [ -d "${HOME}/.config/zgen" ] && return 0
 
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.config/zgen"
 }
