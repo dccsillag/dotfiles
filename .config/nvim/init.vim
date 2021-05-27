@@ -583,7 +583,7 @@ augroup END
 "" Automatic compilation
 augroup AutoCompile "{{{
     autocmd!
-    autocmd BufReadPre *.tex               compiler latexmk
+    autocmd BufReadPre *.tex               compiler latexrun
     autocmd BufReadPre *.lmd               compiler pan-latex
     autocmd BufReadPre *.pmd               compiler pan-revealjs
     autocmd BufReadPre *.mmd               compiler mermaid
@@ -710,11 +710,7 @@ nnoremap <Leader>F  :Filetypes<CR>
 
 " Open the compiled PDF for the current [markup] file
 function! s:OpenCorrespondingPDF() abort
-    if &filetype == "tex"
-        let l:filename = expand('%:h') . '/latex-build/' . expand('%:t:r') . '.pdf'
-    else
-        let l:filename = expand('%:r') . '.pdf'
-    endif
+    let l:filename = expand('%:r') . '.pdf'
 
     if !filereadable(l:filename)
         echoerr "No such file: " . l:filename
