@@ -157,7 +157,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-q M-S-q",   addName "Quit XMonad"              $ quitWithWarning)
     , ("M-q M-S-s",   addName "Suspend"                  $ spawn "systemctl suspend")
     , ("M-q M-b",     addName "Blank the screen"         $ spawn "sleep 0.5; xset dpms force off")
-    , ("M-q M-l",     addName "Lock"                     $ spawn "slock")
+    , ("M-q M-l",     addName "Lock"                     $ spawn "lock")
     , ("M-q M-d M-[", addName "Enable 'do not disturb'"  $ spawn "notify-send \"DUNST_COMMAND_PAUSE\" && touch /home/daniel/.dunst_paused")
     , ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "notify-send \"DUNST_COMMAND_RESUME\" && rm -f /home/daniel/.dunst_paused")
     , ("M-q M-a",     addName "Fix audio"                $ spawn "fix-audio" >> spawnOSD "A")
