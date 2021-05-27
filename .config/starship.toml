@@ -41,7 +41,6 @@ style = "bold purple"
 format = "[$symbol$number]($style) "
 #symbol = ": "
 symbol = "+"
-threshold = 0
 
 [status]
 disabled = false
