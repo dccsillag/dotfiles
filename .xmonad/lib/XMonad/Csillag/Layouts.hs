@@ -17,7 +17,6 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Tabbed
 import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
-import XMonad.Layout.MosaicAlt
 import XMonad.Layout.StackTile
 
 import XMonad.Layout.DraggingVisualizer
@@ -26,7 +25,6 @@ import XMonad.Layout.Maximize
 
 myLayouts = draggingVisualizer $ maximize $
     renamed [Replace "Grid"]           (IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
-    renamed [Replace "Mosaic"]         (MosaicAlt M.empty)                   |||
     renamed [Replace "ThreeColMid"]    (ThreeColMid 1 (3/100) (1/2))         |||
     renamed [Replace "Dishes"]         (StackTile 2 (3/100) (5/6))           |||
     renamed [Replace "OneBig"]         (OneBig (6/7) (6/7))                  |||
