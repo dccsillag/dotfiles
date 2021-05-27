@@ -49,7 +49,7 @@ myScratchpads =
     , hook  = floatingScratchpad
     }
   , NS { name  = "discord"
-       , cmd   = "discord"
+       , cmd   = "discord-canary"
        , query = className =? "discord"
        , hook  = floatingScratchpad
        }
