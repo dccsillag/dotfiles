@@ -1,0 +1,10 @@
+# vim: ft=sh
+
+install_manual() {
+    command_exists se && return 0
+
+    git clone git@github.com:dccsillag/packs.git
+    cd packs
+    cp packs.sh ~/.local/bin/packs
+    chmod +x ~/.local/bin/packs
+}
