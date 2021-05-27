@@ -105,8 +105,8 @@ let g:vcoolor_disable_mappings = 1
 
 " Peripherals {{{
 Plug 'tpope/vim-eunuch' " (for adding nice commands for shell commands)
-" Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
-Plug 'tpope/vim-dispatch' " (for running stuff in the background, async)
+Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
+" Plug 'tpope/vim-dispatch' " (for running stuff in the background, async)
 call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
@@ -591,7 +591,7 @@ augroup AutoCompile "{{{
     autocmd BufReadPre *.ly,*.ily          compiler lilypond
     autocmd BufReadPre *.c,*.h,*.cpp,*.hpp compiler tap
 
-    autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AbortDispatch | Make!
+    autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AsyncStop | sleep 100m | AsyncRun -program=make
 augroup END "}}}
 
 " Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
