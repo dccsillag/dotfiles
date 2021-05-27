@@ -1,5 +1,5 @@
 # vim: ft=sh
 
 install_manual() {
-    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.config/.zgen"
+    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.config/zgen"
 }
