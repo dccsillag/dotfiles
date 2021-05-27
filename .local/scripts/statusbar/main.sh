@@ -134,15 +134,15 @@ bar_right() {
 
 bar() {
     left=$(bar_left)
-    append "^p(_LEFT)"
+    append "^p(_LEFT)^fg()"
     append "$left"
 
     center=$(bar_center)
-    append "^p(_CENTER)^p(-$(($(textwidth "$center")/2)))"
+    append "^p(_CENTER)^p(-$(($(textwidth "$center")/2)))^fg()"
     append "$center"
 
     right=$(bar_right)
-    append "^p(_RIGHT)^p(-$(textwidth "$right"))"
+    append "^p(_RIGHT)^p(-$(textwidth "$right"))^fg()"
     append "$right"
 
     echo
