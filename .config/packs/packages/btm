@@ -9,6 +9,7 @@ install_nix() {
 }
 
 install_manual() {
+    command_exists btm && return 0
     curl -Lo btm.tar.gz https://github.com/ClementTsang/bottom/releases/download/0.6.1/bottom_x86_64-unknown-linux-gnu.tar.gz
     tar -xzf btm.tar.gz
     cp btm ~/.local/bin/btm

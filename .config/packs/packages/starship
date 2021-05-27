@@ -5,5 +5,7 @@ install_manjaro() {
 }
 
 install_manual() {
+    command_exists starship && return 0
+
     sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -b ~/.local/bin
 }

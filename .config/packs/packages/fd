@@ -13,6 +13,7 @@ install_nix() {
 }
 
 install_manual() {
+    command_exists fd && return 0
     curl -Lo fd.tar.gz https://github.com/sharkdp/fd/releases/download/v8.2.1/fd-v8.2.1-x86_64-unknown-linux-gnu.tar.gz
     tar -xzf fd.tar.gz
     cp fd-*-x86_64-unknown-linux-gnu/fd ~/.local/bin/fd

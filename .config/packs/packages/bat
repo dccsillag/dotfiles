@@ -15,6 +15,7 @@ install_nix() {
 }
 
 install_manual() {
+    command_exists bat && return 0
     curl -Lo bat.tar.gz https://github.com/sharkdp/bat/releases/download/v0.18.1/bat-v0.18.1-x86_64-unknown-linux-gnu.tar.gz
     tar -xzf bat.tar.gz
     cp bat-*-x86_64-unknown-linux-gnu/bat ~/.local/bin/bat
