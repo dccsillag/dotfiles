@@ -46,6 +46,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-S-0",     addName "Start the compositor"         $ spawn compositor_spawn)
     , ("M-S-8",     addName "Restart the compositor"       $ spawn compositor_restart)
     , ("M-;",       addName "XMonad command prompt"        $ xmonadPrompt csillagPromptConfig)
+    , ("M-<Space>", addName "Change keyboard"              $ changeKeyboard)
     -- Directional keys
     , ("M-h",       addName "Focus window to the left"  $ windowGo L False)
     , ("M-j",       addName "Focus window below"        $ windowGo D False)
@@ -219,4 +220,13 @@ mvpn action = do
     maybe_vpn_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> vpns)
     case maybe_vpn_name of
          Just vpn_name -> spawn $ "mvpn " ++ action ++ " " ++ vpn_name
+         Nothing -> return ()
+
+changeKeyboard :: X ()
+changeKeyboard = do
+    let basedir = ".local/share/keyboards/"
+    kbds <- io $ listDirectory basedir
+    maybe_kbd_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> kbds)
+    case maybe_kbd_name of
+         Just kbd_name -> liftIO (readFile $ basedir ++ kbd_name) >>= spawn . ("kb " ++)
          Nothing -> return ()
