@@ -14,5 +14,5 @@ Installation
 Use the quick start script:
 
 ```sh
-sh -c "$(curl https://raw.githubusercontent.com/dccsillag/dotfiles/master/.github/quickstart.sh)"
+bash -c "$(curl https://raw.githubusercontent.com/dccsillag/dotfiles/master/.github/quickstart.sh)"
 ```
