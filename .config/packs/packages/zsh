@@ -1,0 +1,17 @@
+# vim: ft=sh
+
+install_ubuntu() {
+    "$SUDO" apt install zsh
+}
+
+install_manjaro() {
+    yay -S zsh
+}
+
+install_conda() {
+    conda install -c conda-forge zsh
+}
+
+install_manual() {
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh-bin/master/install)"
+}

@@ -1,0 +1,21 @@
+# vim: ft=sh
+
+install_ubuntu() {
+    "$SUDO" apt install bat
+    batcat="$(which batcat)"
+    "$SUDO" command_exists batcat && cp "$batcat" "$(dirname $batcat)/bat"
+}
+
+install_manjaro() {
+    yay -S bat
+}
+
+install_nix() {
+    nix-env -i bat
+}
+
+install_manual() {
+    curl -Lo bat.tar.gz https://github.com/sharkdp/bat/releases/download/v0.18.1/bat-v0.18.1-x86_64-unknown-linux-gnu.tar.gz
+    tar -xzf bat.tar.gz
+    cp bat-*-x86_64-unknown-linux-gnu/bat ~/.local/bin/bat
+}

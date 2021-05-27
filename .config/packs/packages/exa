@@ -1,0 +1,23 @@
+# vim: ft=sh
+
+install_ubuntu() {
+    "$SUDO" apt install exa
+}
+
+install_manjaro() {
+    yay -S exa
+}
+
+install_nix() {
+    nix-env -i exa
+}
+
+install_conda() {
+    conda install -c conda-forge exa
+}
+
+install_manual() {
+    curl -Lo exa.zip https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
+    unzip exa.zip
+    cp bin/exa ~/.local/bin/exa
+}

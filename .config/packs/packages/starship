@@ -1,0 +1,9 @@
+# vim: ft=sh
+
+install_manjaro() {
+    yay -S starship-git
+}
+
+install_manual() {
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+}

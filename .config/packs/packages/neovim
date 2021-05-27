@@ -1,0 +1,25 @@
+# vim: ft=sh
+
+install_manjaro() {
+    # neovim & vim-plug
+    yay -S neovim-git neovim-plug
+
+    # plugins
+    nvim -c 'PlugInstall | qa'
+}
+
+install_manual() {
+    # neovim
+    curl -Lo nvim.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+    tar -xzf nvim.tar.gz
+    mkdir -p ~/static
+    mv nvim-linux64 ~/static/nvim-linux64
+    ln -s ~/static/nvim-linux64/bin/nvim ~/.local/bin/nvim
+
+    # vim-plug
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+    # plugins
+    nvim -c 'PlugInstall | qa'
+}

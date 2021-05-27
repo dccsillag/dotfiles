@@ -1,0 +1,8 @@
+# vim: ft=sh
+
+install_manual() {
+    git clone ...
+    cd se
+    export PREFIX=$HOME/.local
+    ./install.sh
+}

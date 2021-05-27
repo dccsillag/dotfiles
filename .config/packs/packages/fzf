@@ -1,0 +1,23 @@
+# vim: ft=sh
+
+install_ubuntu() {
+    "$SUDO" apt install fzf
+}
+
+install_manjaro() {
+    yay -S fzf-git
+}
+
+install_nix() {
+    nix-env -iA nixpkgs.fzf
+}
+
+install_conda() {
+    conda install -c conda-forge fzf
+}
+
+install_manual() {
+    curl -Lo fzf.tar.gz https://github.com/junegunn/fzf/releases/download/0.27.0/fzf-0.27.0-linux_amd64.tar.gz
+    tar -xzf fzf.tar.gz
+    cp fzf ~/.local/bin/fzf
+}
