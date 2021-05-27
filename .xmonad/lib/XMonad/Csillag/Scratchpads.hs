@@ -18,8 +18,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "whatsapp"
-       , cmd   = browser_open "https://web.whatsapp.com/"
-       , query = isSuffixOf "WhatsApp - qutebrowser" <$> title
+       , cmd   = "whatsapp-for-linux"
+       , query = className =? "Whatsapp-for-linux"
        , hook  = floatingScratchpad
        }
   , NS { name  = "bluetooth"
