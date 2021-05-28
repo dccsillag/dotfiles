@@ -36,14 +36,14 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
     # zgen load zsh-users/zsh-autosuggestions
     zgen load marzocchi/zsh-notify
-    zgen load olets/zsh-abbr
     zgen load ael-code/zsh-colored-man-pages
     zgen load woefe/vi-mode.zsh
     zgen load pawel-slowik/zsh-term-title
+    zgen load olets/zsh-abbr
 
     # Abbreviations
     # # Remove all
-    for abbrev in $(abbr list)
+    for abbrev in $(abbr list | cut -d= -f1)
     do
         abbr -U erase $abbrev
     done
