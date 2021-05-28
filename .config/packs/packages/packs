@@ -1,7 +1,7 @@
 # vim: ft=sh
 
 install_manual() {
-    command_exists se && return 0
+    command_exists packs && return 0
 
     git clone git@github.com:dccsillag/packs.git
     cd packs
