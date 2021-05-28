@@ -264,7 +264,7 @@ alias vim=nvim
 alias edit=nvim
 alias view='nvim -R'
 # # Sudo
-alias sudo='doas -- '
+( which doas > /dev/null 2>&1 ) && alias sudo='doas -- '
 # # Python
 alias python='python3'
 # # Config
