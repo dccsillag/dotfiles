@@ -32,6 +32,11 @@ myScratchpads =
        , query = className =? "scratchterm"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "calculator"
+       , cmd   = term_run' "calculator" "insect"
+       , query = className =? "calculator"
+       , hook  = floatingScratchpad
+       }
   , NS { name  = "audio"
        , cmd   = term_run' "audiomanage" "pulsemixer"
        , query = className =? "audiomanage"
