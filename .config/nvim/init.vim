@@ -322,11 +322,6 @@ set noruler                                           " remove the ruler
 "" Hide tabbar
 set showtabline=0 " never show the tabline
 
-"" Use FISH as the shell
-" set shell=/usr/bin/fish
-set shell=/bin/dash
-" set shell=/bin/zsh
-
 "" Setup :grep
 set grepprg=grep\ -R\ --exclude-dir=.git\ -n\ $*\ .\ /dev/null
 
