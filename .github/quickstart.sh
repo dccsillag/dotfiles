@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-git clone --bare git@github.com:dccsillag/dotfiles.git ~/.dotfiles.git
+git clone --bare https://github.com/dccsillag/dotfiles.git ~/.dotfiles.git
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME checkout -f
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME push --set-upstream origin master
 git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME config core.bare false
