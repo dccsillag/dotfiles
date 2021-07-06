@@ -37,6 +37,7 @@ let g:haskell_classic_highlighting = 1 "}}}
 
 if has("nvim")
     call plug#begin(stdpath('data') . '/plugged')
+    Plug 'nvim-lua/plenary.nvim'
 else
     call plug#begin('~/.vim/plugged')
 endif
@@ -64,13 +65,15 @@ let g:limelight_conceal_guifg   = '#606060'
 
 "}}}
 Plug 'junegunn/goyo.vim' " (make things pretty, for more elegant presentations)
-Plug 'romainl/vim-qf' " (better quickfix management)
-Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' } " (show indent guides on blank lines as well) {{{
+" Plug 'romainl/vim-qf' " (better quickfix management)
+Plug 'lukas-reineke/indent-blankline.nvim' " (show indent guides on blank lines as well) {{{
 
 let g:indent_blankline_char = '⎜'
 let g:indent_blankline_show_trailing_blankline_indent = v:false
+let g:indent_blankline_buftype_exclude = ['terminal']
 
 "}}}
+Plug 'kshenoy/vim-signature' " (show marks in the sign column)
 Plug 'dstein64/vim-startuptime' " (profile startup time neatly)
 "}}}
 
@@ -110,11 +113,25 @@ Plug 'skywind3000/asyncrun.vim' " (for running stuff in the background, async)
 call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
-call s:PlugOwn('magma.nvim') " (Jupyter client)
-Plug 'ludovicchabant/vim-gutentags' " (for automatically running ctags when necessary)
+call s:PlugOwn('notebook.nvim') " (Jupyter client)
 Plug 'tpope/vim-fugitive' " (use git from vim)
 Plug 'junegunn/gv.vim' " (git commit browser)
+Plug 'jpalardy/vim-slime' " (multi-language slime for vim) {{{
+
+let g:slime_target = "neovim"
+let g:slime_no_mappings = 1
+
 "}}}
+Plug 'npxbr/glow.nvim', { 'do': ':GlowInstall', 'branch': 'master' }
+"}}}
+
+" LSP {{{
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'nvim-lua/completion-nvim'
+
+" }}}
 
 " Color Schemes {{{
 call s:PlugOwn('csillag-color') " (my colorscheme)
@@ -153,6 +170,7 @@ let g:table_mode_toggle_map = "<Bar>"
 Plug 'tommcdo/vim-exchange' " (for exchanging text around)
 Plug 'svermeulen/vim-subversive' " (for replacing text with current yank)
 Plug 'godlygeek/tabular' " (also for aligning text, required by vim-markdown)
+Plug 'monaqa/dial.nvim' " (better increment/decrement)
 "}}}
 
 " Text Objects {{{
@@ -210,8 +228,7 @@ let g:vim_markdown_strikethrough = 1
 Plug 'rubik/vim-dg' " (language support for DogeLang [aka. dg])
 Plug 'manicmaniac/coconut.vim' " (language support for Coconut)
 Plug 'rust-lang/rust.vim' " (for better Rust syntax support)
-Plug 'itchyny/vim-haskell-indent' " (proper autoindent for Haskell)
-" XXX: Consider using axelf4/vim-haskell?
+Plug 'neovimhaskell/haskell-vim' " (better support for Haskell)
 Plug 'edwinb/idris2-vim' " (language support for Idris)
 Plug 'mrk21/yaml-vim' " (better language support for YAML)
 Plug 'cespare/vim-toml' " (for TOML syntax highlight)
@@ -240,6 +257,7 @@ set lispwords-=if
 
 " }}}
 Plug 'goerz/jupytext.vim' " (for editing Jupyter notebooks)
+Plug 'pest-parser/pest.vim' " (language support for Pest grammars)
 "}}}
 
 call plug#end()
@@ -401,10 +419,14 @@ set listchars=tab:--,trail:┈ " show tabs as spaces and highlight trailing whit
 
 "" Setup autocompletion in a way that is better
 set completeopt=          " clear autocompletion options
-set completeopt+=menu     " show additional information in a popup menu
-set complete=.,i,d,t      " look for completions in the current buffer (.),
+set completeopt+=menuone  " show a menu even if there's only one match
+set completeopt+=noinsert " only insert when we select
+set completeopt+=noselect " no automatic selection
+set complete=.,i,d        " look for completions in the current buffer (.),
                           "                      in the included files (i,d),
-                          "                      and in the tags (t)
+
+"" Setup verbosity
+set shortmess+=c " don't show messages regarding completion
 
 "" Always keep 2 lines around the cursor
 set scrolloff=2 " keep 2 lines above & below the cursor at all times
@@ -532,6 +554,52 @@ function! NeatFoldText() "{{{
 endfunction
 set fillchars+=fold:―,vert:\│
 set foldtext=NeatFoldText() "}}}
+
+"" LSP setup
+
+lua << EOF
+local nvim_lsp = require 'lspconfig'
+
+-- Function to attach completion when setting up LSP
+local function on_attach(client)
+    print "Ready."
+    require 'completion'.on_attach(client)
+end
+
+-- Enable LSPs
+nvim_lsp.rust_analyzer.setup{ on_attach = on_attach,
+    settings = {["rust-analyzer"] = {
+        cargo = {
+            loadOutDirsFromCheck = true,
+        },
+        procMacro = {
+            enable = true,
+        },
+        diagnostics = {
+            enable = false,
+        },
+    }}
+    -- settings = {["rust-analyzer"] = {diagnostics = {disabled = {"unresolved-proc-macro"}}}}
+}
+nvim_lsp.pyright.setup{ on_attach = on_attach }
+nvim_lsp.hls.setup{ on_attach = on_attach }
+nvim_lsp.texlab.setup{ on_attach = on_attach }
+nvim_lsp.vimls.setup{ on_attach = on_attach }
+nvim_lsp.clangd.setup{
+    on_attach = on_attach,
+    cmd = {"clangd", "--background-index", "--clang-tidy"},
+}
+
+-- Enable diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        underline = true,
+        signs = true,
+        update_in_insert = true,
+    }
+)
+EOF
 
 " }}}
 
@@ -670,6 +738,13 @@ augroup MarkdownIndent "{{{
     " autocmd CursorMovedI *.md call s:MarkdownIndent()
 augroup END "}}}
 
+" LSP
+
+augroup LSP
+    autocmd!
+    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+augroup END
+
 "}}}
 
 " Mappings {{{
@@ -694,8 +769,6 @@ inoremap <C-l> <C-g>u<Esc>:call g:ReFixSpelling()<CR>`]a<C-g>u
 
 " fzf.vim
 nnoremap <Leader>e  :Files<CR>
-nnoremap <Leader>T  :BTags<CR>
-nnoremap <Leader>t  :Tags<CR>
 nnoremap <Leader>b  :Buffers<CR>
 nnoremap <Leader>ge :GFiles<CR>
 nnoremap <Leader>gc :Commits<CR>
@@ -790,7 +863,7 @@ for filetype in ['tex', 'markdown']
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\. \%# \\right\\.',    'delete': 1})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left.\%#\\right.',          'input': '<BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del>'})          " FIXME: use 'delete'
     call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\.\%#\\right\\.',      'input': '<BS><BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del><Del>'}) " FIXME: use 'delete'
-    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',                      'input_after': ']{<C-l>}'})
+    "call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',                      'input_after': ']{<C-l>}'})
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\%#|',                          'leave': 1 })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'execpt': '\\\%#',                     'input_after': '|' })
     call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\left\%#',                   'input_after': '\right|' })
@@ -801,6 +874,7 @@ call lexima#add_rule({ 'filetype': 'markdown', 'char': '[', 'at': '^\s*[-+*] \%#
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'input_after': '*'})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'at': '\%#\*', 'leave': 1})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '<BS>', 'at': '\*\%#\*', 'delete': 1})
+call lexima#add_rule({ 'filetype': 'markdown', 'char': '<Return>', 'at': '^\s*```.*\%#```', 'input': '<Return><Return><Up>'})
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
 endfor
@@ -831,6 +905,62 @@ call lexima#add_rule({ 'filetype': 'scheme',  'char': "<BS>", 'at': "'\\%#", })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
 inoremap <C-l> <C-o>f<C-k><C-l><C-l><Del>
+
+" Slime
+xmap <Return> <Plug>SlimeRegionSend
+nmap <Return><Return> <Plug>SlimeParagraphSend
+
+function! StartREPL(repl)
+    " Adapted from https://www.reddit.com/r/neovim/comments/jhsto2/how_to_make_vimslime_work_with_the_neovim_terminal/
+    execute 'terminal ' . a:repl
+    let l:term_id = b:terminal_job_id
+    wincmd p
+    execute 'let b:slime_config = {"jobid": "' . l:term_id . '"}'
+endfunction
+
+function! SlimeInit(perhaps_command)
+    if strlen(a:perhaps_command) > 0
+        let l:command_to_launch = a:perhaps_command
+    else
+        let l:command_to_launch = input("command> ")
+    endif
+    split
+    call StartREPL(command_to_launch)
+endfunction
+
+command! -nargs=? SlimeInit call SlimeInit("<args>")
+
+" Glow markdown preview
+
+nnoremap <LocalLeader>m :Glow<CR>
+
+" Dial (increment/decrement)
+
+nmap <C-a> <Plug>(dial-increment)
+nmap <C-x> <Plug>(dial-decrement)
+vmap <C-a> <Plug>(dial-increment)
+vmap <C-x> <Plug>(dial-decrement)
+vmap g<C-a> <Plug>(dial-increment-additional)
+vmap g<C-x> <Plug>(dial-decrement-additional)
+
+" LSP
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+imap <Tab>   <Plug>(completion_smart_tab)
+imap <S-Tab> <Plug>(completion_smart_s_tab)
+
+nnoremap <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> ga <cmd>lua vim.lsp.buf.code_action()<CR>
+
+nnoremap <silent> [g <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> ]g <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 " }}}
 
