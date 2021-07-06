@@ -38,7 +38,7 @@ import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.Maximize
 
 
-myKeys = flip mkNamedKeymap $
+myKeys = flip mkNamedKeymap
     -- Core:
     [ ("M-r M-r",   addName "Restart XMonad (with --fast)" $ restart_xmonad False)
     , ("M-r M-S-r", addName "Restart XMonad (optimized)"   $ restart_xmonad True)
@@ -46,7 +46,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-S-0",     addName "Start the compositor"         $ spawn compositor_spawn)
     , ("M-S-8",     addName "Restart the compositor"       $ spawn compositor_restart)
     , ("M-;",       addName "XMonad command prompt"        $ xmonadPrompt csillagPromptConfig)
-    , ("M-<Space>", addName "Change keyboard"              $ changeKeyboard)
+    , ("M-<Space>", addName "Change keyboard"                changeKeyboard)
     -- Directional keys
     , ("M-h",       addName "Focus window to the left"  $ windowGo L False)
     , ("M-j",       addName "Focus window below"        $ windowGo D False)
@@ -80,14 +80,14 @@ myKeys = flip mkNamedKeymap $
     , ("M-f M-t",   addName "Tile floating window"         $ withFocused $ windows . W.sink)
     , ("M-f M-s",   addName "Float window as a scratchpad" $ withFocused $ windows . flip W.float (W.RationalRect 0.05 0.05 0.9 0.9))
     -- Close Windows
-    , ("M-x M-x",   addName "Close window"  $ kill1)
-    , ("M-x M-d",   addName "Close program" $ kill)
-    , ("M-x M-c",   addName "Close copy"    $ kill_copy)
+    , ("M-x M-x",   addName "Close window"  kill1)
+    , ("M-x M-d",   addName "Close program" kill)
+    , ("M-x M-c",   addName "Close copy"    kill_copy)
     -- Screens (Xinerama)
     , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ screenWorkspace 0 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ screenWorkspace 1 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap U True)
-    , ("M-S-s M-S-c",       addName "Change screen setup"               $ change_screen_config)
+    , ("M-S-s M-S-c",       addName "Change screen setup"                 change_screen_config)
     , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ set_screen_orientation "normal" 0)
     , ("M-S-s M-S-o M-S-j", addName "Set screen orientation to 'down'"  $ spawn $ set_screen_orientation "inverted" 0)
     , ("M-S-s M-S-o M-S-h", addName "Set screen orientation to 'left'"  $ spawn $ set_screen_orientation "left" 0)
@@ -100,7 +100,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-w M-C-g",     addName "Send&Go to workspace"          $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (W.shift x) >> windows (W.view x))
     , ("M-w M-S-c",     addName "Send copy to workspace"        $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (copy x))
     , ("M-w M-c",       addName "Send&Go copy to workspace"     $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (copy x) >> windows (W.view x))
-    , ("M-w M-b",       addName "Bring from workspace"          $ workspace_bring)
+    , ("M-w M-b",       addName "Bring from workspace"            workspace_bring)
     , ("M-w M-n M-g",   addName "Go to new workspace"           $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.view wkname)))
     , ("M-w M-n M-s",   addName "Send to new workspace"         $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname)))
     , ("M-w M-n M-C-g", addName "Send&Go to new workspace"      $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname) >> windows (W.view wkname)))
@@ -109,7 +109,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-6",           addName "Switch with last workspace"    $ windows $ \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws)
     -- Layouts
     , ("M-c M-<Space>", addName "Cycle to next layout"           $ sendMessage NextLayout)
-    , ("M-c M-c",       addName "Change layout"                  $ change_layout_gridselect)
+    , ("M-c M-c",       addName "Change layout"                    change_layout_gridselect)
     , ("M-c M-l M-g",   addName "Set layout to 'Grid'"           $ sendMessage $ JumpToLayout "Grid")
     , ("M-c M-l M-t",   addName "Set layout to 'ThreeColMid'"    $ sendMessage $ JumpToLayout "ThreeColMid")
     , ("M-c M-l M-d",   addName "Set layout to 'Dishes'"         $ sendMessage $ JumpToLayout "Dishes")
@@ -155,7 +155,7 @@ myKeys = flip mkNamedKeymap $
     , ("M-d M-t M-w M-l", addName "Map wacom tablet to current window, with orientation 'ccw'"  $ spawn "wacom-map ccw")
     , ("M-d M-t M-s",     addName "Map wacom tablet to whole screen"                            $ spawn "wacom-map screen")
     -- System
-    , ("M-q M-S-q",   addName "Quit XMonad"              $ quitWithWarning)
+    , ("M-q M-S-q",   addName "Quit XMonad"                quitWithWarning)
     , ("M-q M-S-s",   addName "Suspend"                  $ spawn "systemctl suspend")
     , ("M-q M-b",     addName "Blank the screen"         $ spawn "sleep 0.5; xset dpms force off")
     , ("M-q M-l",     addName "Lock"                     $ spawn "lock")
