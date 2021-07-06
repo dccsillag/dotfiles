@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# FIXME - keep volume.
+
+MASTER_VOLUME=$(amixer sget Master | grep '[0-9]\+%' | sed 's/^.\+\[\([0-9]\+%\)\].\+$/\1/' | head -n 1)
+
+alsactl restore
+
+amixer sset Master "$MASTER_VOLUME"
+amixer sset Capture 0%
+
+sleep 0.5
