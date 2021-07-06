@@ -109,6 +109,17 @@ bar_right() {
     fi
 
     block_sep
+
+    # Wifi
+    if { nm-online > /dev/null 2>&1; }
+    then
+        append "直"
+    else
+        append "^fg(tomato)"
+        append "睊"
+    fi
+
+    block_sep
     block_sep
 
     # Battery
