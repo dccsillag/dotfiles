@@ -54,12 +54,12 @@ myScratchpads =
     , hook  = floatingScratchpad
     }
   , NS { name  = "discord"
-       , cmd   = "discord-canary"
+       , cmd   = "discord"
        , query = className =? "discord"
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = term_run' "email" "alot"
+       , cmd   = term_run' "email" "meli"
        , query = className =? "email"
        , hook  = floatingScratchpad
        }
