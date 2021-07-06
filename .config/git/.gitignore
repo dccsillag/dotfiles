@@ -5,6 +5,7 @@ tags.lock
 tags.temp
 .lvimrc
 .clangd/
+.cache/
 compile_commands.json
 latex.out/
 .autosrc
