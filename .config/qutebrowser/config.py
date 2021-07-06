@@ -40,6 +40,7 @@ c.tabs.background = True
 
 c.content.javascript.can_access_clipboard = True
 c.url.default_page = 'about:blank'
+c.content.autoplay = False
 
 # }}}
 
