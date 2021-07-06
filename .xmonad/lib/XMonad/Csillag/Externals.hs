@@ -46,23 +46,26 @@ camview_spawn = "mpv --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=inp
 
 -- Screenshot Tool
 
+scrotCopyToClipboard :: String
+scrotCopyToClipboard = " -e 'xclip -selection clipboard -target image/png -i $f'"
+
 scrot_screen :: String
-scrot_screen = "cd ~/media/screenshots/ && scrot -z"
+scrot_screen = "cd ~/media/screenshots/ && scrot -z" ++ scrotCopyToClipboard
 
 scrot_window :: String
-scrot_window = "cd ~/media/screenshots/ && scrot -s -z"
+scrot_window = "cd ~/media/screenshots/ && scrot -s -z" ++ scrotCopyToClipboard
 
 scrot_region :: String
-scrot_region = "cd ~/media/screenshots/ && scrot -s -z"
+scrot_region = "cd ~/media/screenshots/ && scrot -s -z" ++ scrotCopyToClipboard
 
 scrot_thiswindow :: String
-scrot_thiswindow = "cd ~/media/screenshots/ && scrot -u -z"
+scrot_thiswindow = "cd ~/media/screenshots/ && scrot -u -z" ++ scrotCopyToClipboard
 
 -- Compositor
 
 compositor_spawn :: String
--- compositor_spawn = "picom --experimental-backend"
-compositor_spawn = "sh -c 'picom --glx-fshader-win \"$(cat ~/.config/picom-opacity-shader.glsl)\"'"
+compositor_spawn = "picom --experimental-backends"
+-- compositor_spawn = "sh -c 'picom --glx-fshader-win \"$(cat ~/.config/picom-opacity-shader.glsl)\"'"
 
 compositor_restart :: String
 compositor_restart = "pkill -USR1 picom"
