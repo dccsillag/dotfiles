@@ -222,6 +222,10 @@ c.hints.border = '1px solid #000000'
 c.tabs.indicator.width = 0
 c.tabs.favicons.show = 'never'
 
+c.tabs.padding = {"bottom": 3, "top": 3, "left": 5, "right": 5}
+c.statusbar.padding = {"bottom": 3, "top": 3, "left": 5, "right": 5}
+c.tabs.title.format = "{audio}{perc}{current_title}"
+
 # # Dark mode {{{
 
 c.colors.webpage.darkmode.enabled = True
