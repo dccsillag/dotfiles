@@ -1,0 +1,22 @@
+[Default Applications]
+x-scheme-handler/zoommtg=ZoomFirejail.desktop
+x-scheme-handler/zoomus=ZoomFirejail.desktop
+x-scheme-handler/tel=ZoomFirejail.desktop
+x-scheme-handler/callto=ZoomFirejail.desktop
+x-scheme-handler/zoomphonecall=ZoomFirejail.desktop
+x-scheme-handler/mailspring=mailspring.desktop
+application/xhtml_xml=qutebrowser-quick.desktop;
+image/webp=qutebrowser-quick.desktop;
+text/html=qutebrowser-quick.desktop;
+text/xml=qutebrowser-quick.desktop;
+x-scheme-handler/ftp=qutebrowser-quick.desktop;
+x-scheme-handler/http=qutebrowser-quick.desktop;
+x-scheme-handler/https=qutebrowser-quick.desktop;
+image/jpeg=sxiv.desktop;
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
+image/svg+xml=sxivsvg-usercreated-1.desktop;
+image/png=sxiv.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-TISJ30.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-TISJ30.desktop;
