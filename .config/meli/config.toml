@@ -1,0 +1,85 @@
+include("./accounts.toml")
+
+[composing]
+send_mail = "msmtp --read-recipients --read-envelope-from"
+
+[notifications]
+enable = true
+script = "notify-send"
+#xbiff_file_path = "path" # for use with xbiff(1)
+#play_sound = true # default, optional
+#sound_file = "path" # optional
+
+[shortcuts.general]
+toggle_help = "?"
+enter_command_mode = ":"
+quit = "q"
+#go_to_tab
+next_tab = "T"
+scroll_right = "l"
+scroll_left = "h"
+scroll_up = "k"
+scroll_down = "j"
+[shortcuts.listing]
+scroll_up = "k"
+scroll_down = "j"
+prev_page = "C-b"
+next_page = "C-f"
+prev_mailbox = 'K'
+next_mailbox = 'J'
+prev_account = '<'
+next_account = '>'
+new_mail = 'm'
+set_seen = 's'
+refresh = "r"
+search = "/"
+toggle_menu_visibility = "`"
+[shortcuts.compact-listing]
+exit_thread = "b"
+open_thread = "Enter"
+select_entry = "v"
+[shortcuts.pager]
+scroll_up = "k"
+scroll_down = "j"
+page_up = "C-b"
+page_down = "C-f"
+[shortcuts.contact-list]
+create_contact = "c"
+edit_contact = "e"
+mail_contact = "m"
+toggle_menu_visibility = "`"
+[shortcuts.composing]
+scroll_up = "k"
+scroll_down = "j"
+send_mail = "s"
+edit_mail = "e"
+[shortcuts.envelope-view]
+add_addresses_to_contacts = "c"
+view_raw_source = "M-r"
+reply = "R"
+edit = "e"
+return_to_normal_view = "r"
+open_attachment = "a"
+open_mailcap = "m"
+go_to_url = "g"
+toggle_url_mode = "f"
+toggle_expand_headers = "H"
+[shortcuts.thread-view]
+reverse_thread_order = "R"
+toggle_mailview = "p"
+toggle_threadview = "t"
+collapse_subtree = "C"
+prev_page = "C-b"
+next_page = "C-f"
+scroll_up = "["
+scroll_down = "]"
+
+[listing]
+index_style = "conversations"
+
+#[pgp]
+#auto_sign = false # always sign sent messages
+#auto_verify_signatures = true # always verify signatures when reading signed e-mails
+
+[terminal]
+theme = "dark" # or "light"
