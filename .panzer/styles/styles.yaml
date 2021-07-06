@@ -1,0 +1,66 @@
+MicroBase:
+  all:
+    metadata:
+      numbersections: true
+      papersize: a4
+      geometry:
+        - margin=3cm
+    commandline:
+      standalone: true
+  html:
+    commandline:
+      mathjax: true
+  latex:
+    commandline:
+      pdf-engine: "`latexmk`"
+  revealjs:
+    commandline:
+      mathjax: true
+
+Base:
+  parent:
+    - MicroBase
+  all:
+    filter:
+      - run: pandoc-crossref
+    lua-filter:
+      - run: /home/daniel/static/pandoc-filters/bettermath.lua
+
+SelfContained:
+  all:
+    commandline:
+      self-contained: yes
+
+Notes:
+  parent:
+    - Base
+
+ExerciseList:
+  parent:
+    - Base
+  all:
+    lua-filter:
+      - run: /home/daniel/static/pandoc-filters/exercise-list.lua
+
+ExamSolutions:
+  parent:
+    - Base
+  all:
+    lua-filter:
+      - run: /home/daniel/static/pandoc-filters/exam-solutions.lua
+
+CodeReport:
+  parent:
+    - Base
+  all:
+    lua-filter:
+      - run: /home/daniel/static/pandoc-filters/lua-filters/include-code-files/include-code-files.lua
+
+Presentation:
+  parent:
+    - Base
+  revealjs:
+    commandline:
+      # --css csillag.css
+      -V theme=simple
+      -V transition=none
