@@ -1,0 +1,19 @@
+map x delete
+map <enter> open
+
+set previewer ~/.config/lf/preview.sh
+
+set incsearch
+set scrolloff 2
+
+cmd remote ${{
+    read -p "remote (goto)> " -r remote_name && sshfs-manage init "$remote_name"
+    lf -remote "send $id cd $(sshfs-manage get "$remote_name")"
+}}
+cmd unmount_remote :{{
+    cd ~
+    $read -p "remote (close)> " -r remote_name && sshfs-manage deinit "$remote_name"
+}}
+
+map gr remote
+map U  unmount_remote
