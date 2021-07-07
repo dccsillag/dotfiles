@@ -90,14 +90,16 @@ bar_right() {
     fi
 
     # Music
-    ninqueue="$(mmc get ninqueue)"
-    # ninqueue="$(printf "%2d" "$ninqueue")"
-    case $(mmc get status) in
-        paused)  append "   $ninqueue"; block_sep; block_sep ;;
-        playing) append " 契 $ninqueue"; block_sep; block_sep ;;
-        waiting) append  "..$ninqueue"; block_sep; block_sep ;;
-        empty) ;;
-    esac
+    mcm get active && {
+        queuetext="$(mcm get queuepos)/$(mcm get ninqueue)"
+        # ninqueue="$(printf "%2d" "$ninqueue")"
+        case $(mcm get status) in
+            paused)  append "  $queuetext"; block_sep; block_sep ;;
+            playing) append " 契 $queuetext"; block_sep; block_sep ;;
+            waiting) append  "..$queuetext"; block_sep; block_sep ;;
+            empty) ;;
+        esac
+    }
 
     # Mic
     if { pacmd list-sources | grep 'name:\|muted:' | sed 'N;s/\n/ /' | grep -v monitor | grep -q "muted: no"; }
