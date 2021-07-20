@@ -439,10 +439,6 @@ set ttimeout        " Enable timeout
 set ttimeoutlen=50  " Timeout for keycodes
 set timeoutlen=3000 " Timeout for mappings
 
-"" Setup pseudo-transparency for popup&floating windows
-set pumblend=25 " Pseudo-transparency for popup menus
-set winblend=25 " Pseudo-transparency for floating windows
-
 "" Enable truecolors
 set termguicolors " Use truecolor in a terminal
 
