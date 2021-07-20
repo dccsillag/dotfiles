@@ -22,9 +22,8 @@ Base:
     - MicroBase
   all:
     filter:
+      - run: pandoc-filter-bettermath
       - run: pandoc-crossref
-    lua-filter:
-      - run: /home/daniel/static/pandoc-filters/bettermath.lua
 
 SelfContained:
   all:
@@ -39,28 +38,14 @@ ExerciseList:
   parent:
     - Base
   all:
-    lua-filter:
-      - run: /home/daniel/static/pandoc-filters/exercise-list.lua
-
-ExamSolutions:
-  parent:
-    - Base
-  all:
-    lua-filter:
-      - run: /home/daniel/static/pandoc-filters/exam-solutions.lua
-
-CodeReport:
-  parent:
-    - Base
-  all:
-    lua-filter:
-      - run: /home/daniel/static/pandoc-filters/lua-filters/include-code-files/include-code-files.lua
+    filter:
+      - run: pandoc-filter-exercise-list
 
 Presentation:
   parent:
     - Base
   revealjs:
     commandline:
-      # --css csillag.css
-      -V theme=simple
-      -V transition=none
+      css: ~/.local/share/pandoc/css/minimal-straight.css
+      variable: theme=simple
+      variable: transition=none
