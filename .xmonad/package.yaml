@@ -8,8 +8,8 @@ description:         My XMonad configs
 dependencies:
 - base >= 4.7 && < 5
 - extra
-- xmonad >= 0.13
-- xmonad-contrib >= 0.13
+- xmonad >= 0.16
+- xmonad-contrib >= 0.16
 - xmobar
 - X11
 - containers

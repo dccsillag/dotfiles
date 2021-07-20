@@ -41,10 +41,13 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
-- X11-1.9.2@sha256:3ceba115335fb9b6837274c3c55d299d22adcabfa3d00c543f4124091bb8149d,3596
+- git: https://github.com/xmonad/xmonad.git
+  commit: af354f7528ada1de451365a0f5138ef10a318360
+- git: https://github.com/xmonad/xmonad-contrib.git
+  commit: 8a0a84f1d5cea8b1cc1d5a19932b0eca667cb436
+- X11-1.10@sha256:ed01fba28081d6922462c2727a9a2e71f8ec3d962ed18963eee0c770558817d9,3703
 - xmobar-0.37
 - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
-- /home/daniel/code/xmonad-contrib/
 - dhall-1.37.1@sha256:447031286e8fe270b0baacd9cc5a8af340d2ae94bb53b85807bee93381ca5287,35080
 - generic-lens-2.0.0.0@sha256:7409fa0ce540d0bd41acf596edd1c5d0c0ab1cd1294d514cf19c5c24e8ef2550,3866
 - generic-lens-core-2.0.0.0@sha256:40b063c4a1399b3cdb19f2df1fae5a1a82f3313015c7c3e47fc23b8ef1b3e443,2913
