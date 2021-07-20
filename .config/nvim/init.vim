@@ -737,13 +737,6 @@ augroup MarkdownIndent "{{{
     " autocmd CursorMovedI *.md call s:MarkdownIndent()
 augroup END "}}}
 
-" LSP
-
-augroup LSP
-    autocmd!
-    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-augroup END
-
 "}}}
 
 " Mappings {{{
@@ -950,6 +943,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 imap <Tab>   <Plug>(completion_smart_tab)
 imap <S-Tab> <Plug>(completion_smart_s_tab)
 
+nnoremap <silent> <C-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nnoremap <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
