@@ -175,4 +175,4 @@ while :
 do
     bar
     sleep 0.5
-done | dzen2 -xs 0 -x 0 -y 0 -h "$HEIGHT" -fn "$FONT" -dock -bg "#121212" -fg "#9CB0BA"
+done | dzen2 -xs 0 -x 0 -y 0 -h "$HEIGHT" -fn "$FONT" -dock -bg "#121212" -fg "#CCE0EA"
