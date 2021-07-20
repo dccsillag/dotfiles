@@ -7,7 +7,6 @@ import qualified XMonad.StackSet as W
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Actions.GridSelect
-import XMonad.Layout.Tabbed
 
 import Data.Char (isSpace, isPrint)
 
@@ -98,14 +97,3 @@ myGridSelectConfig = GSConfig { gs_cellheight   = round size
               return $ if active then (uiPrimaryBgColor, uiPrimaryFgColor)
                                  else if wks `elem` curWkss then (uiSecondaryBgColor, uiSecondaryFgColor)
                                                             else ( uiNormalBgColor,  uiNormalFgColor)
-
--- Tabbed config
-
-tabbedTheme = def { fontName            = uiFont
-                  , activeColor         = "#707070"
-                  , activeTextColor     = "#ffffff"
-                  , activeBorderColor   = "#eeeeee"
-                  , inactiveColor       = "#333333"
-                  , inactiveTextColor   = "#EEEEEE"
-                  , inactiveBorderColor = "#555555"
-                  }
