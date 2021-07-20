@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase, BlockArguments #-}
+{-# LANGUAGE LambdaCase, BlockArguments, TupleSections #-}
 
 module XMonad.Csillag.Keys
   ( myKeys
@@ -6,6 +6,8 @@ module XMonad.Csillag.Keys
   )
 where
 
+import Data.List (isPrefixOf, stripPrefix)
+import Data.Maybe (catMaybes)
 import qualified Data.Map as Map
 import System.Directory (listDirectory)
 import Control.Monad
@@ -20,10 +22,8 @@ import qualified XMonad.StackSet as W
 
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
-import XMonad.Layout.LayoutCombinators
 
-import XMonad.Prompt ( )
-import XMonad.Prompt.Shell
+import XMonad.Prompt ( XPConfig, mkComplFunFromList' )
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
 import XMonad.Prompt.XMonad
@@ -74,7 +74,7 @@ myKeys = flip mkNamedKeymap
     , ("M-/",     addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMerge)
     , ("M-S-/",   addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMergeAll)
     -- Spawn Stuff
-    , ("M-n M-n",   addName "Open shell prompt"         $ shellPrompt csillagPromptConfig)
+    , ("M-n M-n",   addName "Open shell prompt"         $ launcherPrompt csillagPromptConfig)
     , ("M-n M-t",   addName "Spawn a terminal"          $ spawn termSpawn)
     , ("M-n M-S-t", addName "Spawn a terminal with SSH" $ sshPrompt csillagPromptConfig)
     , ("M-n M-f",   addName "Spawn a file manager"      $ spawn filemanagerSpawn)
@@ -253,3 +253,23 @@ myGridSelectWorkspace config func = withWindowSet \ws -> do
 
 spawnOSD :: String -> X ()
 spawnOSD icon = spawn $ "show-osd '" ++ icon ++ "'"
+
+launcherPrompt :: XPConfig -> X ()
+launcherPrompt c = do
+    ps <- io $ listDirectory applicationsDirectory
+    ps' <- io $ forM ps \p -> fmap (p,) <$> getDesktopFileName p
+    let ps'' = catMaybes ps'
+    maybe (return ()) (launchProgram ps'')
+      =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' c $ snd <$> ps'')
+    where
+        applicationsDirectory = "/usr/share/applications"
+
+        getDesktopFileName :: String -> IO (Maybe String)
+        getDesktopFileName p = do
+            ls <- lines <$> readFile (applicationsDirectory++"/"++p)
+            return $ case filter ("Name=" `isPrefixOf`) ls of
+                l:_ -> stripPrefix "Name=" l
+                [] -> Nothing
+
+        launchProgram :: [(String, String)] -> String -> X ()
+        launchProgram ps' p = spawn $ "gtk-launch " ++ fst (head $ filter ((==p).snd) ps')
