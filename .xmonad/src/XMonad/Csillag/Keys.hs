@@ -9,8 +9,8 @@ where
 import qualified Data.Map as Map
 import System.Directory (listDirectory)
 import Control.Monad
+import System.Exit
 
-import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
@@ -155,7 +155,7 @@ myKeys = flip mkNamedKeymap
     , ("M-d M-t M-w M-l", addName "Map wacom tablet to current window, with orientation 'ccw'"  $ spawn "wacom-map ccw")
     , ("M-d M-t M-s",     addName "Map wacom tablet to whole screen"                            $ spawn "wacom-map screen")
     -- System
-    , ("M-q M-S-q",   addName "Quit XMonad"                quitWithWarning)
+    , ("M-q M-S-q",   addName "Quit XMonad"              $ io exitSuccess)
     , ("M-q M-S-s",   addName "Suspend"                  $ spawn "systemctl suspend")
     , ("M-q M-b",     addName "Blank the screen"         $ spawn "sleep 0.5; xset dpms force off")
     , ("M-q M-l",     addName "Lock"                     $ spawn "lock")
@@ -231,3 +231,22 @@ changeKeyboard = do
     case maybe_kbd_name of
          Just kbd_name -> liftIO (readFile $ basedir ++ kbd_name) >>= spawn . ("kb " ++)
          Nothing -> return ()
+
+myGridSelectWorkspace config func = withWindowSet $ \ws -> do
+    let wss = filter (/= "NSP")
+          $ map W.tag
+          $ filter ((/="NSP") . W.tag)
+          $ circshiftN (succ $ length $ W.visible ws)
+          $ W.workspaces ws
+    gridselect config (zip wss wss) >>= flip whenJust func
+    where
+        circshiftN :: Int -> [a] -> [a]
+        circshiftN 0 lst = lst
+        circshiftN k lst = circshiftN (pred k) $ circshift lst
+
+        circshift :: [a] -> [a]
+        circshift []       = []
+        circshift (x : xs) = xs ++ [x]
+
+spawnOSD :: String -> X ()
+spawnOSD icon = spawn $ "show-osd '" ++ icon ++ "'"

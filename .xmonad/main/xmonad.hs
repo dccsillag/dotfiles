@@ -34,7 +34,6 @@ import XMonad.Util.NamedActions
 import XMonad.Csillag.Layouts
 import XMonad.Csillag.Keys
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.CommonActions
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 
@@ -79,8 +78,7 @@ myXMonadConfig = do
                                               ]
                                <+> manageHook def -- The default
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
-        , handleEventHook    = myFullscreenEventHook -- Automatically redraw windows when they become fullscreen
-                               <+> docksEventHook -- ???
+        , handleEventHook    = docksEventHook -- ???
                                <+> handleTimerEvent
                                <+> swallowEventHook (className =? "qutebrowser") (className =? "mpv") -- Swallow mpv from qutebrowser
         , startupHook        = startup -- (on startup)

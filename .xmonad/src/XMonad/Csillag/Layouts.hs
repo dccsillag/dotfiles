@@ -20,6 +20,8 @@ import XMonad.Layout.Spacing (spacingRaw, Border(..))
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Maximize
 
+import XMonad.Csillag.Consts ( tabbedTheme, gapsize )
+
 
 myLayouts = draggingVisualizer $ maximize $ spacing $
     renamed [Replace "Grid"]           (IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
@@ -29,15 +31,4 @@ myLayouts = draggingVisualizer $ maximize $ spacing $
     renamed [Replace "Full"]           (tabbed shrinkText tabbedTheme)       |||
     renamed [Replace "Dwindle"]        (Dwindle R CW 1 1.1)                  |||
     renamed [Replace "Mirror Dwindle"] (Mirror $ Dwindle R CW 1 1.1)
-
 spacing = spacingRaw True (Border 0 gapsize gapsize gapsize) True (Border gapsize gapsize gapsize gapsize) True
-    where gapsize = 4
-
-tabbedTheme = def { fontName            = "xft:FantasqueSansMono Nerd Font:size=12"
-                  , activeColor         = "#707070"
-                  , activeTextColor     = "#ffffff"
-                  , activeBorderColor   = "#eeeeee"
-                  , inactiveColor       = "#333333"
-                  , inactiveTextColor   = "#EEEEEE"
-                  , inactiveBorderColor = "#555555"
-                  }

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fd741de7f6ae636cadc5a5f324e9c241d3b354b4598abdc5778c7cb538dcd126
+-- hash: 4dbcce09dfc831fc407ef97c1198d1a3ff5983ef272e215ce2fb71f123fbd1e8
 
 name:           csillag-xmonad
 version:        0.1.0.0
@@ -16,7 +16,6 @@ build-type:     Simple
 
 library
   exposed-modules:
-      XMonad.Csillag.CommonActions
       XMonad.Csillag.Consts
       XMonad.Csillag.Externals
       XMonad.Csillag.Keys
