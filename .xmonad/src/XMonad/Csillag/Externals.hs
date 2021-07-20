@@ -20,6 +20,9 @@ termRun' cls cmd = "st -c '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
 texteditorSpawn :: String
 texteditorSpawn = termRun "nvim"
 
+texteditorMarkdownSpawn :: String
+texteditorMarkdownSpawn = termRun "nvim -c \"setf markdown\""
+
 -- File Manager
 
 filemanagerSpawn :: String
