@@ -589,6 +589,10 @@ nvim_lsp.clangd.setup{
     on_attach = on_attach,
     cmd = {"clangd", "--background-index", "--clang-tidy"},
 }
+nvim_lsp.sumneko_lua.setup{
+    on_attach = on_attach,
+    cmd = {"lua-language-server", "-E", "/usr/share/lua-language-server/main.lua"}
+}
 
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
