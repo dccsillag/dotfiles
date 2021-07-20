@@ -173,8 +173,8 @@ myKeys = flip mkNamedKeymap
     , ("M-<Down>",  addName "Lower volume"      $ spawnOSD volumeDownIcon >> spawn "pactl set-sink-volume @DEFAULT_SINK@ -2%"  >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
     , ("M-*",         addName "Toggle mute"       $ spawnOSD volumeMuteIcon >> spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
     , ("M-C-v",                   addName "Play test sound"   $ spawnOSD volumePlayIcon >> spawn ("paplay " ++ volumeChangeSound))
-    , ("M-\\",                    addName "Toggle play/pause" $ spawn "mmc toggle")
-    , ("M-S-\\",                  addName "Go to next track"  $ spawn "mmc next")
+    , ("M-\\",                    addName "Toggle play/pause" $ spawn "mcm toggle")
+    , ("M-S-\\",                  addName "Go to next track"  $ spawn "mcm next")
     ]
 
 myMouseBindings config = Map.fromList
