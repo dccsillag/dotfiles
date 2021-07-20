@@ -17,7 +17,8 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-17.0
+resolver:
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/3.yaml
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -40,16 +41,12 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
+- X11-1.9.2@sha256:3ceba115335fb9b6837274c3c55d299d22adcabfa3d00c543f4124091bb8149d,3596
 - xmobar-0.37
 - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
 - /home/daniel/code/xmonad-contrib/
-# - git: git@github.com:xmonad/xmonad-contrib.git
-#   # commit: 58feba91d96fee8339d7cf56fb33537be819eb4b
-#   # commit: f271d59c345ed9fbd3ec02de98f69990b57fbdba
-#   commit: f42989112c63c6945223a86c562d0454e1ad842d
 
 # Override default flag values for local packages and extra-deps
-# flags: {}
 flags:
   xmobar:
     all_extensions: true
@@ -62,7 +59,7 @@ flags:
 #
 # Require a specific version of stack, using version ranges
 # require-stack-version: -any # Default
-# require-stack-version: ">=2.3"
+# require-stack-version: ">=2.5"
 #
 # Override the architecture used by stack, especially useful on Windows
 # arch: i386
