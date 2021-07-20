@@ -331,7 +331,7 @@ function greet() {
     echo -n '\e[0m'
 }
 
-which fortune > /dev/null && greet
+#which fortune > /dev/null && greet
 
 # if [ -z "$TMUX" ]
 # then
