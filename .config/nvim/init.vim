@@ -579,7 +579,6 @@ nvim_lsp.rust_analyzer.setup{ on_attach = on_attach,
             enable = false,
         },
     }}
-    -- settings = {["rust-analyzer"] = {diagnostics = {disabled = {"unresolved-proc-macro"}}}}
 }
 nvim_lsp.pyright.setup{ on_attach = on_attach }
 nvim_lsp.hls.setup{ on_attach = on_attach }
