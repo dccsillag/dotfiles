@@ -22,11 +22,6 @@ myScratchpads =
        , query = className =? "Whatsapp-for-linux"
        , hook  = floatingScratchpad
        }
-  , NS { name  = "bluetooth"
-       , cmd   = "blueman-manager"
-       , query = title =? "Bluetooth Devices"
-       , hook  = floatingScratchpad
-       }
   , NS { name  = "terminal"
        , cmd   = termSpawn' "scratchterm"
        , query = className =? "scratchterm"
