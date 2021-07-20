@@ -89,13 +89,13 @@ if ! zgen saved; then
     abbr -U cisl='config shortlog'
     abbr -U cist='config stash'
     abbr -U cilr='config log @{1}..'
-    # # # MMC
-    abbr -U mca='mmc append'
-    abbr -U mcp='mmc prepend'
-    abbr -U mcl='mmc list'
-    abbr -U mcs='mmc status'
-    abbr -U mcr='mmc restart'
-    abbr -U mce='mmc edit'
+    # # # MicroMusic
+    abbr -U mca='mcm append'
+    abbr -U mcp='mcm prepend'
+    abbr -U mcl='mcm list'
+    abbr -U mcs='mcm status'
+    abbr -U mcr='mcm restart'
+    abbr -U mce='mcm edit'
     # # # NNN
     abbr -U n='nnn'
     # # # Haskell
