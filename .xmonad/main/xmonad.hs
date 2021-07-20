@@ -41,7 +41,7 @@ import XMonad.Csillag.Externals
 -- Things to do upon startup:
 startup = do
   -- Start the compositor
-  spawn compositor_spawn
+  spawn compositorSpawn
   -- spawnOnce "kdeconnect-cli -l"
   spawnOnce "redshift"
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
@@ -60,9 +60,9 @@ myXMonadConfig = do
     return
         $ ewmh
         $ withNavigation2DConfig myNavigation2DConfig
-        $ addDescrKeys' ((mod4Mask .|. shiftMask, xK_slash), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (term_run "less /tmp/xmonad-help.txt")) myKeys
+        $ addDescrKeys' ((mod4Mask .|. shiftMask, xK_slash), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys
         $ def {
-          terminal           = term_spawn
+          terminal           = termSpawn
         , modMask            = mod4Mask -- Super key
         , focusFollowsMouse  = False
         , normalBorderColor  = "#555555" -- "#cccccc"

@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE LambdaCase, BlockArguments #-}
 
 module XMonad.Csillag.Keys
   ( myKeys
@@ -40,11 +40,11 @@ import XMonad.Layout.Maximize
 
 myKeys = flip mkNamedKeymap
     -- Core:
-    [ ("M-r M-r",   addName "Restart XMonad (with --fast)" $ restart_xmonad False)
-    , ("M-r M-S-r", addName "Restart XMonad (optimized)"   $ restart_xmonad True)
-    , ("M-S-9",     addName "Kill the compositor"          $ spawn compositor_kill)
-    , ("M-S-0",     addName "Start the compositor"         $ spawn compositor_spawn)
-    , ("M-S-8",     addName "Restart the compositor"       $ spawn compositor_restart)
+    [ ("M-r M-r",   addName "Restart XMonad (with --fast)" $ restartXMonad False)
+    , ("M-r M-S-r", addName "Restart XMonad (optimized)"   $ restartXMonad True)
+    , ("M-S-9",     addName "Kill the compositor"          $ spawn compositorKill)
+    , ("M-S-0",     addName "Start the compositor"         $ spawn compositorSpawn)
+    , ("M-S-8",     addName "Restart the compositor"       $ spawn compositorRestart)
     , ("M-;",       addName "XMonad command prompt"        $ xmonadPrompt csillagPromptConfig)
     , ("M-<Space>", addName "Change keyboard"                changeKeyboard)
     -- Directional keys
@@ -67,49 +67,49 @@ myKeys = flip mkNamedKeymap
     , ("M-S-.",     addName "Swap window down on the stack" $ windows W.swapDown)
     -- Spawn Stuff
     , ("M-n M-n",   addName "Open shell prompt"         $ shellPrompt csillagPromptConfig)
-    , ("M-n M-t",   addName "Spawn a terminal"          $ spawn term_spawn)
+    , ("M-n M-t",   addName "Spawn a terminal"          $ spawn termSpawn)
     , ("M-n M-S-t", addName "Spawn a terminal with SSH" $ sshPrompt csillagPromptConfig)
-    , ("M-n M-f",   addName "Spawn a file manager"      $ spawn filemanager_spawn)
-    , ("M-n M-v",   addName "Spawn an editor"           $ spawn texteditor_spawn)
-    , ("M-n M-b",   addName "Spawn a browser"           $ spawn browser_spawn)
-    , ("M-n M-S-b", addName "Spawn a private browser"   $ spawn browser_spawn_private)
-    , ("M-n M-c",   addName "Spawn a camera view"       $ spawn camview_spawn)
+    , ("M-n M-f",   addName "Spawn a file manager"      $ spawn filemanagerSpawn)
+    , ("M-n M-v",   addName "Spawn an editor"           $ spawn texteditorSpawn)
+    , ("M-n M-b",   addName "Spawn a browser"           $ spawn browserSpawn)
+    , ("M-n M-S-b", addName "Spawn a private browser"   $ spawn browserSpawnPrivate)
+    , ("M-n M-c",   addName "Spawn a camera view"       $ spawn camviewSpawn)
     , ("M-n M-w",   addName "Spawn a notebook"          $ spawn "write_stylus")
-    , ("M-n M-r",   addName "Spawn a calculator"        $ spawn calculator_spawn)
+    , ("M-n M-r",   addName "Spawn a calculator"        $ spawn calculatorSpawn)
     -- Floating Windows
     , ("M-f M-t",   addName "Tile floating window"         $ withFocused $ windows . W.sink)
     , ("M-f M-s",   addName "Float window as a scratchpad" $ withFocused $ windows . flip W.float (W.RationalRect 0.05 0.05 0.9 0.9))
     -- Close Windows
     , ("M-x M-x",   addName "Close window"  kill1)
     , ("M-x M-d",   addName "Close program" kill)
-    , ("M-x M-c",   addName "Close copy"    kill_copy)
+    , ("M-x M-c",   addName "Close copy"    killCopy)
     -- Screens (Xinerama)
     , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ screenWorkspace 0 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ screenWorkspace 1 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap U True)
-    , ("M-S-s M-S-c",       addName "Change screen setup"                 change_screen_config)
-    , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ set_screen_orientation "normal" 0)
-    , ("M-S-s M-S-o M-S-j", addName "Set screen orientation to 'down'"  $ spawn $ set_screen_orientation "inverted" 0)
-    , ("M-S-s M-S-o M-S-h", addName "Set screen orientation to 'left'"  $ spawn $ set_screen_orientation "left" 0)
-    , ("M-S-s M-S-o M-S-l", addName "Set screen orientation to 'right'" $ spawn $ set_screen_orientation "right" 0)
+    , ("M-S-s M-S-c",       addName "Change screen setup"                 changeScreenConfig)
+    , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ setScreenOrientation "normal" 0)
+    , ("M-S-s M-S-o M-S-j", addName "Set screen orientation to 'down'"  $ spawn $ setScreenOrientation "inverted" 0)
+    , ("M-S-s M-S-o M-S-h", addName "Set screen orientation to 'left'"  $ spawn $ setScreenOrientation "left" 0)
+    , ("M-S-s M-S-o M-S-l", addName "Set screen orientation to 'right'" $ spawn $ setScreenOrientation "right" 0)
     -- Workspaces
     , ("M-w M-r",       addName "Rename workspace"              $ inputPrompt csillagPromptConfig "Rename Workspace" ?+ renameWorkspaceByName)
-    , ("M-w M-d",       addName "Delete workspace"              $ removeEmptyWorkspaceAfter (windows $ \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws))
+    , ("M-w M-d",       addName "Delete workspace"              $ removeEmptyWorkspaceAfter (windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws))
     , ("M-w M-g",       addName "Go to workspace"               $ myGridSelectWorkspace myGridSelectConfig $ windows . W.view)
     , ("M-w M-s",       addName "Send to workspace"             $ myGridSelectWorkspace myGridSelectConfig $ windows . W.shift)
-    , ("M-w M-C-g",     addName "Send&Go to workspace"          $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (W.shift x) >> windows (W.view x))
-    , ("M-w M-S-c",     addName "Send copy to workspace"        $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (copy x))
-    , ("M-w M-c",       addName "Send&Go copy to workspace"     $ myGridSelectWorkspace myGridSelectConfig $ \x -> windows (copy x) >> windows (W.view x))
-    , ("M-w M-b",       addName "Bring from workspace"            workspace_bring)
+    , ("M-w M-C-g",     addName "Send&Go to workspace"          $ myGridSelectWorkspace myGridSelectConfig \x -> windows (W.shift x) >> windows (W.view x))
+    , ("M-w M-S-c",     addName "Send copy to workspace"        $ myGridSelectWorkspace myGridSelectConfig $ windows . copy)
+    , ("M-w M-c",       addName "Send&Go copy to workspace"     $ myGridSelectWorkspace myGridSelectConfig \x -> windows (copy x) >> windows (W.view x))
+    , ("M-w M-b",       addName "Bring from workspace"            workspaceBring)
     , ("M-w M-n M-g",   addName "Go to new workspace"           $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.view wkname)))
     , ("M-w M-n M-s",   addName "Send to new workspace"         $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname)))
     , ("M-w M-n M-C-g", addName "Send&Go to new workspace"      $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname) >> windows (W.view wkname)))
     , ("M-w M-n M-S-c", addName "Send copy to new workspace"    $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (copy wkname)))
     , ("M-w M-n M-c",   addName "Send&Go copy to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (copy wkname) >> windows (W.view wkname)))
-    , ("M-6",           addName "Switch with last workspace"    $ windows $ \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws)
+    , ("M-6",           addName "Switch with last workspace"    $ windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws)
     -- Layouts
     , ("M-c M-<Space>", addName "Cycle to next layout"           $ sendMessage NextLayout)
-    , ("M-c M-c",       addName "Change layout"                    change_layout_gridselect)
+    , ("M-c M-c",       addName "Change layout"                    changeLayoutGridselect)
     , ("M-c M-l M-g",   addName "Set layout to 'Grid'"           $ sendMessage $ JumpToLayout "Grid")
     , ("M-c M-l M-t",   addName "Set layout to 'ThreeColMid'"    $ sendMessage $ JumpToLayout "ThreeColMid")
     , ("M-c M-l M-d",   addName "Set layout to 'Dishes'"         $ sendMessage $ JumpToLayout "Dishes")
@@ -140,10 +140,10 @@ myKeys = flip mkNamedKeymap
     , ("M-p M-n",   addName "Insert a new password"      $ passTypePrompt csillagPromptConfig)
     , ("M-p M-S-d", addName "Remove a password"          $ passRemovePrompt csillagPromptConfig)
     -- Screenshots
-    , ("M-y M-s",   addName "Yank the whole screen"      $ spawn scrot_screen)
-    , ("M-y M-w",   addName "Yank a window"              $ spawn scrot_window)
-    , ("M-y M-f",   addName "Yank the current window"    $ spawn scrot_thiswindow)
-    , ("M-y M-a",   addName "Yank an area of the screen" $ spawn scrot_region)
+    , ("M-y M-s",   addName "Yank the whole screen"      $ spawn scrotScreen)
+    , ("M-y M-w",   addName "Yank a window"              $ spawn scrotWindow)
+    , ("M-y M-f",   addName "Yank the current window"    $ spawn scrotThiswindow)
+    , ("M-y M-a",   addName "Yank an area of the screen" $ spawn scrotRegion)
     -- Background
     , ("M-b M-r", addName "Set a random background"                        $ spawn "background-setter set")
     , ("M-b M-a", addName "Automatically set a random background every 1h" $ spawn "background-setter auto")
@@ -182,30 +182,30 @@ myMouseBindings config = Map.fromList
     , ((modMask config, button3), \w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
     ]
 
-restart_xmonad do_optimize = do
-    withWindowSet $ \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
-    when (not do_optimize) $ io $ writeFile "/tmp/.xmonad-nooptimize" "no optimize"
+restartXMonad optimize = do
+    withWindowSet \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
+    unless optimize $ io $ writeFile "/tmp/.xmonad-nooptimize" "no optimize"
     spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
 
-kill_copy = let delete'' w = W.modify Nothing $ W.filter (/=w)
-                in withWindowSet $ \ss ->
-                    whenJust (W.peek ss) $ \w ->
-                        when (W.member w $ delete'' w ss) $
+killCopy = let delete'' w = W.modify Nothing $ W.filter (/=w)
+            in withWindowSet \ss ->
+                whenJust (W.peek ss) \w ->
+                    when (W.member w $ delete'' w ss) $
                         windows $ delete'' w
 
-workspace_bring = myGridSelectWorkspace myGridSelectConfig $ \x -> windows $ \ws ->
+workspaceBring = myGridSelectWorkspace myGridSelectConfig \x -> windows \ws ->
     case filter ((==x) . W.tag) $ W.hidden ws of
          targetWorkspace:_ -> foldl (\acc w -> copyWindow w (W.tag $ W.workspace $ W.current acc) acc) ws $ W.integrate' $ W.stack targetWorkspace
          _ -> ws
 
-change_screen_config = do
+changeScreenConfig = do
     profiles <- io $ listDirectory ".config/autorandr"
     maybe_profile_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> profiles)
     case maybe_profile_name of
          Just profile_name -> spawn $ "autorandr --load " ++ profile_name
          Nothing -> return ()
 
-change_layout_gridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
+changeLayoutGridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
     [ "Grid"
     , "ThreeColMid"
     , "Dishes"
@@ -232,7 +232,7 @@ changeKeyboard = do
          Just kbd_name -> liftIO (readFile $ basedir ++ kbd_name) >>= spawn . ("kb " ++)
          Nothing -> return ()
 
-myGridSelectWorkspace config func = withWindowSet $ \ws -> do
+myGridSelectWorkspace config func = withWindowSet \ws -> do
     let wss = filter (/= "NSP")
           $ map W.tag
           $ filter ((/="NSP") . W.tag)

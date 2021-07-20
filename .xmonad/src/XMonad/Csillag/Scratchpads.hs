@@ -13,7 +13,7 @@ import XMonad.Csillag.Externals
 -- Scratchpads:
 myScratchpads =
   [ NS { name  = "sysmon"
-       , cmd   = term_run' "sysmon" system_monitor
+       , cmd   = termRun' "sysmon" systemMonitor
        , query = className =? "sysmon"
        , hook  = floatingScratchpad
        }
@@ -28,22 +28,22 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "terminal"
-       , cmd   = term_spawn' "scratchterm"
+       , cmd   = termSpawn' "scratchterm"
        , query = className =? "scratchterm"
        , hook  = floatingScratchpad
        }
   , NS { name  = "calculator"
-       , cmd   = term_run' "calculator" "insect"
+       , cmd   = termRun' "calculator" "insect"
        , query = className =? "calculator"
        , hook  = floatingScratchpad
        }
   , NS { name  = "audio"
-       , cmd   = term_run' "audiomanage" "pulsemixer"
+       , cmd   = termRun' "audiomanage" "pulsemixer"
        , query = className =? "audiomanage"
        , hook  = floatingScratchpad
        }
   , NS { name  = "deezer"
-       , cmd   = browser_open "http://deezer.com"
+       , cmd   = browserOpen "http://deezer.com"
        , query = isSuffixOf "Deezer - qutebrowser" <$> title
        , hook  = floatingScratchpad
        }
@@ -59,7 +59,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = term_run' "email" "meli"
+       , cmd   = termRun' "email" "meli"
        , query = className =? "email"
        , hook  = floatingScratchpad
        }
