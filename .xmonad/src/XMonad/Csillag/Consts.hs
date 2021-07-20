@@ -7,7 +7,7 @@ import XMonad.Prompt.FuzzyMatch
 import XMonad.Actions.GridSelect
 import XMonad.Layout.Tabbed
 
-import Data.Char (isSpace)
+import Data.Char (isSpace, isPrint)
 
 
 volumeChangeSound = "~/.xmonad/audio-volume-change.wav"
@@ -30,28 +30,32 @@ gapsize = 4
 -- Prompt config
 
 csillagPromptConfig :: XPConfig
-csillagPromptConfig = def { bgColor             = "#1b2326"
-                          , fgColor             = "#FFFFFF"
-                          , bgHLight            = "#00e896"
-                          , fgHLight            = "#000000"
-                          , borderColor         = "#AAAAAA"
-                          , promptBorderWidth   = 0
-                          , position            = CenteredAt 0.2 0.8
-                          , alwaysHighlight     = True
-                          , font                = "xft:FantasqueSansMono Nerd Font:size=20"
-                          , height              = 50
-                          , maxComplRows        = Just 12
-                          , historySize         = 200
-                          -- , historyFilter       = id
-                          , completionKey       = (controlMask, xK_n)
-                          , changeModeKey       = xK_F1
-                          , defaultText         = ""
-                          , autoComplete        = Nothing
-                          , showCompletionOnTab = False
-                          , searchPredicate     = fuzzyMatch
-                          , sorter              = fuzzySort
-                          , promptKeymap        = vimLikeXPKeymap' (\c -> c { bgNormal = "grey22" }) id id isSpace
-                          }
+csillagPromptConfig =
+    XPC { font                 = "xft:FantasqueSansMono Nerd Font:size=18:antialias=true:autohint=True"
+        , bgColor              = "#282C33"
+        , fgColor              = "#9cb0ba"
+        , bgHLight             = "#00e896" -- TODO
+        , fgHLight             = "#000000" -- TODO
+        , borderColor          = "#2e343f"
+        , promptBorderWidth    = 1
+        , position             = CenteredAt 0.25 0.5
+        , alwaysHighlight      = True
+        , height               = 60 -- +1?
+        , maxComplRows         = Just 8
+        , maxComplColumns      = Just 1
+        , historySize          = 0
+        , historyFilter        = historyFilter def
+        , promptKeymap         = vimLikeXPKeymap' id ("[N] "++) (filter isPrint) isSpace
+        , completionKey        = (0, xK_Tab)
+        , changeModeKey        = xK_F1
+        , defaultText          = ""
+        , autoComplete         = Nothing
+        , showCompletionOnTab  = False
+        , complCaseSensitivity = CaseInSensitive
+        , searchPredicate      = fuzzyMatch
+        , defaultPrompter      = ("[I] "++)
+        , sorter               = fuzzySort
+        }
 
 -- GridSelect config
 
