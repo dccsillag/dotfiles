@@ -552,7 +552,7 @@ function! NeatFoldText() "{{{
     let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
     return foldtextstart . ' ' . repeat(foldchar, winwidth(0)-foldtextlength-1) . foldtextend
 endfunction
-set fillchars+=fold:―,vert:\│
+set fillchars+=foldclose:▸,foldopen:▾,foldsep:│,fold:―,eob:\ ,vert:\│
 set foldtext=NeatFoldText() "}}}
 
 "" LSP setup
