@@ -27,7 +27,7 @@ then
 fi
 
 outfile=out.mp4
-framerate=30
+framerate=60
 while getopts hsSwmMaAfo: name
 do
     case $name in
