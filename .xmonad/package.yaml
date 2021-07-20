@@ -1,0 +1,43 @@
+name:                csillag-xmonad
+version:             0.1.0.0
+author:              "Daniel Csillag"
+copyright:           "2021 Daniel Csillag"
+
+description:         My XMonad configs
+
+dependencies:
+- base >= 4.7 && < 5
+- extra
+- xmonad >= 0.13
+- xmonad-contrib >= 0.13
+- xmobar
+- X11
+- containers
+- text
+- directory
+- text
+- parsec
+- bibtex
+- filepath
+- split
+- unix
+- process
+
+ghc-options:
+- -Wall
+- -Wno-missing-signatures
+- -fwrite-ide-info # for weeder
+
+library:
+  source-dirs: src
+
+executables:
+  my-xmonad:
+    main:                xmonad.hs
+    source-dirs:         main
+    dependencies:
+    - csillag-xmonad
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N

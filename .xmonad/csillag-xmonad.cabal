@@ -1,0 +1,72 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: fd741de7f6ae636cadc5a5f324e9c241d3b354b4598abdc5778c7cb538dcd126
+
+name:           csillag-xmonad
+version:        0.1.0.0
+description:    My XMonad configs
+author:         Daniel Csillag
+maintainer:     Daniel Csillag
+copyright:      2021 Daniel Csillag
+build-type:     Simple
+
+library
+  exposed-modules:
+      XMonad.Csillag.CommonActions
+      XMonad.Csillag.Consts
+      XMonad.Csillag.Externals
+      XMonad.Csillag.Keys
+      XMonad.Csillag.Layouts
+      XMonad.Csillag.Scratchpads
+  other-modules:
+      Paths_csillag_xmonad
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
+  build-depends:
+      X11
+    , base >=4.7 && <5
+    , bibtex
+    , containers
+    , directory
+    , extra
+    , filepath
+    , parsec
+    , process
+    , split
+    , text
+    , unix
+    , xmobar
+    , xmonad >=0.13
+    , xmonad-contrib >=0.13
+  default-language: Haskell2010
+
+executable my-xmonad
+  main-is: xmonad.hs
+  other-modules:
+      Paths_csillag_xmonad
+  hs-source-dirs:
+      main
+  ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      X11
+    , base >=4.7 && <5
+    , bibtex
+    , containers
+    , csillag-xmonad
+    , directory
+    , extra
+    , filepath
+    , parsec
+    , process
+    , split
+    , text
+    , unix
+    , xmobar
+    , xmonad >=0.13
+    , xmonad-contrib >=0.13
+  default-language: Haskell2010
