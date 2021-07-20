@@ -879,6 +879,7 @@ call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'input_after': '*'})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'at': '\%#\*', 'leave': 1})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '<BS>', 'at': '\*\%#\*', 'delete': 1})
 call lexima#add_rule({ 'filetype': 'markdown', 'char': '<Return>', 'at': '^\s*```.*\%#```', 'input': '<Return><Return><Up>'})
+call lexima#add_rule({ 'filetype': 'markdown', 'char': '<Return>', 'at': '^\s*:::[^:].*\%#', 'input': '<Return><Return>:::<Up>'})
 for filetype in ['html', 'xml', 'markdown']
     call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
 endfor
