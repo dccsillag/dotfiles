@@ -107,6 +107,8 @@ if ! zgen saved; then
     abbr -U ab='abduco'
     # # # Taskell
     abbr -U ta='taskell'
+    # # # BluetoothCTL
+    abbr -U bu='bluetoothctl'
 
     zgen save
 fi
