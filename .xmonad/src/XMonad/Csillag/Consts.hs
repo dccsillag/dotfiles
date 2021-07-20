@@ -1,3 +1,5 @@
+{-# LANGUAGE NumericUnderscores #-}
+
 module XMonad.Csillag.Consts where
 
 import XMonad hiding (config)
@@ -46,10 +48,10 @@ csillagPromptConfig =
         , historySize          = 0
         , historyFilter        = historyFilter def
         , promptKeymap         = vimLikeXPKeymap' id ("[N] "++) (filter isPrint) isSpace
-        , completionKey        = (0, xK_Tab)
+        , completionKey        = (controlMask, xK_n)
         , changeModeKey        = xK_F1
         , defaultText          = ""
-        , autoComplete         = Nothing
+        , autoComplete         = Just 400_000
         , showCompletionOnTab  = False
         , complCaseSensitivity = CaseInSensitive
         , searchPredicate      = fuzzyMatch
