@@ -12,12 +12,13 @@
 [global]
     monitor              = 0
 
-    font                 = "Lato Regular 11"
+    # font                 = "Lato Regular 11"
+    font                 = "FantasqueSansMono Nerd Font 14"
 
     allow_markup         = yes
     markup               = full
     # format               = "<u><b>%a %p</b></u>\n%s\n%b"
-    format               = "<u><b>%s</b></u>\n%b"
+    format               = "<u><b>%s</b></u> %p\n\n  %b"
     alignment            = left
     vertical_alignment   = center
     word_wrap            = yes
@@ -28,9 +29,9 @@
 
     # geometry             = "x5"
     # geometry             = "500x5-50+40"
-    geometry             = "500x5-710+40"
-    # corner_radius        = 5
-    corner_radius        = 1
+    geometry             = "600x5+20+40"
+    shrink               = true
+    corner_radius        = 10
 
     idle_threshold       = 120
     show_age_threshold   = 60
@@ -55,10 +56,10 @@
 
     browser              = chromium-browser
 
-    icon_path            = /usr/share/icons/Paper/512x512/actions/:/usr/share/icons/Paper/512x512/apps/:/usr/share/icons/Paper/512x512/categories/:/usr/share/icons/Paper/512x512/devices/:/usr/share/icons/Paper/512x512/emblems/:/usr/share/icons/Paper/512x512/emotes/:/usr/share/icons/Paper/512x512/mimetypes/:/usr/share/icons/Paper/512x512/panel/:/usr/share/icons/Paper/512x512/places/:/usr/share/icons/Paper/512x512/status/:/usr/share/icons/Paper/512x512/web
-    icon_position        = left
-    min_icon_size        = 50
-    max_icon_size        = 50
+    # icon_path            = /usr/share/icons/Paper/512x512/actions/:/usr/share/icons/Paper/512x512/apps/:/usr/share/icons/Paper/512x512/categories/:/usr/share/icons/Paper/512x512/devices/:/usr/share/icons/Paper/512x512/emblems/:/usr/share/icons/Paper/512x512/emotes/:/usr/share/icons/Paper/512x512/mimetypes/:/usr/share/icons/Paper/512x512/panel/:/usr/share/icons/Paper/512x512/places/:/usr/share/icons/Paper/512x512/status/:/usr/share/icons/Paper/512x512/web
+    icon_position        = off
+    # min_icon_size        = 50
+    # max_icon_size        = 50
 
     mouse_left = do_action
 
