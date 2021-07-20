@@ -27,7 +27,6 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.WindowSwallowing
 import XMonad.Util.NamedActions
 
 -- My Configs
@@ -80,7 +79,6 @@ myXMonadConfig = do
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
         , handleEventHook    = docksEventHook -- ???
                                <+> handleTimerEvent
-                               <+> swallowEventHook (className =? "qutebrowser") (className =? "mpv") -- Swallow mpv from qutebrowser
         , startupHook        = startup -- (on startup)
         , mouseBindings      = myMouseBindings
         }
