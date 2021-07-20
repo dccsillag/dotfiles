@@ -36,6 +36,8 @@ import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.Maximize
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.BoringWindows
 
 
 myKeys = flip mkNamedKeymap
@@ -56,14 +58,21 @@ myKeys = flip mkNamedKeymap
     , ("M-S-k",     addName "Move window up"            $ windowSwap U False)
     , ("M-S-l",     addName "Move window to the right"  $ windowSwap R False)
     -- Stack Keys
-    , ("M-m",       addName "Focus master window"           $ windows W.focusMaster)
+    , ("M-m",       addName "Focus master window"             focusMaster)
     , ("M-S-m",     addName "Swap with master window"       $ windows W.swapMaster)
-    , ("M-S-<Tab>", addName "Focus up on the stack"         $ windows W.focusUp)
-    , ("M-<Tab>",   addName "Focus down on the stack"       $ windows W.focusDown)
-    , ("M-,",       addName "Focus up on the stack"         $ windows W.focusUp)
-    , ("M-.",       addName "Focus down on the stack"       $ windows W.focusDown)
-    , ("M-S-,",     addName "Swap window up on the stack"   $ windows W.swapUp)
-    , ("M-S-.",     addName "Swap window down on the stack" $ windows W.swapDown)
+    , ("M-S-<Tab>", addName "Focus up on the stack"           focusUp)
+    , ("M-<Tab>",   addName "Focus down on the stack"         focusDown)
+    , ("M-,",       addName "Focus up on the stack"           focusUp)
+    , ("M-.",       addName "Focus down on the stack"         focusDown)
+    , ("M-S-,",     addName "Swap window up on the stack"     swapUp)
+    , ("M-S-.",     addName "Swap window down on the stack"   swapDown)
+    -- Sublayouts
+    , ("M-C-,",   addName "Focus up on the sublayout stack"     $ onGroup W.focusUp')
+    , ("M-C-.",   addName "Focus down on the sublayout stack"   $ onGroup W.focusDown')
+    , ("M-C-S-,", addName "Merge window above into a sublayout" $ withFocused $ sendMessage . mergeDir W.focusUp')
+    , ("M-C-S-.", addName "Merge window below into a sublayout" $ withFocused $ sendMessage . mergeDir W.focusDown')
+    , ("M-/",     addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMerge)
+    , ("M-S-/",   addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMergeAll)
     -- Spawn Stuff
     , ("M-n M-n",   addName "Open shell prompt"         $ shellPrompt csillagPromptConfig)
     , ("M-n M-t",   addName "Spawn a terminal"          $ spawn termSpawn)

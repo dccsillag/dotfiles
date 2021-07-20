@@ -59,7 +59,7 @@ myXMonadConfig = do
     return
         $ ewmh
         $ withNavigation2DConfig myNavigation2DConfig
-        $ addDescrKeys' ((mod4Mask .|. shiftMask, xK_slash), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys
+        $ addDescrKeys' ((mod4Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys
         $ def {
           terminal           = termSpawn
         , modMask            = mod4Mask -- Super key
