@@ -40,13 +40,12 @@ import XMonad.Layout.Maximize
 
 myKeys = flip mkNamedKeymap
     -- Core:
-    [ ("M-r M-r",   addName "Restart XMonad (with --fast)" $ restartXMonad False)
-    , ("M-r M-S-r", addName "Restart XMonad (optimized)"   $ restartXMonad True)
-    , ("M-S-9",     addName "Kill the compositor"          $ spawn compositorKill)
-    , ("M-S-0",     addName "Start the compositor"         $ spawn compositorSpawn)
-    , ("M-S-8",     addName "Restart the compositor"       $ spawn compositorRestart)
-    , ("M-;",       addName "XMonad command prompt"        $ xmonadPrompt csillagPromptConfig)
-    , ("M-<Space>", addName "Change keyboard"                changeKeyboard)
+    [ ("M-r",       addName "Restart XMonad"           $ spawn "restart-xmonad")
+    , ("M-S-9",     addName "Kill the compositor"      $ spawn compositorKill)
+    , ("M-S-0",     addName "Start the compositor"     $ spawn compositorSpawn)
+    , ("M-S-8",     addName "Restart the compositor"   $ spawn compositorRestart)
+    , ("M-;",       addName "XMonad command prompt"    $ xmonadPrompt csillagPromptConfig)
+    , ("M-<Space>", addName "Change keyboard"            changeKeyboard)
     -- Directional keys
     , ("M-h",       addName "Focus window to the left"  $ windowGo L False)
     , ("M-j",       addName "Focus window below"        $ windowGo D False)
@@ -181,11 +180,6 @@ myMouseBindings config = Map.fromList
     [ ((modMask config, button1), dragWindow)
     , ((modMask config, button3), \w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
     ]
-
-restartXMonad optimize = do
-    withWindowSet \ws -> io $ writeFile workspaceTempFile $ unlines $ W.tag <$> W.workspaces ws
-    unless optimize $ io $ writeFile "/tmp/.xmonad-nooptimize" "no optimize"
-    spawn "if xmonad --recompile; then xmonad --restart && notify-send -u low XMonad \"Restarted.\"; else notify-send -u critical XMonad \"Compilation failed.\"; fi"
 
 killCopy = let delete'' w = W.modify Nothing $ W.filter (/=w)
             in withWindowSet \ss ->

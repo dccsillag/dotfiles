@@ -4,14 +4,8 @@
 
 set -e
 
-EXTRA_ARGS=
-if [ -f /tmp/.xmonad-nooptimize ]
-then
-    EXTRA_ARGS=--fast
-fi
-
-stack build :my-xmonad --verbosity error $EXTRA_ARGS
-stack install :my-xmonad --local-bin-path bin/ --verbosity error $EXTRA_ARGS
+stack build :my-xmonad --verbosity error
+stack install :my-xmonad --local-bin-path bin/ --verbosity error
 mv bin/my-xmonad "$1"
 
 rm -f /tmp/.xmonad-nooptimize
