@@ -45,7 +45,6 @@ endif
 " Interface {{{
 Plug 'junegunn/fzf' " (fuzzy finder)
 Plug 'junegunn/fzf.vim' " ('official' fzf addons)
-" Plug 'Konfekt/FastFold' " (to accelerate folding with `expr`)
 Plug 'machakann/vim-highlightedyank' " (for briefly highlighting yanked regions)
 Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
 
@@ -551,7 +550,7 @@ endfunction
 set fillchars+=foldclose:▸,foldopen:▾,foldsep:│,fold:―,eob:\ ,vert:\│
 set foldtext=NeatFoldText() "}}}
 
-"" LSP setup
+"" LSP setup {{{
 
 lua << EOF
 local nvim_lsp = require 'lspconfig'
@@ -599,6 +598,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 EOF
+
+"}}}
 
 " }}}
 
