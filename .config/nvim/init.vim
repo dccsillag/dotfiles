@@ -73,6 +73,7 @@ let g:indent_blankline_buftype_exclude = ['terminal']
 
 "}}}
 Plug 'kshenoy/vim-signature' " (show marks in the sign column)
+Plug 'wsdjeg/notifications.vim' " (show notifications)
 Plug 'dstein64/vim-startuptime' " (profile startup time neatly)
 "}}}
 
@@ -557,7 +558,7 @@ local nvim_lsp = require 'lspconfig'
 
 -- Function to attach completion when setting up LSP
 local function on_attach(client)
-    print "Ready."
+    vim.cmd "Echo [LSP] Ready."
     require 'completion'.on_attach(client)
 end
 
