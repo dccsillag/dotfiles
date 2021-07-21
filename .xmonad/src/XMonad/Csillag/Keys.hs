@@ -14,7 +14,6 @@ import qualified Data.Map as Map
 import System.Directory (listDirectory)
 import Control.Monad
 import System.Exit
-import System.Process (runCommand)
 
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Consts
