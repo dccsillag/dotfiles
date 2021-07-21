@@ -52,11 +52,7 @@ let g:beacon_enable = 0
 let g:beacon_ignore_filetypes = ['fzf']
 
 "}}}
-Plug 'airblade/vim-gitgutter' " (show git diff in the gutter) {{{
-
-let g:gitgutter_map_keys = 0
-
-"}}}
+Plug 'lewis6991/gitsigns.nvim', {'branch': 'main'} " (show git diff in the signcolumn)
 Plug 'junegunn/limelight.vim' " (a spotlight for code, good for presenting bit-by-bit) {{{
 
 let g:limelight_conceal_ctermfg = 242
@@ -552,6 +548,29 @@ EOF
 
 "}}}
 
+lua << EOF
+require('gitsigns').setup {
+    keymaps = {
+        noremap = true,
+
+        ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" },
+        ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" },
+
+        ["n <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+        ["v <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+        ["n <leader>gu"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+        ["n <leader>gx"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+        ["v <leader>gx"] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+        -- ["n <leader>gX"] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+        ["n <leader>gd"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+        ["n <leader>gb"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+
+        ["o ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+        ["x ih"] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+    },
+}
+EOF
+
 " }}}
 
 " Autocommands {{{
@@ -606,17 +625,6 @@ augroup AutoCompile "{{{
     autocmd BufReadPre *.c,*.h,*.cpp,*.hpp compiler tap
 
     autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AsyncStop | sleep 100m | AsyncRun -program=make
-augroup END "}}}
-
-" Automatically set the b:git_dir and g:gitgutter_git_executable for dotfiles
-let s:dotfiles = split(system('config ls-tree --full-tree -r --name-only HEAD'), '\n') "{{{
-augroup dotfiles
-    autocmd!
-    for dotfile in s:dotfiles
-        execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let b:git_dir="' . getenv('HOME') . '/.dotfiles.git"'
-        execute 'autocmd BufReadPost ' . getenv('HOME') . '/' . dotfile . ' let g:gitgutter_git_executable="config"'
-    endfor
-    autocmd BufReadPre ~/.dotfiles.git/index let g:fugitive_git_executable = 'config'
 augroup END "}}}
 
 function! s:MarkdownIndent() abort "{{{
@@ -743,10 +751,6 @@ augroup FugitiveMappings
     autocmd FileType fugitive nnoremap <buffer> zp :G pull<CR>
     autocmd FileType fugitive nnoremap <buffer> zP :G push<CR>
 augroup END
-
-" Jump along git hunks
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
 
 " Runit
 nmap <Leader>r <Plug>(RunIt)
