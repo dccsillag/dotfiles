@@ -48,10 +48,6 @@ if ! zgen saved; then
         abbr -U erase $abbrev
     done
     # # Create
-    # # # Edit Configs
-    abbr -U vimrc='nvim ~/.config/nvim/init.vim'
-    abbr -U zshrc='nvim ~/.zshrc'
-    abbr -U bibs='nvim ~/library/bibs.bib'
     # # # System management
     abbr -U defopen='mimeopen -d'
     abbr -U fre='free -h'
@@ -201,20 +197,8 @@ function te() {
 }
 
 # Open vim-fugitive
-function vit() {
-    if [ $PWD = / ]
-    then
-        echo "Not a git repository"
-        return 1
-    fi
-    if [ -d .git/ ]
-    then
-        nvim .git/index
-    else
-        ( cd .. && vit )
-    fi
-}
-alias cit='nvim ~/.dotfiles.git/index'
+alias vit='nvim +Neogit'
+alias cit='GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vit'
 
 # Open gv
 alias giv='nvim +GV'
