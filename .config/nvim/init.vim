@@ -264,61 +264,11 @@ call plug#end()
 
 "}}}
 
-" If running in GVim {{{
-if has('gui_running') " If in GVim
-    " Hide the noob tools (GVim)
-    set guioptions-=m  " remove menubar
-    set guioptions-=T  " remove toolbar
-    set guioptions-=r  " remove right-hand scroll bar
-    set guioptions-=L  " remove left-hand scroll bar
-    " Set the font (it's still the default, but we need to set this in
-    "   order to be able to change the font size)
-    set guifont=Monospace\ 10
-    " Disable scrolling
-    map <ScrollWheelUp> <nop>
-    map <ScrollWheelDown> <nop>
-    map <S-ScrollWheelUp> <nop>
-    map <S-ScrollWheelDown> <nop>
-endif
+" Neovide options {{{
 
-" Add mappings for changing the font size
-" {{{
-" Gently taken/adapted from https://vim.fandom.com/wiki/Change_font_size_quickly
+let g:neovide_transparency = 0.75
+set guifont=FantasqueSansMono\ Nerd\ Font:12
 
-function! AdjustFontSize(amount) "{{{
-    let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
-    let s:minfontsize = 6
-    let s:maxfontsize = 16
-    if has("gui_gtk2") && has("gui_running")
-        let fontname = substitute(&guifont, s:pattern, '\1', '')
-        let cursize = substitute(&guifont, s:pattern, '\2', '')
-        let newsize = cursize + a:amount
-        if (newsize >= s:minfontsize) && (newsize <= s:maxfontsize)
-            let newfont = fontname . newsize
-            let &guifont = newfont
-        endif
-
-        redraw
-    else
-        echoerr "You need to run the GTK2 version of Vim to use this function."
-    endif
-endfunction "}}}
-
-function! LargerFont() "{{{
-    call AdjustFontSize(1)
-endfunction
-command! LargerFont call LargerFont() "}}}
-
-function! SmallerFont() "{{{
-    call AdjustFontSize(-1)
-endfunction
-command! SmallerFont call SmallerFont() "}}}
-
-nnoremap <LocalLeader>+ :LargerFont<CR>
-nnoremap <LocalLeader>- :SmallerFont<CR>
-
-" TODO: add default font? Then use <LocalLeader>0 to go back to it.
-"}}}
 "}}}
 
 " Lots of Vim options {{{
