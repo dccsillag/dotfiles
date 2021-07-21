@@ -14,6 +14,9 @@ import XMonad.Layout.Grid
 import XMonad.Layout.OneBig
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.StackTile
+import XMonad.Layout.Accordion
+import XMonad.Layout.Circle
+import XMonad.Layout.Cross
 
 import XMonad.Layout.Spacing (spacingRaw, Border(..))
 import XMonad.Layout.DraggingVisualizer
@@ -34,6 +37,10 @@ myLayouts = draggingVisualizer
             renamed [Replace "Dishes"]         (StackTile 2 (3/100) (5/6))           |||
             renamed [Replace "OneBig"]         (OneBig (6/7) (6/7))                  |||
             renamed [Replace "Dwindle"]        (Dwindle R CW 1 1.1)                  |||
-            renamed [Replace "Mirror Dwindle"] (Mirror $ Dwindle R CW 1 1.1)
+            renamed [Replace "Mirror Dwindle"] (Mirror $ Dwindle R CW 1 1.1)         |||
+            renamed [Replace "Spiral"]         (Spiral R CW 1 1.1)                   |||
+            renamed [Replace "Accordion"]      Accordion                             |||
+            renamed [Replace "Circle"]         Circle                                |||
+            renamed [Replace "Plus"]           simpleCross
     where
         spacing = spacingRaw True (Border 0 gapsize gapsize gapsize) True (Border gapsize gapsize gapsize gapsize) True

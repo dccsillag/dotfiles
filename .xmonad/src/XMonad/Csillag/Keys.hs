@@ -28,7 +28,6 @@ import XMonad.Util.NamedActions
 import XMonad.Prompt ( XPConfig, mkComplFunFromList' )
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
-import XMonad.Prompt.XMonad
 import XMonad.Prompt.Ssh
 import XMonad.Hooks.ManageDocks
 import XMonad.Actions.Navigation2D
@@ -127,6 +126,10 @@ myKeys = flip mkNamedKeymap
     , ("M-c M-l M-o",   addName "Set layout to 'OneBig'"         $ sendMessage $ JumpToLayout "OneBig")
     , ("M-c M-l M-S-d", addName "Set layout to 'Dwindle'"        $ sendMessage $ JumpToLayout "Dwindle")
     , ("M-c M-l M-m",   addName "Set layout to 'Mirror Dwindle'" $ sendMessage $ JumpToLayout "Mirror Dwindle")
+    , ("M-c M-l M-s",   addName "Set layout to 'Spiral'"         $ sendMessage $ JumpToLayout "Spiral")
+    , ("M-c M-l M-a",   addName "Set layout to 'Accordion'"      $ sendMessage $ JumpToLayout "Accordion")
+    , ("M-c M-l M-c",   addName "Set layout to 'Circle'"         $ sendMessage $ JumpToLayout "Circle")
+    , ("M-c M-l M-p",   addName "Set layout to 'Plus'"           $ sendMessage $ JumpToLayout "Plus")
     -- Layout Messages
     , ("M-[",          addName "Shrink master area"               $ sendMessage Shrink)
     , ("M-]",          addName "Expand master area"               $ sendMessage Expand)
@@ -222,6 +225,10 @@ changeLayoutGridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
     , "OneBig"
     , "Dwindle"
     , "Mirror Dwindle"
+    , "Spiral"
+    , "Accordion"
+    , "Circle"
+    , "Plus"
     ]) >>= flip whenJust (sendMessage . JumpToLayout)
 
 mvpn :: String -> X ()
