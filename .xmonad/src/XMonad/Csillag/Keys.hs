@@ -49,7 +49,6 @@ myKeys = flip mkNamedKeymap
     , ("M-S-9",     addName "Kill the compositor"      $ spawn compositorKill)
     , ("M-S-0",     addName "Start the compositor"     $ spawn compositorSpawn)
     , ("M-S-8",     addName "Restart the compositor"   $ spawn compositorRestart)
-    , ("M-;",       addName "XMonad command prompt"    $ xmonadPrompt csillagPromptConfig)
     , ("M-<Space>", addName "Change keyboard"            changeKeyboard)
     -- Directional keys
     , ("M-h",       addName "Focus window to the left"  $ windowGo L False)
