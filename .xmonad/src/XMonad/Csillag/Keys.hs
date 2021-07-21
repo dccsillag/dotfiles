@@ -7,11 +7,14 @@ module XMonad.Csillag.Keys
 where
 
 import Data.List (isPrefixOf, stripPrefix)
+import Data.Char (isDigit)
+import Control.Concurrent
 import Data.Maybe (catMaybes)
 import qualified Data.Map as Map
 import System.Directory (listDirectory)
 import Control.Monad
 import System.Exit
+import System.Process (runCommand)
 
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Consts
@@ -38,6 +41,7 @@ import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.Maximize
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.BoringWindows
+import XMonad.Util.Run
 
 
 myKeys = flip mkNamedKeymap
@@ -170,18 +174,23 @@ myKeys = flip mkNamedKeymap
     , ("M-q M-l",     addName "Lock"                     $ spawn "lock")
     , ("M-q M-d M-[", addName "Enable 'do not disturb'"  $ spawn "notify-send \"DUNST_COMMAND_PAUSE\" && touch /home/daniel/.dunst_paused")
     , ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "notify-send \"DUNST_COMMAND_RESUME\" && rm -f /home/daniel/.dunst_paused")
-    , ("M-q M-a",     addName "Fix audio"                $ spawn "fix-audio" >> spawnOSD "A")
+    , ("M-q M-a",     addName "Fix audio"                $ spawn "fix-audio" >> notify "Spawn: fix-audio")
     , ("M-q M-=",     addName "Toggle Statusbar"         $ spawn "toggle_statusbar")
     , ("M-q M-k",     addName "Toggle Screenkey"         $ spawn ".local/scripts/screenkey_toggle.sh")
     , ("M-q M-v M-u", addName "Enable VPN"               $ mvpn "up")
     , ("M-q M-v M-d", addName "Disable VPN"              $ mvpn "down")
     -- Function Keys
-    , ("M-<Right>",                  addName "Raise brightness"  $ spawn "lux -a 5%" >> spawnOSD brightnessUpIcon)
-    , ("M-<Left>",                addName "Lower brightness"  $ spawn "lux -s 5%" >> spawnOSD brightnessDownIcon)
-    , ("M-<Up>",  addName "Raise volume"      $ spawnOSD volumeUpIcon   >> spawn "pactl set-sink-volume @DEFAULT_SINK@ +2%"  >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
-    , ("M-<Down>",  addName "Lower volume"      $ spawnOSD volumeDownIcon >> spawn "pactl set-sink-volume @DEFAULT_SINK@ -2%"  >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
-    , ("M-*",         addName "Toggle mute"       $ spawnOSD volumeMuteIcon >> spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle" >> spawn ("sleep 0.1; paplay " ++ volumeChangeSound))
-    , ("M-C-v",                   addName "Play test sound"   $ spawnOSD volumePlayIcon >> spawn ("paplay " ++ volumeChangeSound))
+    , ("M-<Right>",               addName "Raise brightness"  $ spawn "lux -a 5%" >>
+                                                                spawnOSD "Brightness" (asciibar . getNumber <$> cmdout "lux" ["-G"]))
+    , ("M-<Left>",                addName "Lower brightness"  $ spawn "lux -s 5%" >>
+                                                                spawnOSD "Brightness" (asciibar . getNumber <$> cmdout "lux" ["-G"]))
+    , ("M-<Up>",                  addName "Raise volume"      $ spawn ("pamixer -i 2; paplay " ++ volumeChangeSound) >>
+                                                                spawnOSD "Volume" (asciibar . getNumber <$> cmdout "pamixer" ["--get-volume"]))
+    , ("M-<Down>",                addName "Lower volume"      $ spawn ("pamixer -d 2; paplay " ++ volumeChangeSound) >>
+                                                                spawnOSD "Volume" (asciibar . getNumber <$> cmdout "pamixer" ["--get-volume"]))
+    , ("M-*",                     addName "Toggle mute"       $ spawn ("pamixer -t; paplay " ++ volumeChangeSound) >>
+                                                                spawnOSD "Volume" ((\case "true\n" -> "Muted."; "false\n" -> "Unmuted."; _ -> "?") <$> cmdout "pamixer" ["--get-mute"]))
+    , ("M-C-v",                   addName "Play test sound"   $ spawnOSD "Sound" (pure "Played test sound.") >> spawn ("paplay " ++ volumeChangeSound))
     , ("M-\\",                    addName "Toggle play/pause" $ spawn "mcm toggle")
     , ("M-S-\\",                  addName "Go to next track"  $ spawn "mcm next")
     ]
@@ -252,8 +261,29 @@ myGridSelectWorkspace config func = withWindowSet \ws -> do
         circshift []       = []
         circshift (x : xs) = xs ++ [x]
 
-spawnOSD :: String -> X ()
-spawnOSD icon = spawn $ "show-osd '" ++ icon ++ "'"
+notify :: String -> X ()
+notify msg = spawn $ "dunstify -a xmonad XMonad '" ++ msg ++ "'"
+
+spawnOSD :: String -> X String -> X ()
+spawnOSD what extra = do
+    io $ threadDelay $ seconds 0.05 -- FIXME: run this in another thread
+    extra' <- extra
+    spawn $ "dunstify -a xmonad-osd -r 2166983 -- '" ++ what ++ "' '" ++ extra' ++ "'"
+
+getNumber :: String -> Double
+getNumber = read . takeWhile isDigit
+
+asciibar :: Double -> String
+asciibar x = p ++ "% [" ++ replicate k '#' ++ replicate (n-k) ' ' ++ "]"
+    where n = 20
+          k = floor $ fromIntegral n*x/100
+          p = case show (floor x :: Int) of
+                s@[_]   -> ' ':' ':s
+                s@[_,_] -> ' ':s
+                s       -> s
+
+cmdout :: MonadIO m => String -> [String] -> m String
+cmdout c argv = runProcessWithInput c argv ""
 
 launcherPrompt :: XPConfig -> X ()
 launcherPrompt c = do
