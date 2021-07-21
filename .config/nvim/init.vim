@@ -110,7 +110,8 @@ call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
 call s:PlugOwn('notebook.nvim') " (Jupyter client)
-Plug 'tpope/vim-fugitive' " (use git from vim)
+" Plug 'tpope/vim-fugitive' " (use git from vim)
+Plug 'TimUntersberger/neogit' " (use git from neovim)
 Plug 'junegunn/gv.vim' " (git commit browser)
 Plug 'jpalardy/vim-slime' " (multi-language slime for vim) {{{
 
@@ -571,6 +572,13 @@ require('gitsigns').setup {
 }
 EOF
 
+lua << EOF
+-- TODO: customize more to my liking
+require('neogit').setup {
+    disable_commit_confirmation = true
+}
+EOF
+
 " }}}
 
 " Autocommands {{{
@@ -743,14 +751,8 @@ nnoremap <Leader>p :call <SID>OpenCorrespondingPDF()<CR>
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
 
-" Fugitive
-nnoremap <Leader>G :G<CR>
-nnoremap <Leader>gp :G pull<CR>
-augroup FugitiveMappings
-    autocmd!
-    autocmd FileType fugitive nnoremap <buffer> zp :G pull<CR>
-    autocmd FileType fugitive nnoremap <buffer> zP :G push<CR>
-augroup END
+" Neogit
+nnoremap <Leader>G :Neogit<CR>
 
 " Runit
 nmap <Leader>r <Plug>(RunIt)
