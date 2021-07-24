@@ -63,7 +63,7 @@ myXMonadConfig = do
         $ def {
           terminal           = termSpawn
         , modMask            = mod4Mask -- Super key
-        , focusFollowsMouse  = False
+        , focusFollowsMouse  = True
         , normalBorderColor  = "#555555" -- "#cccccc"
         , focusedBorderColor = "#FFFFFF"
         , borderWidth        = 1
