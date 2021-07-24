@@ -573,9 +573,15 @@ require('gitsigns').setup {
 EOF
 
 lua << EOF
--- TODO: customize more to my liking
 require('neogit').setup {
-    disable_commit_confirmation = true
+    disable_commit_confirmation = true,
+    disable_context_highlighting = true,
+    disable_signs = false,
+    signs = {
+        section = {"▹", "▿"},
+        item    = {"▸", "▾"},
+        hunk    = {"…", " "},
+    },
 }
 EOF
 
