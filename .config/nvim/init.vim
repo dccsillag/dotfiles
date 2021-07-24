@@ -113,13 +113,13 @@ call s:PlugOwn('notebook.nvim') " (Jupyter client)
 " Plug 'tpope/vim-fugitive' " (use git from vim)
 Plug 'TimUntersberger/neogit' " (use git from neovim)
 Plug 'junegunn/gv.vim' " (git commit browser)
-Plug 'jpalardy/vim-slime' " (multi-language slime for vim) {{{
+Plug 'jpalardy/vim-slime', { 'branch': 'main' } " (multi-language slime for vim) {{{
 
 let g:slime_target = "neovim"
 let g:slime_no_mappings = 1
 
 "}}}
-Plug 'npxbr/glow.nvim', { 'do': ':GlowInstall', 'branch': 'master' }
+Plug 'npxbr/glow.nvim', { 'do': ':GlowInstall', 'branch': 'main' }
 "}}}
 
 " LSP {{{
