@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,modernize-*,openmp-*,performance-*,readability-*,-modernize-use-auto,-modernize-use-trailing-return-type,-readability-braces-around-statements'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,modernize-*,openmp-*,performance-*,readability-*,-modernize-use-auto,-modernize-use-trailing-return-type,-readability-braces-around-statements,-readability-magic-numbers,-cppcoreguidelines-avoid-magic-numbers'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
