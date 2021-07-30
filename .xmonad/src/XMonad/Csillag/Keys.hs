@@ -170,6 +170,7 @@ myKeys = flip mkNamedKeymap
     -- System
     , ("M-q M-S-q",   addName "Quit XMonad"              $ io exitSuccess)
     , ("M-q M-S-s",   addName "Suspend"                  $ spawn "systemctl suspend")
+    , ("M-q M-S-h",   addName "Hibernate"                $ spawn "systemctl hibernate")
     , ("M-q M-b",     addName "Blank the screen"         $ spawn "sleep 0.5; xset dpms force off")
     , ("M-q M-l",     addName "Lock"                     $ spawn "lock")
     , ("M-q M-d M-[", addName "Enable 'do not disturb'"  $ spawn "notify-send \"DUNST_COMMAND_PAUSE\" && touch /home/daniel/.dunst_paused")
