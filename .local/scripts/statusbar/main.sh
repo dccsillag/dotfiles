@@ -41,9 +41,9 @@ bar_left() {
     block_sep
 
     # Swap
-    swaps=$(free -k | grep '^Swap:')
-    total_swap=$(echo "$swaps" | awk '{print $2}' )
-    used_swap=$(echo "$swaps" | awk '{print $3}' )
+    swaps=$(swapon --show --bytes --raw | grep '^/swapfile\>')
+    total_swap=$(echo "$swaps" | cut -d' ' -f3)
+    used_swap=$(echo "$swaps" | cut -d' ' -f4)
     swap_usage=$((100*used_swap / total_swap))
     append "易 "
     test "$swap_usage" -gt 80 && append "^fg(tomato)"
