@@ -15,6 +15,9 @@ set_background() {
         && file="$(find ~/static/backgrounds -type f | shuf -n 1)" \
         || file="$(echo "$1" | shuf -n 1)"
     feh --no-fehbg --bg-scale "$file"
+    dunstify -a background-setter -u low -r 7971362 'Background Setter' 'Regenerating betterlockscreen cache...'
+    betterlockscreen -u "$file"
+    dunstify -a background-setter -u normal -r 7971362 'Background Setter' 'Done!'
 }
 DOWNTIME=2h
 
