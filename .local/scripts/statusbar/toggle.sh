@@ -4,5 +4,5 @@ if pgrep dzen
 then
     pkill dzen
 else
-    ~/.local/scripts/statusbar/main.sh
+    ~/.local/scripts/statusbar/main.py
 fi
