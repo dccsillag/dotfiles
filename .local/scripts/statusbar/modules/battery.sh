@@ -3,12 +3,12 @@
 while sleep 1
 do
     battname="$(upower -e | grep BAT | head -1)"
-    battpercent=$(upower -i "$battname" | grep percentage | sed 's/^.\+ \([0-9]\+\)%$/\1/')
-    battstatus=$(upower -i "$battname" | grep state | sed 's/^.\+ \([-a-z]\+\)$/\1/')
-    if [ "$battstatus" = fully-charged ]
+    battpercent=$(battery charge)
+    battstatus=$(battery status)
+    if [ "$battstatus" = Fully Charged ]
     then
         icon=""
-    elif [ "$battstatus" = discharging ]
+    elif [ "$battstatus" = Discharging ]
     then
         test "$battpercent" -eq 100 && icon=""
         test "$battpercent" -lt 100 && icon=""
@@ -21,7 +21,7 @@ do
         test "$battpercent" -le  30 && icon=""
         test "$battpercent" -le  20 && icon=""
         test "$battpercent" -le  10 && icon=""
-    elif [ "$battstatus" = charging ]
+    elif [ "$battstatus" = Charging ]
     then
         icon="ﮣ"
     else

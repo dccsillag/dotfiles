@@ -10,7 +10,7 @@ rm -f "$LOWBATPATH"
 
 while true
 do
-    battery=$(upower -i "$(upower -e | grep BAT)" | grep percentage | sed 's/^.\+ \([0-9]\+\)%$/\1/')
+    battery=$(battery charge)
 
     for LOW_BATTERY in $LOW_BATTERIES
     do
