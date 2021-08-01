@@ -2,7 +2,8 @@
 
 while sleep 1
 do
-    mcm get active && {
+    if mcm get active
+    then
         queuetext="$(mcm get queuepos)/$(mcm get ninqueue)"
         # ninqueue="$(printf "%2d" "$ninqueue")"
         case $(mcm get status) in
@@ -11,5 +12,7 @@ do
             waiting) echo  "..$queuetext  "; ;;
             empty) ;;
         esac
-    }
+    else
+        echo "^fg()"
+    fi
 done
