@@ -2,7 +2,6 @@
 
 module XMonad.Csillag.Keys
   ( myKeys
-  , myMouseBindings
   )
 where
 
@@ -10,7 +9,6 @@ import Data.List (isPrefixOf, stripPrefix)
 import Data.Char (isDigit)
 import Control.Concurrent
 import Data.Maybe (catMaybes)
-import qualified Data.Map as Map
 import System.Directory (listDirectory)
 import Control.Monad
 import System.Exit
@@ -35,10 +33,8 @@ import XMonad.Actions.CopyWindow
 import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.GridSelect
 import XMonad.Util.NamedScratchpad
-import XMonad.Actions.TiledWindowDragging
+import XMonad.Layout.LayoutCombinators (JumpToLayout(..))
 import XMonad.Layout.Maximize
-import XMonad.Layout.SubLayouts
-import XMonad.Layout.BoringWindows
 import XMonad.Util.Run
 
 
@@ -59,21 +55,14 @@ myKeys = flip mkNamedKeymap
     , ("M-S-k",     addName "Move window up"            $ windowSwap U False)
     , ("M-S-l",     addName "Move window to the right"  $ windowSwap R False)
     -- Stack Keys
-    , ("M-m",       addName "Focus master window"             focusMaster)
+    , ("M-m",       addName "Focus master window"           $ windows W.focusMaster)
     , ("M-S-m",     addName "Swap with master window"       $ windows W.swapMaster)
-    , ("M-S-<Tab>", addName "Focus up on the stack"           focusUp)
-    , ("M-<Tab>",   addName "Focus down on the stack"         focusDown)
-    , ("M-,",       addName "Focus up on the stack"           focusUp)
-    , ("M-.",       addName "Focus down on the stack"         focusDown)
-    , ("M-S-,",     addName "Swap window up on the stack"     swapUp)
-    , ("M-S-.",     addName "Swap window down on the stack"   swapDown)
-    -- Sublayouts
-    , ("M-C-,",   addName "Focus up on the sublayout stack"     $ onGroup W.focusUp')
-    , ("M-C-.",   addName "Focus down on the sublayout stack"   $ onGroup W.focusDown')
-    , ("M-C-S-,", addName "Merge window above into a sublayout" $ withFocused $ sendMessage . mergeDir W.focusUp')
-    , ("M-C-S-.", addName "Merge window below into a sublayout" $ withFocused $ sendMessage . mergeDir W.focusDown')
-    , ("M-/",     addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMerge)
-    , ("M-S-/",   addName "Unmerge this sublayout" $ withFocused $ sendMessage . UnMergeAll)
+    , ("M-S-<Tab>", addName "Focus up on the stack"         $ windows W.focusUp)
+    , ("M-<Tab>",   addName "Focus down on the stack"       $ windows W.focusDown)
+    , ("M-,",       addName "Focus up on the stack"         $ windows W.focusUp)
+    , ("M-.",       addName "Focus down on the stack"       $ windows W.focusDown)
+    , ("M-S-,",     addName "Swap window up on the stack"   $ windows W.swapUp)
+    , ("M-S-.",     addName "Swap window down on the stack" $ windows W.swapDown)
     -- Spawn Stuff
     , ("M-n M-n",   addName "Open shell prompt"          $ launcherPrompt csillagPromptConfig)
     , ("M-n M-t",   addName "Spawn a terminal"           $ spawn termSpawn)
@@ -196,11 +185,6 @@ myKeys = flip mkNamedKeymap
     , ("M-S-\\",                  addName "Go to next track"  $ spawn "mcm next")
     ]
 
-myMouseBindings config = Map.fromList
-    [ ((modMask config, button1), dragWindow)
-    , ((modMask config, button3), \w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
-    ]
-
 killCopy = let delete'' w = W.modify Nothing $ W.filter (/=w)
             in withWindowSet \ss ->
                 whenJust (W.peek ss) \w ->
@@ -295,7 +279,7 @@ launcherPrompt c = do
     ps' <- io $ forM ps \p -> fmap (p,) <$> getDesktopFileName p
     let ps'' = catMaybes ps'
     maybe (return ()) (launchProgram ps'')
-      =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' c $ snd <$> ps'')
+      =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' $ snd <$> ps'')
     where
         applicationsDirectory = "/usr/share/applications"
 

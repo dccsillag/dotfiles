@@ -41,10 +41,6 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
-- git: https://github.com/xmonad/xmonad.git
-  commit: af354f7528ada1de451365a0f5138ef10a318360
-- git: https://github.com/xmonad/xmonad-contrib.git
-  commit: 8a0a84f1d5cea8b1cc1d5a19932b0eca667cb436
 - X11-1.10@sha256:ed01fba28081d6922462c2727a9a2e71f8ec3d962ed18963eee0c770558817d9,3703
 - xmobar-0.37
 - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689

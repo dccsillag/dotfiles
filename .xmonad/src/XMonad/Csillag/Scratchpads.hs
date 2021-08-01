@@ -54,7 +54,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = termRun' "email" "meli"
+       , cmd   = termRun' "email" "aerc"
        , query = className =? "email"
        , hook  = floatingScratchpad
        }

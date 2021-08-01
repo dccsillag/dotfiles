@@ -80,7 +80,7 @@ myXMonadConfig = do
         , handleEventHook    = docksEventHook -- ???
                                <+> handleTimerEvent
         , startupHook        = startup -- (on startup)
-        , mouseBindings      = myMouseBindings
+        , mouseBindings      = mouseBindings def
         }
 
 

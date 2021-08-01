@@ -5,28 +5,6 @@
 
 packages:
 - completed:
-    name: xmonad
-    version: 0.16.9999
-    git: https://github.com/xmonad/xmonad.git
-    pantry-tree:
-      size: 3481
-      sha256: c6af3c229e789e51ce8b8ba8a60c94b6e789fb88e809b4387c96e95d6a66009c
-    commit: af354f7528ada1de451365a0f5138ef10a318360
-  original:
-    git: https://github.com/xmonad/xmonad.git
-    commit: af354f7528ada1de451365a0f5138ef10a318360
-- completed:
-    name: xmonad-contrib
-    version: 0.16.999
-    git: https://github.com/xmonad/xmonad-contrib.git
-    pantry-tree:
-      size: 22719
-      sha256: b16551d15dc080a7bf33c851d297ccabe251e321b4e5543c3bbe15418211166c
-    commit: 8a0a84f1d5cea8b1cc1d5a19932b0eca667cb436
-  original:
-    git: https://github.com/xmonad/xmonad-contrib.git
-    commit: 8a0a84f1d5cea8b1cc1d5a19932b0eca667cb436
-- completed:
     hackage: X11-1.10@sha256:ed01fba28081d6922462c2727a9a2e71f8ec3d962ed18963eee0c770558817d9,3703
     pantry-tree:
       size: 2860
