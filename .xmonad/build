@@ -4,8 +4,16 @@
 
 set -e
 
-stack build :my-xmonad --verbosity error
-stack install :my-xmonad --local-bin-path bin/ --verbosity error
-mv bin/my-xmonad "$1"
+if which stack 2> /dev/null
+then
+    stack build :my-xmonad --verbosity error
+    stack install :my-xmonad --local-bin-path bin/ --verbosity error
+    mv bin/my-xmonad "$1"
+else
+    cabal build
+    mkdir -p bin
+    cabal install --installdir=bin --install-method=copy --overwrite-policy=always
+    mv bin/my-xmonad "$1"
+fi
 
 rm -f /tmp/.xmonad-nooptimize
