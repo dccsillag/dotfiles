@@ -6,7 +6,7 @@ module XMonad.Csillag.Keys
 where
 
 import Data.List (isPrefixOf, stripPrefix)
-import Data.Char (isDigit)
+import Data.Char (isDigit, toLower)
 import Control.Concurrent
 import Data.Maybe (catMaybes)
 import System.Directory (listDirectory)
@@ -287,7 +287,7 @@ launcherPrompt c = do
         getDesktopFileName p = do
             ls <- lines <$> readFile (applicationsDirectory++"/"++p)
             return $ case filter ("Name=" `isPrefixOf`) ls of
-                l:_ -> stripPrefix "Name=" l
+                l:_ -> map toLower <$> stripPrefix "Name=" l
                 [] -> Nothing
 
         launchProgram :: [(String, String)] -> String -> X ()
