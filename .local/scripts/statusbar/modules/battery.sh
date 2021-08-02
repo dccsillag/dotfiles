@@ -5,7 +5,7 @@ do
     battname="$(upower -e | grep BAT | head -1)"
     battpercent=$(battery charge)
     battstatus=$(battery status)
-    if [ "$battstatus" = Fully Charged ]
+    if [ "$battstatus" = Full ]
     then
         icon=""
     elif [ "$battstatus" = Discharging ]
