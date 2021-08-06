@@ -31,7 +31,7 @@ highlight lCursor           ctermfg=NONE      ctermbg=NONE       cterm=reverse  
 highlight CursorIM          ctermfg=NONE      ctermbg=NONE       cterm=reverse            guifg=NONE      guibg=NONE       gui=reverse
 highlight CursorColumn      ctermfg=white     ctermbg=darkgray   cterm=NONE               guifg=NONE      guibg=#555555    gui=NONE
 highlight CursorLine        ctermfg=white     ctermbg=darkgray   cterm=NONE               guifg=NONE      guibg=#555555    gui=NONE
-highlight DiffChange        ctermfg=black     ctermbg=yellow     cterm=NONE               guifg=#0000FF   guibg=NONE       gui=NONE
+highlight DiffChange        ctermfg=black     ctermbg=yellow     cterm=NONE               guifg=#FFFF00   guibg=NONE       gui=NONE
 highlight DiffText          ctermfg=NONE      ctermbg=NONE       cterm=NONE               guifg=NONE      guibg=NONE       gui=NONE
 highlight DiffAdd           ctermfg=black     ctermbg=green      cterm=NONE               guifg=#00FF00   guibg=NONE       gui=NONE
 highlight DiffDelete        ctermfg=white     ctermbg=red        cterm=NONE               guifg=#FF0000   guibg=NONE       gui=NONE
