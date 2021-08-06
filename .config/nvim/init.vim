@@ -105,8 +105,7 @@ call s:PlugOwn('debug.vim') " (for debugging)
 call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer with ease)
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
 call s:PlugOwn('notebook.nvim') " (Jupyter client)
-" Plug 'tpope/vim-fugitive' " (use git from vim)
-Plug 'TimUntersberger/neogit' " (use git from neovim)
+Plug 'tpope/vim-fugitive' " (use git from vim)
 Plug 'junegunn/gv.vim' " (git commit browser)
 Plug 'jpalardy/vim-slime', { 'branch': 'main' } " (multi-language slime for vim) {{{
 
@@ -567,14 +566,6 @@ require('gitsigns').setup {
 EOF
 
 lua << EOF
-require('neogit').setup {
-    disable_commit_confirmation = true,
-    disable_context_highlighting = true,
-    disable_signs = false,
-    signs = {
-        section = {"▹", "▿"},
-        item    = {"▸", "▾"},
-        hunk    = {"…", " "},
 specs = require 'specs'
 specs.setup {
     show_jumps = true,
@@ -767,8 +758,8 @@ nnoremap <Leader>p :call <SID>OpenCorrespondingPDF()<CR>
 " Run shellcheck on the current file
 nnoremap <Leader>cs :ShellCheck!<CR>
 
-" Neogit
-nnoremap <Leader>G :Neogit<CR>
+" Fugitive
+nnoremap <Leader>G :G<CR>
 
 " Runit
 nmap <Leader>r <Plug>(RunIt)
