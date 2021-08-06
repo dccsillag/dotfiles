@@ -129,6 +129,7 @@ Plug 'nvim-lua/completion-nvim'
 Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
 Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables highlighting)
 Plug 'arcticicestudio/nord-vim' " (Nord colorscheme)
+Plug 'arzg/vim-substrata' " (a cold, dark colorscheme for Vim)
 "}}}
 
 " Editing Help {{{
