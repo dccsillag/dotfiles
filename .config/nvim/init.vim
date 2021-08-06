@@ -117,11 +117,12 @@ let g:slime_no_mappings = 1
 Plug 'npxbr/glow.nvim', { 'do': ':GlowInstall', 'branch': 'main' }
 "}}}
 
-" LSP {{{
+" LSP / TreeSitter {{{
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
 " }}}
 
@@ -541,6 +542,33 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 EOF
+
+"}}}
+
+"" Treesitter setup {{{
+
+lua << EOF
+require 'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "g.",
+            node_decremental = ",",
+            node_incremental = ".",
+            -- scope_incremental = ">",
+        }
+    },
+    indent = {
+        enable = false, -- currently, this is broken.
+    },
+}
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 
 "}}}
 
