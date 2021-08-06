@@ -11,8 +11,7 @@ clear mod5
 keycode 37 = Hyper_L
 ! Caps -> Ctrl
 keycode 66 = Control_L
-! Tab -> Alt_L
-! keycode 23 = Alt_L
+! Tab -> Super_R
 keycode 23 = Super_R
 ! Alt_R -> Compose
 keycode 108 = Multi_key
