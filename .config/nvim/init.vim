@@ -307,6 +307,10 @@ set foldcolumn=auto:5 " automatically manage foldcolumn width (NeoVim only)
 "" Show the signcolumn
 set signcolumn=auto:3 " automatically resize signcolumn to show at most 3 signs
 
+"" Setup folding
+set foldminlines=10 " require at least 10 lines of content to create a fold
+set foldnestmax=5   " set maximum amount of fold nesting
+
 "" Use 4 spaces instead of tabs
 set expandtab     " expand tabs
 set shiftwidth=4  " how many spaces to use for >> and <<
