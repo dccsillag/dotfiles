@@ -304,6 +304,9 @@ set ignorecase smartcase " if everything is lowercase, case insensitive.
 " set foldcolumn=1 " have only one column in the fold column
 set foldcolumn=auto:5 " automatically manage foldcolumn width (NeoVim only)
 
+"" Show the signcolumn
+set signcolumn=auto:3 " automatically resize signcolumn to show at most 3 signs
+
 "" Use 4 spaces instead of tabs
 set expandtab     " expand tabs
 set shiftwidth=4  " how many spaces to use for >> and <<
