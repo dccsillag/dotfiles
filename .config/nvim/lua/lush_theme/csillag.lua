@@ -234,6 +234,8 @@ local theme = lush(function()
 
     SignatureMarkText { fg = "#f2b409", gui = "bold" }, -- Color to use for marker signs (signature.vim)
 
+    IndentBlanklineChar { fg = "#666666" }, -- Color to use for indent guides (indent-blankline.nvim)
+
   }
 end)
 
