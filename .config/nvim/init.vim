@@ -46,12 +46,7 @@ endif
 Plug 'junegunn/fzf' " (fuzzy finder)
 Plug 'junegunn/fzf.vim' " ('official' fzf addons)
 Plug 'machakann/vim-highlightedyank' " (for briefly highlighting yanked regions)
-Plug 'danilamihailov/beacon.nvim' " (show large cursor jumps) {{{
-
-let g:beacon_enable = 0
-let g:beacon_ignore_filetypes = ['fzf']
-
-"}}}
+Plug 'edluffy/specs.nvim', { 'branch': 'main' }
 Plug 'lewis6991/gitsigns.nvim', {'branch': 'main'} " (show git diff in the signcolumn)
 Plug 'junegunn/limelight.vim' " (a spotlight for code, good for presenting bit-by-bit) {{{
 
@@ -434,10 +429,10 @@ nnoremap Q <nop>
 tnoremap <C-w>n <C-\><C-N>
 
 "" Add Beacon to search jump commands
-nnoremap <silent> n n:Beacon<CR>
-nnoremap <silent> N N:Beacon<CR>
-nnoremap <silent> * *:Beacon<CR>
-nnoremap <silent> # #:Beacon<CR>
+nnoremap <silent> n n:lua specs.show_specs()<CR>
+nnoremap <silent> N N:lua specs.show_specs()<CR>
+nnoremap <silent> * *:lua specs.show_specs()<CR>
+nnoremap <silent> # #:lua specs.show_specs()<CR>
 
 "" Change S to behave like X
 nmap <silent> S "_Xi<CR><Esc>l
@@ -580,6 +575,22 @@ require('neogit').setup {
         section = {"▹", "▿"},
         item    = {"▸", "▾"},
         hunk    = {"…", " "},
+specs = require 'specs'
+specs.setup {
+    show_jumps = true,
+    min_jump = 2,
+    popup = {
+        delay_ms = 0,
+        inc_ms = 8,
+        blend = 60,
+        width = 25,
+        winhl = "Specs",
+        fader = specs.empty_fader,
+        resizer = specs.shrink_resizer,
+    },
+    ignore_filetypes = {},
+    ignore_buftypes = {
+        nofile = true
     },
 }
 EOF
@@ -773,7 +784,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 "" Beacon
-nnoremap <Leader>; :Beacon<CR>
+nnoremap <silent> <Leader>; <cmd>lua specs.show_specs()<CR>
 
 "" :nohl
 nnoremap <Leader>. :nohl<CR>
