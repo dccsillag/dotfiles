@@ -914,8 +914,8 @@ call lexima#add_rule({ 'filetype': 'scheme',  'char': "<BS>", 'at': "'\\%#", })
 inoremap <C-l> <C-o>f<C-k><C-l><C-l><Del>
 
 " Slime
-xmap <Return> <Plug>SlimeRegionSend
-nmap <Return><Return> <Plug>SlimeParagraphSend
+" xmap <Return> <Plug>SlimeRegionSend
+" nmap <Return><Return> <Plug>SlimeParagraphSend
 
 function! StartREPL(repl)
     " Adapted from https://www.reddit.com/r/neovim/comments/jhsto2/how_to_make_vimslime_work_with_the_neovim_terminal/
