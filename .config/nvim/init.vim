@@ -106,6 +106,7 @@ call s:PlugOwn('vim-runit') " (for playing around with the code in your buffer w
 Plug 'itspriddle/vim-shellcheck' " (for running shellcheck from Vim, without using ALE)
 call s:PlugOwn('notebook.nvim') " (Jupyter client)
 Plug 'tpope/vim-fugitive' " (use git from vim)
+Plug 'christoomey/vim-conflicted' " (easily solve git merge conflicts)
 Plug 'junegunn/gv.vim' " (git commit browser)
 Plug 'jpalardy/vim-slime', { 'branch': 'main' } " (multi-language slime for vim) {{{
 
@@ -760,6 +761,18 @@ nnoremap <Leader>cs :ShellCheck!<CR>
 
 " Fugitive
 nnoremap <Leader>G :G<CR>
+
+" Conflicted
+function! g:What() abort
+    let l:conflicted_version = ConflictedVersion()
+    if strlen(l:conflicted_version) == 0
+        return bufname()
+    else
+        return "[Conflicted] " .. l:conflicted_version
+    endif
+endfunction
+command! What echo What()
+nnoremap <Leader>w :What<CR>
 
 " Runit
 nmap <Leader>r <Plug>(RunIt)
