@@ -154,6 +154,11 @@ highlight debugBreakpoint  ctermfg=NONE      ctermbg=red        cterm=NONE      
 " highlight MagmaOkLine      ctermfg=NONE       ctermbg=green       cterm=NONE        guifg=NONE    guibg=#3D6643 gui=NONE
 " highlight MagmaErrLine     ctermfg=NONE       ctermbg=red         cterm=NONE        guifg=NONE    guibg=#663D3D gui=NONE
 
+" Fugitive
+
+highlight diffAdded   ctermfg=green     ctermbg=NONE       cterm=NONE               guifg=#00FF00   guibg=NONE       gui=NONE
+highlight diffRemoved ctermfg=red       ctermbg=NONE       cterm=NONE               guifg=#FF0000   guibg=NONE       gui=NONE
+
 " Signature
 
 highlight SignatureMarkText ctermfg=green ctermbg=NONE cterm=bold guifg=#f2b409 guibg=NONE gui=bold
