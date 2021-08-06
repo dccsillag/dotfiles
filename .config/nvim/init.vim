@@ -131,7 +131,6 @@ Plug 'nvim-lua/completion-nvim'
 " }}}
 
 " Color Schemes {{{
-call s:PlugOwn('csillag-color') " (my colorscheme)
 Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
 Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables highlighting)
 Plug 'arcticicestudio/nord-vim' " (Nord colorscheme)
