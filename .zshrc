@@ -197,7 +197,7 @@ function te() {
 }
 
 # Open vim-fugitive
-alias vit='nvim +Neogit'
+alias vit='nvim +G +only'
 alias cit='GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vit'
 
 # Open gv
