@@ -128,6 +128,7 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 " }}}
 
 " Color Schemes {{{
+Plug 'rktjmp/lush.nvim', { 'branch': 'main' } " (easily create color schemes for NeoVim)
 Plug 'joshdick/onedark.vim' " (OneDark colorscheme from Atom)
 Plug 'pbrisbin/vim-colors-off' " (a plain colorscheme that pretty much disables highlighting)
 Plug 'arcticicestudio/nord-vim' " (Nord colorscheme)
