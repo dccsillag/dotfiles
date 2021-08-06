@@ -124,6 +124,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-lua/lsp-status.nvim'
 
 " }}}
 
@@ -507,11 +508,21 @@ set foldtext=NeatFoldText() "}}}
 
 lua << EOF
 local nvim_lsp = require 'lspconfig'
+local lsp_status = require 'lsp-status'
+
+lsp_status.register_progress()
+
+nvim_lsp.capabilities = vim.tbl_extend(
+    'keep',
+    nvim_lsp.capabilities or {},
+    lsp_status.capabilities
+)
 
 -- Function to attach completion when setting up LSP
 local function on_attach(client)
     vim.cmd "Echo [LSP] Ready."
     require 'completion'.on_attach(client)
+    lsp_status.on_attach(client)
 end
 
 -- Enable LSPs
@@ -815,8 +826,29 @@ function! g:What() abort
         return "[Conflicted] " .. l:conflicted_version
     endif
 endfunction
-command! What echo What()
+command! What echo g:What()
 nnoremap <Leader>w :What<CR>
+
+" LSP-status
+lua << EOF
+function get_lsp_status()
+    if #vim.lsp.buf_get_clients() == 0 then
+        return "There is no LSP attached!"
+    end
+
+    local d = require 'lsp-status'.diagnostics()
+
+    local sep = "    "
+
+    return
+        "Errors: " .. d.errors .. sep ..
+        "Warnings: " .. d.warnings .. sep ..
+        "Infos: " .. d.info .. sep ..
+        "Hints: " .. d.hints
+end
+EOF
+command! LSPStatus lua print(get_lsp_status())
+nnoremap <Leader>l :LSPStatus<CR>
 
 " Runit
 nmap <Leader>r <Plug>(RunIt)
