@@ -63,6 +63,7 @@ let g:indent_blankline_show_trailing_blankline_indent = v:false
 let g:indent_blankline_buftype_exclude = ['terminal']
 
 "}}}
+Plug 'romgrk/nvim-treesitter-context' " (show code context on top of the buffer)
 Plug 'kshenoy/vim-signature' " (show marks in the sign column)
 Plug 'wsdjeg/notifications.vim' " (show notifications)
 Plug 'dstein64/vim-startuptime' " (profile startup time neatly)
@@ -566,6 +567,12 @@ require 'nvim-treesitter.configs'.setup {
         enable = false, -- currently, this is broken.
     },
 }
+
+require 'treesitter-context'.setup {
+    enable = true,
+    throttle = true,
+}
+EOF
 
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
