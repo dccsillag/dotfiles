@@ -139,7 +139,8 @@ Plug 'arzg/vim-substrata' " (a cold, dark colorscheme for Vim)
 " Editing Help {{{
 Plug 'tpope/vim-surround' " (surround text with stuff [parenteses, brackets, and much more])
 Plug 'tomtom/tcomment_vim' " (comment/uncomment code)
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/lexima.vim'
+Plug 'windwp/nvim-autopairs' " (automatic delimiter pair closing)
 Plug 'alvan/vim-closetag' " (for automatically closing HTML tags)
 " Plug 'dkarter/bullets.vim' " (for automatic bullet lists) {{{
 
@@ -642,6 +643,101 @@ specs.setup {
 }
 EOF
 
+lua << EOF
+require 'nvim-autopairs'.setup{}
+
+local Rule = require 'nvim-autopairs.rule'
+local npairs = require 'nvim-autopairs'
+local cond = require 'nvim-autopairs.conds'
+
+npairs.add_rules {
+    -- TeX & Markdown
+    Rule("$", "$", {"tex", "markdown"})
+        :with_move(cond.none()),
+
+    -- TeX
+    --Rule("^", "{}", {"tex"}),
+    --Rule("_", "{}", {"tex"}),
+    Rule("\\(", "\\)", {"tex"}),
+    Rule("\\[", "\\]", {"tex"}),
+    Rule("\\{", "\\}", {"tex"}),
+    Rule("\\left(", "\\right)", {"tex"}),
+    Rule("\\left[", "\\right]", {"tex"}),
+    Rule("\\left\\{", "\\right\\}", {"tex"}),
+    Rule("\\lceil", "\\rceil", {"tex"}),
+    Rule("\\left\\lceil", "\\right\\rceil", {"tex"}),
+    Rule("\\lfloor", "\\rfloor", {"tex"}),
+    Rule("\\left\\lfloor", "\\right\\rfloor", {"tex"}),
+    Rule("\\lvert", "\\rvert", {"tex"}),
+    Rule("\\left\\lvert", "\\right\\rvert", {"tex"}),
+    Rule("\\lVert", "\\rVert", {"tex"}),
+    Rule("\\left\\lVert", "\\right\\rVert", {"tex"}),
+    Rule("\\frac{", "}{}"),
+    Rule("\\inn{", "}{}"),
+    Rule("\\diff{", "}{}"),
+    Rule("\\pdiff{", "}{}"),
+    Rule("\\sqrt[", "]{}"),
+    -- Rule("\\begin<[%w]+>", "\\end<...>", {"tex"})
+    --     :use_regex(true)
+    --     :replace_endpair(function(opts)
+    --         return "\\\\end<" .. opts.prev_char:sub(#"\\\\begin{", #opts.prev_char - #"}") .. ">"
+    --     end),
+
+    -- Markdown
+    Rule(" *", "*", {"markdown"})
+        :with_move(cond.after_text_check("*")),
+    Rule(":::", ":::", {"markdown"}),
+    Rule(":::.*$", ":::", {"markdown"})
+        :only_cr()
+        :use_regex(true),
+
+    -- HTML/XML & Markdown
+    Rule("<!--", "-->", {"xml", "html", "markdown"}),
+
+    -- C & C++ & Rust & Java & JavaScript
+    Rule("/*", "*/", {"c", "cpp", "rust", "java", "javascript"}),
+
+    -- Lua
+    Rule("--[[", "--]]", {"lua"}),
+    Rule("::", "::", {"lua"}),
+
+    -- Haskell
+    Rule("{-", "-}", {"haskell"}),
+    Rule("{-#", "#-}", {"haskell"}),
+
+    -- C++ / Rust
+    Rule("[_%w]<", ">", {"cpp", "rust"}) -- FIXME doesn't work in 'cpp'
+        :use_regex(true),
+}
+
+-- Fix <CR> with autopairs, with completion.nvim
+-- Taken from https://github.com/windwp/nvim-autopairs (Mapping <CR> -> completion nvim)
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+vim.g.completion_confirm_key = ""
+
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-y>")
+    else
+      vim.api.nvim_select_popupmenu_item(0 , false , false ,{})
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-n><c-y>")
+    end
+  else
+    return npairs.autopairs_cr()
+  end
+end
+
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+EOF
+
 " }}}
 
 " Autocommands {{{
@@ -872,83 +968,6 @@ nnoremap <Leader>. :nohl<CR>
 "" vim-subversive mappings
 nmap <C-s> <Plug>(SubversiveSubstitute)
 nmap <C-s><C-s> <Plug>(SubversiveSubstituteLine)
-
-"" lexima.vim rules
-
-for filetype in ['tex', 'markdown']
-    call lexima#add_rule({ 'filetype': filetype, 'char': '$',                                              'input_after': '$'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '$', 'at': '\%#\$',                               'leave': 1 })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '$', 'at': '\$\%#\$',                             'input': '$ ', 'input_after': ' $'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\$\$ \%# \$\$',                 'delete': 1 })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\$\$\%#\$\$',                   'delete': 2, 'input': '<BS><BS>'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\$\%#\$',                       'delete': 1})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '^',                                              'input': '^{', 'input_after': '}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '_',                                              'input': '_{', 'input_after': '}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '(',       'at': '\\\%#',                         'input': '( ', 'input_after': ' \)'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\\\%#',                         'input': '[ ', 'input_after': ' \]'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\\\%#',                         'input_after': '\}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '(',       'at': '\C\\left\%#',                   'input_after': '\right)'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\left\%#',                   'input_after': '\right]'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\%#',                   'input': '\{', 'input_after': '\right\}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\left\\\%#',                 'input': '{', 'input_after': '\right\}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\frac\%#',                   'input': '{', 'input_after': '}{<C-l>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\inn\%#',                    'input': '{', 'input_after': '}{<C-l>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\diff\%#',                   'input': '{', 'input_after': '}{<C-l>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '{',       'at': '\C\\pdiff\%#',                  'input': '{', 'input_after': '}{<C-l>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lceil\%#',                  'input_after': ' \rceil'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lceil\%#',            'input_after': ' \right\rceil'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lfloor\%#',                 'input_after': ' \rfloor'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lfloor\%#',           'input_after': ' \right\rfloor'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lvert\%#',                  'input_after': ' \rvert'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lvert\%#',            'input_after': ' \right\rvert'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\lVert\%#',                  'input_after': ' \rVert'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\lVert\%#',            'input_after': ' \right\rVert'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left.\%#\\right.',          'input_after': ' '})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Space>', 'at': '\C\\left\\.\%#\\right\\.',      'input_after': ' '})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left. \%# \\right.',        'delete': 1})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\. \%# \\right\\.',    'delete': 1})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left.\%#\\right.',          'input': '<BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del>'})          " FIXME: use 'delete'
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<BS>',    'at': '\C\\left\\.\%#\\right\\.',      'input': '<BS><BS><BS><BS><BS><BS><BS><Del><Del><Del><Del><Del><Del><Del><Del>'}) " FIXME: use 'delete'
-    "call lexima#add_rule({ 'filetype': filetype, 'char': '[',       'at': '\C\\sqrt',                      'input_after': ']{<C-l>}'})
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\%#|',                          'leave': 1 })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'execpt': '\\\%#',                     'input_after': '|' })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\left\%#',                   'input_after': '\right|' })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\\%#',                       'input_after': '\|' })
-    call lexima#add_rule({ 'filetype': filetype, 'char': '<Bar>',   'at': '\C\\left\\\%#',                 'input_after': '\right\|' })
-endfor
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '[', 'at': '^\s*[-+*] \%#$', 'input': '[ ] '})
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'input_after': '*'})
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '*', 'at': '\%#\*', 'leave': 1})
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '<BS>', 'at': '\*\%#\*', 'delete': 1})
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '<Return>', 'at': '^\s*```.*\%#```', 'input': '<Return><Return><Up>'})
-call lexima#add_rule({ 'filetype': 'markdown', 'char': '<Return>', 'at': '^\s*:::[^:].*\%#', 'input': '<Return><Return>:::<Up>'})
-for filetype in ['html', 'xml', 'markdown']
-    call lexima#add_rule({ 'char': '-', 'at': '<!\%#', 'input': '--', 'input_after': ' -->', 'filetype': filetype })
-endfor
-for filetype in ['c', 'cpp', 'rust', 'java', 'javascript']
-    call lexima#add_rule({ 'char': '*', 'at': '\/\%#', 'input': '*', 'input_after': ' */', 'filetype': filetype })
-    " call lexima#add_rule({ 'char': '*', 'at': '\/\*\%#', 'input': "*\n", 'input_after': '<Return>', 'filetype': filetype })
-endfor
-call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<\(then\|do\)\>\%#', 'input': "\n", 'input_after': '<CR>end' })
-call lexima#add_rule({ 'filetype': 'lua', 'char': '<CR>', 'at': '\C\<function\>\(\s\+[A-Za-z_][A-Za-z0-9_]*\([:.][A-Za-z_][A-Za-z0-9_]*\)*\)\?(.*)\%#', 'except': '^.*\<end\>.*\%#', 'input': "\n", 'input_after': '<CR>end' })
-call lexima#add_rule({ 'filetype': 'lua', 'char': '[', 'at': '--\%#', 'input': '[[ ', 'input_after': ' ]]' })
-call lexima#add_rule({ 'filetype': 'lua', 'char': ':', 'at': ':\%#', 'input_after': '::' })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '-', 'at': '{\%#', 'input_after': '-' })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Space>', 'at': '{-#\?\%#', 'input_after': '<Space>' })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '#', 'at': '{-\%#', 'input': '# ', 'input_after': ' #' })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\? \%# #\?-}', 'delete': 1 })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-\%#-}', 'input': '<BS><BS>', 'delete': 2 })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<BS>', 'at': '{-#\%##-}', 'input': '<BS><BS><BS>', 'delete': 3 })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': '<Bar>', 'at': '\[\%#', 'input': '', 'input_after': '|<C-l>|' })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "\C\\(^\\|[^A-Za-z0-9_']\\)\\%#", 'input_after': "'" })
-call lexima#add_rule({ 'filetype': 'haskell', 'char': "'", 'at': "'.\\%#'", 'leave': 1 })
-call lexima#add_rule({ 'filetype': 'cpp',     'char': '<', 'at': '\C\([A-Za-z0-9_]\|^\s*template \|^#\s*include\s\+\)\%#', 'input_after': '>' })
-call lexima#add_rule({ 'filetype': 'cpp',     'char': '>', 'at': '\%#>', 'leave': 1 })
-call lexima#add_rule({ 'filetype': 'cpp',     'char': '<BS>', 'at': '<\%#>', 'delete': 1 })
-call lexima#add_rule({ 'filetype': 'rust',    'char': '<', 'at': '\C[A-Za-z0-9_]\%#', 'input_after': '>' })
-call lexima#add_rule({ 'filetype': 'remind', 'char': '"', 'at': '%\%#', 'input_after': '%"' })
-call lexima#add_rule({ 'filetype': 'scheme',  'char': "'", })
-call lexima#add_rule({ 'filetype': 'scheme',  'char': "<BS>", 'at': "'\\%#", })
 
 " FIXME: breaks undo sequence (and . sequence, most likely)
 inoremap <C-l> <C-o>f<C-k><C-l><C-l><Del>
