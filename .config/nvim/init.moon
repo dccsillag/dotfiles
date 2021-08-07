@@ -89,7 +89,8 @@ plugins = ->
             enable: true
             throttle: true
     plug 'kshenoy/vim-signature' -- show marks in the sign column
-    plug 'wsdjeg/notifications.vim' -- show notifications
+    plug 'rcarriga/nvim-notify', config: -> -- show notifications
+        vim.notify = require 'notify'
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
@@ -163,7 +164,7 @@ plugins = ->
 
         -- Function to attach completion when setting up LSP
         on_attach = (client) ->
-            vim.cmd "Echo [LSP] Ready."
+            vim.notify "Ready.", "info", title: "LSP", timeout: 500
             (require 'completion').on_attach client
             lsp_status.on_attach(client)
 
