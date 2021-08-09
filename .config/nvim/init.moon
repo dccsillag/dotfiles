@@ -32,6 +32,7 @@ plugins = ->
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         import nnoremap, nmap, map from require 'vimp'
 
+        export specs
         specs = require 'specs'
         specs.setup
             show_jumps: true
