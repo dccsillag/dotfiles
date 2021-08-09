@@ -48,10 +48,10 @@ local theme = lush(function()
     LineNr            { fg = "#7C7D7F" }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr      { LineNr }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen        { bg = "#575859", gui = "bold" }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-    ModeMsg           { gui = "bold" }, -- 'showmode' message (e.g., "-- INSERT -- ")
-    MsgArea           { gui = "bold" }, -- Area for messages and cmdline
-    MsgSeparator      { gui = "bold" }, -- Separator for scrolled messages, `msgsep` flag of 'display'
-    MoreMsg           { gui = "bold" }, -- |more-prompt|
+    MsgArea           { }, -- Area for messages and cmdline
+    ModeMsg           { MsgArea }, -- 'showmode' message (e.g., "-- INSERT -- ")
+    MsgSeparator      { MsgArea }, -- Separator for scrolled messages, `msgsep` flag of 'display'
+    MoreMsg           { MsgArea }, -- |more-prompt|
     NonText           { fg = "#777777" }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal            { fg = "#FFFFFF" }, -- normal text
     NormalFloat       { fg = "#FFFFFF", bg = "#222222" }, -- Normal text in floating windows.
@@ -79,7 +79,7 @@ local theme = lush(function()
     Visual            { bg = "#444444" }, -- Visual mode selection
     VisualNOS         { Visual }, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg        { fg = "#FFFF00", gui = "underline" }, -- warning messages
-    Whitespace        { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    Whitespace        { fg = "#888888" }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     WildMenu          { fg = "#000000", bg = "#FFFF00", gui = "bold" }, -- current match in 'wildmenu' completion
 
     -- These groups are not listed as default vim groups,
