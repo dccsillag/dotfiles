@@ -10,7 +10,10 @@ plugins = ->
 
     -- Core
     plug 'wbthomason/packer.nvim' -- plugin manager
-    plug 'svermeulen/vimpeccable' -- convenience Lua functions for config
+    plug 'svermeulen/vimpeccable', config: -> -- convenience Lua functions for config
+        vimp = require 'vimp'
+
+        vimp.always_override = true
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
