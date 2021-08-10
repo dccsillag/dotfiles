@@ -144,11 +144,17 @@ plugins = ->
 
         nnoremap '<LocalLeader>m', -> vim.cmd 'Glow'
     plug '~/code/magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
-        import nnoremap, vnoremap, map_command from require 'vimp'
+        import nnoremap, xnoremap from require 'vimp'
 
-        -- nnoremap '<LocalLeader>r', returnbinding -> vim.cmd 'MagmaEvaluateLine'
-        nnoremap '<LocalLeader>r', -> vim.cmd 'MagmaEvaluateOperator'
-        vnoremap '<LocalLeader>r', -> vim.cmd 'MagmaEvaluateVisual'
+        nnoremap {'silent'},         '<LocalLeader>rr', ':MagmaEvaluateLine<CR>'
+        nnoremap {'silent'},         '<LocalLeader>rd', ':MagmaDelete<CR>'
+        nnoremap {'silent'},         '<LocalLeader>ro', ':MagmaShowOutput<CR>'
+        nnoremap {'silent'},         '<LocalLeader>rn', ':MagmaInit<CR>'
+        xnoremap {'silent'},         '<LocalLeader>r',  ':<C-u>MagmaEvaluateVisual<CR>'
+
+        vim.cmd [[nnoremap <silent><expr> <LocalLeader>r nvim_exec("MagmaEvaluateOperator", v:true)]]
+
+        vim.g.magma_automatically_open_output = false
 
     -- LSP / TreeSitter
     plug 'nvim-lua/completion-nvim' -- minimal completion framework for NeoVim
