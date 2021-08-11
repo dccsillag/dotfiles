@@ -396,6 +396,7 @@ plugins = ->
         vim.g.python_highlight_class_vars               = true
         vim.g.python_highlight_operators                = true
         vim.g.python_highlight_file_headers_as_comments = true
+    plug 'petRUShka/vim-sage' -- language support for SageMath
     plug 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
     plug 'bfrg/vim-cpp-modern', config: -> -- better C++ syntax highlight
         vim.g.cpp_no_function_highlight        = false
