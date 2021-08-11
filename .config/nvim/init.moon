@@ -147,6 +147,7 @@ plugins = ->
         import nnoremap, xnoremap from require 'vimp'
 
         nnoremap {'silent'},         '<LocalLeader>rr', ':MagmaEvaluateLine<CR>'
+        nnoremap {'silent'},         '<LocalLeader>rc', ':MagmaReevaluateCell<CR>'
         nnoremap {'silent'},         '<LocalLeader>rd', ':MagmaDelete<CR>'
         nnoremap {'silent'},         '<LocalLeader>ro', ':MagmaShowOutput<CR>'
         nnoremap {'silent'},         '<LocalLeader>rn', ':MagmaInit<CR>'
