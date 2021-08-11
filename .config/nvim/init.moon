@@ -481,7 +481,7 @@ do
     vim.o.signcolumn = 'auto:3' -- automatically resize signcolumn to show at most 3 signs
 
     --- Setup folding
-    vim.o.foldminlines = 6 -- require at least 10 lines of content to create a fold
+    vim.o.foldminlines = 1 -- require at least 10 lines of content to create a fold
     vim.o.foldnestmax = 5 -- set maximum amount of fold nesting
 
     --- Use 4 spaces instead of tabs
