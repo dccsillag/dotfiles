@@ -88,10 +88,12 @@ plugins = ->
         vim.g.indent_blankline_char = '⎜'
         vim.g.indent_blankline_show_trailing_blankline_indent = false
         vim.g.indent_blankline_buftype_exclude = {'terminal'}
-    plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
-        (require 'treesitter-context').setup
-            enable: true
-            throttle: true
+    -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
+    --     (require 'treesitter-context').setup
+    --         enable: true
+    --         throttle: true
+    -- plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
+    --     vim.g.context_nvim_no_redraw = 1
     plug 'kshenoy/vim-signature' -- show marks in the sign column
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
