@@ -292,7 +292,7 @@ alias btmp="btm -C $HOME/.config/bottom/bottom-proc.toml"
 # # Edit a file in Vim
 alias fzf-inline='fzf --height 50% --reverse'
 alias ed='f=$(fzf-inline) && vim $f'
-alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vim $f )'
+alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vim $f )'
 alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && vim $f'
 alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && vim $f'
 
