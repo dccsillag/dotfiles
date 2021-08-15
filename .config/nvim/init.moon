@@ -158,6 +158,7 @@ plugins = ->
         vim.cmd [[nnoremap <silent><expr> <LocalLeader>r nvim_exec("MagmaEvaluateOperator", v:true)]]
 
         vim.g.magma_automatically_open_output = false
+        vim.g.magma_show_mimetype_debug = false
 
     -- LSP / TreeSitter
     plug 'nvim-lua/completion-nvim' -- minimal completion framework for NeoVim
