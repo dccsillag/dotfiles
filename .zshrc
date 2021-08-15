@@ -198,7 +198,7 @@ function te() {
 
 # Open vim-fugitive
 alias vit='nvim +G +only'
-alias cit='GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vit'
+alias cit='( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vit )'
 
 # Open gv
 alias giv='nvim +GV'
