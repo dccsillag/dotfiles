@@ -1,0 +1,19 @@
+# vim: ft=sh
+
+install_manjaro() {
+    yay -S moonscript
+}
+
+install_pip() {
+    command_exists moonc && return 0
+
+    pip install hererocks
+
+    cd ~/static
+    hererocks luajit -jlatest -rlatest
+
+    echo 'source ~/static/luajit/bin/activate' >> ~/.zshrc_local
+    source ~/static/luajit/bin/activate
+
+    luarocks install moonscript
+}
