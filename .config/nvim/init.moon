@@ -126,10 +126,9 @@ plugins = ->
     plug 'folke/todo-comments.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- work with todo comments
         (require 'todo-comments').setup
             keywords:
-                FIX:
+                FIXME:
                     icon: "F"
                     color: "error"
-                    alt: {"FIXME", "BUG", "FIXIT", "ISSUE"}
                 TODO:
                     icon: "T"
                     color: "info"
@@ -139,14 +138,15 @@ plugins = ->
                 WARN:
                     icon: "W"
                     color: "warning"
-                    alt: {"WARNING", "XXX"}
+                XXX:
+                    icon: "X"
+                    color: "warning"
                 PERF:
                     icon: "P"
-                    alt: {"OPTIM", "PERFORMANCE", "OPTIMIZE"}
+                    color: "hint"
                 NOTE:
                     icon: "N"
                     color: "hint"
-                    alt: {"INFO"}
             merge_keywords: false
             search:
                 pattern: [[\b(KEYWORDS)\b]]
