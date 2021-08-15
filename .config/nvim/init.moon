@@ -630,7 +630,7 @@ do
 -- Autocommands
 do
     -- Automatically compile init.moon into init.lua
-    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.moon')} AsyncRun moonc %"
+    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.moon')} silent !moonc %"
 
     -- AutoView
     vim.cmd [[
