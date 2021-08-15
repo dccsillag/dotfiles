@@ -62,7 +62,7 @@ plugins = ->
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         import nnoremap, nmap, map from require 'vimp'
 
-        global specs
+        export specs
         specs = require 'specs'
         specs.setup
             show_jumps: (vim.fn.exists 'neovide') == 0
