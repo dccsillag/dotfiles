@@ -11,7 +11,7 @@ plugins = ->
     plugown = (name, table) ->
         maybepath = "~/code/#{name}"
         local resolved_name
-        if os.execute "[ -d #{maybepath} ]"
+        if (os.execute "[ -d #{maybepath} ]") == 1
             resolved_name = maybepath
         else
             resolved_name = "dccsillag/#{name}"
