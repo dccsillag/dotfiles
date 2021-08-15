@@ -677,13 +677,13 @@ do
     vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.moon')} silent !moonc %"
 
     -- AutoView
-    vim.cmd [[
-        augroup autoview
-            autocmd!
-            autocmd BufWinLeave,VimLeave,BufWritePost * if expand("%") != "" | silent! mkview | endif
-            autocmd BufWinEnter,BufReadPost * if expand("%") != "" | silent! loadview | endif
-        augroup END
-    ]]
+    -- vim.cmd [[
+    --     augroup autoview
+    --         autocmd!
+    --         autocmd BufWinLeave,VimLeave,BufWritePost * if expand("%") != "" | silent! mkview | endif
+    --         autocmd BufWinEnter,BufReadPost * if expand("%") != "" | silent! loadview | endif
+    --     augroup END
+    -- ]]
 
     -- SHADA
     vim.cmd [[
