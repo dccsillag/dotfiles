@@ -310,7 +310,7 @@ plugins = ->
                 enable: true -- currently, this is broken.
         vim.o.foldmethod = 'expr'
         vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-    plug 'folke/trouble.nvim', requires: 'kyazdani42/nvim-web-devicons', config: -> -- list code troubles
+    plug 'folke/trouble.nvim', config: -> -- list code troubles
         (require 'trouble').setup
             icons: false
             signs:
