@@ -35,7 +35,7 @@ plugins = ->
         export specs
         specs = require 'specs'
         specs.setup
-            show_jumps: true
+            show_jumps: (vim.fn.exists 'neovide') == 0
             min_jump: 2
             popup:
                 delay_ms: 0
