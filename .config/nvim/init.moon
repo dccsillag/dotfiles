@@ -248,7 +248,7 @@ plugins = ->
                     node_decremental: ','
                     node_incremental: '.'
             indent:
-                enable: false -- currently, this is broken.
+                enable: true -- currently, this is broken.
         vim.o.foldmethod = 'expr'
         vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 
