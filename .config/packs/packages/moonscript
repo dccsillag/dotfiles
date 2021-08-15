@@ -12,6 +12,7 @@ install_pip() {
     pip install hererocks
 
     cd ~/static
+    rm -rf luajit
     hererocks luajit -jlatest -rlatest
 
     echo 'source ~/static/luajit/bin/activate' >> ~/.zshrc_local
