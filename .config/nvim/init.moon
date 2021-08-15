@@ -8,6 +8,15 @@ plugins = ->
         table[1] = name
         use table
 
+    plugown = (name, table) ->
+        maybepath = "~/code/#{name}"
+        local resolved_name
+        if os.execute "[ -d #{maybepath} ]"
+            resolved_name = maybepath
+        else
+            resolved_name = "dccsillag/#{name}"
+        plug resolved_name, table
+
     -- Core
     plug 'wbthomason/packer.nvim' -- plugin manager
     plug 'svermeulen/vimpeccable', config: -> -- convenience Lua functions for config
@@ -176,7 +185,7 @@ plugins = ->
         import nnoremap from require 'vimp'
 
         nnoremap '<LocalLeader>m', -> vim.cmd 'Glow'
-    plug '~/code/magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
+    plugown 'magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
         import nnoremap, xnoremap from require 'vimp'
 
         nnoremap {'silent'},         '<LocalLeader>rr', ':MagmaEvaluateLine<CR>'
