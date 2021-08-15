@@ -1,11 +1,7 @@
 # vim: ft=sh
 
 check() {
-    command_exists moonc
-}
-
-install_manjaro() {
-    yay -S moonscript
+    command_exists yue
 }
 
 install_pip() {
@@ -18,5 +14,5 @@ install_pip() {
     echo 'source ~/static/luajit/bin/activate' >> ~/.zshrc_local
     source ~/static/luajit/bin/activate
 
-    luarocks install moonscript
+    luarocks install yuescript
 }
