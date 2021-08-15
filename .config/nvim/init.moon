@@ -26,12 +26,14 @@ plugins = ->
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
-    plug 'nvim-telescope/telescope.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- fuzzy finder
+    plug 'nvim-telescope/telescope.nvim', config: -> -- fuzzy finder
         (require 'telescope').setup
             disable_devicons: true
             defaults:
                 selection_caret: "->  "
                 entry_prefix: "    "
+                file_sorter: (require 'telescope.sorters').get_fzy_sorter
+                generic_sorter: (require 'telescope.sorters').get_fzy_sorter
 
         import nnoremap from require 'vimp'
 
