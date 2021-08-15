@@ -27,6 +27,12 @@ plugins = ->
 
     -- Interface
     plug 'nvim-telescope/telescope.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- fuzzy finder
+        (require 'telescope').setup
+            disable_devicons: true
+            defaults:
+                selection_caret: "->  "
+                entry_prefix: "    "
+
         import nnoremap from require 'vimp'
 
         nnoremap '<Leader>e',  -> (require 'telescope.builtin').find_files!
