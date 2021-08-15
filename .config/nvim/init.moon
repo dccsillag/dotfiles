@@ -251,6 +251,15 @@ plugins = ->
                 enable: true -- currently, this is broken.
         vim.o.foldmethod = 'expr'
         vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+    plug 'folke/trouble.nvim', requires: 'kyazdani42/nvim-web-devicons', config: -> -- list code troubles
+        (require 'trouble').setup
+            icons: false
+            signs:
+                error: "E"
+                warning: "W"
+                information: "I"
+                hint: "H"
+            use_lsp_diagnostic_signs: true
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
