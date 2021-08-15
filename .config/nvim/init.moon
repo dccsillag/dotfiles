@@ -155,7 +155,7 @@ plugins = ->
 
         import nnoremap from require 'vimp'
 
-        nnoremap '<Leader>tt', -> vim.cmd 'TodoTrouble'
+        nnoremap '<Leader>T', -> vim.cmd 'TodoTrouble'
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
@@ -184,10 +184,7 @@ plugins = ->
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
     plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
-    plug 'itspriddle/vim-shellcheck', config: -> -- run shellcheck from Vim as a :compiler
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>cs', -> vim.cmd 'ShellCheck!'
+    plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
     plug 'tpope/vim-fugitive', config: -> -- use git from vim
         import nnoremap from require 'vimp'
 
@@ -324,7 +321,8 @@ plugins = ->
 
         import nnoremap from require 'vimp'
 
-        nnoremap '<Leader>te', -> vim.cmd 'Trouble'
+        nnoremap '<Leader>lt', -> vim.cmd 'Trouble'
+        nnoremap '<Leader>qt', -> vim.cmd 'TroubleClose'
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
@@ -777,3 +775,6 @@ do
         vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
 
     nnoremap '<Leader>.', -> vim.cmd 'nohl'
+
+    nnoremap '<Leader>c', -> vim.cmd 'copen'
+    nnoremap '<Leader>qc', -> vim.cmd 'cclose'
