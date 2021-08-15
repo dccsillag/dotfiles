@@ -26,17 +26,30 @@ plugins = ->
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
-    plug 'junegunn/fzf' -- fuzzy finder
-    plug 'junegunn/fzf.vim', config: -> -- 'official' fzf addons
+    plug 'nvim-telescope/telescope.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- fuzzy finder
         import nnoremap from require 'vimp'
 
-        nnoremap '<Leader>e',  -> vim.cmd 'Files'
-        nnoremap '<Leader>b',  -> vim.cmd 'Buffers'
-        nnoremap '<Leader>ge', -> vim.cmd 'GFiles'
-        nnoremap '<Leader>gc', -> vim.cmd 'Commits'
-        nnoremap '<Leader>gC', -> vim.cmd 'BCommits'
-        nnoremap '<Leader>H',  -> vim.cmd 'Helptags'
-        nnoremap '<Leader>F',  -> vim.cmd 'Filetypes'
+        nnoremap '<Leader>e',  -> (require 'telescope.builtin').find_files!
+        nnoremap '<Leader>ge', -> (require 'telescope.builtin').git_files!
+        nnoremap '<Leader>b',  -> (require 'telescope.builtin').buffers!
+        nnoremap '<Leader>H',  -> (require 'telescope.builtin').help_tags!
+        nnoremap '<Leader>F',  -> (require 'telescope.builtin').filetypes!
+        nnoremap '<Leader>lr',  -> (require 'telescope.builtin').lsp_references!
+        nnoremap '<Leader>lg',  -> (require 'telescope.builtin').lsp_document_symbols!
+        nnoremap '<Leader>lG',  -> (require 'telescope.builtin').lsp_dynamic_workspace_symbols!
+        nnoremap '<Leader>li',  -> (require 'telescope.builtin').lsp_implementations!
+        nnoremap '<Leader>ld',  -> (require 'telescope.builtin').lsp_definitions!
+    -- plug 'junegunn/fzf' -- fuzzy finder
+    -- plug 'junegunn/fzf.vim', config: -> -- 'official' fzf addons
+    --     import nnoremap from require 'vimp'
+    --
+    --     nnoremap '<Leader>e',  -> vim.cmd 'Files'
+    --     nnoremap '<Leader>b',  -> vim.cmd 'Buffers'
+    --     nnoremap '<Leader>ge', -> vim.cmd 'GFiles'
+    --     nnoremap '<Leader>gc', -> vim.cmd 'Commits'
+    --     nnoremap '<Leader>gC', -> vim.cmd 'BCommits'
+    --     nnoremap '<Leader>H',  -> vim.cmd 'Helptags'
+    --     nnoremap '<Leader>F',  -> vim.cmd 'Filetypes'
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         import nnoremap, nmap, map from require 'vimp'
@@ -205,7 +218,7 @@ plugins = ->
     plug 'nvim-lua/lsp-status.nvim', config: -> -- easily get status information from LSP
         import nnoremap from require 'vimp'
 
-        nnoremap '<Leader>l', ->
+        nnoremap '<Leader>ll', ->
             if #vim.lsp.buf_get_clients! == 0
                 print "There is no LSP attached!"
             else
