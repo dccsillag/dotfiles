@@ -1,5 +1,9 @@
 # vim: ft=sh
 
+check() {
+    command_exists zsh
+}
+
 install_ubuntu() {
     "$SUDO" apt install zsh
 }
@@ -13,7 +17,5 @@ install_conda() {
 }
 
 install_manual() {
-    command_exists zsh && return 0
-
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh-bin/master/install)"
 }

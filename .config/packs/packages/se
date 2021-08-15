@@ -1,8 +1,10 @@
 # vim: ft=sh
 
-install_manual() {
-    command_exists se && return 0
+check() {
+    command_exists se
+}
 
+install_manual() {
     git clone git@github.com:dccsillag/se.git
     cd se
     export PREFIX=$HOME/.local

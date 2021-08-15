@@ -1,5 +1,9 @@
 # vim: ft=sh
 
+check() {
+    command_exists nvim
+}
+
 setup_neovim() {
     # packer.nvim
     git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
@@ -22,8 +26,6 @@ install_manjaro() {
 }
 
 install_manual() {
-    command_exists nvim && return 0
-
     # neovim
     curl -Lo nvim.tar.gz https://github.com/neovim/neovim/releases/download/v0.5.0/nvim-linux64.tar.gz
     tar -xzf nvim.tar.gz

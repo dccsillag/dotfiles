@@ -1,12 +1,14 @@
 # vim: ft=sh
 
+check() {
+    command_exists moonc
+}
+
 install_manjaro() {
     yay -S moonscript
 }
 
 install_pip() {
-    command_exists moonc && return 0
-
     pip install hererocks
 
     cd ~/static

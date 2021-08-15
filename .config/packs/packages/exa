@@ -1,5 +1,9 @@
 # vim: ft=sh
 
+check() {
+    command_exists exa
+}
+
 install_ubuntu() {
     "$SUDO" apt install exa
 }
@@ -17,7 +21,6 @@ install_conda() {
 }
 
 install_manual() {
-    command_exists exa && return 0
     curl -Lo exa.zip https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
     unzip exa.zip
     cp bin/exa ~/.local/bin/exa
