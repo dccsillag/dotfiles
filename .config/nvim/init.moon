@@ -122,6 +122,10 @@ plugins = ->
             merge_keywords: false
             search:
                 pattern: [[\b(KEYWORDS)\b]]
+
+        import nnoremap from require 'vimp'
+
+        nnoremap '<Leader>tt', -> vim.cmd 'TodoTrouble'
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
@@ -287,6 +291,10 @@ plugins = ->
                 information: "I"
                 hint: "H"
             use_lsp_diagnostic_signs: true
+
+        import nnoremap from require 'vimp'
+
+        nnoremap '<Leader>te', -> vim.cmd 'Trouble'
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
