@@ -784,3 +784,11 @@ do
 
     nnoremap '<Leader>c', -> vim.cmd 'copen'
     nnoremap '<Leader>qc', -> vim.cmd 'cclose'
+
+    nnoremap 'gh',  '<C-w>h'
+    nnoremap 'gj',  '<C-w>j'
+    nnoremap 'gk',  '<C-w>k'
+    nnoremap 'gl',  '<C-w>l'
+    nnoremap 'gwn', '<C-w>n'
+    nnoremap 'gwo', '<C-w>o'
+    nnoremap 'gwq', '<C-w>q'
