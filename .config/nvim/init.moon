@@ -44,7 +44,7 @@ plugins = ->
         nnoremap '<Leader>F',  -> (require 'telescope.builtin').filetypes!
         nnoremap '<Leader>lr',  -> (require 'telescope.builtin').lsp_references!
         nnoremap '<Leader>lg',  -> (require 'telescope.builtin').lsp_document_symbols!
-        nnoremap '<Leader>lG',  -> (require 'telescope.builtin').lsp_dynamic_workspace_symbols!
+        nnoremap '<Leader>lf',  -> (require 'telescope.builtin').lsp_dynamic_workspace_symbols!
         nnoremap '<Leader>li',  -> (require 'telescope.builtin').lsp_implementations!
         nnoremap '<Leader>ld',  -> (require 'telescope.builtin').lsp_definitions!
     -- plug 'junegunn/fzf' -- fuzzy finder
