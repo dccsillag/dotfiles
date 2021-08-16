@@ -33,7 +33,7 @@ local theme = lush(function()
     CursorLine        { bg = "#555555" }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
     Directory         { fg = "#FFFFFF" }, -- directory names (and other special names in listings)
     DiffAdd           { fg = "#00FF00" }, -- diff mode: Added line |diff.txt|
-    DiffChange        { fg = "#FFFF00" }, -- diff mode: Changed line |diff.txt|
+    DiffChange        { fg = "#FFA500" }, -- diff mode: Changed line |diff.txt|
     DiffDelete        { fg = "#FF0000" }, -- diff mode: Deleted line |diff.txt|
     DiffText          { DiffChange }, -- diff mode: Changed text within a changed line |diff.txt|
     EndOfBuffer       { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
