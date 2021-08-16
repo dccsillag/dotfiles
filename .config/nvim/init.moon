@@ -26,38 +26,23 @@ plugins = ->
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
-    plug 'nvim-telescope/telescope.nvim', config: -> -- fuzzy finder
-        (require 'telescope').setup
-            disable_devicons: true
-            defaults:
-                selection_caret: "->  "
-                entry_prefix: "    "
-                file_sorter: (require 'telescope.sorters').get_fzy_sorter
-                generic_sorter: (require 'telescope.sorters').get_fzy_sorter
-
+    plug 'junegunn/fzf' -- fuzzy finder
+    plug 'junegunn/fzf.vim', config: -> -- 'official' fzf addons
         import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>e',  -> (require 'telescope.builtin').find_files!
-        nnoremap '<Leader>ge', -> (require 'telescope.builtin').git_files!
-        nnoremap '<Leader>b',  -> (require 'telescope.builtin').buffers!
-        nnoremap '<Leader>H',  -> (require 'telescope.builtin').help_tags!
-        nnoremap '<Leader>F',  -> (require 'telescope.builtin').filetypes!
-        nnoremap '<Leader>lr',  -> (require 'telescope.builtin').lsp_references!
-        nnoremap '<Leader>lg',  -> (require 'telescope.builtin').lsp_document_symbols!
-        nnoremap '<Leader>lf',  -> (require 'telescope.builtin').lsp_dynamic_workspace_symbols!
-        nnoremap '<Leader>li',  -> (require 'telescope.builtin').lsp_implementations!
-        nnoremap '<Leader>ld',  -> (require 'telescope.builtin').lsp_definitions!
-    -- plug 'junegunn/fzf' -- fuzzy finder
-    -- plug 'junegunn/fzf.vim', config: -> -- 'official' fzf addons
-    --     import nnoremap from require 'vimp'
-    --
-    --     nnoremap '<Leader>e',  -> vim.cmd 'Files'
-    --     nnoremap '<Leader>b',  -> vim.cmd 'Buffers'
-    --     nnoremap '<Leader>ge', -> vim.cmd 'GFiles'
-    --     nnoremap '<Leader>gc', -> vim.cmd 'Commits'
-    --     nnoremap '<Leader>gC', -> vim.cmd 'BCommits'
-    --     nnoremap '<Leader>H',  -> vim.cmd 'Helptags'
-    --     nnoremap '<Leader>F',  -> vim.cmd 'Filetypes'
+    
+        nnoremap '<Leader>e',  -> vim.cmd 'Files'
+        nnoremap '<Leader>ge', -> vim.cmd 'GFiles'
+        nnoremap '<Leader>b',  -> vim.cmd 'Buffers'
+        nnoremap '<Leader>H',  -> vim.cmd 'Helptags'
+        nnoremap '<Leader>F',  -> vim.cmd 'Filetypes'
+    plug 'gfanto/fzf-lsp.nvim', config: -> -- LSP fzf addons
+        import nnoremap from require 'vimp'
+    
+        nnoremap '<Leader>lr',  -> vim.cmd 'References'
+        nnoremap '<Leader>lg',  -> vim.cmd 'DocumentSymbols'
+        nnoremap '<Leader>lf',  -> vim.cmd 'WorkspaceSymbols'
+        nnoremap '<Leader>li',  -> vim.cmd 'Implementations'
+        nnoremap '<Leader>ld',  -> vim.cmd 'Definitions'
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         import nnoremap, nmap, map from require 'vimp'
