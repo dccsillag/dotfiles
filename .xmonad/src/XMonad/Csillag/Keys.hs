@@ -126,8 +126,7 @@ myKeys = flip mkNamedKeymap
     , ("M-S-]",        addName "Take one window from master pane" $ sendMessage $ IncMasterN (-1))
     , ("M-<Return>",   addName "Toggle magnifier"                 $ withFocused $ sendMessage . maximizeRestore)
     -- Scratchpads
-    , ("M-s M-t",   addName "Toggle scratchpad 'sysmon'"        $ namedScratchpadAction myScratchpads "sysmon")
-    , ("M-s M-b",   addName "Toggle scratchpad 'bluetooth'"     $ namedScratchpadAction myScratchpads "bluetooth")
+    , ("M-s M-b",   addName "Toggle scratchpad 'sysmon'"        $ namedScratchpadAction myScratchpads "sysmon")
     , ("M-s M-q",   addName "Toggle scratchpad 'terminal'"      $ namedScratchpadAction myScratchpads "terminal")
     , ("M-s M-c",   addName "Toggle scratchpad 'calculator'"    $ namedScratchpadAction myScratchpads "calculator")
     , ("M-s M-a",   addName "Toggle scratchpad 'audio'"         $ namedScratchpadAction myScratchpads "audio")
@@ -135,6 +134,7 @@ myKeys = flip mkNamedKeymap
     , ("M-s M-s",   addName "Toggle scratchpad 'slack'"         $ namedScratchpadAction myScratchpads "slack")
     , ("M-s M-d",   addName "Toggle scratchpad 'discord'"       $ namedScratchpadAction myScratchpads "discord")
     , ("M-s M-w",   addName "Toggle scratchpad 'whatsapp'"      $ namedScratchpadAction myScratchpads "whatsapp")
+    , ("M-s M-t",   addName "Toggle scratchpad 'sysmon'"        $ namedScratchpadAction myScratchpads "telegram")
     , ("M-s M-e",   addName "Toggle scratchpad 'mail'"          $ namedScratchpadAction myScratchpads "mail")
     -- Passwords
     , ("M-p M-p",   addName "Get a password"             $ passPrompt csillagPromptConfig)

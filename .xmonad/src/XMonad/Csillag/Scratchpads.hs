@@ -22,6 +22,11 @@ myScratchpads =
        , query = className =? "Whatsapp-for-linux"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "telegram"
+       , cmd   = "telegram-desktop"
+       , query = className =? "TelegramDesktop"
+       , hook  = floatingScratchpad
+       }
   , NS { name  = "terminal"
        , cmd   = termSpawn' "scratchterm"
        , query = className =? "scratchterm"
