@@ -103,6 +103,7 @@ plugins = ->
         vim.g.indent_blankline_char = '⎜'
         vim.g.indent_blankline_show_trailing_blankline_indent = false
         vim.g.indent_blankline_buftype_exclude = {'terminal'}
+        vim.g.indent_blankline_filetype_exclude = {'aerial'}
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
     --     (require 'treesitter-context').setup
     --         enable: true
@@ -217,9 +218,18 @@ plugins = ->
 
                 print "Errors: #{d.errors}    Warnings: #{d.warnings}    Infos: #{d.info}    Hints: #{d.hints}"
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
+    plug 'stevearc/aerial.nvim', config: -> -- window with outline of symbols
+        vim.g.aerial =
+            default_direction: "left"
+            post_jump_cmd: [[normal zt\qa]]
+            min_width: 40
+            max_width: 40
+
+        vim.cmd [[autocmd FileType aerial setl listchars-=trail:┈]]
     plug 'neovim/nvim-lspconfig', config: -> -- easily configure LSP
         nvim_lsp = require 'lspconfig'
         lsp_status = require 'lsp-status'
+        aerial = require 'aerial'
 
         lsp_status.register_progress!
 
@@ -229,7 +239,8 @@ plugins = ->
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
             (require 'completion').on_attach client
-            lsp_status.on_attach(client)
+            lsp_status.on_attach client
+            aerial.on_attach client
 
             import nnoremap, inoremap, vnoremap, imap from require 'vimp'
 
@@ -251,6 +262,11 @@ plugins = ->
 
             nnoremap {'silent'}, '[g', -> vim.lsp.diagnostic.goto_prev()
             nnoremap {'silent'}, ']g', -> vim.lsp.diagnostic.goto_next()
+
+            nnoremap {'silent'}, '<Leader>la', -> vim.cmd 'AerialOpen'
+            nnoremap {'silent'}, '<Leader>qa', -> vim.cmd 'AerialClose'
+            nnoremap {'silent'}, '[[', -> vim.cmd 'AerialPrev'
+            nnoremap {'silent'}, ']]', -> vim.cmd 'AerialNext'
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
@@ -291,9 +307,7 @@ plugins = ->
                     node_decremental: ','
                     node_incremental: '.'
             indent:
-                enable: true -- currently, this is broken.
-        vim.o.foldmethod = 'expr'
-        vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+                enable: false -- currently, this is broken.
     plug 'folke/trouble.nvim', config: -> -- list code troubles
         (require 'trouble').setup
             icons: false
@@ -433,7 +447,6 @@ plugins = ->
     plug 'wellle/targets.vim' -- better text objects
     plug 'michaeljsmith/vim-indent-object' -- text object for indented text
     plug 'kana/vim-textobj-entire' -- text object for the entire buffer
-    plug 'kana/vim-textobj-fold' -- text object for a fold
     plug 'kana/vim-textobj-syntax' -- text object for text in the same highlight group
     plug 'kana/vim-textobj-user' -- framework for creating text objects [used by other plugins]
 
@@ -542,6 +555,7 @@ do
     vim.o.signcolumn = 'auto:3' -- automatically resize signcolumn to show at most 3 signs
 
     --- Setup folding
+    vim.o.foldenable = false -- disable folding
     vim.o.foldminlines = 1 -- require at least 10 lines of content to create a fold
     vim.o.foldnestmax = 5 -- set maximum amount of fold nesting
 
@@ -577,7 +591,7 @@ do
     vim.o.hidden = true -- hide buffers when leaving them, instead of deleting them
 
     --- Setup views
-    vim.o.viewoptions = 'folds,cursor' -- save only folds and cursor in view
+    vim.o.viewoptions = 'cursor' -- save only the cursor position in a view
 
     --- Highlight search results
     vim.o.hlsearch = true -- highlight search results
@@ -610,7 +624,7 @@ do
     vim.o.scrolloff = 2 -- keep 2 lines above&below the cursor at all times
 
     --- Setup sessions
-    vim.o.sessionoptions = [[blank,buffers,curdir,folds,help,tabpages,winsize,tabpages,globals]]
+    vim.o.sessionoptions = [[blank,buffers,curdir,help,tabpages,winsize,tabpages,globals]]
 
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
