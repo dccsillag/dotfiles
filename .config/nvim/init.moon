@@ -333,90 +333,84 @@ plugins = ->
     -- Editing Help
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'tomtom/tcomment_vim' -- comment/uncomment code
-    plug 'windwp/nvim-autopairs', config: -> -- automatic delimiter pair closing
-        (require 'nvim-autopairs').setup!
+    plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
+        export all_peartree_pairs
+        all_peartree_pairs =
+            basic_pairs: -- parentheses, bracktes, etc.
+                ["("]: closer: ")"
+                ["["]: closer: "]"
+                ["{"]: closer: "}"
+            quotes_and_apostrophes: -- quotes, apostrophes, etc.
+                ["\""]: closer: "\""
+                ["'"]: closer: "'"
+                ["`"]: closer: "`"
+            math_dolars: -- inline&display math
+                ["$"]: closer: "$"
+                ["$$"]: closer: "$$"
+            texmath: -- TeX Math
+                -- -- delimiters
+                ["\\\\("]: closer: "\\\\)"
+                ["\\\\["]: closer: "\\\\]"
+                ["\\\\left("]: closer: "\\\\right)"
+                ["\\\\left["]: closer: "\\\\right]"
+                ["\\\\{"]: closer: "\\\\}"
+                ["\\\\left\\\\{"]: closer: "\\\\right\\\\}"
+                ["\\\\lceil"]: closer: "\\\\rceil"
+                ["\\\\left\\\\lceil"]: closer: "\\\\right\\\\rceil"
+                ["\\\\lfloor"]: closer: "\\\\rfloor"
+                ["\\\\left\\\\lfloor"]: closer: "\\\\right\\\\rfloor"
+                ["\\\\lvert"]: closer: "\\\\rvert"
+                ["\\\\left\\\\lvert"]: closer: "\\\\right\\\\rvert"
+                ["\\\\lVert"]: closer: "\\\\rVert"
+                ["\\\\left\\\\lVert"]: closer: "\\\\right\\\\rVert"
+                -- -- multi-args
+                ["\\\\frac"]: closer: "{}{}"
+                ["\\\\inn"]: closer: "{}{}"
+                ["\\\\diff"]: closer: "{}{}"
+                ["\\\\pdiff"]: closer: "{}{}"
+                ["\\\\sqrt["]: closer: "]{}"
+                -- -- LaTeX environments
+                ["\\\\begin{*}"]: closer: "\\\\end{*}", until: "}"
+            xml: -- XML tags
+                ["<!--"]: closer: "-->"
+                ["<*>"]: closer: "</*>", until: "\\W"
+            markdown: -- Markdown formatting
+                ["\\*"]: closer: "\\*"
+                ["\\*\\*"]: closer: "\\*\\*"
+                ["```"]: closer: "```"
+                [":::"]: closer: ":::"
+            templates: -- c++ templates / rust type variables
+                ["<"]: closer: ">", not_at: {"\\W", "^"}
 
-        Rule = require 'nvim-autopairs.rule'
-        npairs = require 'nvim-autopairs'
-        cond = require 'nvim-autopairs.conds'
+        export pairs_per_filetype, set_pairs_for_filetype
+        pairs_per_filetype
+        get_pairs_for_filetype =
+            xml:        {'xml'}
+            html:       {'xml'}
+            tex:        {'basic_pairs', 'math_dolars', 'texmath'}
+            markdown:   {'basic_pairs', 'math_dolars', 'markdown', 'xml'}
+            python:     {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+            rust:       {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+            cpp:        {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+            python:     {'basic_pairs', 'quotes_and_apostrophes'}
+            -- TODO: javascript
+            -- TODO: haskell
+            -- TODO: lua
+        set_pairs_for_filetype = (filetype) ->
+            outpairs = {}
+            pair_names_for_filetype = pairs_per_filetype[filetype]
+            if pair_names_for_filetype == nil
+                outpairs = vim.g.pear_tree_pairs
+            else
+                for _, subpairs_name in ipairs pair_names_for_filetype
+                    subpairs = all_peartree_pairs[subpairs_name]
+                    for k, v in pairs subpairs
+                        outpairs[k] = v
+            vim.b.pear_tree_pairs = outpairs
 
-        npairs.add_rules {
-            -- TeX & Markdown
-            with Rule "$", "$", {"tex", "markdown"}
-                \with_move cond.none!
+        vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
 
-            -- TeX
-            Rule "\\(", "\\)", {"tex"}
-            Rule "\\[", "\\]", {"tex"}
-            Rule "\\{", "\\}", {"tex"}
-            Rule "\\left(", "\\right)", {"tex"}
-            Rule "\\left[", "\\right]", {"tex"}
-            Rule "\\left\\{", "\\right\\}", {"tex"}
-            Rule "\\lceil", "\\rceil", {"tex"}
-            Rule "\\left\\lceil", "\\right\\rceil", {"tex"}
-            Rule "\\lfloor", "\\rfloor", {"tex"}
-            Rule "\\left\\lfloor", "\\right\\rfloor", {"tex"}
-            Rule "\\lvert", "\\rvert", {"tex"}
-            Rule "\\left\\lvert", "\\right\\rvert", {"tex"}
-            Rule "\\lVert", "\\rVert", {"tex"}
-            Rule "\\left\\lVert", "\\right\\rVert", {"tex"}
-            Rule "\\frac{", "}{}", {"tex"}
-            Rule "\\inn{", "}{}", {"tex"}
-            Rule "\\diff{", "}{}", {"tex"}
-            Rule "\\pdiff{", "}{}", {"tex"}
-            Rule "\\sqrt[", "]{}", {"tex"}
-
-            -- Markdown
-            with Rule " *", "*", {"markdown"}
-                \with_move cond.after_text_check "*"
-            Rule ":::", ":::", {"markdown"}
-            with Rule ":::.*$", ":::", {"markdown"}
-                \only_cr!
-                \use_regex true
-
-            -- HTML/XML & Markdown
-            Rule "<!--", "-->", {"xml", "html", "markdown"}
-
-            -- C & C++ & Rust & Java & JavaScript
-            --Rule "/*", "*/", {"c", "cpp", "rust", "java", "javascript"}
-
-            -- Lua
-            Rule "--[[", "--]]", {"lua"}
-            Rule "::", "::", {"lua"}
-
-            -- Haskell
-            Rule "{-", "-}", {"haskell"}
-            Rule "{-#", "#-}", {"haskell"}
-
-            -- C++ / Rust
-            --with Rule "[_%w<", ">", {"cpp", "rust"}
-            --    \use_regex true
-        }
-
-        -- Fix <CR> with autopairs, with completion.nvim
-        -- Adapted from https://github.com/windwp/nvim-autopairs (Mapping <CR> -> completion nvim)
-        do
-            remap = vim.api.nvim_set_keymap
-            npairs = require 'nvim-autopairs'
-
-            _G.MUtils = {}
-
-            vim.g.completion_confirm_key = ""
-
-            MUtils.completion_confirm = ->
-                if vim.fn.pumvisible() != 0
-                    if vim.fn.complete_info()["selected"] != -1
-                        (require 'completion').confirmCompletion!
-                        npairs.esc "<c-y>"
-                    else
-                        vim.api.nvim_select_popupmenu_item 0, false, false, {}
-                        (require 'completion').confirmCompletion!
-                        npairs.esc "<c-n><c-y>"
-                else
-                    npairs.autopairs_cr!
-
-            remap 'i', '<CR>', 'v:lua.MUtils.completion_confirm()', {expr: true, noremap: true}
-    plug 'alvan/vim-closetag' -- automatically close HTML tags
+        vim.g.pear_tree_pairs = basic_pairs
     plug 'junegunn/vim-easy-align', config: -> -- align code
         import xmap, nmap from require 'vimp'
 
