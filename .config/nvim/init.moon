@@ -393,8 +393,7 @@ plugins = ->
                 ["<"]: closer: ">", not_at: {"\\W", "^"}
 
         export pairs_per_filetype, set_pairs_for_filetype
-        pairs_per_filetype
-        get_pairs_for_filetype =
+        pairs_per_filetype =
             xml:        {'xml'}
             html:       {'xml'}
             tex:        {'basic_pairs', 'math_dolars', 'texmath'}
