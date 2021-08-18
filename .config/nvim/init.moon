@@ -205,7 +205,24 @@ plugins = ->
         vim.g.magma_show_mimetype_debug = false
 
     -- LSP / TreeSitter
-    plug 'nvim-lua/completion-nvim' -- minimal completion framework for NeoVim
+    plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
+        (require 'compe').setup
+            source:
+                path: true
+                nvim_lsp: true
+                buffer: true
+                calc: true
+                nvim_lua: false
+                vsnip: false
+                ultisnips: false
+                luasnip: false
+
+        import inoremap from require 'vimp'
+
+        inoremap {'silent', 'expr'}, '<C-n>', 'compe#complete()'
+        inoremap {'silent', 'expr'}, '<C-p>', 'compe#complete()'
+        inoremap {'silent', 'expr'}, '<C-l>', 'compe#confirm("<CR>")'
+        inoremap {'silent', 'expr'}, '<C-c>', 'compe#close("<C-e>")'
     plug 'nvim-lua/lsp-status.nvim', config: -> -- easily get status information from LSP
         import nnoremap from require 'vimp'
 
@@ -235,19 +252,12 @@ plugins = ->
 
         nvim_lsp.capabilities = vim.tbl_extend 'keep', nvim_lsp.capabilities or {}, lsp_status.capabilities
 
-        -- Function to attach completion when setting up LSP
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
-            (require 'completion').on_attach client
             lsp_status.on_attach client
             aerial.on_attach client
 
             import nnoremap, inoremap, vnoremap, imap from require 'vimp'
-
-            inoremap {'expr'}, '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"'
-            inoremap {'expr'}, '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"'
-            imap '<Tab>',   '<Plug>(completion_smart_tab)'
-            imap '<S-Tab>', '<Plug>(completion_smart_s_tab)'
 
             nnoremap {'silent'}, '<C-k>', -> vim.lsp.diagnostic.show_line_diagnostics()
             nnoremap {'silent'}, '<C-]>', -> vim.lsp.buf.definition()
