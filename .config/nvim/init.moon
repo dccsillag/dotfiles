@@ -378,7 +378,7 @@ plugins = ->
             Rule "<!--", "-->", {"xml", "html", "markdown"}
 
             -- C & C++ & Rust & Java & JavaScript
-            Rule "/*", "*/", {"c", "cpp", "rust", "java", "javascript"}
+            --Rule "/*", "*/", {"c", "cpp", "rust", "java", "javascript"}
 
             -- Lua
             Rule "--[[", "--]]", {"lua"}
@@ -389,8 +389,8 @@ plugins = ->
             Rule "{-#", "#-}", {"haskell"}
 
             -- C++ / Rust
-            with Rule "[_%w<", ">", {"cpp", "rust"}
-                \use_regex true
+            --with Rule "[_%w<", ">", {"cpp", "rust"}
+            --    \use_regex true
         }
 
         -- Fix <CR> with autopairs, with completion.nvim
@@ -485,7 +485,7 @@ plugins = ->
         vim.g.vim_markdown_math                    = true
         vim.g.vim_markdown_frontmatter             = true
         vim.g.vim_markdown_strikethrough           = true
-    plug 'leafo/moonscript-vim' -- language support for MoonScript
+    -- plug 'leafo/moonscript-vim' -- language support for MoonScript
     -- plug 'pigpigyyy/yuescript-vim' -- language support for YueScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
@@ -536,7 +536,7 @@ do
     vim.o.grepprg = [[grep -R --exclude-dir=.git -n $* . /dev/null]]
 
     --- Setup line wrap
-    vim.o.wrap = true -- wrap lines
+    vim.o.wrap = false -- wrap lines
     vim.o.linebreak = true -- don't break words on wrap
     vim.o.breakindent = true -- indent wrapped lines
     vim.o.showbreak = "… " -- prefix for wrapped lines
@@ -788,6 +788,10 @@ do
     nnoremap 'gj',  '<C-w>j'
     nnoremap 'gk',  '<C-w>k'
     nnoremap 'gl',  '<C-w>l'
+    nnoremap 'gH',  '<C-w>H'
+    nnoremap 'gJ',  '<C-w>J'
+    nnoremap 'gK',  '<C-w>K'
+    nnoremap 'gL',  '<C-w>L'
     nnoremap 'gwn', '<C-w>n'
     nnoremap 'gwo', '<C-w>o'
     nnoremap 'gwq', '<C-w>q'
