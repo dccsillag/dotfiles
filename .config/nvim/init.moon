@@ -710,7 +710,7 @@ do
     -- Automatically compile init.moon into init.lua
     map_command 'CompileInit', ->
         vim.cmd 'cexpr system("moonc ~/.config/nvim/init.moon")'
-        vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es PackerCompile'
+        vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es +PackerCompile'
     vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.moon')} CompileInit"
 
     -- AutoView
