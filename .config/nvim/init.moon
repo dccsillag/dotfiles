@@ -344,6 +344,8 @@ plugins = ->
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'tomtom/tcomment_vim' -- comment/uncomment code
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
+        vim.g.pear_tree_repeatable_expand = 0
+
         export all_peartree_pairs
         all_peartree_pairs =
             basic_pairs: -- parentheses, bracktes, etc.
