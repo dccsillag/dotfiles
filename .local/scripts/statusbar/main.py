@@ -7,7 +7,7 @@ import subprocess
 import time
 
 
-HEIGHT = 22
+HEIGHT = 30
 FONT = "FantasqueSansMono Nerd Font-12"
 FONTWIDTH = 9
 BACKGROUND_COLOR = "#121212"
