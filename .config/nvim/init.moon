@@ -492,7 +492,6 @@ plugins = ->
         vim.g.vim_markdown_math                    = true
         vim.g.vim_markdown_frontmatter             = true
         vim.g.vim_markdown_strikethrough           = true
-    -- plug 'leafo/moonscript-vim' -- language support for MoonScript
     -- plug 'pigpigyyy/yuescript-vim' -- language support for YueScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
