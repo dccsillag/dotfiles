@@ -492,7 +492,7 @@ plugins = ->
         vim.g.vim_markdown_math                    = true
         vim.g.vim_markdown_frontmatter             = true
         vim.g.vim_markdown_strikethrough           = true
-    -- plug 'pigpigyyy/yuescript-vim' -- language support for YueScript
+    plug 'leafo/moonscript-vim' -- language support for MoonScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
     plug 'rust-lang/rust.vim' -- better Rust syntax support
@@ -526,6 +526,9 @@ vim.o.guifont = 'FantasqueSansMono Nerd Font:12'
 
 -- Lots of Vim options
 do
+    -- Set the regex engine
+    vim.o.regexpengine = 1
+
     --- Enable the mouse
     vim.o.mouse = 'a' -- enable all mouse features
 
