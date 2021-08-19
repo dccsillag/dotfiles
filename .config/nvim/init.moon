@@ -204,7 +204,7 @@ plugins = ->
         vim.g.magma_automatically_open_output = false
         vim.g.magma_show_mimetype_debug = false
 
-    -- LSP / TreeSitter
+    -- LSP / TreeSitter / Formatting
     plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
         (require 'compe').setup
             source:
@@ -257,18 +257,19 @@ plugins = ->
             lsp_status.on_attach client
             aerial.on_attach client
 
-            import nnoremap, inoremap, vnoremap, imap from require 'vimp'
+            import nnoremap, vnoremap from require 'vimp'
 
-            nnoremap {'silent'}, '<C-k>', -> vim.lsp.diagnostic.show_line_diagnostics()
-            nnoremap {'silent'}, '<C-]>', -> vim.lsp.buf.definition()
-            nnoremap {'silent'}, 'K',     -> vim.lsp.buf.hover()
-            nnoremap {'silent'}, 'gd',    -> vim.lsp.buf.declaration()
-            nnoremap {'silent'}, 'gD',    -> vim.lsp.buf.implementation()
-            nnoremap {'silent'}, '1gD',   -> vim.lsp.buf.type_definition()
-            nnoremap {'silent'}, 'gr',    -> vim.lsp.buf.references()
-            nnoremap {'silent'}, 'g0',    -> vim.lsp.buf.document_symbol()
+            nnoremap {'silent'}, '<C-k>',     -> vim.lsp.diagnostic.show_line_diagnostics()
+            nnoremap {'silent'}, '<C-]>',     -> vim.lsp.buf.definition()
+            nnoremap {'silent'}, 'K',         -> vim.lsp.buf.hover()
+            nnoremap {'silent'}, 'gd',        -> vim.lsp.buf.declaration()
+            nnoremap {'silent'}, 'gD',        -> vim.lsp.buf.implementation()
+            nnoremap {'silent'}, '1gD',       -> vim.lsp.buf.type_definition()
+            nnoremap {'silent'}, 'gr',        -> vim.lsp.buf.references()
+            nnoremap {'silent'}, 'g0',        -> vim.lsp.buf.document_symbol()
             nnoremap {'silent'}, '<Leader>a', -> vim.lsp.buf.code_action()
             vnoremap {'silent'}, '<Leader>a', -> vim.lsp.buf.range_code_action()
+            nnoremap {'silent'}, 'gq',        -> vim.lsp.buf.formatting()
 
             nnoremap {'silent'}, '[g', -> vim.lsp.diagnostic.goto_prev()
             nnoremap {'silent'}, ']g', -> vim.lsp.diagnostic.goto_next()
