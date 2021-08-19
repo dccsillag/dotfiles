@@ -208,6 +208,7 @@ plugins = ->
     plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
         (require 'compe').setup
             source:
+                spell: true
                 path: true
                 nvim_lsp: true
                 buffer: true
