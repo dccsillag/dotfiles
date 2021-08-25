@@ -2,7 +2,7 @@
 
 while sleep 0.2
 do
-    if [ -f /home/daniel/.dunst_paused ]
+    if [ "$(dunstctl is-paused)" = true ]
     then
         echo ""
     else
