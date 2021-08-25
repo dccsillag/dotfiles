@@ -18,7 +18,7 @@
     allow_markup         = yes
     markup               = full
     # format               = "<u><b>%a %p</b></u>\n%s\n%b"
-    format               = "<u><b>%s</b></u> %p\n\n  %b"
+    format               = "<u><b>%s</b></u> %p\n\n%b"
     alignment            = left
     vertical_alignment   = center
     word_wrap            = yes
@@ -29,8 +29,9 @@
 
     # geometry             = "x5"
     # geometry             = "500x5-50+40"
-    geometry             = "600x5+20+40"
-    shrink               = true
+    # geometry             = "600x5+20+40"
+    geometry             = "500x5-710+40"
+    shrink               = false
     corner_radius        = 10
 
     idle_threshold       = 120
