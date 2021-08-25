@@ -23,30 +23,15 @@ plugins = ->
         vimp = require 'vimp'
 
         vimp.always_override = true
+    plug 'LionC/nest.nvim' -- easy API for creating mappings
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
     plug 'junegunn/fzf' -- fuzzy finder
-    plug 'junegunn/fzf.vim', config: -> -- 'official' fzf addons
-        import nnoremap from require 'vimp'
-    
-        nnoremap '<Leader>e',  -> vim.cmd 'Files'
-        nnoremap '<Leader>ge', -> vim.cmd 'GFiles'
-        nnoremap '<Leader>b',  -> vim.cmd 'Buffers'
-        nnoremap '<Leader>H',  -> vim.cmd 'Helptags'
-        nnoremap '<Leader>F',  -> vim.cmd 'Filetypes'
-    plug 'gfanto/fzf-lsp.nvim', config: -> -- LSP fzf addons
-        import nnoremap from require 'vimp'
-    
-        nnoremap '<Leader>lr',  -> vim.cmd 'References'
-        nnoremap '<Leader>lg',  -> vim.cmd 'DocumentSymbols'
-        nnoremap '<Leader>lf',  -> vim.cmd 'WorkspaceSymbols'
-        nnoremap '<Leader>li',  -> vim.cmd 'Implementations'
-        nnoremap '<Leader>ld',  -> vim.cmd 'Definitions'
+    plug 'junegunn/fzf.vim' -- 'official' fzf addons
+    plug 'gfanto/fzf-lsp.nvim' -- LSP fzf addons
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
-        import nnoremap, nmap, map from require 'vimp'
-
         export specs
         specs = require 'specs'
         specs.setup
@@ -62,21 +47,6 @@ plugins = ->
                 resizer: specs.shrink_resizer
             ignore_filetypes: {}
             ignore_buftypes: {"nofile": true}
-
-        -- Add specs to search jump commands
-        addspecs = (k, m) -> map({'silent'}, k, (m or k) .. [[:lua specs.show_specs()<CR>]])
-        addspecs 'n'
-        addspecs 'N'
-        addspecs '*', '<Plug>(asterisk-*)'
-        addspecs '#', '<Plug>(asterisk-#)'
-        addspecs 'g*', '<Plug>(asterisk-g*)'
-        addspecs 'g#', '<Plug>(asterisk-g#)'
-        addspecs 'z*', '<Plug>(asterisk-z*)'
-        addspecs 'z#', '<Plug>(asterisk-z#)'
-        addspecs 'gz*', '<Plug>(asterisk-gz*)'
-        addspecs 'gz#', '<Plug>(asterisk-gz#)'
-
-        nnoremap {'silent'}, '<Leader>;', -> specs.show_specs!
     plug 'lewis6991/gitsigns.nvim', config: -> -- show git diff in the signcolumn
         (require 'gitsigns').setup
             keymaps:
@@ -138,10 +108,6 @@ plugins = ->
             merge_keywords: false
             search:
                 pattern: [[\b(KEYWORDS)\b]]
-
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>T', -> vim.cmd 'TodoTrouble'
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
@@ -157,50 +123,15 @@ plugins = ->
     plug 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
     plug 'lambdalisue/suda.vim', config: -> -- for editting files which require root permission
         vim.g.suda_smart_edit = 1
-    plug 'tpope/vim-vinegar' -- improve NetRW
-    plug 'KabbAmine/vCoolor.vim', config: -> -- color selector
-        import nnoremap from require 'vimp'
-
-        vim.g.vcoolor_disable_mappings = 1
-
-        nnoremap '<Leader>irgb', -> vim.cmd 'VCoolIns r'
-        nnoremap '<Leader>ihsl', -> vim.cmd 'VCoolIns h'
-        nnoremap '<Leader>ihex', -> vim.cmd 'VCoolor'
 
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
     plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
-    plug 'tpope/vim-fugitive', config: -> -- use git from vim
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>G', -> vim.cmd 'G'
-    plug 'christoomey/vim-conflicted', config: -> -- easily solve git merge conflicts
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>w', ->
-            conflicted_version = vim.g.ConflictedVersion!
-            if #conflicted_version == 0
-                return vim.fn.bufname!
-            else
-                return "[Conflicted] #{conflicted_version}"
+    plug 'tpope/vim-fugitive' -- use git from vim
+    plug 'christoomey/vim-conflicted' -- easily solve git merge conflicts
     plug 'junegunn/gv.vim' -- git commit browser
-    plug 'npxbr/glow.nvim', run: ':GlowInstall', branch: 'main', config: -> -- markdown previews in the terminal
-        import nnoremap from require 'vimp'
-
-        nnoremap '<LocalLeader>m', -> vim.cmd 'Glow'
     plugown 'magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
-        import nnoremap, xnoremap from require 'vimp'
-
-        nnoremap {'silent'},         '<LocalLeader>rr', ':MagmaEvaluateLine<CR>'
-        nnoremap {'silent'},         '<LocalLeader>rc', ':MagmaReevaluateCell<CR>'
-        nnoremap {'silent'},         '<LocalLeader>rd', ':MagmaDelete<CR>'
-        nnoremap {'silent'},         '<LocalLeader>ro', ':MagmaShowOutput<CR>'
-        nnoremap {'silent'},         '<LocalLeader>rn', ':MagmaInit<CR>'
-        xnoremap {'silent'},         '<LocalLeader>r',  ':<C-u>MagmaEvaluateVisual<CR>'
-
-        vim.cmd [[nnoremap <silent><expr> <LocalLeader>r nvim_exec("MagmaEvaluateOperator", v:true)]]
-
         vim.g.magma_automatically_open_output = false
         vim.g.magma_show_mimetype_debug = false
 
@@ -208,33 +139,15 @@ plugins = ->
     plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
         (require 'compe').setup
             source:
-                spell: true
+                spell: false
                 path: true
                 nvim_lsp: true
-                buffer: true
+                buffer: false
                 calc: true
                 nvim_lua: false
                 vsnip: false
                 ultisnips: false
                 luasnip: false
-
-        import inoremap from require 'vimp'
-
-        inoremap {'silent', 'expr'}, '<C-n>', 'compe#complete()'
-        inoremap {'silent', 'expr'}, '<C-p>', 'compe#complete()'
-        inoremap {'silent', 'expr'}, '<C-l>', 'compe#confirm("<CR>")'
-        inoremap {'silent', 'expr'}, '<C-c>', 'compe#close("<C-e>")'
-    plug 'nvim-lua/lsp-status.nvim', config: -> -- easily get status information from LSP
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>ll', ->
-            if #vim.lsp.buf_get_clients! == 0
-                print "There is no LSP attached!"
-            else
-                d = (require 'lsp-status').diagnostics!
-                sep = '    '
-
-                print "Errors: #{d.errors}    Warnings: #{d.warnings}    Infos: #{d.info}    Hints: #{d.hints}"
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
     plug 'stevearc/aerial.nvim', config: -> -- window with outline of symbols
         vim.g.aerial =
@@ -246,16 +159,10 @@ plugins = ->
         vim.cmd [[autocmd FileType aerial setl listchars-=trail:┈]]
     plug 'neovim/nvim-lspconfig', config: -> -- easily configure LSP
         nvim_lsp = require 'lspconfig'
-        lsp_status = require 'lsp-status'
         aerial = require 'aerial'
-
-        lsp_status.register_progress!
-
-        nvim_lsp.capabilities = vim.tbl_extend 'keep', nvim_lsp.capabilities or {}, lsp_status.capabilities
 
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
-            lsp_status.on_attach client
             aerial.on_attach client
 
             import nnoremap, vnoremap from require 'vimp'
@@ -329,11 +236,6 @@ plugins = ->
                 information: "I"
                 hint: "H"
             use_lsp_diagnostic_signs: true
-
-        import nnoremap from require 'vimp'
-
-        nnoremap '<Leader>lt', -> vim.cmd 'Trouble'
-        nnoremap '<Leader>qt', -> vim.cmd 'TroubleClose'
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
@@ -424,31 +326,15 @@ plugins = ->
         vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
 
         vim.g.pear_tree_pairs = basic_pairs
-    plug 'junegunn/vim-easy-align', config: -> -- align code
-        import xmap, nmap from require 'vimp'
-
-        xmap 'ga', '<Plug>(EasyAlign)'
-        nmap 'ga', '<Plug>(EasyAlign)'
+    plug 'junegunn/vim-easy-align' -- align code
     plug 'AndrewRadev/splitjoin.vim' -- change code between inline and multiline forms
     plug 'dhruvasagar/vim-table-mode', config: -> -- painlessly edit tables
         vim.g.table_mode_map_prefix = '<Leader><Bar>'
         vim.g.table_mode_toggle_map = '<Bar>'
     plug 'tommcdo/vim-exchange' -- exchange text around
-    plug 'svermeulen/vim-subversive', config: -> -- replace text with current yank
-        import nmap from require 'vimp'
-
-        nmap '<C-s>', '<Plug>(SubversiveSubstitute)'
-        -- nmap '<C-s><C-s>', '<Plug>(SubversiveSubstituteLine)'
+    plug 'svermeulen/vim-subversive' -- replace text with current yank
     plug 'godlygeek/tabular' -- aligns text, required by vim-markdown
-    plug 'monaqa/dial.nvim', config: -> -- better increment/decrement
-        import nmap, vmap from require 'vimp'
-
-        nmap '<C-a>', '<Plug>(dial-increment)'
-        nmap '<C-x>', '<Plug>(dial-decrement)'
-        vmap '<C-a>', '<Plug>(dial-increment)'
-        vmap '<C-x>', '<Plug>(dial-decrement)'
-        vmap 'g<C-a>', '<Plug>(dial-increment-additional)'
-        vmap 'g<C-x>', '<Plug>(dial-decrement-additional)'
+    plug 'monaqa/dial.nvim' -- better increment/decrement
 
     -- Text Objects
     plug 'wellle/targets.vim' -- better text objects
@@ -638,7 +524,7 @@ do
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
     vim.o.ttimeoutlen = 50 -- timeout for keycodes
-    vim.o.timeoutlen = 3000 -- timeout for mappings
+    vim.o.timeoutlen = 500 -- timeout for mappings
 
     --- Enable truecolors
     vim.o.termguicolors = true -- use trucolor in a terminal (i.e., use gui colors in a terminal)
@@ -650,63 +536,8 @@ vim.cmd 'colorscheme csillag'
 do
     import nnoremap, vnoremap, onoremap, tnoremap, nmap, vmap, map from require 'vimp'
 
-    -- Utils
-    nvexprremap = (y, z) ->
-        nnoremap {'expr','silent'}, y, z
-        vnoremap {'expr','silent'}, y, z
-    nvremap = (y, z) ->
-        nnoremap {'silent'}, y, z
-        vnoremap {'silent'}, y, z
-
-    -- Make jk and more go display linewise, not file linewise
-    nvexprremap 'k', [[v:count == 0 ? 'gk' : "\<Esc>".v:count.'k']]
-    nvexprremap 'j', [[v:count == 0 ? 'gj' : "\<Esc>".v:count.'j']]
-    nvexprremap '-', [[v:count == 0 ? 'gkg^' : "\<Esc>".v:count.'-']]
-    nvexprremap '+', [[v:count == 0 ? 'gjg^' : "\<Esc>".v:count.'+']]
-    nvremap '0', 'g0'
-    nvremap '$', 'g$'
-    nvremap '_', 'g^'
-
-    -- Swap ' and `
-    nnoremap "'", '`'
-    nnoremap '`', "'"
-
-    -- Make Y work like D
-    nnoremap 'Y', 'y$'
-
     -- Abbreviate :w to :up
     vim.cmd [[cnoreabbrev w up]]
-
-    -- Unmap Q
-    nnoremap 'Q', (->)
-
-    -- Bind <C-w>n to go back to normal mode from terminal mode
-    tnoremap '<C-w>n', '<C-\\><C-N>'
-
-    -- Change S to behave kinda like X
-    nmap {'silent'}, 'S', [["_Xi<CR><Esc>l]]
-
-    -- Change s to ys (normal) / S (visual)
-    nmap 's', 'ys'
-    vmap 's', 'S'
-
-    -- Add empty lines above and below
-    nnoremap {'silent'}, 'O', ->
-        count = vim.v.count1 - 1
-        vim.cmd [[norm! Oa]]
-        for _ = 1, count
-            vim.cmd [[put _]]
-            vim.cmd [[norm! k]]
-        vim.cmd [[norm! ^"_D]]
-        vim.cmd [[startinsert!]]
-    nnoremap {'silent'}, 'o', ->
-        count = vim.v.count1 - 1
-        vim.cmd [[norm! oa]]
-        for _ = 1, count
-            vim.cmd [[put! _]]
-            vim.cmd [[norm! j]]
-        vim.cmd [[norm! ^"_D]]
-        vim.cmd [[startinsert!]]
 
 -- Autocommands
 do
@@ -772,35 +603,204 @@ do
         augroup END
     ]]
 
--- Misc Mappings
+-- Functionality
 do
-    import nnoremap from require 'vimp'
-
-    -- Spellcheck related
-    nnoremap '<Leader>S', ":set spell!<CR>"
-    nnoremap '<Leader>s', ":set spelllang="
-
-    -- Open the compiled PDF for the current [markup] file
-    nnoremap '<Leader>p', ->
+    export open_corresponding_pdf
+    open_corresponding_pdf = ->
         filename = vim.fn.expand("%:r") .. ".pdf"
         if not vim.fn.filereadable filename
             vim.cmd "echoerr 'No such file: #{filename}'"
             return
         vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
 
-    nnoremap '<Leader>.', -> vim.cmd 'nohl'
+    export insert_line_above
+    insert_line_above = ->
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! Oa]]
+        for _ = 1, count
+            vim.cmd [[put _]]
+            vim.cmd [[norm! k]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]
+    export insert_line_below
+    insert_line_below = ->
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! oa]]
+        for _ = 1, count
+            vim.cmd [[put! _]]
+            vim.cmd [[norm! j]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]
 
-    nnoremap '<Leader>c', -> vim.cmd 'copen'
-    nnoremap '<Leader>qc', -> vim.cmd 'cclose'
+-- Mappings
+do
+    import applyKeymaps from require 'nest'
 
-    nnoremap 'gh',  '<C-w>h'
-    nnoremap 'gj',  '<C-w>j'
-    nnoremap 'gk',  '<C-w>k'
-    nnoremap 'gl',  '<C-w>l'
-    nnoremap 'gH',  '<C-w>H'
-    nnoremap 'gJ',  '<C-w>J'
-    nnoremap 'gK',  '<C-w>K'
-    nnoremap 'gL',  '<C-w>L'
-    nnoremap 'gwn', '<C-w>n'
-    nnoremap 'gwo', '<C-w>o'
-    nnoremap 'gwq', '<C-w>q'
+    EXPR_PREFIX = '<expr>'
+    RECURSIVE_PREFIX = '<rec>'
+    VISUAL_PREFIX = '<visual>'
+    INSERT_PREFIX = '<insert>'
+    myKeymaps = (maps) ->
+        out = {}
+        for k, v in pairs maps
+            local mode
+            if k\sub(1, #VISUAL_PREFIX) == VISUAL_PREFIX
+                k = k\sub(#VISUAL_PREFIX+1, #k)
+                mode = 'v'
+            elseif k\sub(1, #INSERT_PREFIX) == INSERT_PREFIX
+                k = k\sub(#INSERT_PREFIX+1, #k)
+                mode = 'i'
+            else
+                mode = 'n'
+
+            local expr
+            if k\sub(1, #EXPR_PREFIX) == EXPR_PREFIX
+                k = k\sub(#EXPR_PREFIX+1, #k)
+                expr = true
+            else
+                expr = fase
+
+            local noremap
+            if k\sub(1, #RECURSIVE_PREFIX) == RECURSIVE_PREFIX
+                k = k\sub(#RECURSIVE_PREFIX+1, #k)
+                noremap = false
+            else
+                noremap = true
+
+            if type(v) == 'table'
+                v = myKeymaps v
+
+            out[#out+1] =
+                [1]: k
+                [2]: v
+                :mode
+                options:
+                    :expr
+                    :noremap
+        out
+
+    vimcmd = (cmd) -> ':' .. cmd .. '<CR>'
+    luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
+    plug = (op) -> '<Plug>(' .. op .. ')'
+    addspecs = (op) -> op .. ':lua specs.show_specs()<CR>'
+
+    applyKeymaps myKeymaps
+        '<Leader>':
+            -- FZF
+            'e': vimcmd 'Files'
+            'ge': vimcmd 'GFiles'
+            'b': vimcmd 'Buffers'
+            'H': vimcmd 'Helptags'
+            'F': vimcmd 'Filetypes'
+
+            -- LSP-related
+            'l':
+                'r': vimcmd 'References'
+                'g': vimcmd 'DocumentSymbols'
+                'f': vimcmd 'WorkspaceSymbols'
+                'i': vimcmd 'Implementations'
+                'd': vimcmd 'Definitions'
+
+            -- magma-nvim
+            'r':
+                '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
+                '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
+                'r': vimcmd 'MagmaEvaluateLine'
+                'c': vimcmd 'MagmaReevaluateCell'
+                'd': vimcmd 'MagmaDelete'
+                'o': vimcmd 'MagmaShowOutput'
+                'n': vimcmd 'MagmaInit'
+
+            'G': vimcmd 'G' -- open fugitive
+
+            ';': luacmd 'specs.show_specs()' -- highlight the cursor
+
+            'S': vimcmd 'set spell!' -- toggle spell
+            -- 's': ':set spelllang=' -- set spell language
+
+            'p': luacmd 'open_corresponding_pdf()' -- open corresponding PDF for the current [markup file]
+
+            '.': vimcmd 'nohl' -- :nohl
+
+            'o': -- open windows
+                'c': vimcmd 'copen' -- open quickfix window
+                't': vimcmd 'Trouble' -- open trouble window
+                'T': vimcmd 'TodoTrouble' -- open trouble window with TODOs
+            'q': -- close windows
+                'c': vimcmd 'cclose' -- close quickfix window
+                't': vimcmd 'TroubleClose' -- close trouble window
+
+        -- substitute
+        '<C-s>':
+            '<rec>':      plug 'SubversiveSubstitute'
+            '<rec><C-s>': plug 'SubversiveSubstituteLine'
+
+        -- dial.nvim
+        '<rec><C-a>':         plug 'dial-increment'
+        '<rec><C-x>':         plug 'dial-decrement'
+        '<rec><visual><C-a>': plug 'dial-increment'
+        '<rec><visual><C-x>': plug 'dial-decrement'
+        '<rec>g<C-a>':        plug 'dial-increment-additional'
+        '<rec>g<C-x>':        plug 'dial-decrement-additional'
+
+        'g':
+            -- text alignment
+            -- TODO: xmap ga <Plug>(EasyAlign)
+            '<rec>a': plug 'EasyAlign'
+
+            -- window movement
+            'h': '<C-w>h'
+            'j': '<C-w>j'
+            'k': '<C-w>k'
+            'l': '<C-w>l'
+
+            -- window restructuring
+            'H': '<C-w>H'
+            'J': '<C-w>J'
+            'K': '<C-w>K'
+            'L': '<C-w>L'
+
+            -- misc window operations
+            'w':
+                'n': '<C-w>n'
+                'o': '<C-w>o'
+                'q': '<C-w>q'
+
+        -- nvim-compe
+        '<insert><expr><C-n>': 'compe#complete()'
+        '<insert><expr><C-p>': 'compe#complete()'
+        '<insert><expr><C-l>': 'compe#confirm("<C-l>")'
+        '<insert><expr><C-c>': 'compe#close("<C-e>")'
+
+        -- specs & asterisk
+        'n': addspecs 'n'
+        'N': addspecs 'N'
+        '<rec>*': addspecs plug 'asterisk-*'
+        '<rec>#': addspecs plug 'asterisk-#'
+        '<rec>g*': addspecs plug 'asterisk-g*'
+        '<rec>g#': addspecs plug 'asterisk-g#'
+        '<rec>z*': addspecs plug 'asterisk-z*'
+        '<rec>z#': addspecs plug 'asterisk-z#'
+        '<rec>gz*': addspecs plug 'asterisk-gz*'
+        '<rec>gz#': addspecs plug 'asterisk-gz#'
+
+        -- swap "go to mark" maps
+        "'": "`"
+        "`": "'"
+
+        -- Make Y work like D
+        'Y': 'y$'
+
+        -- Unmap Q
+        'Q': '<nop>'
+
+        -- Change S to behave kinda like X
+        'S': '"_Xi<CR><Esc>l'
+
+        -- Change s to ys (normal) / S (visual)
+        '<rec>s': 'ys'
+        '<visual><rec>s': 'S'
+
+        -- Change o/O to not insert text at multiple lines, when used with a count
+        'O': luacmd "insert_line_above()"
+        'o': luacmd "insert_line_below()"
