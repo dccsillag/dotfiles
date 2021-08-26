@@ -386,6 +386,7 @@ plugins = ->
     plug 'edwinb/idris2-vim' -- language support for Idris
     plug 'mrk21/yaml-vim' -- better language support for YAML
     plug 'cespare/vim-toml' -- language support for TOML
+    plug 'LnL7/vim-nix' -- language support for Nix
     plug 'MaxMEllon/vim-jsx-pretty' -- language support for JSX
     plug 'dart-lang/dart-vim-plugin' -- language support for Dart
     plug 'tikhomirov/vim-glsl' -- language support for GLSL
