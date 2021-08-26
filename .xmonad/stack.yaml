@@ -73,3 +73,23 @@ flags:
 #
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
+
+nix:
+  enable: true
+  pure: true
+  packages:
+    - cairo
+    - gcc
+    - gnome2.pango
+    - gtk2-x11
+    - libxml2
+    - pkgconfig
+    - upower
+    - x11
+    - xorg.libX11
+    - xorg.libXext
+    - xorg.libXinerama
+    - xorg.libXrandr
+    - xorg.libXrender
+    - xorg.libXScrnSaver
+    - xorg.libXpm
