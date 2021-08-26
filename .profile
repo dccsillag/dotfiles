@@ -18,7 +18,7 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 export EDITOR="nvim"
 export BROWSER="qutebrowser-quick"
-export PATH="$HOME/.local/share/cargo/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:.gem/ruby/2.7.0/bin:$HOME/.local/share/gem/bin"
+export PATH="$PATH:$HOME/.local/share/cargo/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:.gem/ruby/2.7.0/bin:$HOME/.local/share/gem/bin"
 export GOPATH="$XDG_DATA_HOME/go"
 export SSHALIAS="0"
 export OCTAVE_HISTFILE="$XDG_CACHE_HOME/octave-hsts"
