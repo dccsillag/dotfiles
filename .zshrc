@@ -122,7 +122,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Reset xterm style after SSH
 function ssh() {
     export SSHALIAS=1
-    /usr/bin/ssh $@
+    /usr/bin/env ssh "$@"
     export SSHALIAS=0
     exitcode=$?
     bgset %0
@@ -130,7 +130,7 @@ function ssh() {
 }
 function mosh() {
     export SSHALIAS=1
-    /usr/bin/mosh $@
+    /usr/bin/env mosh "$@"
     export SSHALIAS=0
     exitcode=$?
     bgset %0
@@ -283,8 +283,7 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
 # # misc
-alias clear='clear -x'
-alias cls='/usr/bin/clear'
+alias cls='clear'
 alias cmd='command'
 # # Bottom
 alias btmb='btm -ba'
