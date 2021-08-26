@@ -5,7 +5,7 @@ check() {
 }
 
 install_manual() {
-    git clone git@github.com:dccsillag/packs.git
+    git clone https://github.com/dccsillag/packs.git
     cd packs
     cp packs.sh ~/.local/bin/packs
     chmod +x ~/.local/bin/packs
