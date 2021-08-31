@@ -105,6 +105,9 @@ if ! zgen saved; then
     abbr -U ta='taskell'
     # # # BluetoothCTL
     abbr -U bu='bluetoothctl'
+    # # # Vim
+    abbr -U --force vim='nvim'
+    abbr -U --force vi='nvim'
 
     zgen save
 fi
@@ -246,7 +249,6 @@ function rem() {
 
 # Setup aliases
 # # Vim
-alias vim=nvim
 alias edit=nvim
 alias view='nvim -R'
 # # Sudo
@@ -290,10 +292,10 @@ alias btmb='btm -ba'
 alias btmp="btm -C $HOME/.config/bottom/bottom-proc.toml"
 # # Edit a file in Vim
 alias fzf-inline='fzf --height 50% --reverse'
-alias ed='f=$(fzf-inline) && vim $f'
-alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" vim $f )'
-alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && vim $f'
-alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && vim $f'
+alias ed='f=$(fzf-inline) && nvim $f'
+alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" nvim $f )'
+alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && nvim $f'
+alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && nvim $f'
 
 # Setup better history completion
 bindkey "^[[A" history-beginning-search-backward
