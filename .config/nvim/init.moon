@@ -282,6 +282,8 @@ plugins = ->
     plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
 
     -- Editing Help
+    plug 'phaazon/hop.nvim', config: -> -- easily jump to various part of the buffer
+        (require 'hop').setup!
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'tomtom/tcomment_vim' -- comment/uncomment code
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
@@ -822,8 +824,11 @@ do
         -- Make Y work like D
         'Y': 'y$'
 
-        -- Unmap Q
-        'Q': '<nop>'
+        -- Map Q to q
+        'Q': 'q'
+
+        -- Map hop to q
+        'q': luacmd "require 'hop'.hint_words()"
 
         -- Change S to behave kinda like X
         'S': '"_Xi<CR><Esc>l'
