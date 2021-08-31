@@ -69,7 +69,6 @@ myKeys = flip mkNamedKeymap
     , ("M-n M-S-t", addName "Spawn a terminal with SSH"  $ sshPrompt csillagPromptConfig)
     , ("M-n M-f",   addName "Spawn a file manager"       $ spawn filemanagerSpawn)
     , ("M-n M-v",   addName "Spawn an editor"            $ spawn texteditorSpawn)
-    , ("M-n M-m",   addName "Spawn an editor for markup" $ spawn texteditorMarkdownSpawn)
     , ("M-n M-b",   addName "Spawn a browser"            $ spawn browserSpawn)
     , ("M-n M-S-b", addName "Spawn a private browser"    $ spawn browserSpawnPrivate)
     , ("M-n M-c",   addName "Spawn a camera view"        $ spawn camviewSpawn)
