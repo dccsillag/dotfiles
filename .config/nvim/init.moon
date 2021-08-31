@@ -83,33 +83,6 @@ plugins = ->
     plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
         vim.g.context_nvim_no_redraw = 1
     plug 'kshenoy/vim-signature' -- show marks in the sign column
-    plug 'folke/todo-comments.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- work with todo comments
-        (require 'todo-comments').setup
-            keywords:
-                FIXME:
-                    icon: "F"
-                    color: "error"
-                TODO:
-                    icon: "T"
-                    color: "info"
-                HACK:
-                    icon: "H"
-                    color: "warning"
-                WARN:
-                    icon: "W"
-                    color: "warning"
-                XXX:
-                    icon: "X"
-                    color: "warning"
-                PERF:
-                    icon: "P"
-                    color: "hint"
-                NOTE:
-                    icon: "N"
-                    color: "hint"
-            merge_keywords: false
-            search:
-                pattern: [[\b(KEYWORDS)\b]]
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
@@ -722,7 +695,6 @@ do
             'o': -- open windows
                 'c': vimcmd 'copen' -- open quickfix window
                 't': vimcmd 'Trouble' -- open trouble window
-                'T': vimcmd 'TodoTrouble' -- open trouble window with TODOs
             'q': -- close windows
                 'c': vimcmd 'cclose' -- close quickfix window
                 't': vimcmd 'TroubleClose' -- close trouble window
