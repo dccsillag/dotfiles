@@ -78,8 +78,8 @@ plugins = ->
     --     (require 'treesitter-context').setup
     --         enable: true
     --         throttle: true
-    -- plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
-    --     vim.g.context_nvim_no_redraw = 1
+    plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
+        vim.g.context_nvim_no_redraw = 1
     plug 'kshenoy/vim-signature' -- show marks in the sign column
     plug 'folke/todo-comments.nvim', requires: 'nvim-lua/plenary.nvim', config: -> -- work with todo comments
         (require 'todo-comments').setup
