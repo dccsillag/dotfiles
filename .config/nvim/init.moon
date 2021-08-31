@@ -762,6 +762,9 @@ do
                 'c': vimcmd 'cclose' -- close quickfix window
                 't': vimcmd 'TroubleClose' -- close trouble window
 
+        -- spell suggest
+        'z=': fzflua 'spell_suggest'
+
         -- substitute
         '<C-s>':
             '<rec>':      plug 'SubversiveSubstitute'
