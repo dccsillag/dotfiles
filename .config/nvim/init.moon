@@ -27,9 +27,9 @@ plugins = ->
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
-    plug 'junegunn/fzf' -- fuzzy finder
-    plug 'junegunn/fzf.vim' -- 'official' fzf addons
-    plug 'gfanto/fzf-lsp.nvim' -- LSP fzf addons
+    plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
+    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'}, config: -> -- fuzzy finder from neovim
+        -- require 'fzf-lua'
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         export specs
@@ -684,23 +684,26 @@ do
     luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
     plug = (op) -> '<Plug>(' .. op .. ')'
     addspecs = (op) -> op .. ':lua specs.show_specs()<CR>'
+    fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 
     applyKeymaps myKeymaps
         '<Leader>':
             -- FZF
-            'e': vimcmd 'Files'
-            'ge': vimcmd 'GFiles'
-            'b': vimcmd 'Buffers'
-            'H': vimcmd 'Helptags'
-            'F': vimcmd 'Filetypes'
+            'e': fzflua 'files'
+            'ge': fzflua 'git_files'
+            'b': fzflua 'buffers'
+            'H': fzflua 'help_tags'
+            -- 'F': fzflua 'Filetypes'
 
             -- LSP-related
             'l':
-                'r': vimcmd 'References'
-                'g': vimcmd 'DocumentSymbols'
-                'f': vimcmd 'WorkspaceSymbols'
-                'i': vimcmd 'Implementations'
-                'd': vimcmd 'Definitions'
+                'r': fzflua 'lsp_references'
+                'g': fzflua 'lsp_live_workspace_symbols'
+                'G': fzflua 'lsp_document_symbols'
+                'i': fzflua 'lsp_implementations'
+                ']': fzflua 'lsp_definitions'
+                'd': fzflua 'lsp_workspace_diagnostics'
+                'D': fzflua 'lsp_document_diagnostics'
 
             -- magma-nvim
             'r':
