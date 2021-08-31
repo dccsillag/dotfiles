@@ -96,7 +96,7 @@ if ! zgen saved; then
     abbr -U n='nnn'
     # # # Haskell
     abbr -U hs='stack ghci'
-    abbr -U st='stack'
+    abbr -U --force st='stack'
     # # # Tree
     abbr -U tre='tree'
     # # # Abduco
