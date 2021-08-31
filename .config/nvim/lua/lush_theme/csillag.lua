@@ -237,6 +237,12 @@ local theme = lush(function()
 
     IndentBlanklineChar { fg = "#666666" }, -- Color to use for indent guides (indent-blankline.nvim)
 
+    -- HopNextKey   { fg = "#FFFFFF", bg = "#4444EE", gui = "bold" }, -- color for hop sequence of length 1
+    HopNextKey   { fg = "#FFFFFF", bg = "#44AA44", gui = "bold" }, -- color for hop sequence of length 1
+    HopNextKey1  { HopNextKey }, -- color for hop head of sequence
+    HopNextKey2  { HopNextKey, fg = "#000000" }, -- color for hop tail of sequence
+    HopUnmatched { Normal, fg = "#666666" }                        -- color for hop unmatched chars
+
   }
 end)
 
