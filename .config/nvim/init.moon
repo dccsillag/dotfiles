@@ -70,8 +70,8 @@ plugins = ->
             d: do
                 if is_in_git_repo
                     {
-                        description: {"  Open Fugitive                                      :G | only"}
-                        command: "G | only"
+                        description: {"  Open Fugitive                                      :Fugitive"}
+                        command: "Fugitive"
                     }
                 else
                     nil
@@ -157,7 +157,13 @@ plugins = ->
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
     plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
-    plug 'tpope/vim-fugitive' -- use git from vim
+    plug 'tpope/vim-fugitive', config: -> -- use git from vim
+        import map_command, nnoremap from require 'vimp'
+
+        map_command 'Fugitive', ->
+            vim.cmd ":G"
+            vim.cmd "only"
+            nnoremap {"buffer"}, "gq", ":qa!<CR>"
     plug 'christoomey/vim-conflicted' -- easily solve git merge conflicts
     plug 'junegunn/gv.vim' -- git commit browser
     plugown 'magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
