@@ -82,6 +82,7 @@ plugins = ->
                 description: {"  Install Plugins                               :PackerInstall"}
                 command: "PackerInstall"
         vim.cmd [[
+            autocmd FileType dashboard nnoremap <buffer> q :qa!<CR>
             autocmd FileType dashboard set fillchars+=eob:\  | autocmd WinLeave <buffer> set fillchars-=eob
         ]]
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
