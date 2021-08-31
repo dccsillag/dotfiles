@@ -38,7 +38,6 @@
     show_age_threshold   = 60
     show_indicators      = yes
 
-    transparency         = 15
     frame_color          = "#ffffff"
     # frame_color          = "#808080"
 
