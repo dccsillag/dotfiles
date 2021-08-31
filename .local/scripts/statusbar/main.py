@@ -29,6 +29,7 @@ MODULES_RIGHT = [
     "music",
     "mic",
     "wifi",
+    "battery-monitor-status",
     "battery",
 ]
 
