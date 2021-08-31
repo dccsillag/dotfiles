@@ -53,7 +53,7 @@ local theme = lush(function()
     MsgSeparator      { MsgArea }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg           { MsgArea }, -- |more-prompt|
     NonText           { fg = "#777777" }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal            { fg = "#FFFFFF" }, -- normal text
+    Normal            { fg = "#FFFFFF", bg = "NONE" }, -- normal text
     NormalFloat       { fg = "#FFFFFF", bg = "#222222" }, -- Normal text in floating windows.
     NormalNC          { Normal }, -- normal text in non-current windows
     Pmenu             { NormalFloat }, -- Popup menu: normal item.
