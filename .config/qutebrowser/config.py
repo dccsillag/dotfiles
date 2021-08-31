@@ -182,7 +182,7 @@ c.colors.tabs.selected.even.bg                  = '#80333333'
 c.colors.tabs.selected.odd.fg                   = '#ffffff'
 c.colors.tabs.selected.odd.bg                   = '#80333333'
 c.colors.webpage.bg                             = '#1b2326'
-c.window.transparent                            = True
+c.window.transparent                            = False
 
 # }}}
 
