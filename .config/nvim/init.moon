@@ -30,6 +30,60 @@ plugins = ->
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
     plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'}, config: -> -- fuzzy finder from neovim
         -- require 'fzf-lua'
+    plug 'glepnir/dashboard-nvim', config: -> -- nice startup screen
+        is_in_git_repo = os.execute("git rev-parse --is-inside-work-tree > /dev/null 2>&1") == 0
+
+        vim.g.dashboard_custom_header = {
+            -- ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+            -- ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+            -- ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+            -- ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+            -- ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+            -- ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+            [[                                                88                    ]],
+            [[                                                                      ]],
+            [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]],
+            [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]],
+            [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]],
+            [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]],
+            [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]],
+        }
+        vim.g.dashboard_custom_footer = {"  @dccsillag"}
+        vim.g.dashboard_custom_section =
+            a:
+                description: {"  New Buffer                                             :enew"}
+                command: "enew"
+            b:
+                description: {"  New Markdown Buffer                    :enew | setf markdown"}
+                command: "enew | setf markdown"
+            c:
+                description: do
+                    if is_in_git_repo
+                        {"  Search for files in git repo               :FzfLua git_files"}
+                    else
+                        {"  Search for files                               :FzfLua files"}
+                command: do
+                    if is_in_git_repo
+                        "FzfLua git_files"
+                    else
+                        "FzfLua files"
+            d: do
+                if is_in_git_repo
+                    {
+                        description: {"  Open Fugitive                                      :G | only"}
+                        command: "G | only"
+                    }
+                else
+                    nil
+            e:
+                description: {"ﮮ  Update Plugins                                 :PackerUpdate"}
+                command: "PackerUpdate"
+            f:
+                description: {"  Install Plugins                               :PackerInstall"}
+                command: "PackerInstall"
+        vim.cmd [[
+            autocmd FileType dashboard set fillchars+=eob:\  | autocmd WinLeave <buffer> set fillchars-=eob
+        ]]
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         export specs
@@ -45,7 +99,7 @@ plugins = ->
                 winhl: 'Specs'
                 fader: specs.empty_fader
                 resizer: specs.shrink_resizer
-            ignore_filetypes: {}
+            ignore_filetypes: {"dashboard"}
             ignore_buftypes: {"nofile": true}
     plug 'folke/zen-mode.nvim', config: -> -- toggleable zen mode for editing
         (require "zen-mode").setup!
@@ -75,7 +129,7 @@ plugins = ->
         vim.g.indent_blankline_char = '⎜'
         vim.g.indent_blankline_show_trailing_blankline_indent = false
         vim.g.indent_blankline_buftype_exclude = {'terminal'}
-        vim.g.indent_blankline_filetype_exclude = {'aerial'}
+        vim.g.indent_blankline_filetype_exclude = {'aerial', 'dashboard', 'packer'}
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
     --     (require 'treesitter-context').setup
     --         enable: true
