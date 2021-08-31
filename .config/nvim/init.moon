@@ -365,14 +365,13 @@ plugins = ->
         vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
 
         vim.g.pear_tree_pairs = basic_pairs
-    plug 'junegunn/vim-easy-align' -- align code
+    plug 'godlygeek/tabular' -- aligns code
     plug 'AndrewRadev/splitjoin.vim' -- change code between inline and multiline forms
     plug 'dhruvasagar/vim-table-mode', config: -> -- painlessly edit tables
         vim.g.table_mode_map_prefix = '<Leader><Bar>'
         vim.g.table_mode_toggle_map = '<Bar>'
     plug 'tommcdo/vim-exchange' -- exchange text around
     plug 'svermeulen/vim-subversive' -- replace text with current yank
-    plug 'godlygeek/tabular' -- aligns text, required by vim-markdown
     plug 'monaqa/dial.nvim' -- better increment/decrement
 
     -- Text Objects
@@ -406,7 +405,7 @@ plugins = ->
     plug 'bfrg/vim-cpp-modern', config: -> -- better C++ syntax highlight
         vim.g.cpp_no_function_highlight        = false
         vim.g.cpp_named_requirements_highlight = true
-    plug 'gabrielelana/vim-markdown', config: -> -- better Markdown support
+    plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'}, config: -> -- better Markdown support
         vim.g.markdown_enable_insert_mode_leader_mappings = false
     plug 'leafo/moonscript-vim' -- language support for MoonScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
@@ -777,10 +776,6 @@ do
         '<rec>g<C-x>':        plug 'dial-decrement-additional'
 
         'g':
-            -- text alignment
-            -- TODO: xmap ga <Plug>(EasyAlign)
-            '<rec>a': plug 'EasyAlign'
-
             -- window movement
             'h': '<C-w>h'
             'j': '<C-w>j'
@@ -798,6 +793,12 @@ do
                 'n': '<C-w>n'
                 'o': '<C-w>o'
                 'q': '<C-w>q'
+
+            -- text alignment
+            'a':
+                '=': vimcmd [[Tabularize /=]]
+                ':': vimcmd [[Tabularize /:\zs]]
+                ' ': vimcmd [[Tabularize /,\zs]]
 
         -- nvim-compe
         '<insert><expr><C-n>': 'compe#complete()'
