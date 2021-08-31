@@ -153,6 +153,7 @@ plugins = ->
     plug 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
     plug 'lambdalisue/suda.vim', config: -> -- for editting files which require root permission
         vim.g.suda_smart_edit = 1
+    plug 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
 
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
