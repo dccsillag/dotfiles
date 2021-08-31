@@ -28,27 +28,45 @@ plugins = ->
 
     -- Interface
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
-    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'}, config: -> -- fuzzy finder from neovim
-        -- require 'fzf-lua'
+    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
     plug 'glepnir/dashboard-nvim', config: -> -- nice startup screen
         is_in_git_repo = os.execute("git rev-parse --is-inside-work-tree > /dev/null 2>&1") == 0
+        version = vim.version!
 
         vim.g.dashboard_custom_header = {
+            -- from README
             -- ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
             -- ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
             -- ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
             -- ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
             -- ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
             -- ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
-            [[                                                88                    ]],
-            [[                                                                      ]],
-            [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]],
-            [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]],
-            [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]],
-            [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]],
-            [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]],
+
+            -- figlet -f univers neovim
+            -- [[                                                88                    ]],
+            -- [[                                                ""                    ]],
+            -- [[                                                                      ]],
+            -- [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]],
+            -- [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]],
+            -- [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]],
+            -- [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]],
+            -- [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]],
+
+            -- figlet -f nancyj neovim
+            [[                                    oo           ]],
+            [[                                                 ]],
+            [[88d888b. .d8888b. .d8888b. dP   .dP dP 88d8b.d8b.]],
+            [[88'  `88 88ooood8 88'  `88 88   d8' 88 88'`88'`88]],
+            [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]],
+            [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]],
         }
-        vim.g.dashboard_custom_footer = {"  @dccsillag"}
+        stabletext = do
+            if version.api_prerelease
+                " "
+            else
+                ""
+        vim.g.dashboard_custom_footer =
+            [1]: string.format "  NeoVim version %s%1d.%1d.%1d", stabletext, version.major, version.minor, version.patch
         vim.g.dashboard_custom_section =
             a:
                 description: {"  New Buffer                                             :enew"}
@@ -79,8 +97,10 @@ plugins = ->
                 description: {"ﮮ  Update Plugins                                 :PackerUpdate"}
                 command: "PackerUpdate"
             f:
-                description: {"  Install Plugins                               :PackerInstall"}
-                command: "PackerInstall"
+                description: {"  Clean and Install Plugins       :PackerClean | PackerInstall"}
+                command: ->
+                    vim.cmd "PackerClean"
+                    vim.cmd "PackerInstall"
         vim.cmd [[
             autocmd FileType dashboard nnoremap <buffer> q :qa!<CR>
             autocmd FileType dashboard set fillchars+=eob:\  | autocmd WinLeave <buffer> set fillchars-=eob
