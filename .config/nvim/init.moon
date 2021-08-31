@@ -369,17 +369,8 @@ plugins = ->
     plug 'bfrg/vim-cpp-modern', config: -> -- better C++ syntax highlight
         vim.g.cpp_no_function_highlight        = false
         vim.g.cpp_named_requirements_highlight = true
-    plug 'plasticboy/vim-markdown', config: -> -- better Markdown support
-        vim.g.vim_markdown_folding_style_pythonic  = true
-        vim.g.vim_markdown_override_foldtext       = false
-        vim.g.vim_markdown_no_default_key_mappings = true
-        -- vim.g.vim_markdown_emphasis_multiline = false
-        vim.g.vim_markdown_fenced_languages        = {'c++=cpp', 'scm=scheme', 'py=python'}
-        vim.g.vim_markdown_conceal_code_blocks     = false
-
-        vim.g.vim_markdown_math                    = true
-        vim.g.vim_markdown_frontmatter             = true
-        vim.g.vim_markdown_strikethrough           = true
+    plug 'gabrielelana/vim-markdown', config: -> -- better Markdown support
+        vim.g.markdown_enable_insert_mode_leader_mappings = false
     plug 'leafo/moonscript-vim' -- language support for MoonScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
