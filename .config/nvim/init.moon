@@ -47,6 +47,8 @@ plugins = ->
                 resizer: specs.shrink_resizer
             ignore_filetypes: {}
             ignore_buftypes: {"nofile": true}
+    plug 'folke/zen-mode.nvim', config: -> -- toggleable zen mode for editing
+        (require "zen-mode").setup!
     plug 'lewis6991/gitsigns.nvim', config: -> -- show git diff in the signcolumn
         (require 'gitsigns').setup
             keymaps:
