@@ -20,7 +20,7 @@ plugins = ->
     -- Core
     plug 'wbthomason/packer.nvim' -- plugin manager
     plug 'svermeulen/vimpeccable', config: -> -- convenience Lua functions for config
-        vimp = require 'vimp'
+        import 'vimp'
 
         vimp.always_override = true
     plug 'LionC/nest.nvim' -- easy API for creating mappings
@@ -33,34 +33,33 @@ plugins = ->
         is_in_git_repo = os.execute("git rev-parse --is-inside-work-tree > /dev/null 2>&1") == 0
         version = vim.version!
 
-        vim.g.dashboard_custom_header = {
+        vim.g.dashboard_custom_header =
             -- from README
-            -- ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
-            -- ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
-            -- ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
-            -- ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
-            -- ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
-            -- ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+            -- * ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗'
+            -- * ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║'
+            -- * ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║'
+            -- * ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║'
+            -- * ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║'
+            -- * ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝'
 
             -- figlet -f univers neovim
-            -- [[                                                88                    ]],
-            -- [[                                                ""                    ]],
-            -- [[                                                                      ]],
-            -- [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]],
-            -- [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]],
-            -- [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]],
-            -- [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]],
-            -- [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]],
+            -- * [[                                                88                    ]]
+            -- * [[                                                ""                    ]]
+            -- * [[                                                                      ]]
+            -- * [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]]
+            -- * [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]]
+            -- * [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]]
+            -- * [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]]
+            -- * [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]]
 
             -- figlet -f nancyj neovim
-            [[                                    oo           ]],
-            [[                                                 ]],
-            [[88d888b. .d8888b. .d8888b. dP   .dP dP 88d8b.d8b.]],
-            [[88'  `88 88ooood8 88'  `88 88   d8' 88 88'`88'`88]],
-            [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]],
-            [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]],
-        }
-        versionicon = do if version.api_prerelease then " " else ""
+            * [[                                    oo           ]]
+            * [[                                                 ]]
+            * [[88d888b. .d8888b. .d8888b. dP   .dP dP 88d8b.d8b.]]
+            * [[88'  `88 88ooood8 88'  `88 88   d8' 88 88'`88'`88]]
+            * [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]]
+            * [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]]
+        versionicon = if version.api_prerelease then " " else ""
         versionstr = string.format "%1d.%1d.%1d", version.major, version.minor, version.patch
         vim.g.dashboard_custom_footer =
             * string.format "  NeoVim version " .. versionicon .. versionstr
@@ -105,7 +104,8 @@ plugins = ->
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         global specs
-        specs = require 'specs'
+        import 'specs'
+
         specs.setup
             show_jumps: false -- (vim.fn.exists 'neovide') == 0
             min_jump: 2
@@ -117,12 +117,16 @@ plugins = ->
                 winhl: 'Specs'
                 fader: specs.empty_fader
                 resizer: specs.shrink_resizer
-            ignore_filetypes: {"dashboard"}
-            ignore_buftypes: {"nofile": true}
+            ignore_filetypes:
+                * "dashboard"
+            ignore_buftypes:
+                "nofile": true
     plug 'folke/zen-mode.nvim', config: -> -- toggleable zen mode for editing
-        (require "zen-mode").setup!
+        import 'zen-mode' as zen_mode
+        zen_mode.setup!
     plug 'lewis6991/gitsigns.nvim', config: -> -- show git diff in the signcolumn
-        (require 'gitsigns').setup
+        import 'gitsigns'
+        gitsigns.setup
             keymaps:
                 noremap: true
                 ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
@@ -146,8 +150,12 @@ plugins = ->
     plug 'lukas-reineke/indent-blankline.nvim', config: -> -- indent guides
         vim.g.indent_blankline_char = '⎜'
         vim.g.indent_blankline_show_trailing_blankline_indent = false
-        vim.g.indent_blankline_buftype_exclude = {'terminal'}
-        vim.g.indent_blankline_filetype_exclude = {'aerial', 'dashboard', 'packer'}
+        vim.g.indent_blankline_buftype_exclude =
+            * 'terminal'
+        vim.g.indent_blankline_filetype_exclude =
+            * 'aerial'
+            * 'dashboard'
+            * 'packer'
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
     --     (require 'treesitter-context').setup
     --         enable: true
@@ -191,7 +199,8 @@ plugins = ->
 
     -- LSP / TreeSitter / Formatting
     plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
-        (require 'compe').setup
+        import 'compe'
+        compe.setup
             source:
                 spell: false
                 path: true
@@ -212,8 +221,8 @@ plugins = ->
 
         vim.cmd [[autocmd FileType aerial setl listchars-=trail:┈]]
     plug 'neovim/nvim-lspconfig', config: -> -- easily configure LSP
-        nvim_lsp = require 'lspconfig'
-        aerial = require 'aerial'
+        import 'lspconfig' as nvim_lsp
+        import 'aerial'
 
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
@@ -254,10 +263,16 @@ plugins = ->
                         enable: false
         nvim_lsp.clangd.setup
             :on_attach
-            cmd: {"clangd", "--background-index", "--clang-tidy"}
+            cmd:
+                * "clangd"
+                * "--background-index"
+                * "--clang-tidy"
         nvim_lsp.sumneko_lua.setup
             :on_attach
-            cmd: {"lua-language-server", "-E", "/usr/share/lua-language-server/main.lua"}
+            cmd:
+                * "lua-language-server"
+                * "-E"
+                * "/usr/share/lua-language-server/main.lua"
         nvim_lsp.pyright.setup :on_attach
         nvim_lsp.hls.setup :on_attach
         nvim_lsp.texlab.setup :on_attach
@@ -269,7 +284,8 @@ plugins = ->
                 signs: false
                 update_in_insert: true
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate', config: -> -- easy treesitter config
-        (require 'nvim-treesitter.configs').setup
+        import 'nvim-treesitter.configs' as nvim_treesitter
+        nvim_treesitter.setup
             highlight:
                 enable: true
                 additional_vim_regex_highlighting: false
@@ -282,7 +298,8 @@ plugins = ->
             indent:
                 enable: false -- currently, this is broken.
     plug 'folke/trouble.nvim', config: -> -- list code troubles
-        (require 'trouble').setup
+        import 'trouble'
+        trouble.setup
             icons: false
             signs:
                 error: "E"
@@ -300,7 +317,8 @@ plugins = ->
 
     -- Editing Help
     plug 'phaazon/hop.nvim', config: -> -- easily jump to various part of the buffer
-        (require 'hop').setup!
+        import 'hop'
+        hop.setup!
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'tomtom/tcomment_vim' -- comment/uncomment code
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
@@ -442,17 +460,20 @@ plugins = ->
     plug 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
     plug 'pest-parser/pest.vim' -- language support for Pest grammars
 
+import 'packer'
+import 'packer.util' as packer_util
+
 packer_config =
     max_jobs: 8
     display:
-        open_fn: -> (require 'packer.util').float border: 'single'
+        open_fn: -> packer_util.float border: 'single'
         working_sym: "•"
         error_sym: "✗"
         done_sym: "✓"
         removed_sym: "-"
         moved_sym: "→"
         header_sym: "━"
-(require 'packer').startup {plugins, config: packer_config}
+packer.startup {plugins, config: packer_config}
 
 -- Neovide (GUI) options
 vim.g.neovide_transparency = 0.75
@@ -539,6 +560,9 @@ do
     --- Highlight search results
     vim.o.hlsearch = true -- highlight search results
 
+    --- Setup search wrapping
+    vim.o.wrapscan = false -- disable search wrapping
+
     --- Preview search/substitute pattern matches
     vim.o.incsearch = true -- live preview search results
     vim.o.inccommand = 'nosplit' -- live preview command (:s, :g, etc.) results
@@ -591,11 +615,11 @@ do
 do
     import map_command from require 'vimp'
 
-    -- Automatically compile init.yue into init.lua
+    -- Automatically compile config.yue into config.lua
     map_command 'CompileInit', ->
-        vim.cmd 'cexpr system("yue ~/.config/nvim/init.yue")'
+        vim.cmd 'cexpr system("yue ~/.config/nvim/config.yue")'
         vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es +PackerCompile'
-    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.yue')} CompileInit"
+    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/config.yue')} CompileInit"
 
     -- AutoView
     -- vim.cmd [[
