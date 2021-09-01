@@ -60,13 +60,10 @@ plugins = ->
             [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]],
             [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]],
         }
-        stabletext = do
-            if version.api_prerelease
-                " "
-            else
-                ""
+        versionicon = do if version.api_prerelease then " " else ""
+        versionstr = string.format "%1d.%1d.%1d", version.major, version.minor, version.patch
         vim.g.dashboard_custom_footer =
-            [1]: string.format "  NeoVim version %s%1d.%1d.%1d", stabletext, version.major, version.minor, version.patch
+            [1]: string.format "  NeoVim version " .. versionicon .. versionstr
         vim.g.dashboard_custom_section =
             a:
                 description: {"  New Buffer                                             :enew"}
