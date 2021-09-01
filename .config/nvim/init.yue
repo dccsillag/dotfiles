@@ -63,7 +63,7 @@ plugins = ->
         versionicon = do if version.api_prerelease then " " else ""
         versionstr = string.format "%1d.%1d.%1d", version.major, version.minor, version.patch
         vim.g.dashboard_custom_footer =
-            [1]: string.format "  NeoVim version " .. versionicon .. versionstr
+            * string.format "  NeoVim version " .. versionicon .. versionstr
         vim.g.dashboard_custom_section =
             a:
                 description: {"  New Buffer                                             :enew"}
@@ -104,7 +104,7 @@ plugins = ->
         ]]
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
-        export specs
+        global specs
         specs = require 'specs'
         specs.setup
             show_jumps: false -- (vim.fn.exists 'neovide') == 0
@@ -306,7 +306,7 @@ plugins = ->
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
         vim.g.pear_tree_repeatable_expand = 0
 
-        export all_peartree_pairs
+        global all_peartree_pairs
         all_peartree_pairs =
             basic_pairs: -- parentheses, bracktes, etc.
                 ["("]: closer: ")"
@@ -354,7 +354,7 @@ plugins = ->
             templates: -- c++ templates / rust type variables
                 ["<"]: closer: ">", not_at: {"\\W", "^"}
 
-        export pairs_per_filetype, set_pairs_for_filetype
+        global pairs_per_filetype, set_pairs_for_filetype
         pairs_per_filetype =
             xml:        {'xml'}
             html:       {'xml'}
@@ -590,11 +590,11 @@ do
 do
     import map_command from require 'vimp'
 
-    -- Automatically compile init.moon into init.lua
+    -- Automatically compile init.yue into init.lua
     map_command 'CompileInit', ->
-        vim.cmd 'cexpr system("moonc ~/.config/nvim/init.moon")'
+        vim.cmd 'cexpr system("yue ~/.config/nvim/init.yue")'
         vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es +PackerCompile'
-    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.moon')} CompileInit"
+    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/init.yue')} CompileInit"
 
     -- AutoView
     -- vim.cmd [[
@@ -652,7 +652,7 @@ do
 
 -- Functionality
 do
-    export open_corresponding_pdf
+    global open_corresponding_pdf
     open_corresponding_pdf = ->
         filename = vim.fn.expand("%:r") .. ".pdf"
         if not vim.fn.filereadable filename
@@ -660,7 +660,7 @@ do
             return
         vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
 
-    export insert_line_above
+    global insert_line_above
     insert_line_above = ->
         count = vim.v.count1 - 1
         vim.cmd [[norm! Oa]]
@@ -669,7 +669,7 @@ do
             vim.cmd [[norm! k]]
         vim.cmd [[norm! ^"_D]]
         vim.cmd [[startinsert!]]
-    export insert_line_below
+    global insert_line_below
     insert_line_below = ->
         count = vim.v.count1 - 1
         vim.cmd [[norm! oa]]
@@ -718,8 +718,8 @@ do
                 v = myKeymaps v
 
             out[#out+1] =
-                [1]: k
-                [2]: v
+                * k
+                * v
                 :mode
                 options:
                     :expr

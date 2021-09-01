@@ -1,0 +1,12 @@
+# vim: ft=sh
+
+check() {
+    command_exists yue
+}
+
+install_manual() {
+    git clone https://github.com/pigpigyyy/Yuescript.git
+    cd Yuescript
+
+    make install "INSTALL_PREFIX=$HOME/.local/" NO_LUA=true
+}
