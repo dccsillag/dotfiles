@@ -425,6 +425,7 @@ plugins = ->
     plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'}, config: -> -- better Markdown support
         vim.g.markdown_enable_insert_mode_leader_mappings = false
     plug 'leafo/moonscript-vim' -- language support for MoonScript
+    plug 'pigpigyyy/yuescript-vim' -- language support for YueScript
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
     plug 'rust-lang/rust.vim' -- better Rust syntax support
