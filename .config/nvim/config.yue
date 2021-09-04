@@ -597,6 +597,9 @@ do
     --- Setup sessions
     vim.o.sessionoptions = [[blank,buffers,curdir,help,tabpages,winsize,tabpages,globals]]
 
+    --- Setup spellcheck
+    vim.o.spelllang = 'en_us,pt_br'
+
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
     vim.o.ttimeoutlen = 50 -- timeout for keycodes
