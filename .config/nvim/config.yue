@@ -159,6 +159,7 @@ plugins = ->
     --     (require 'treesitter-context').setup
     --         enable: true
     --         throttle: true
+    plug 'andymass/vim-matchup' -- better delimiter matching
     plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
         vim.g.context_nvim_no_redraw = 1
     plug 'kshenoy/vim-signature' -- show marks in the sign column
