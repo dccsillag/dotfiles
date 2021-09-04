@@ -34,7 +34,7 @@ plugins = ->
         version = vim.version!
 
         vim.g.dashboard_custom_header =
-            -- from README
+            -- -- from README
             -- * ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗'
             -- * ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║'
             -- * ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║'
@@ -43,22 +43,21 @@ plugins = ->
             -- * ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝'
 
             -- figlet -f univers neovim
-            -- * [[                                                88                    ]]
-            -- * [[                                                ""                    ]]
-            -- * [[                                                                      ]]
-            -- * [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]]
-            -- * [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]]
-            -- * [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]]
-            -- * [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]]
-            -- * [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]]
+            * [[                                                88                    ]]
+            * [[                                                                      ]]
+            * [[ 8b,dPPYba,   ,adPPYba,  ,adPPYba,  8b       d8 88 88,dPYba,,adPYba,  ]]
+            * [[ 88P'   `"8a a8P_____88 a8"     "8a `8b     d8' 88 88P'   "88"    "8a ]]
+            * [[ 88       88 8PP""""""" 8b       d8  `8b   d8'  88 88      88      88 ]]
+            * [[ 88       88 "8b,   ,aa "8a,   ,a8"   `8b,d8'   88 88      88      88 ]]
+            * [[ 88       88  `"Ybbd8"'  `"YbbdP"'      "8"     88 88      88      88 ]]
 
-            -- figlet -f nancyj neovim
-            * [[                                    oo           ]]
-            * [[                                                 ]]
-            * [[88d888b. .d8888b. .d8888b. dP   .dP dP 88d8b.d8b.]]
-            * [[88'  `88 88ooood8 88'  `88 88   d8' 88 88'`88'`88]]
-            * [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]]
-            * [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]]
+            -- -- figlet -f nancyj neovim
+            -- * [[                                    oo           ]]
+            -- * [[                                                 ]]
+            -- * [[88d888b. .d8888b. .d8888b. dP   .dP dP 88d8b.d8b.]]
+            -- * [[88'  `88 88ooood8 88'  `88 88   d8' 88 88'`88'`88]]
+            -- * [[88    88 88.  ... 88.  .88 88 .88'  88 88  88  88]]
+            -- * [[dP    dP `88888P' `88888P' 8888P'   dP dP  dP  dP]]
         versionicon = if version.api_prerelease then " " else ""
         versionstr = string.format "%1d.%1d.%1d", version.major, version.minor, version.patch
         vim.g.dashboard_custom_footer =
