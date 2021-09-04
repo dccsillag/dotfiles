@@ -164,6 +164,9 @@ plugins = ->
     plug 'kshenoy/vim-signature' -- show marks in the sign column
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
+        vim.notify.setup
+            stages: "fade"
+            timeout: 1000
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
