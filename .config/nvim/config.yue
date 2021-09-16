@@ -200,20 +200,28 @@ plugins = ->
         vim.g.magma_automatically_open_output = false
         vim.g.magma_show_mimetype_debug = false
 
+    -- Completion
+    plug 'hrsh7th/nvim-cmp', config: -> -- completion framework for NeoVim
+        import 'cmp'
+        cmp.setup
+            completion:
+                autocomplete: false
+            mapping:
+                "<C-l>": cmp.mapping.confirm select: true
+                "<C-n>": cmp.mapping.complete!
+                "<C-p>": cmp.mapping.complete!
+                "<C-c>": cmp.mapping.close!
+            sources:
+                * name: "crates"
+                * name: "nvim_lsp"
+                * name: "path"
+                -- * name: "buffer"
+    plug 'hrsh7th/cmp-nvim-lsp'
+    -- plug 'hrsh7th/cmp-buffer'
+    plug 'hrsh7th/cmp-path'
+    plug 'Saecki/crates.nvim'
+
     -- LSP / TreeSitter / Formatting
-    plug 'hrsh7th/nvim-compe', config: -> -- completion framework for NeoVim
-        import 'compe'
-        compe.setup
-            source:
-                spell: false
-                path: true
-                nvim_lsp: true
-                buffer: false
-                calc: true
-                nvim_lua: false
-                vsnip: false
-                ultisnips: false
-                luasnip: false
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
     plug 'stevearc/aerial.nvim', config: -> -- window with outline of symbols
         vim.g.aerial =
@@ -852,12 +860,6 @@ do
                 '=': vimcmd [[Tabularize /=]]
                 ':': vimcmd [[Tabularize /:\zs]]
                 ' ': vimcmd [[Tabularize /,\zs]]
-
-        -- nvim-compe
-        '<insert><expr><C-n>': 'compe#complete()'
-        '<insert><expr><C-p>': 'compe#complete()'
-        '<insert><expr><C-l>': 'compe#confirm("<C-l>")'
-        '<insert><expr><C-c>': 'compe#close("<C-e>")'
 
         -- specs & asterisk
         'n': addspecs 'n'
