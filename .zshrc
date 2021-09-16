@@ -35,6 +35,7 @@ if ! zgen saved; then
     # zgen oh-my-zsh
 
     # plugins
+    zgen load Aloxaf/fzf-tab
     zgen load zsh-users/zsh-syntax-highlighting
     # zgen load zsh-users/zsh-autosuggestions
     zgen load marzocchi/zsh-notify
