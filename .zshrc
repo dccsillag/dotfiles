@@ -25,7 +25,9 @@ zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
 # Abbreviations temp directory
 ABBR_TMPDIR="$HOME/.local/share/zsh-abbr/"
 
-source ~/.config/zgen/zgen.zsh
+[ -f ~/.zgen/zgen.zsh ] || git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+
+source ~/.zgen/zgen.zsh
 
 if ! zgen saved; then
     echo "Creating a zgen save"
