@@ -3,7 +3,7 @@
 
 include "/home/daniel/.gtkrc-2.0.mine"
 gtk-theme-name="Arc-Dark-solid"
-gtk-icon-theme-name="Paper"
+gtk-icon-theme-name="Papirus-Dark"
 gtk-font-name="Cantarell 11"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=16
@@ -16,3 +16,4 @@ gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
+gtk-xft-rgba="rgb"
