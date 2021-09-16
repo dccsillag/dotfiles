@@ -81,6 +81,7 @@ for file in args.files:
         'hdf':    pd.read_hdf,
         'pkl':    pd.read_pickle,
         'pickle': pd.read_pickle,
+        'xlsx':   pd.read_excel,
     }.get(extension)
     if read_func is None:
         throw_error("Unknown file extension: '%s'" % extension)
