@@ -266,6 +266,10 @@ plugins = ->
             :on_attach
             settings:
                 ["rust-analyzer"]:
+                    checkOnSave:
+                        extraArgs:
+                            * "--target-dir"
+                            * ".target-rust_analyzer_check"
                     cargo:
                         loadOutDirsFromCheck: true
                     procMacro:
