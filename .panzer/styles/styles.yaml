@@ -41,11 +41,11 @@ ExerciseList:
     filter:
       - run: pandoc-filter-exercise-list
 
-Presentation:
-  parent:
-    - Base
-  revealjs:
-    commandline:
-      css: ~/.local/share/pandoc/css/minimal-straight.css
-      variable: theme=simple
-      variable: transition=none
+# Presentation:
+#   parent:
+#     - Base
+#   revealjs:
+#     commandline:
+#       css: ~/.local/share/pandoc/css/minimal-straight.css
+#       variable: theme=simple
+#       variable: transition=none
