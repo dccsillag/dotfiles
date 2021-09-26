@@ -273,7 +273,7 @@ then
     alias ls='exa -s type'
     alias ll='exa -l -s type'
     alias la='exa -la -s type'
-    alias tree='exa --tree -s type'
+    alias tree='exa --tree -s type --git-ignore'
 else
     alias ls='ls -h --color=auto'
     alias ll='ls -hl --color=auto'
