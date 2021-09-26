@@ -237,6 +237,8 @@ plugins = ->
         import 'lspconfig' as nvim_lsp
         import 'aerial'
 
+        capabilities = (require 'cmp_nvim_lsp').update_capabilities vim.lsp.protocol.make_client_capabilities!
+
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
             aerial.on_attach client
@@ -265,6 +267,7 @@ plugins = ->
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
+            :capabilities
             :on_attach
             settings:
                 ["rust-analyzer"]:
@@ -279,21 +282,31 @@ plugins = ->
                     diagnostics:
                         enable: false
         nvim_lsp.clangd.setup
+            :capabilities
             :on_attach
             cmd:
                 * "clangd"
                 * "--background-index"
                 * "--clang-tidy"
         nvim_lsp.sumneko_lua.setup
+            :capabilities
             :on_attach
             cmd:
                 * "lua-language-server"
                 * "-E"
                 * "/usr/share/lua-language-server/main.lua"
-        nvim_lsp.pyright.setup :on_attach
-        nvim_lsp.hls.setup :on_attach
-        nvim_lsp.texlab.setup :on_attach
-        nvim_lsp.vimls.setup :on_attach
+        nvim_lsp.pyright.setup
+            :on_attach
+            :capabilities
+        nvim_lsp.hls.setup
+            :on_attach
+            :capabilities
+        nvim_lsp.texlab.setup
+            :on_attach
+            :capabilities
+        nvim_lsp.vimls.setup
+            :on_attach
+            :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
                 virtual_text: true
