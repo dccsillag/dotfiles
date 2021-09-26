@@ -789,7 +789,7 @@ do
     vimcmd = (cmd) -> ':' .. cmd .. '<CR>'
     luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
     plug = (op) -> '<Plug>(' .. op .. ')'
-    addspecs = (op) -> op .. ':lua specs.show_specs()<CR>'
+    addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
     fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 
     applyKeymaps myKeymaps
