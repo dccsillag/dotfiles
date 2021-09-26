@@ -102,11 +102,11 @@ plugins = ->
         ]]
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
-        global specs
+        global specs, maybe_show_specs
         import 'specs'
 
         specs.setup
-            show_jumps: false -- (vim.fn.exists 'neovide') == 0
+            show_jumps: vim.fn.exists('neovide') == 0
             min_jump: 2
             popup:
                 delay_ms: 0
@@ -120,6 +120,8 @@ plugins = ->
                 * "dashboard"
             ignore_buftypes:
                 "nofile": true
+
+        maybe_show_specs = -> specs.show_specs! if vim.fn.exists('neovide') == 0
     plug 'folke/zen-mode.nvim', config: -> -- toggleable zen mode for editing
         import 'zen-mode' as zen_mode
         zen_mode.setup!
