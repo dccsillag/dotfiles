@@ -1,6 +1,6 @@
 #!/bin/sh
 
-batpath="$(find /sys/class/power_supply/ -iname '*bat*')"
+batpath="/sys/class/power_supply/BAT0"
 
 has_battery() {
     [ -n "$batpath" ]
