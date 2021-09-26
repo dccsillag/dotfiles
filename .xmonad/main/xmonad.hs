@@ -63,7 +63,7 @@ myXMonadConfig = do
         $ def {
           terminal           = termSpawn
         , modMask            = mod4Mask -- Super key
-        , focusFollowsMouse  = True
+        , focusFollowsMouse  = False
         , normalBorderColor  = "#555555" -- "#cccccc"
         , focusedBorderColor = "#FFFFFF"
         , borderWidth        = 1
@@ -74,13 +74,14 @@ myXMonadConfig = do
                                <+> composeAll [ className =? "feh" --> doFloat -- Float `feh` windows
                                               , className =? "Sxiv" --> doFloat -- Float `sxiv` windows
                                               , title =? "KDE Connect Daemon" --> doFullFloat -- Full float KDEConnect pointer
+                                              , className =? "Florence" --> doFloat -- Float `florence` windows
                                               ]
                                <+> manageHook def -- The default
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
         , handleEventHook    = docksEventHook -- ???
                                <+> handleTimerEvent
         , startupHook        = startup -- (on startup)
-        , mouseBindings      = mouseBindings def
+        , mouseBindings      = myMouse
         }
 
 

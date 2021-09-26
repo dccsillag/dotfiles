@@ -2,6 +2,7 @@
 
 module XMonad.Csillag.Keys
   ( myKeys
+  , myMouse
   )
 where
 
@@ -9,6 +10,7 @@ import Data.List (isPrefixOf, stripPrefix)
 import Data.Char (isDigit, toLower)
 import Control.Concurrent
 import Data.Maybe (catMaybes)
+import qualified Data.Map as M
 import System.Directory (listDirectory)
 import Control.Monad
 import System.Exit
@@ -22,6 +24,7 @@ import qualified XMonad.StackSet as W
 
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
+import XMonad.Util.WindowProperties
 
 import XMonad.Prompt ( XPConfig, mkComplFunFromList' )
 import XMonad.Prompt.Input
@@ -36,6 +39,7 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Layout.LayoutCombinators (JumpToLayout(..))
 import XMonad.Layout.Maximize
 import XMonad.Util.Run
+import XMonad.Actions.TiledWindowDragging
 
 
 myKeys = flip mkNamedKeymap
@@ -93,11 +97,11 @@ myKeys = flip mkNamedKeymap
     -- Workspaces
     , ("M-w M-r",       addName "Rename workspace"              $ inputPrompt csillagPromptConfig "Rename Workspace" ?+ renameWorkspaceByName)
     , ("M-w M-d",       addName "Delete workspace"              $ removeEmptyWorkspaceAfter (windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/="NSP") . W.tag) $ W.hidden ws))
-    , ("M-w M-g",       addName "Go to workspace"               $ myGridSelectWorkspace myGridSelectConfig $ windows . W.view)
-    , ("M-w M-s",       addName "Send to workspace"             $ myGridSelectWorkspace myGridSelectConfig $ windows . W.shift)
-    , ("M-w M-C-g",     addName "Send&Go to workspace"          $ myGridSelectWorkspace myGridSelectConfig \x -> windows (W.shift x) >> windows (W.view x))
-    , ("M-w M-S-c",     addName "Send copy to workspace"        $ myGridSelectWorkspace myGridSelectConfig $ windows . copy)
-    , ("M-w M-c",       addName "Send&Go copy to workspace"     $ myGridSelectWorkspace myGridSelectConfig \x -> windows (copy x) >> windows (W.view x))
+    , ("M-w M-g",       addName "Go to workspace"               $ myGridSelectWorkspace $ windows . W.view)
+    , ("M-w M-s",       addName "Send to workspace"             $ myGridSelectWorkspace $ windows . W.shift)
+    , ("M-w M-C-g",     addName "Send&Go to workspace"          $ myGridSelectWorkspace \x -> windows (W.shift x) >> windows (W.view x))
+    , ("M-w M-S-c",     addName "Send copy to workspace"        $ myGridSelectWorkspace $ windows . copy)
+    , ("M-w M-c",       addName "Send&Go copy to workspace"     $ myGridSelectWorkspace \x -> windows (copy x) >> windows (W.view x))
     , ("M-w M-b",       addName "Bring from workspace"            workspaceBring)
     , ("M-w M-n M-g",   addName "Go to new workspace"           $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.view wkname)))
     , ("M-w M-n M-s",   addName "Send to new workspace"         $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname)))
@@ -133,7 +137,7 @@ myKeys = flip mkNamedKeymap
     , ("M-s M-s",   addName "Toggle scratchpad 'slack'"         $ namedScratchpadAction myScratchpads "slack")
     , ("M-s M-d",   addName "Toggle scratchpad 'discord'"       $ namedScratchpadAction myScratchpads "discord")
     , ("M-s M-w",   addName "Toggle scratchpad 'whatsapp'"      $ namedScratchpadAction myScratchpads "whatsapp")
-    , ("M-s M-t",   addName "Toggle scratchpad 'sysmon'"        $ namedScratchpadAction myScratchpads "telegram")
+    , ("M-s M-t",   addName "Toggle scratchpad 'telegram'"      $ namedScratchpadAction myScratchpads "telegram")
     , ("M-s M-e",   addName "Toggle scratchpad 'mail'"          $ namedScratchpadAction myScratchpads "mail")
     -- Passwords
     , ("M-p M-p",   addName "Get a password"             $ passPrompt csillagPromptConfig)
@@ -168,6 +172,8 @@ myKeys = flip mkNamedKeymap
     , ("M-q M-k",     addName "Toggle Screenkey"         $ spawn ".local/scripts/screenkey_toggle.sh")
     , ("M-q M-v M-u", addName "Enable VPN"               $ mvpn "up")
     , ("M-q M-v M-d", addName "Disable VPN"              $ mvpn "down")
+    -- -- Mouse actions
+    -- , ("M-C-S-m", addName "Open mouse actions gridselect" mouseActionsGridSelect)
     -- Function Keys
     , ("M-<Right>",               addName "Raise brightness"  $ spawn "lux -a 5%" >>
                                                                 spawnOSD "Brightness" (asciibar . getNumber <$> cmdout "lux" ["-G"]))
@@ -184,25 +190,43 @@ myKeys = flip mkNamedKeymap
     , ("M-S-\\",                  addName "Go to next track"  $ spawn "mcm next")
     ]
 
+myMouse config = M.fromList
+    [ ((modMask config, button2), considerClass "dzen" mouseActions $ considerFloat (windows . W.sink) (sendMessage . maximizeRestore))
+    , ((modMask config, button1), considerClass "dzen" (const toggleSuper) $ considerFloat translateFloatingWindow dragWindow)
+    , ((modMask config, button3), considerFloat resizeFloatingWindow floatTiledWindow)
+    ]
+    where
+        translateFloatingWindow w = focus w >> mouseMoveWindow w >> windows W.shiftMaster
+        resizeFloatingWindow w = focus w >> mouseResizeWindow w >> windows W.shiftMaster
+        floatTiledWindow w = windows $ W.float w (W.RationalRect (1/3) (1/3) (1/3) (1/3))
+        toggleSuper = spawn ".local/scripts/statusbar/toggle-super-key.sh"
+        mouseActions _ = mouseActionsGridSelect >> toggleSuper
+        considerFloat whenFloat whenTiled w = do
+            isFloat <- withWindowSet $ \ws -> return $ M.member w $ W.floating ws
+            if isFloat then whenFloat w else whenTiled w
+        considerClass cls whenOfClass whenNotOfClass w = do
+            isOfClass <- hasProperty (ClassName cls) w
+            if isOfClass then whenOfClass w else whenNotOfClass w
+
 killCopy = let delete'' w = W.modify Nothing $ W.filter (/=w)
             in withWindowSet \ss ->
                 whenJust (W.peek ss) \w ->
                     when (W.member w $ delete'' w ss) $
                         windows $ delete'' w
 
-workspaceBring = myGridSelectWorkspace myGridSelectConfig \x -> windows \ws ->
+workspaceBring = myGridSelectWorkspace \x -> windows \ws ->
     case filter ((==x) . W.tag) $ W.hidden ws of
          targetWorkspace:_ -> foldl (\acc w -> copyWindow w (W.tag $ W.workspace $ W.current acc) acc) ws $ W.integrate' $ W.stack targetWorkspace
          _ -> ws
 
 changeScreenConfig = do
     profiles <- io $ listDirectory ".config/autorandr"
-    maybe_profile_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> profiles)
+    maybe_profile_name <- gridselect csillagGridSelectConfig ((\x -> (x, x)) <$> profiles)
     case maybe_profile_name of
          Just profile_name -> spawn $ "autorandr --load " ++ profile_name
          Nothing -> return ()
 
-changeLayoutGridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
+changeLayoutGridselect = gridselect csillagGridSelectConfig (map (\x -> (x, x))
     [ "Grid"
     , "ThreeColMid"
     , "Dishes"
@@ -218,7 +242,7 @@ changeLayoutGridselect = gridselect myGridSelectConfig (map (\x -> (x, x))
 mvpn :: String -> X ()
 mvpn action = do
     vpns <- io $ listDirectory ".local/share/vpns"
-    maybe_vpn_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> vpns)
+    maybe_vpn_name <- gridselect csillagGridSelectConfig ((\x -> (x, x)) <$> vpns)
     case maybe_vpn_name of
          Just vpn_name -> spawn $ "mvpn " ++ action ++ " " ++ vpn_name
          Nothing -> return ()
@@ -227,18 +251,18 @@ changeKeyboard :: X ()
 changeKeyboard = do
     let basedir = ".local/share/keyboards/"
     kbds <- io $ listDirectory basedir
-    maybe_kbd_name <- gridselect myGridSelectConfig ((\x -> (x, x)) <$> kbds)
+    maybe_kbd_name <- gridselect csillagGridSelectConfig ((\x -> (x, x)) <$> kbds)
     case maybe_kbd_name of
          Just kbd_name -> liftIO (readFile $ basedir ++ kbd_name) >>= spawn . ("kb " ++)
          Nothing -> return ()
 
-myGridSelectWorkspace config func = withWindowSet \ws -> do
+myGridSelectWorkspace func = withWindowSet \ws -> do
     let wss = filter (/= "NSP")
           $ map W.tag
           $ filter ((/="NSP") . W.tag)
           $ circshiftN (succ $ length $ W.visible ws)
           $ W.workspaces ws
-    gridselect config (zip wss wss) >>= flip whenJust func
+    gridselect csillagWorkspaceGridSelectConfig (zip wss wss) >>= flip whenJust func
     where
         circshiftN :: Int -> [a] -> [a]
         circshiftN 0 lst = lst
@@ -278,7 +302,7 @@ launcherPrompt c = do
     ps' <- io $ forM ps \p -> fmap (p,) <$> getDesktopFileName p
     let ps'' = catMaybes ps'
     maybe (return ()) (launchProgram ps'')
-      =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' $ snd <$> ps'')
+      =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' c $ snd <$> ps'')
     where
         applicationsDirectory = "/usr/share/applications"
 
@@ -291,3 +315,40 @@ launcherPrompt c = do
 
         launchProgram :: [(String, String)] -> String -> X ()
         launchProgram ps' p = spawn $ "gtk-launch " ++ fst (head $ filter ((==p).snd) ps')
+
+mouseActionsGridSelect :: X ()
+mouseActionsGridSelect = do
+    menu [ ("Close the focused window", kill1)
+         , ("Programs..", menu [ ("Scratchpads..", menu [ ("System Monitor", namedScratchpadAction myScratchpads "sysmon")
+                                                        , ("Calculator",     namedScratchpadAction myScratchpads "calculator")
+                                                        , ("Audio",          namedScratchpadAction myScratchpads "audio")
+                                                        , ("Slack",          namedScratchpadAction myScratchpads "slack")
+                                                        , ("Discord",        namedScratchpadAction myScratchpads "discord")
+                                                        , ("WhatsApp",       namedScratchpadAction myScratchpads "whatsapp")
+                                                        , ("Telegram",       namedScratchpadAction myScratchpads "telegram")
+                                                        , ("Email",          namedScratchpadAction myScratchpads "mail")
+                                                        ])
+                               , ("Terminal", spawn termSpawn)
+                               , ("File manager", spawn filemanagerSpawn)
+                               , ("Browser", spawn browserSpawn)
+                               , ("Private Browser", spawn browserSpawnPrivate)
+                               , ("Camera", spawn camviewSpawn)
+                               , ("Notebook", spawn "xournalpp")
+                               , ("Calculator", spawn calculatorSpawn)
+                               ])
+         , ("Manage workspaces..", menu [ ("Go to workspace..", myGridSelectWorkspace $ windows . W.view)
+                                        , ("Send to workspace..", myGridSelectWorkspace $ windows . W.shift)
+                                        , ("Send&Go to workspace..", myGridSelectWorkspace \x -> windows (W.shift x) >> windows (W.view x))
+                                        , ("Send copy to workspace..", myGridSelectWorkspace $ windows . copy)
+                                        , ("Send&Go copy to workspace..", myGridSelectWorkspace \x -> windows (copy x) >> windows (W.view x))
+                                        ])
+         , ("Set layout..", changeLayoutGridselect)
+         , ("Yank the screen..", menu [ ("Yank the whole screen", spawn scrotScreen)
+                                      , ("Yank a window", spawn scrotWindow)
+                                      , ("Yank the current window", spawn scrotThiswindow)
+                                      , ("Yank an area of the screen", spawn scrotRegion)
+                                      ])
+         ]
+    where
+        menu :: [(String, X ())] -> X ()
+        menu xs = gridselect csillagGridSelectConfig xs >>= flip whenJust (io (threadDelay $ seconds 0.15) >>)
