@@ -5,6 +5,7 @@ import re
 import os
 import subprocess
 import time
+from getpass import getuser
 
 
 HEIGHT = 30
@@ -12,6 +13,8 @@ FONT = "FantasqueSansMono Nerd Font-12"
 FONTWIDTH = 9
 BACKGROUND_COLOR = "#121212"
 FOREGROUND_COLOR = "#CCE0EA"
+ALT_BACKGROUND_COLOR = "#CCCCCC"
+ALT_FOREGROUND_COLOR = "#000000"
 
 MODULES_LEFT = [
     "cpu",
@@ -71,9 +74,12 @@ dzen_process = subprocess.Popen(
         "-dock",
         "-bg", BACKGROUND_COLOR,
         "-fg", FOREGROUND_COLOR,
+        "-e", "button1=exec:~/.local/scripts/statusbar/toggle-super-key.sh"
     ],
     stdin=subprocess.PIPE
 )
+
+USER = getuser()
 
 while True:
     for modules in (modules_left, modules_center, modules_right):
@@ -94,12 +100,18 @@ while True:
     right_text  = join_modules(modules_right)
 
     text_to_show = ""
-    text_to_show += "^p(_LEFT)^fg()"
-    text_to_show += left_text
-    text_to_show += "^p(_CENTER)^p(-%d)^fg()" % (textwidth(center_text)//2)
-    text_to_show += center_text
-    text_to_show += "^p(_RIGHT)^p(-%d)^fg()" % textwidth(right_text)
-    text_to_show += right_text
+    if os.path.isfile("/tmp/super-key-mode-" + USER):
+        LOTS_OF_SPACES = " "*101
+        text_to_show += f"^bg({ALT_BACKGROUND_COLOR})^fg({ALT_FOREGROUND_COLOR})"
+        text_to_show += LOTS_OF_SPACES + "In WM mode. Tap the statusbar to exit." + LOTS_OF_SPACES
+        text_to_show += "^fg()^bg()"
+    else:
+        text_to_show += "^p(_LEFT)^fg()"
+        text_to_show += left_text
+        text_to_show += "^p(_CENTER)^p(-%d)^fg()" % (textwidth(center_text)//2)
+        text_to_show += center_text
+        text_to_show += "^p(_RIGHT)^p(-%d)^fg()" % textwidth(right_text)
+        text_to_show += right_text
 
     dzen_process.stdin.write((text_to_show + "\n").encode("utf-8"))
     dzen_process.stdin.flush()
