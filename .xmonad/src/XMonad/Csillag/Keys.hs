@@ -175,10 +175,10 @@ myKeys = flip mkNamedKeymap
     -- -- Mouse actions
     -- , ("M-C-S-m", addName "Open mouse actions gridselect" mouseActionsGridSelect)
     -- Function Keys
-    , ("M-<Right>",               addName "Raise brightness"  $ spawn "lux -a 5%" >>
-                                                                spawnOSD "Brightness" (asciibar . getNumber <$> cmdout "lux" ["-G"]))
-    , ("M-<Left>",                addName "Lower brightness"  $ spawn "lux -s 5%" >>
-                                                                spawnOSD "Brightness" (asciibar . getNumber <$> cmdout "lux" ["-G"]))
+    , ("M-<Right>",               addName "Raise brightness"  $ spawn "brightnessctl set +5%" >>
+                                                                spawnOSD "Brightness" (asciibar . (/256) . (*100) . getNumber <$> cmdout "brightnessctl" ["get"]))
+    , ("M-<Left>",                addName "Lower brightness"  $ spawn "brightnessctl set 5%-" >>
+                                                                spawnOSD "Brightness" (asciibar . (/256) . (*100) . getNumber <$> cmdout "brightnessctl" ["get"]))
     , ("M-<Up>",                  addName "Raise volume"      $ spawn ("pamixer -i 2; paplay " ++ volumeChangeSound) >>
                                                                 spawnOSD "Volume" (asciibar . getNumber <$> cmdout "pamixer" ["--get-volume"]))
     , ("M-<Down>",                addName "Lower volume"      $ spawn ("pamixer -d 2; paplay " ++ volumeChangeSound) >>
