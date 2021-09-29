@@ -10,7 +10,6 @@ dependencies:
 - extra
 - xmonad >= 0.15
 - xmonad-contrib >= 0.16
-- xmobar
 - X11
 - containers
 - text

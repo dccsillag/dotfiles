@@ -18,7 +18,7 @@
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
 resolver:
-  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/7.yaml
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/3.yaml
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -42,7 +42,6 @@ packages:
 #
 extra-deps:
 - X11-1.10@sha256:ed01fba28081d6922462c2727a9a2e71f8ec3d962ed18963eee0c770558817d9,3703
-- xmobar-0.37
 - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
 - dhall-1.37.1@sha256:447031286e8fe270b0baacd9cc5a8af340d2ae94bb53b85807bee93381ca5287,35080
 - generic-lens-2.0.0.0@sha256:7409fa0ce540d0bd41acf596edd1c5d0c0ab1cd1294d514cf19c5c24e8ef2550,3866
@@ -51,11 +50,6 @@ extra-deps:
   commit: 33a86c0cdb9aa481e23cc5527a997adef5e32d42
 - git: https://github.com/xmonad/xmonad-contrib.git
   commit: 0c6fdf4e75dd4d31bc8423010fbabbab7c23ee03
-
-# Override default flag values for local packages and extra-deps
-flags:
-  xmobar:
-    all_extensions: true
 
 # Extra package databases containing global packages
 # extra-package-dbs: []
@@ -82,6 +76,8 @@ nix:
   enable: true
   pure: true
   packages:
+    - cacert
+    - alsaLib
     - cairo
     - gcc
     - gnome2.pango

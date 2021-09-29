@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7ac08c714f5747c41f82a95c1937bad20051319b260648896468946e68b2bd92
+-- hash: acb59d20558cbc8359c5ef21503bce5a2c2d477483d70ee193578cf75113c37d
 
 name:           csillag-xmonad
 version:        0.1.0.0
@@ -39,7 +39,6 @@ library
     , split
     , text
     , unix
-    , xmobar
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010
@@ -65,7 +64,6 @@ executable my-xmonad
     , split
     , text
     , unix
-    , xmobar
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010
