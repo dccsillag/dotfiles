@@ -111,6 +111,11 @@ if ! zgen saved; then
     # # # Vim
     abbr -U --force vim='nvim'
     abbr -U --force vi='nvim'
+    # # # Nix
+    abbr -U ns='nix-shell'
+    abbr -U nsp='nix-shell -p'
+    #abbr -U nps='nix-shell --pure'
+    #abbr -U npsp='nix-shell --pure -p'
 
     zgen save
 fi
