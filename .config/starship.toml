@@ -45,3 +45,6 @@ symbol = "+"
 [status]
 disabled = false
 symbol = "✗ "
+
+[nix_shell]
+symbol = " "
