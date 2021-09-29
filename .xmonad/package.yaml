@@ -7,20 +7,10 @@ description:         My XMonad configs
 
 dependencies:
 - base >= 4.7 && < 5
-- extra
 - xmonad >= 0.15
 - xmonad-contrib >= 0.16
-- X11
 - containers
-- text
 - directory
-- text
-- parsec
-- bibtex
-- filepath
-- split
-- unix
-- process
 
 ghc-options:
 - -Wall

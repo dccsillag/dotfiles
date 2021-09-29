@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: acb59d20558cbc8359c5ef21503bce5a2c2d477483d70ee193578cf75113c37d
+-- hash: 84e7a2578ca00993e3aae8a653abe5a77c94a8908596f3c12d0aad88e9b7e008
 
 name:           csillag-xmonad
 version:        0.1.0.0
@@ -27,18 +27,9 @@ library
       src
   ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
   build-depends:
-      X11
-    , base >=4.7 && <5
-    , bibtex
+      base >=4.7 && <5
     , containers
     , directory
-    , extra
-    , filepath
-    , parsec
-    , process
-    , split
-    , text
-    , unix
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010
@@ -51,19 +42,10 @@ executable my-xmonad
       main
   ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
   build-depends:
-      X11
-    , base >=4.7 && <5
-    , bibtex
+      base >=4.7 && <5
     , containers
     , csillag-xmonad
     , directory
-    , extra
-    , filepath
-    , parsec
-    , process
-    , split
-    , text
-    , unix
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010
