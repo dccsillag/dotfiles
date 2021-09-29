@@ -1,19 +1,10 @@
-#!/bin/sh
-#
-# As of 0.13, xmonad --recompile will look for a custom build script.
+#!/bin/sh -e
 
-set -e
+out="$1"
 
-if which stack 2> /dev/null
-then
-    stack build :my-xmonad --verbosity error
-    stack install :my-xmonad --local-bin-path bin/ --verbosity error
-    mv bin/my-xmonad "$1"
-else
-    cabal build
-    mkdir -p bin
-    cabal install --installdir=bin --install-method=copy --overwrite-policy=always
-    mv bin/my-xmonad "$1"
-fi
+! [ -f "$HOME/.xmonad/recompilation-success" ] && [ -f "$out" ] && exit 0 || true
 
-rm -f /tmp/.xmonad-nooptimize
+stack build :my-xmonad --verbosity error
+stack install :my-xmonad --local-bin-path bin/ --verbosity error
+
+mv bin/my-xmonad "$out"
