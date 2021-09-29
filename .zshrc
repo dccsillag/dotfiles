@@ -13,6 +13,9 @@ source ~/.profile
 # Setup starship prompt
 eval "$(starship init zsh)"
 
+# Remove right prompt
+unset RPS1
+
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 
