@@ -59,8 +59,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = termRun' "email" "aerc"
-       , query = className =? "email"
+       , cmd   = "mailspring"
+       , query = className =? "Mailspring"
        , hook  = floatingScratchpad
        }
   ]
