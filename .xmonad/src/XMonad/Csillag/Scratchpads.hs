@@ -18,8 +18,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "whatsapp"
-       , cmd   = "whatsapp-for-linux"
-       , query = className =? "Whatsapp-for-linux"
+       , cmd   = "brave --app=https://web.whatsapp.com/"
+       , query = className =? "Brave-browser" <&&> appName =? "web.whatsapp.com"
        , hook  = floatingScratchpad
        }
   , NS { name  = "telegram"
