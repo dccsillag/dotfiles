@@ -626,7 +626,7 @@ do
     vim.o.sessionoptions = [[blank,buffers,curdir,help,tabpages,winsize,tabpages,globals]]
 
     --- Setup spellcheck
-    vim.o.spelllang = 'en_us,pt_br'
+    -- vim.o.spelllang = 'en_us,pt_br'
 
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
@@ -674,16 +674,16 @@ do
         augroup END
     ]]
 
-    -- SpellCheck
-    vim.cmd [[
-        augroup spellcheck
-            autocmd!
-            autocmd FileType markdown  set spell
-            autocmd FileType tex       set spell
-            autocmd FileType html      set spell
-            autocmd FileType gitcommit set spell
-        augroup END
-    ]]
+    -- -- SpellCheck
+    -- vim.cmd [[
+    --     augroup spellcheck
+    --         autocmd!
+    --         autocmd FileType markdown  set spell
+    --         autocmd FileType tex       set spell
+    --         autocmd FileType html      set spell
+    --         autocmd FileType gitcommit set spell
+    --     augroup END
+    -- ]]
 
     -- More filetype detection
     vim.cmd [[
@@ -825,7 +825,7 @@ do
 
             ';': luacmd 'specs.show_specs()' -- highlight the cursor
 
-            'S': vimcmd 'set spell!' -- toggle spell
+            -- 'S': vimcmd 'set spell!' -- toggle spell
             -- 's': ':set spelllang=' -- set spell language
 
             'p': luacmd 'open_corresponding_pdf()' -- open corresponding PDF for the current [markup file]
@@ -840,7 +840,7 @@ do
                 't': vimcmd 'TroubleClose' -- close trouble window
 
         -- spell suggest
-        'z=': fzflua 'spell_suggest'
+        -- 'z=': fzflua 'spell_suggest'
 
         -- substitute
         '<C-s>':
