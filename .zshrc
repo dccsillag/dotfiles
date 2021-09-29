@@ -312,6 +312,49 @@ setopt interactive_comments
 
 test -f ~/.zshrc_local && source ~/.zshrc_local
 
+show_message() {
+    echo "$(tput bold)$1$(tput sgr0)"
+}
+
+# Auto nix-shell
+auto_nix_shell() {
+    if [ -n "$IN_NIX_SHELL" ]
+    then
+        # Already in a nix-shell
+        if ! [ -f default.nix ]
+        then
+            if [[ $PWD != "$AUTO_NIX_SHELL_DIR"* ]]
+            then
+                show_message "exiting nix-shell"
+                echo "$PWD" > "$AUTO_NIX_PWD_FILE"
+                exit
+            fi
+        fi
+    else
+        # Not in a nix-shell
+        if [ -f default.nix ] && command -v nix-shell > /dev/null
+        then
+            show_message "detected default.nix; entering nix-shell..."
+            export AUTO_NIX_SHELL_DIR="$PWD"
+            export AUTO_NIX_PWD_FILE="$(mktemp /tmp/zsh-autonix.XXXXXX)"
+            nix-shell
+            exit_code="$?"
+            if [ -s "$AUTO_NIX_PWD_FILE" ]
+            then
+                cd "$(cat "$AUTO_NIX_PWD_FILE")"
+                command rm "$AUTO_NIX_PWD_FILE"
+                unset AUTO_NIX_SHELL_DIR
+                unset AUTO_NIX_PWD_FILE
+            else
+                command rm "$AUTO_NIX_PWD_FILE"
+                exit "$exit_code"
+            fi
+        fi
+    fi
+}
+
+chpwd_functions+=(auto_nix_shell)
+
 # ---
 
 function greet() {
