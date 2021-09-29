@@ -301,11 +301,8 @@ alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --fu
 alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && nvim $f'
 
 # Setup better history completion
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
-
-# Setup completion menu colors
-zstyle ':completion:*' menu select
+bindkey "$key[Up]" history-beginning-search-backward
+bindkey "$key[Down]" history-beginning-search-forward
 
 # Enable comments
 setopt interactive_comments
