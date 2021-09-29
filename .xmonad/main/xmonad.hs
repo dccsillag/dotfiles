@@ -47,6 +47,8 @@ startup = do
   spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
   spawnOnce "toggle_statusbar"
 
+  spawnOnce "/home/daniel/.xmonad/on_start.sh"
+
   -- Set window manager name to LG3D, for compatibility with some finicky software
   setWMName "LG3D"
   -- Set the default cursor to the left arrow/pointer (not the X).
