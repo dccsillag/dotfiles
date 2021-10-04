@@ -363,17 +363,13 @@ chpwd_functions+=(auto_nix_shell)
 
 # ---
 
-function greet() {
-    # Show a fun greeting!
-    echo -n "\e[1;30m"
-    fortune -s 5% calvin 5% chucknorris 5% question-answer-jokes 5% protolol 40% bofh-excuses 40% brasil | grep -v '^$'
-    echo -n '\e[0m'
-}
-
-#which fortune > /dev/null && greet
-
-# if [ -z "$TMUX" ]
-# then
-#     tmux
-#     exit
-# fi
+# function greet() {
+#     if [ -d .git ]
+#     then
+#         command -v onefetch >/dev/null && onefetch
+#     else
+#         command -v pfetch >/dev/null && pfetch
+#     fi
+# }
+#
+# greet
