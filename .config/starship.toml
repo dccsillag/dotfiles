@@ -2,6 +2,7 @@ add_newline = false
 
 format = """
 $hostname\
+$nix_shell\
 $directory\
 $git_branch\
 $git_commit\
@@ -9,7 +10,6 @@ $git_state\
 $git_status\
 $hg_branch\
 $docker_context\
-$nix_shell\
 $conda\
 $aws\
 $gcloud\
@@ -19,10 +19,17 @@ $status\
 $character
 """
 
+[hostname]
+# ssh_only = false
+format = "[$hostname]($style) "
+
 [character]
 success_symbol = "[\\$](bold green)"
 error_symbol = "[\\$](bold red)"
 vicmd_symbol = "[\\$](bold blue)"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
 
 [git_status]
 conflicted = "!"
@@ -47,4 +54,6 @@ disabled = false
 symbol = "✗ "
 
 [nix_shell]
+# format = '[$symbol($name)]($style) '
+format = '[$symbol]($style) '
 symbol = " "
