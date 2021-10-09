@@ -1,11 +1,22 @@
 [user]
 	email = dccsillag@gmail.com
 	name = Daniel Csillag
+[log]
+    date = relative
+[format]
+    pretty = format:"%h %Cblue%>(14,trunc)%ad%Creset %Cgreen%<(16,trunc)%an%Creset %s"
+[diff]
+	colorMoved = default
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
 [core]
 	excludesfile = ~/.config/git/.gitignore
 	pager = delta --paging always
 [interactive]
-	diffFilter = delta --color-only
+	diffFilter = delta --color-only --features=interactive
 [credential]
 	helper = store
 [filter "lfs"]
@@ -21,11 +32,27 @@
 [rebase]
 	autoStash = true
 [delta]
-	features = line-numbers decorations
-	whitespace-error-style = 22 reverse
-[delta "decorations"]
-	commit-decoration-style = bold yellow box ul
-	file-style = bold yellow ul
-	file-decoration-style = none
+	line-numbers = true
+	# side-by-side = true
+
+	minus-style = red normal
+	minus-non-emph-style = red normal
+	minus-emph-style = red bold
+	minus-empty-line-marker-style = red normal
+	line-numbers-minus-style = red normal
+	plus-style = green normal
+	plus-non-emph-style = green normal
+	plus-emph-style = green bold
+	plus-empty-line-marker-style = green normal
+	line-numbers-plus-style = green normal
+	zero-style = normal normal
+	hunk-header-style = normal bold normal omit
+# [delta]
+# 	features = line-numbers decorations
+# 	whitespace-error-style = 22 reverse
+# [delta "decorations"]
+# 	commit-decoration-style = bold yellow box ul
+# 	file-style = bold yellow ul
+# 	file-decoration-style = none
 [alias]
 	authors = shortlog -s -n --all --no-merges
