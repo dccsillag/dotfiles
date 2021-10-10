@@ -238,6 +238,7 @@ plugins = ->
         import 'aerial'
 
         capabilities = (require 'cmp_nvim_lsp').update_capabilities vim.lsp.protocol.make_client_capabilities!
+        capabilities.window.workDoneProgress = true
 
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
@@ -709,6 +710,47 @@ do
             autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AsyncStop | sleep 100m | AsyncRun -program=make
         augroup END
     ]]
+
+    -- LSP progress indicator
+    spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
+    global update_lsp_progress
+    global lsp_progress_buffers
+    global lsp_progress_spinner
+    lsp_progress_buffers = {}
+    lsp_progress_spinner = 1
+    update_lsp_progress = ->
+        bufnr = vim.fn.bufnr!
+        if lsp_progress_buffers[bufnr] == nil
+            lsp_progress_buffers[bufnr] = {lsp_progress_running: false}
+
+        messages = vim.lsp.util.get_progress_messages!
+        last_message = messages[#messages]
+
+        if last_message == nil
+            vim.api.nvim_echo {{""}}, false, {} if lsp_progress_buffers[bufnr].lsp_progress_running == true
+            lsp_progress_buffers[bufnr].lsp_progress_running = false
+            return
+
+        has_name = true
+        has_percentage = type(last_message.percentage) == 'number'
+        has_title = type(last_message.title) == 'string' and #last_message.title > 0
+        has_message = type(last_message.message) == 'string' and #last_message.message > 0
+
+        text = ""
+        text ..= "[#{last_message.name}] " if has_name
+        text ..= "[#{last_message.percentage}%] " if has_percentage
+        text ..= "#{last_message.title}" if has_title
+        text ..= " -- " if has_title and has_message
+        text ..= "#{last_message.message}" if has_message
+
+        lsp_progress_spinner = ((lsp_progress_spinner) % #spinner) + 1
+        spinner_now = spinner[lsp_progress_spinner]
+
+        vim.api.nvim_echo {{spinner_now .. " " .. text}}, false, {} if last_message.progress ~= nil
+
+        lsp_progress_buffers[bufnr].lsp_progress_running = true
+    -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
+    vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
 
 -- Functionality
 do
