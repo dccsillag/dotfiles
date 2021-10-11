@@ -550,7 +550,7 @@ do
     vim.o.complete = '.,i,d' -- look for completions in the current buffer (.) and in the included files (i,d)
 
     --- Setup verbosity
-    vim.o.shortmess = [[filnxtToOFc]] -- don't show messages regarding completion
+    vim.o.shortmess = [[filnxtToOFcI]] -- don't show messages regarding completion
 
     --- Always keep 2 lines around the cursor
     vim.o.scrolloff = 2 -- keep 2 lines above&below the cursor at all times
