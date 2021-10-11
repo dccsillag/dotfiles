@@ -100,7 +100,7 @@ plugins = ->
     plug 'rcarriga/nvim-notify', config: -> -- show notifications
         vim.notify = require 'notify'
         vim.notify.setup
-            stages: "fade"
+            stages: "slide"
             timeout: 1000
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
