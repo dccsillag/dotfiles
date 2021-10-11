@@ -279,9 +279,6 @@ plugins = ->
     plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
 
     -- Editing Help
-    plug 'phaazon/hop.nvim', config: -> -- easily jump to various part of the buffer
-        import 'hop'
-        hop.setup!
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'tomtom/tcomment_vim' -- comment/uncomment code
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
