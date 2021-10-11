@@ -28,7 +28,35 @@ plugins = ->
 
     -- Interface
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
-    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
+    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'}, config: -> -- fuzzy finder from neovim
+        import 'fzf-lua' as fzf_lua
+
+        fzf_lua.setup
+            fzf_opts:
+                "--layout": 'default'
+            keymap:
+                builtin:
+                    "<C-l>": "toggle-preview"
+                fzf:
+                    "ctrl-l": "toggle-preview"
+            winopts:
+                preview:
+                    hidden: 'hidden'
+            lsp:
+                severity: "warning"
+                icons:
+                    "Error":
+                        icon: "E"
+                        color: "red"
+                    "Warning":
+                        icon: "W"
+                        color: "yellow"
+                    "Information":
+                        icon: "I"
+                        color: "blue"
+                    "Hint":
+                        icon: "H"
+                        color: "magenta"
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         global specs, should_show_specs, maybe_show_specs
