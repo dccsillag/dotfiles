@@ -114,7 +114,6 @@ plugins = ->
         vim.g.indent_blankline_buftype_exclude =
             * 'terminal'
         vim.g.indent_blankline_filetype_exclude =
-            * 'aerial'
             * 'dashboard'
             * 'packer'
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
@@ -188,24 +187,14 @@ plugins = ->
 
     -- LSP / TreeSitter / Formatting
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
-    plug 'stevearc/aerial.nvim', config: -> -- window with outline of symbols
-        vim.g.aerial =
-            default_direction: "left"
-            post_jump_cmd: [[normal zt\qa]]
-            min_width: 40
-            max_width: 40
-
-        vim.cmd [[autocmd FileType aerial setl listchars-=trail:┈]]
     plug 'neovim/nvim-lspconfig', config: -> -- easily configure LSP
         import 'lspconfig' as nvim_lsp
-        import 'aerial'
 
         capabilities = (require 'cmp_nvim_lsp').update_capabilities vim.lsp.protocol.make_client_capabilities!
         capabilities.window.workDoneProgress = true
 
         on_attach = (client) ->
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
-            aerial.on_attach client
 
             import nnoremap, vnoremap from require 'vimp'
 
@@ -224,10 +213,6 @@ plugins = ->
             nnoremap {'silent'}, '[g', -> vim.lsp.diagnostic.goto_prev()
             nnoremap {'silent'}, ']g', -> vim.lsp.diagnostic.goto_next()
 
-            nnoremap {'silent'}, '<Leader>la', -> vim.cmd 'AerialOpen'
-            nnoremap {'silent'}, '<Leader>qa', -> vim.cmd 'AerialClose'
-            nnoremap {'silent'}, '[[', -> vim.cmd 'AerialPrev'
-            nnoremap {'silent'}, ']]', -> vim.cmd 'AerialNext'
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
