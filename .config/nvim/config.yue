@@ -793,6 +793,7 @@ do
             -- FZF
             'e': fzflua 'files'
             'ge': fzflua 'git_files'
+            'gg': fzflua 'git_status'
             'b': fzflua 'buffers'
             'H': fzflua 'help_tags'
             'F': fzflua 'filetypes'
