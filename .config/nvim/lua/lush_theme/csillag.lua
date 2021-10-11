@@ -24,37 +24,37 @@ local theme = lush(function()
     -- or leave them commented to apply vims default colouring or linking.
 
     Comment           { fg = "#A5A6A9", gui = "italic" }, -- any comment
-    ColorColumn       { bg = "#555555" }, -- used for the columns set with 'colorcolumn'
+    ColorColumn       { bg = "#494d54" }, -- used for the columns set with 'colorcolumn'
     Conceal           { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
     Cursor            { gui = "standout" }, -- character under the cursor
     lCursor           { Cursor }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
     CursorIM          { Cursor }, -- like Cursor, but used when in IME mode |CursorIM|
-    CursorColumn      { bg = "#555555" }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-    CursorLine        { bg = "#555555" }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+    CursorColumn      { bg = "#353940" }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+    CursorLine        { bg = "#353940" }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
     Directory         { fg = "#FFFFFF" }, -- directory names (and other special names in listings)
     DiffAdd           { fg = "#00FF00" }, -- diff mode: Added line |diff.txt|
     DiffChange        { fg = "#FFA500" }, -- diff mode: Changed line |diff.txt|
     DiffDelete        { fg = "#FF0000" }, -- diff mode: Deleted line |diff.txt|
     DiffText          { DiffChange }, -- diff mode: Changed text within a changed line |diff.txt|
-    EndOfBuffer       { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+    EndOfBuffer       { bg = "#1e2229" }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
     TermCursor        { Cursor }, -- cursor in a focused terminal
     TermCursorNC      { Cursor }, -- cursor in an unfocused terminal
     ErrorMsg          { fg = "#FF0000", gui = "bold" }, -- error messages on the command line
-    VertSplit         { fg = "#364048" }, -- the column separating vertically split windows
+    VertSplit         { fg = "#B0B0B0" }, -- the column separating vertically split windows
     Folded            { fg = "#AAAAAA", gui = "bold" }, -- line used for closed folds
     FoldColumn        { fg = "#FFFFFF", gui = "bold" }, -- 'foldcolumn'
-    SignColumn        { fg = "#FFFFFF" }, -- column where |signs| are displayed
+    SignColumn        { fg = "#FFFFFF", gui = "bold" }, -- column where |signs| are displayed
     Substitute        { fg = "#EEEEEE", gui = "bold,reverse" }, -- |:substitute| replacement text highlighting
-    LineNr            { fg = "#7C7D7F" }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    LineNr            { fg = "#7C7D7F", gui = "bold" }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr      { LineNr }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen        { bg = "#575859", gui = "bold" }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-    MsgArea           { }, -- Area for messages and cmdline
+    MsgArea           { bg = "#23272e" }, -- Area for messages and cmdline
     ModeMsg           { MsgArea }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgSeparator      { MsgArea }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg           { MsgArea }, -- |more-prompt|
     NonText           { fg = "#777777" }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal            { fg = "#FFFFFF", bg = "#282C33" }, -- normal text
-    NormalFloat       { fg = "#FFFFFF", bg = "#222222" }, -- Normal text in floating windows.
+    Normal            { fg = "#FFFFFF", bg = "NONE" }, -- normal text
+    NormalFloat       { fg = "#FFFFFF", bg = "#30343b" }, -- Normal text in floating windows.
     NormalNC          { Normal }, -- normal text in non-current windows
     Pmenu             { NormalFloat }, -- Popup menu: normal item.
     PmenuSel          { Pmenu, gui = "standout,bold" }, -- Popup menu: selected item.
@@ -70,7 +70,7 @@ local theme = lush(function()
     SpellCap          { fg = "#BEBEBE", gui = "undercurl" }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     SpellLocal        { fg = "#BEBEBE" }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     SpellRare         { fg = "#BEBEBE" }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
-    StatusLine        { fg = "#364048" }, -- status line of current window
+    StatusLine        { fg = "#B0B0B0" }, -- status line of current window
     StatusLineNC      { StatusLine }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     TabLine           { fg = "#000000", bg = "#777777" }, -- tab pages line, not active tab page label
     TabLineFill       { fg = "#000000", bg = "#AAAAAA" }, -- tab pages line, where there are no labels
@@ -78,7 +78,7 @@ local theme = lush(function()
     Title             { fg = "#FFFFFF", gui = "bold,underline" }, -- titles for output from ":set all", ":autocmd" etc.
     Visual            { bg = "#444444" }, -- Visual mode selection
     VisualNOS         { Visual }, -- Visual mode selection when vim is "Not Owning the Selection".
-    WarningMsg        { fg = "#FFFF00", gui = "underline" }, -- warning messages
+    WarningMsg        { fg = "#FFFF00", bg = MsgArea.bg, gui = "underline" }, -- warning messages
     Whitespace        { fg = "#888888" }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     WildMenu          { fg = "#000000", bg = "#FFFF00", gui = "bold" }, -- current match in 'wildmenu' completion
 
