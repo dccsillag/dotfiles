@@ -873,11 +873,8 @@ do
         -- Make Y work like D
         'Y': 'y$'
 
-        -- Map Q to q
-        'Q': 'q'
-
-        -- Map hop to q
-        'q': luacmd "require 'hop'.hint_words()"
+        -- Map Q to quit if everything is saved
+        'Q': vimcmd "qa"
 
         -- Change S to behave kinda like X
         'S': '"_Xi<CR><Esc>l'
