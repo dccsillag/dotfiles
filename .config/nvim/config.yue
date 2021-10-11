@@ -31,11 +31,14 @@ plugins = ->
     plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
-        global specs, maybe_show_specs
+        global specs, should_show_specs, maybe_show_specs
         import 'specs'
 
+        -- should_show_specs = vim.fn.exists('neovide') == 0
+        should_show_specs = false
+
         specs.setup
-            show_jumps: vim.fn.exists('neovide') == 0
+            show_jumps: should_show_specs
             min_jump: 2
             popup:
                 delay_ms: 0
@@ -50,7 +53,7 @@ plugins = ->
             ignore_buftypes:
                 "nofile": true
 
-        maybe_show_specs = -> specs.show_specs! if vim.fn.exists('neovide') == 0
+        maybe_show_specs = -> specs.show_specs! if should_show_specs
     plug 'folke/zen-mode.nvim', config: -> -- toggleable zen mode for editing
         import 'zen-mode' as zen_mode
         zen_mode.setup!
