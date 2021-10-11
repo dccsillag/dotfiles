@@ -835,6 +835,8 @@ do
                 'c': vimcmd 'cclose' -- close quickfix window
                 't': vimcmd 'TroubleClose' -- close trouble window
 
+            'n': vimcmd 'set number!' -- toggle line numbers
+
         -- spell suggest
         -- 'z=': fzflua 'spell_suggest'
 
