@@ -199,21 +199,24 @@ plugins = ->
 
             import nnoremap, vnoremap from require 'vimp'
 
-            nnoremap {'silent'}, '<C-k>',     -> vim.lsp.diagnostic.show_line_diagnostics()
-            nnoremap {'silent'}, '<C-]>',     -> vim.lsp.buf.definition()
-            nnoremap {'silent'}, 'K',         -> vim.lsp.buf.hover()
-            nnoremap {'silent'}, 'gd',        -> vim.lsp.buf.declaration()
-            nnoremap {'silent'}, 'gD',        -> vim.lsp.buf.implementation()
-            nnoremap {'silent'}, '1gD',       -> vim.lsp.buf.type_definition()
-            nnoremap {'silent'}, 'gr',        -> vim.lsp.buf.references()
-            nnoremap {'silent'}, 'g0',        -> vim.lsp.buf.document_symbol()
-            nnoremap {'silent'}, '<Leader>a', -> vim.lsp.buf.code_action()
-            vnoremap {'silent'}, '<Leader>a', -> vim.lsp.buf.range_code_action()
-            nnoremap {'silent'}, 'gq',        -> vim.lsp.buf.formatting()
+            nnoremap {'silent'}, '<C-k>',      -> vim.lsp.diagnostic.show_line_diagnostics()
+            nnoremap {'silent'}, '<C-]>',      -> vim.lsp.buf.definition()
+            nnoremap {'silent'}, 'K',          -> vim.lsp.buf.hover()
+            nnoremap {'silent'}, 'gd',         -> vim.lsp.buf.definition()
+            nnoremap {'silent'}, 'gD',         ":FzfLua lsp_definitions<CR>"
+            nnoremap {'silent'}, 'gr',         ":FzfLua lsp_references<CR>"
+            nnoremap {'silent'}, 'gR',         -> vim.lsp.buf.references()
+            nnoremap {'silent'}, 'gq',         -> vim.lsp.buf.formatting()
+            nnoremap {'silent'}, '<Leader>lg', ":FzfLua lsp_live_workspace_symbols<CR>"
+            nnoremap {'silent'}, '<Leader>lG', ":FzfLua lsp_document_symbols<CR>"
+            nnoremap {'silent'}, '<Leader>li', ":FzfLua lsp_implementations<CR>"
+            nnoremap {'silent'}, '<Leader>ld', ":FzfLua lsp_workspace_diagnostics<CR>"
+            nnoremap {'silent'}, '<Leader>lD', ":FzfLua lsp_document_diagnostics<CR>"
+            nnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.code_action()
+            vnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.range_code_action()
 
             nnoremap {'silent'}, '[g', -> vim.lsp.diagnostic.goto_prev()
             nnoremap {'silent'}, ']g', -> vim.lsp.diagnostic.goto_next()
-
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
@@ -797,16 +800,6 @@ do
             'b': fzflua 'buffers'
             'H': fzflua 'help_tags'
             'F': fzflua 'filetypes'
-
-            -- LSP-related
-            'l':
-                'r': fzflua 'lsp_references'
-                'g': fzflua 'lsp_live_workspace_symbols'
-                'G': fzflua 'lsp_document_symbols'
-                'i': fzflua 'lsp_implementations'
-                ']': fzflua 'lsp_definitions'
-                'd': fzflua 'lsp_workspace_diagnostics'
-                'D': fzflua 'lsp_document_diagnostics'
 
             -- magma-nvim
             'r':
