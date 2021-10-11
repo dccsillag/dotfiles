@@ -116,6 +116,7 @@ plugins = ->
         vim.g.indent_blankline_filetype_exclude =
             * 'dashboard'
             * 'packer'
+            * 'help'
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
     --     (require 'treesitter-context').setup
     --         enable: true
