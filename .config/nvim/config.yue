@@ -543,6 +543,9 @@ do
     vim.o.list = true -- show listchars
     vim.o.listchars = [[tab:--,trail:┈]] -- highlight tabs and trailing whitespace
 
+    -- Remove `~` sign from filler lines
+    vim.o.fillchars = [[eob: ]]
+
     --- Setup autocompletion in a way that is better
     vim.o.completeopt = 'menuone,noinsert,noselect' -- menuone: show a menu even if there's only one match
                                                     -- noinsert: only insert when we select
