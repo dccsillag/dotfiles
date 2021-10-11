@@ -364,7 +364,6 @@ plugins = ->
 
         vim.g.pear_tree_pairs = basic_pairs
     plug 'godlygeek/tabular' -- aligns code
-    plug 'AndrewRadev/splitjoin.vim' -- change code between inline and multiline forms
     plug 'dhruvasagar/vim-table-mode', config: -> -- painlessly edit tables
         vim.g.table_mode_map_prefix = '<Leader><Bar>'
         vim.g.table_mode_toggle_map = '<Bar>'
