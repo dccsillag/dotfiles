@@ -135,21 +135,24 @@ plugins = ->
         vim.g.magma_show_mimetype_debug = false
 
     -- Completion
-    plug 'hrsh7th/nvim-cmp', config: -> -- completion framework for NeoVim
+    plug 'hrsh7th/nvim-cmp', requires: {"hrsh7th/vim-vsnip"}, config: -> -- completion framework for NeoVim
         import 'cmp'
         cmp.setup
-            completion:
-                autocomplete: false
+            -- completion:
+            --     autocomplete: false
             mapping:
+                "<C-c>": cmp.mapping.complete!
                 "<C-l>": cmp.mapping.confirm select: true
-                "<C-n>": cmp.mapping.complete!
-                "<C-p>": cmp.mapping.complete!
-                "<C-c>": cmp.mapping.close!
+                "<C-j>": cmp.mapping.select_next_item behaviour: cmp.SelectBehavior.Select
+                "<C-k>": cmp.mapping.select_prev_item behaviour: cmp.SelectBehavior.Select
+                "<C-h>": cmp.mapping.close!
             sources:
                 * name: "crates"
                 * name: "nvim_lsp"
                 * name: "path"
                 -- * name: "buffer"
+            snippet:
+                expand: (args) -> vim.fn["vsnip#anonymous"] args.body
     plug 'hrsh7th/cmp-nvim-lsp'
     -- plug 'hrsh7th/cmp-buffer'
     plug 'hrsh7th/cmp-path'
