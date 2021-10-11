@@ -297,7 +297,10 @@ plugins = ->
 
     -- Editing Help
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
-    plug 'tomtom/tcomment_vim' -- comment/uncomment code
+    plug 'numToStr/Comment.nvim', config: -> -- comment/uncomment code
+        import 'Comment'
+
+        Comment.setup!
     plug 'tmsvg/pear-tree', config: -> -- automatic delimiter pair closing
         vim.g.pear_tree_repeatable_expand = 0
 
