@@ -120,6 +120,8 @@ if ! zgen saved; then
     abbr -U nsp='nix-shell -p'
     #abbr -U nps='nix-shell --pure'
     #abbr -U npsp='nix-shell --pure -p'
+    # # # Rum
+    abbr -U --force r='rum'
 
     zgen save
 fi
