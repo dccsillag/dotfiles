@@ -366,7 +366,7 @@ auto_nix_shell() {
     fi
 }
 
-chpwd_functions+=(auto_nix_shell)
+#chpwd_functions+=(auto_nix_shell)
 
 # ---
 
