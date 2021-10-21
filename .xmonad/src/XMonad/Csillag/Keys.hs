@@ -118,6 +118,8 @@ myKeys = flip mkNamedKeymap
     , ("M-c M-l M-o",   addName "Set layout to 'OneBig'"         $ sendMessage $ JumpToLayout "OneBig")
     , ("M-c M-l M-S-d", addName "Set layout to 'Dwindle'"        $ sendMessage $ JumpToLayout "Dwindle")
     , ("M-c M-l M-m",   addName "Set layout to 'Mirror Dwindle'" $ sendMessage $ JumpToLayout "Mirror Dwindle")
+    , ("M-c M-l M-S-t", addName "Set layout to 'Tall'"           $ sendMessage $ JumpToLayout "Tall")
+    , ("M-c M-l M-S-m", addName "Set layout to 'Mirror Tall'"    $ sendMessage $ JumpToLayout "Mirror Tall")
     , ("M-c M-l M-s",   addName "Set layout to 'Spiral'"         $ sendMessage $ JumpToLayout "Spiral")
     , ("M-c M-l M-a",   addName "Set layout to 'Accordion'"      $ sendMessage $ JumpToLayout "Accordion")
     , ("M-c M-l M-c",   addName "Set layout to 'Circle'"         $ sendMessage $ JumpToLayout "Circle")
@@ -233,6 +235,8 @@ changeLayoutGridselect = gridselect csillagGridSelectConfig (map (\x -> (x, x))
     , "OneBig"
     , "Dwindle"
     , "Mirror Dwindle"
+    , "Tall"
+    , "Mirror Tall"
     , "Spiral"
     , "Accordion"
     , "Circle"

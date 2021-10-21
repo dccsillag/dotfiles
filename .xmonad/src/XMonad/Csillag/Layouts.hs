@@ -41,6 +41,8 @@ myLayouts = draggingVisualizer
             renamed [Replace "Spiral"]         (Spiral R CW 1 1.1)                   |||
             renamed [Replace "Accordion"]      Accordion                             |||
             renamed [Replace "Circle"]         Circle                                |||
-            renamed [Replace "Plus"]           simpleCross
+            renamed [Replace "Plus"]           simpleCross                           |||
+            renamed [Replace "Tall"]           (Tall 1 (3/100) (1/2))                |||
+            renamed [Replace "Mirror Tall"]    (Mirror $ Tall 1 (3/100) (1/2))
     where
         spacing = spacingRaw True (Border 0 gapsize gapsize gapsize) True (Border gapsize gapsize gapsize gapsize) True
