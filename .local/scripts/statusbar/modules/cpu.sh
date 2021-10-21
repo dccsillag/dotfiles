@@ -1,8 +1,8 @@
 #!/bin/sh
 
-while sleep 1
+while :
 do
-    cpu_usage="$(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1}')"
+    cpu_usage="$((100-$(vmstat 1 2 | tail -1 | awk '{print $15}')))"
 
     if [ "$(printf "%.0f" "$cpu_usage")" -gt 90 ]
     then
