@@ -41,3 +41,5 @@ battery-monitor &
 
 # Disable touch
 # disable-touch
+
+/usr/lib/geoclue-2.0/demos/agent &
