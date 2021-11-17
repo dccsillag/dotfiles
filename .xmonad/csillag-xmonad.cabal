@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 84e7a2578ca00993e3aae8a653abe5a77c94a8908596f3c12d0aad88e9b7e008
+-- hash: 29b8b98390318544bf865e93654adf68c935c9ed68dc96915b64a0119f21b09b
 
 name:           csillag-xmonad
 version:        0.1.0.0
@@ -16,6 +16,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      XMonad.Csillag.Commands
       XMonad.Csillag.Consts
       XMonad.Csillag.Externals
       XMonad.Csillag.Keys
@@ -27,9 +28,12 @@ library
       src
   ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , containers
     , directory
+    , process
+    , utf8-string
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010
@@ -42,10 +46,31 @@ executable my-xmonad
       main
   ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , containers
     , csillag-xmonad
     , directory
+    , process
+    , utf8-string
+    , xmonad >=0.15
+    , xmonad-contrib >=0.16
+  default-language: Haskell2010
+
+executable xmonadctl
+  main-is: xmonadctl.hs
+  other-modules:
+      Paths_csillag_xmonad
+  hs-source-dirs:
+      main
+  ghc-options: -Wall -Wno-missing-signatures -fwrite-ide-info
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , containers
+    , directory
+    , process
+    , utf8-string
     , xmonad >=0.15
     , xmonad-contrib >=0.16
   default-language: Haskell2010

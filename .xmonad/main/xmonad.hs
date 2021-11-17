@@ -11,9 +11,11 @@
 
 -- Imports.
 
--- Standard Haskell
+-- Standard Haskell and non-XMonad packages
 import Control.Monad (unless)
 import System.Directory (doesFileExist)
+import Data.Aeson
+import Data.ByteString.Lazy.UTF8 (fromString)
 
 -- XMonad imports
 import XMonad hiding ((|||), config)
@@ -28,6 +30,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.SpawnOnce
 import XMonad.Hooks.InsertPosition
 import XMonad.Util.NamedActions
+import XMonad.Hooks.ServerMode (serverModeEventHookF)
 
 -- My Configs
 import XMonad.Csillag.Layouts
@@ -35,6 +38,7 @@ import XMonad.Csillag.Keys
 import XMonad.Csillag.Scratchpads
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
+import XMonad.Csillag.Commands
 
 
 -- Things to do upon startup:
@@ -80,8 +84,9 @@ myXMonadConfig = do
                                               ]
                                <+> manageHook def -- The default
         , layoutHook         = avoidStruts myLayouts -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
-        , handleEventHook    = docksEventHook -- ???
+        , handleEventHook    = serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
                                <+> handleTimerEvent
+                               <+> docksEventHook
         , startupHook        = startup -- (on startup)
         , mouseBindings      = myMouse
         }

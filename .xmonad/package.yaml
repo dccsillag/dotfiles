@@ -11,6 +11,9 @@ dependencies:
 - xmonad-contrib >= 0.16
 - containers
 - directory
+- aeson
+- utf8-string
+- process
 
 ghc-options:
 - -Wall
@@ -22,7 +25,10 @@ library:
 
 executables:
   my-xmonad:
-    main:                xmonad.hs
-    source-dirs:         main
+    main: xmonad.hs
+    source-dirs: main
     dependencies:
     - csillag-xmonad
+  xmonadctl:
+    main: xmonadctl.hs
+    source-dirs: main
