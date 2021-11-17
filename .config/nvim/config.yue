@@ -217,6 +217,7 @@ plugins = ->
             nnoremap {'silent'}, '<Leader>li', ":FzfLua lsp_implementations<CR>"
             nnoremap {'silent'}, '<Leader>ld', ":FzfLua lsp_workspace_diagnostics<CR>"
             nnoremap {'silent'}, '<Leader>lD', ":FzfLua lsp_document_diagnostics<CR>"
+            nnoremap {'silent'}, '<Leader>lr', -> vim.lsp.buf.rename()
             nnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.code_action()
             vnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.range_code_action()
 
