@@ -842,6 +842,10 @@ do
 
             'n': vimcmd 'set number!' -- toggle line numbers
 
+        -- :cn and :cp
+        '[q': vimcmd 'cp'
+        ']q': vimcmd 'cn'
+
         -- spell suggest
         -- 'z=': fzflua 'spell_suggest'
 
