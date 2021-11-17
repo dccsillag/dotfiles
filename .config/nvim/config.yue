@@ -285,6 +285,70 @@ plugins = ->
                     node_incremental: '.'
             indent:
                 enable: false -- currently, this is broken.
+    plug 'simrat39/symbols-outline.nvim', config: -> -- show code outline
+        symbols = {}
+        symbols_to_add =
+            File: 'FILE'
+            Module: 'MOD'
+            Namespace: 'NMSP'
+            Package: 'PKG'
+            Enum: 'ENUM'
+            EnumMember: '•'
+            Class: 'CLS'
+            Method: '::FUNC'
+            Property: '::PROP'
+            Field: '::VAR'
+            Constructor: '::NEW'
+            Interface: 'TRAIT'
+            Function: 'FUNC'
+            Variable: 'VAR'
+            Constant: 'CONST'
+            String: 'STR'
+            Number: 'NUM'
+            Boolean: 'BOOL'
+            Array: 'ARR'
+            Object: 'OBJ'
+            Key: 'KEY'
+            Null: 'NULL'
+            Struct: 'DATA'
+            Event: 'EVNT'
+            Operator: 'OP'
+            TypeParameter: 'TYPE'
+        for symbol, custom_name in pairs symbols_to_add
+            symbols[symbol] =
+                icon: if custom_name == '' then string.upper symbol else custom_name
+                -- icon: '|' .. (if custom_name == '' then string.upper symbol else custom_name) .. '|'
+                hl: 'SymbolIcon'
+        vim.g.symbols_outline =
+            highlight_hovered_item: true
+            show_guides: false
+            auto_preview: false
+            position: 'right'
+            width: 75
+            show_symbol_details: false
+            keymaps:
+                close:
+                    * '<ESC>'
+                    * 'q'
+                goto_location:
+                    * '<CR>'
+                focus_location: {}
+                hover_symbol:
+                    * 'K'
+                toggle_preview:
+                    * '<C-l>'
+                rename_symbol:
+                    * 'r'
+                code_actions: {}
+                show_help: {}
+            :symbols
+
+        -- Autoclose:
+        vim.cmd [[
+            autocmd WinLeave OUTLINE SymbolsOutlineClose
+            autocmd FileType Outline setl cul
+            autocmd CursorMoved OUTLINE norm! zz0
+        ]]
     plug 'folke/trouble.nvim', config: -> -- list code troubles
         import 'trouble'
         trouble.setup
@@ -886,6 +950,10 @@ do
                 '=': vimcmd [[Tabularize /=]]
                 ':': vimcmd [[Tabularize /:\zs]]
                 ' ': vimcmd [[Tabularize /,\zs]]
+
+        'z':
+            -- open symbols outline
+            'g': vimcmd 'SymbolsOutline'
 
         -- specs & asterisk
         'n': addspecs 'n'
