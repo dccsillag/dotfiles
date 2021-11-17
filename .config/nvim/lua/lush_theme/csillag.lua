@@ -231,7 +231,11 @@ local theme = lush(function()
     HopNextKey   { fg = "#FFFFFF", bg = "#44AA44", gui = "bold" }, -- color for hop sequence of length 1
     HopNextKey1  { HopNextKey }, -- color for hop head of sequence
     HopNextKey2  { HopNextKey, fg = "#000000" }, -- color for hop tail of sequence
-    HopUnmatched { Normal, fg = "#666666" }                        -- color for hop unmatched chars
+    HopUnmatched { Normal, fg = "#666666" }, -- color for hop unmatched chars
+
+    SymbolsOutlineConnector { Normal }, -- connector highlight for symbols-outline.nvim
+    FocusedSymbol { Normal, gui = "bold" }, -- focused symbol highlight for symbols-outline.nvim
+    SymbolIcon { Comment, gui = "NONE" }, -- icon highlight for symbols-outline.nvim
 
   }
 end)
