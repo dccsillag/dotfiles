@@ -124,6 +124,7 @@ myKeys = flip mkNamedKeymap
     , ("M-c M-l M-a",   addName "Set layout to 'Accordion'"      $ sendMessage $ JumpToLayout "Accordion")
     , ("M-c M-l M-c",   addName "Set layout to 'Circle'"         $ sendMessage $ JumpToLayout "Circle")
     , ("M-c M-l M-p",   addName "Set layout to 'Plus'"           $ sendMessage $ JumpToLayout "Plus")
+    , ("M-c M-l M-f",   addName "Set layout to 'Full'"           $ sendMessage $ JumpToLayout "Full")
     -- Layout Messages
     , ("M-[",          addName "Shrink master area"               $ sendMessage Shrink)
     , ("M-]",          addName "Expand master area"               $ sendMessage Expand)
