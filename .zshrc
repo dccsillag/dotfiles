@@ -113,8 +113,7 @@ if ! zgen saved; then
     # # # BluetoothCTL
     abbr -U bu='bluetoothctl'
     # # # Vim
-    abbr -U --force vim='nvim'
-    abbr -U --force vi='nvim'
+    abbr -U --force v='nvim'
     # # # Nix
     abbr -U ns='nix-shell'
     abbr -U nsp='nix-shell -p'
@@ -304,6 +303,9 @@ alias cmd='command'
 # # Bottom
 alias btmb='btm -ba'
 alias btmp="btm -C $HOME/.config/bottom/bottom-proc.toml"
+# # Vim
+alias vi=nvim
+alias vim=nvim
 # # Edit a file in Vim
 alias fzf-inline='fzf --height 50% --reverse'
 alias ed='f=$(fzf-inline) && nvim $f'
