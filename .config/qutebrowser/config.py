@@ -76,7 +76,7 @@ config.bind('<Ctrl-P>', 'completion-item-focus --history prev', mode='command')
 config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 
-MPV_COMMAND = 'mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp --force-window=immediate --save-position-on-quit URL'
+MPV_COMMAND = 'mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp "--ytdl-format=best[width<=1920]" --force-window=immediate --save-position-on-quit URL'
 config.bind(",m", ('spawn sh -c ' + quote(MPV_COMMAND)).replace('URL', '{url}'))
 
 # }}}
