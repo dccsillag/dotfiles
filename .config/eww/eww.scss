@@ -1,0 +1,67 @@
+* {
+    all: unset; // Unsets everything so that we can style everything from scratch
+}
+
+.bar {
+    background-color: black;
+    color: #EEEEEE;
+    padding: 10px;
+}
+
+.panel {
+    background-color: #282C33;
+    color: #9CB0BA;
+    padding: 10px;
+}
+
+.super-key-mode {
+    background-color: #9CB0BA;
+    color: #282C33;
+    padding: 10px;
+}
+
+.icon {
+    font-family: FantasqueSansMono Nerd Font;
+    font-size: 13pt;
+}
+
+.wm-actions > button {
+    background-color: #3b4049;
+    color: #9cb0ba;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20pt;
+}
+
+.card {
+    background-color: #31363f;
+    color: #9cb0ba;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+calendar {
+    font-size: 30pt;
+}
+
+.card-name {
+    font-size: 10pt;
+    color: #889ca6;
+}
+
+.card-content {
+    font-size: 50pt;
+}
+
+.card-button {
+    font-size: 70pt;
+    background-color: #3b4049;
+    border-radius: 20px;
+}
+
+.card-text-button {
+    font-size: 20pt;
+    background-color: #3b4049;
+    border-radius: 10px;
+    padding: 5px;
+}
