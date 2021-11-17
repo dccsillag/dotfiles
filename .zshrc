@@ -299,7 +299,7 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
 # # misc
-alias cls='clear'
+alias cls='clear -x'
 alias cmd='command'
 # # Bottom
 alias btmb='btm -ba'
