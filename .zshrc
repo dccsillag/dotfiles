@@ -366,6 +366,24 @@ auto_nix_shell() {
     fi
 }
 
+# Julia auto-project
+julia() {
+    [ -z "$ORIGINAL_CWD" ] && export ORIGINAL_CWD="$PWD"
+
+    if [ "$PWD" = / ]; then
+        cd "$ORIGINAL_CWD"
+        command julia "$@"
+    elif [ -f Project.toml ]; then
+        echo "Running julia with --project=. from $PWD"
+        command julia --project=. "$@"
+    else
+        (
+            cd ..
+            julia "$@"
+        )
+    fi
+}
+
 #chpwd_functions+=(auto_nix_shell)
 
 # ---
