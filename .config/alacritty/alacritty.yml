@@ -1,13 +1,6 @@
 env:
   TERM: xterm-256color
 
-background_opacity: 0.8
-background_blur: 5
-
-# Fonts I've particularly liked:
-#   - mononoki
-#   - FantasqueSansMono
-
 font:
   normal:
     family: FantasqueSansMono Nerd Font
@@ -21,45 +14,17 @@ font:
   bold_italic:
     family: FantasqueSansMono Nerd Font
     style: Bold Italic
-  # size: 9.0
-  size: 11.0
+  size: 8.0
+  # size: 11.0
 
-# colors:
-#   primary:
-#     dim_background:    '#354047'
-#     # background:        '#404552'
-#     background:        '#333344'
-#     bright_background: '#455057'
-#     dim_foreground:    '#AAAAAA'
-#     foreground:        '#EEEEEE'
-#     bright_foreground: '#FFFFFF'
-#   cursor:
-#     text:   '#000000'
-#     cursor: '#FFFFFF'
-#   normal:
-#     black:   '#111111'
-#     red:     '#CD0000'
-#     green:   '#00CD00'
-#     yellow:  '#CDCD00'
-#     blue:    '#0000EE'
-#     magenta: '#CD00CD'
-#     cyan:    '#00CDCD'
-#     white:   '#E5E5E5'
-#   bright:
-#     black:   '#000000'
-#     red:     '#FF0000'
-#     green:   '#00FF00'
-#     yellow:  '#FFFF00'
-#     blue:    '#0000FF'
-#     magenta: '#FF00FF'
-#     cyan:    '#00FFFF'
-#     white:   '#FFFFFF'
-#   dim:
-#     black:   '#222222'
-#     red:     '#BB0000'
-#     green:   '#00BB00'
-#     yellow:  '#BBBB00'
-#     blue:    '#0000BB'
-#     magenta: '#BB00BB'
-#     cyan:    '#00BBBB'
-#     white:   '#BBBBBB'
+colors:
+  primary:
+    dim_background:    '#282C33'
+    background:        '#282C33'
+    bright_background: '#282C33'
+    dim_foreground:    '#AAAAAA'
+    foreground:        '#C5C8C6'
+    bright_foreground: '#FFFFFF'
+  cursor:
+    text:   '#000000'
+    cursor: '#FFFFFF'
