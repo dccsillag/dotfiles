@@ -189,7 +189,8 @@ plugins = ->
     plug 'hrsh7th/cmp-nvim-lsp'
     -- plug 'hrsh7th/cmp-buffer'
     plug 'hrsh7th/cmp-path'
-    plug 'Saecki/crates.nvim'
+    plug 'Saecki/crates.nvim', config: ->
+        (require 'crates').setup!
 
     -- LSP / TreeSitter / Formatting
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
