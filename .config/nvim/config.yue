@@ -162,6 +162,10 @@ plugins = ->
     plugown 'magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
         vim.g.magma_automatically_open_output = false
         vim.g.magma_show_mimetype_debug = false
+    plug 'vim-test/vim-test', config: -> -- run tests from NeoVim
+        vim.g['test#strategy'] = 'neovim'
+        vim.g['test#neovim#start_normal'] = 1
+        vim.g['test#basic#start_normal'] = 1
 
     -- Completion
     plug 'hrsh7th/nvim-cmp', requires: {"hrsh7th/vim-vsnip"}, config: -> -- completion framework for NeoVim
@@ -811,6 +815,12 @@ do
                 'd': vimcmd 'MagmaDelete'
                 'o': vimcmd 'MagmaShowOutput'
                 'n': vimcmd 'MagmaInit'
+
+            -- vim-test
+            't':
+                't': vimcmd 'TestNearest'
+                'f': vimcmd 'TestFile'
+                'l': vimcmd 'TestLast'
 
             'G': vimcmd 'G' -- open fugitive
 
