@@ -4,7 +4,8 @@ out="$1"
 
 ! [ -f "$HOME/.xmonad/recompilation-success" ] && [ -f "$out" ] && exit 0 || true
 
-stack build :my-xmonad --verbosity error
+stack build :my-xmonad --verbosity error --force-dirty --ghc-options '-fforce-recomp'
 stack install :my-xmonad --local-bin-path bin/ --verbosity error
+stack install :xmonadctl
 
 mv bin/my-xmonad "$out"
