@@ -69,7 +69,7 @@
                                (card :name "packages installed" :content "' ${packages-installed}'")
                                (card :name "packages explicitly installed" :content "'* ${packages-explicitly-installed}'")
                                (card :name "updates available" :content "' ${packages-updates}'"))
-                          (card :name "uptime" :content "'${uptime}'")
+                          (card :name "uptime" :content "(box :style \"font-size: 40pt\" '${uptime}')")
                           ; "TODO"
                           (box :orientation "h" :spacing 10
                                "TODO"
