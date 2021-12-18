@@ -175,6 +175,10 @@ myKeys = flip mkNamedKeymap
     , ("M-q M-k",     addName "Toggle Screenkey"         $ spawn ".local/scripts/screenkey_toggle.sh")
     , ("M-q M-v M-u", addName "Enable VPN"               $ mvpn "up")
     , ("M-q M-v M-d", addName "Disable VPN"              $ mvpn "down")
+    -- Notifications
+    , ("M-S-n M-S-c", addName "Close notification"                              $ spawn "dunstctl close")
+    , ("M-S-n M-c",   addName "Close all notifications"                         $ spawn "dunstctl close-all")
+    , ("M-S-n M-S-r", addName "Redisplay the most recently closed notification" $ spawn "dunstctl history-pop")
     -- -- Mouse actions
     -- , ("M-C-S-m", addName "Open mouse actions gridselect" mouseActionsGridSelect)
     -- Function Keys
