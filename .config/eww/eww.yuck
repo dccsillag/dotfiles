@@ -11,6 +11,7 @@
            (box :class "resource-monitors" :orientation "h" :space-evenly false :halign "start" :spacing 5
                 (metric :label "﬙" :value "${round(EWW_CPU.avg, 0)}%")
                 (metric :label "" :value "${round(EWW_RAM.used_mem_perc, 0)}%")
+                (metric :label "易" :value "${round(100*(1 - EWW_RAM.free_swap / EWW_RAM.total_swap), 0)}%")
                 (metric :label "﨎" :value "${EWW_TEMPS.CPU}°C")
                 (metric :label "" :value "${battery}%")))
 
