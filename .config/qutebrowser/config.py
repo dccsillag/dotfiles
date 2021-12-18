@@ -253,6 +253,10 @@ c.colors.webpage.bg = STDBG
 
 # }}}
 
+# Performance stuff {{{
+
+c.qt.force_software_rendering = 'chromium'
+
 # }}}
 
 # vim: fdm=marker
