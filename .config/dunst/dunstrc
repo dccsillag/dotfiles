@@ -31,13 +31,17 @@
     # geometry             = "500x5-50+40"
     # geometry             = "600x5+20+40"
     geometry             = "500x5-710+40"
+    width                = 400
+    height               = 200
+    origin               = top-center
     shrink               = false
-    corner_radius        = 10
+    corner_radius        = 6
 
     idle_threshold       = 120
     show_age_threshold   = 60
     show_indicators      = yes
 
+    frame_width          = 1
     frame_color          = "#ffffff"
     # frame_color          = "#808080"
 
@@ -45,10 +49,10 @@
     history_length       = 50
     follow               = none
 
-    separator_height     = 2
+    separator_height     = 1
     padding              = 10
     horizontal_padding   = 10
-    separator_color      = auto
+    separator_color      = frame
 
     startup_notification = false
 
@@ -62,12 +66,6 @@
     # max_icon_size        = 50
 
     mouse_left = do_action
-
-[shortcuts]
-    close     = mod4+z
-    close_all = mod4+shift+z
-    history   = ctrl+mod4+z
-    # context   = ctrl+mod4+shift+z
 
 [urgency_low]
     background = "#222222"
