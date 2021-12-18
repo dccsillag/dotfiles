@@ -7,8 +7,6 @@ where
 
 import Control.Monad
 import System.Exit (exitSuccess)
-import System.IO (hPutStr, hPutStrLn)
-import System.Process
 import Text.Read (readMaybe)
 import XMonad
 import XMonad.Actions.CopyWindow (copy, kill1)
@@ -50,20 +48,14 @@ commandHandler ["close-copy"] = killCopy
 commandHandler ["focus-screen", screen] = whenJust (readMaybe screen) $ screenWorkspace >=> flip whenJust (windows . W.view)
 commandHandler ["swap-screens"] = screenSwap U True
 -- Workspaces
-commandHandler ["with-workspace-list", command] = do
+commandHandler ["get-workspace-list", output_file] = do
   wkss <- withWindowSet \ws ->
     return $
       filter (/= "NSP") $
         circshiftN (succ $ length $ W.visible ws) $
           map W.tag $
             W.workspaces ws
-  spawn "notify-send here"
-  forM_ wkss \wks -> spawn $ "notify-send 'test " ++ wks ++ "'"
-  void $
-    xfork $ do
-      (Just stdin, _, _, _) <- io $ createProcess $ (shell command) {std_in = CreatePipe}
-      forM_ wkss \wks -> spawn $ "notify-send 'test " ++ wks ++ "'"
-      hPutStrLn stdin $ unlines wkss
+  io $ writeFile output_file $ unlines wkss
   where
     circshiftN :: Int -> [a] -> [a]
     circshiftN 0 lst = lst
