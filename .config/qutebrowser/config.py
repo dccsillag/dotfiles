@@ -59,10 +59,11 @@ c.content.blocking.adblock.lists = ["https://easylist.to/easylist/easylist.txt",
 # Search Engines {{{
 
 c.url.searchengines = {
-    'DEFAULT': 'https://search.brave.com/search?q={}&source=web',
+    'DEFAULT': 'https://www.google.com/search?q={}',
+    'brv': 'https://search.brave.com/search?q={}&source=web',
     'ddg': 'https://duckduckgo.com/?q={}',
     'aw': 'https://wiki.archlinux.org/index.php?search={}',
-    'go': 'https://www.google.com/search?q={}',
+    # 'go': 'https://www.google.com/search?q={}',
     'lib': 'http://gen.lib.rus.ec/search.php?req={}',
 }
 
