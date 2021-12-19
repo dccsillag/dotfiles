@@ -932,23 +932,8 @@ do
         '<rec>g<C-x>':        plug 'dial-decrement-additional'
 
         'g':
-            -- window movement
-            'h': '<C-w>h'
-            'j': '<C-w>j'
-            'k': '<C-w>k'
-            'l': '<C-w>l'
-
-            -- window restructuring
-            'H': '<C-w>H'
-            'J': '<C-w>J'
-            'K': '<C-w>K'
-            'L': '<C-w>L'
-
             -- misc window operations
-            'w':
-                'n': '<C-w>n'
-                'o': '<C-w>o'
-                'q': '<C-w>q'
+            'w': "<C-w>"
 
             -- text alignment
             'a':
