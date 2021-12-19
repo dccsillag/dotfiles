@@ -501,6 +501,7 @@ plugins = ->
         -- the official YueScript syntax is too slow for me, so I'll use MoonScript syntax for YueScript
         --   (they are similar enough, I think it'll be fine).
         vim.cmd [[autocmd BufNewFile,BufRead *.yue setf moon]]
+    plug 'tomlion/vim-solidity' -- language support for Solidity
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
     plug 'rust-lang/rust.vim' -- better Rust syntax support
