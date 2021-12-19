@@ -593,8 +593,8 @@ do
     --- Highlight past the textwidth
     vim.o.colorcolumn = '+1' -- highlight the column after the one specified in 'textwidth'
 
-    -- Highlight the current line
-    vim.o.cursorline = false -- show the cursorline
+    -- Don't highlight the current line
+    vim.o.cursorline = false -- don't show the cursorline
 
     --- Set the updatetime
     vim.o.updatetime = 250 -- how much time between updates, in ms
