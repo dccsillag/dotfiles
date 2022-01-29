@@ -237,6 +237,14 @@ local theme = lush(function()
     FocusedSymbol { Normal, gui = "bold" }, -- focused symbol highlight for symbols-outline.nvim
     SymbolIcon { Comment, gui = "NONE" }, -- icon highlight for symbols-outline.nvim
 
+    --
+
+    ConflictMarkerBegin { bg = "#2f7366" },
+    ConflictMarkerOurs { bg = "#2e5049" },
+    ConflictMarkerTheirs { bg = "#344f69" },
+    ConflictMarkerEnd { bg = "#2f628e" },
+    ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
+
   }
 end)
 

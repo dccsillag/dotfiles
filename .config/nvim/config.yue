@@ -158,7 +158,6 @@ plugins = ->
             vim.cmd ":G"
             vim.cmd "only"
             nnoremap {"buffer"}, "gq", ":qa!<CR>"
-    plug 'christoomey/vim-conflicted' -- easily solve git merge conflicts
     plug 'junegunn/gv.vim' -- git commit browser
     plugown 'magma-nvim', run: ':UpdateRemotePlugins', config: -> -- interact with Jupyter
         vim.g.magma_automatically_open_output = false
@@ -362,6 +361,7 @@ plugins = ->
     plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
 
     -- Editing Help
+    plug 'rhysd/conflict-marker.vim' -- easily solve git conflicts
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'numToStr/Comment.nvim', config: -> -- comment/uncomment code
         import 'Comment'
