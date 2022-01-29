@@ -1,6 +1,6 @@
 (defvar panel-is-open false)
 (defwidget bar []
-           (button :onclick {panel-is-open ? "eww close panel-window && eww update panel-is-open=false" : "eww open panel-window && eww update panel-is-open=true"}
+           (button ; :onclick {panel-is-open ? "eww close panel-window && eww update panel-is-open=false" : "eww open panel-window && eww update panel-is-open=true"}
                    ; :onhoverlost "eww close panel-window"
                    (centerbox :class "bar" :orientation "h"
                               (resource-monitors)
