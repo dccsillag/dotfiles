@@ -101,7 +101,7 @@ plugins = ->
                 ["v <leader>gx"]: '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
                 -- ["n <leader>gX"]: '<cmd>lua require"gitsigns".reset_buffer()<CR>'
                 ["n <leader>gd"]: '<cmd>lua require"gitsigns".preview_hunk()<CR>'
-                ["n <leader>gb"]: '<cmd>lua require"gitsigns".blame_line(true)<CR>'
+                ["n <leader>gb"]: '<cmd>lua require"gitsigns".blame_line{full = true}<CR>'
 
                 ["o ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
                 ["x ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
