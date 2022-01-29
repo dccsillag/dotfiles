@@ -63,5 +63,10 @@ myScratchpads =
        , query = className =? "Mailspring"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "element"
+       , cmd   = "element-desktop"
+       , query = className =? "Element"
+       , hook  = floatingScratchpad
+       }
   ]
   where floatingScratchpad = customFloating $ W.RationalRect 0.05 0.05 0.9 0.9
