@@ -353,16 +353,6 @@ plugins = ->
             autocmd FileType Outline setl cul
             autocmd CursorMoved OUTLINE norm! zz0
         ]]
-    plug 'folke/trouble.nvim', config: -> -- list code troubles
-        import 'trouble'
-        trouble.setup
-            icons: false
-            signs:
-                error: "E"
-                warning: "W"
-                information: "I"
-                hint: "H"
-            use_lsp_diagnostic_signs: true
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
