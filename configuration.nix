@@ -96,6 +96,7 @@
     # Misc linux utils
     lshw
     pciutils
+    usbutils
     lsof
     file
 
