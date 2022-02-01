@@ -1,6 +1,6 @@
 #!/bin/sh
 
-batpath="/sys/class/power_supply/BAT0"
+batpath="$(echo /sys/class/power_supply/BAT? | head -1)"
 
 has_battery() {
     [ -n "$batpath" ]
