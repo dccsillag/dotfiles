@@ -179,6 +179,7 @@
     sxiv
     zathura
     xournalpp
+    write_stylus
     slack
     mailspring
   ];
@@ -210,6 +211,7 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
+    "write_stylus"
   ];
 
   # This value determines the NixOS release from which the default
