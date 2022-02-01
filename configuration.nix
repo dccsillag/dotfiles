@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  unstable = import <nixos-unstable> {};
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -71,8 +73,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; let
-    unstable = import <nixos-unstable> {};
-
     yuescript = stdenv.mkDerivation rec {
       name = "yuescript";
       version = "0.9.5";
