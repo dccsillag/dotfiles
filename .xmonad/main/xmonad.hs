@@ -49,7 +49,7 @@ startup = do
   spawnOnce "redshift"
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
   spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
-  spawnOnce "toggle_statusbar"
+  spawnOnce "eww open bar-window"
 
   spawnOnce "/home/daniel/.xmonad/on_start.sh"
 

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if pgrep dzen
+if { eww windows | grep '^\*bar-window$' >/dev/null 2>&1; }
 then
-    pkill dzen
+    eww close bar-window
 else
-    ~/.local/scripts/statusbar/main.py
+    eww open bar-window
 fi
