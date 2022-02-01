@@ -96,6 +96,7 @@ in {
     wget
     curl
     youtube-dl
+    yt-dlp
     git # ... and git
 
     # Misc linux utils
