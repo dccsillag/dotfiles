@@ -83,6 +83,7 @@
     };
   in [
     # Text editor
+    vim
     neovim
     yuescript
 
