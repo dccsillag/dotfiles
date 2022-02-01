@@ -71,6 +71,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; let
+    unstable = import <nixos-unstable> {};
+
     yuescript = stdenv.mkDerivation rec {
       name = "yuescript";
       version = "0.9.5";
@@ -87,7 +89,7 @@
   in [
     # Text editor
     vim
-    neovim
+    unstable.neovim
     yuescript
 
     # Download tools
