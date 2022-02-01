@@ -92,6 +92,16 @@ in {
     unstable.neovim
     yuescript
 
+    # LSPs
+    rust-analyzer
+    clang # this provides clangd
+    sumneko-lua-language-server
+    pyright
+    haskell-language-server
+    texlab
+    # TODO vimls
+    rnix-lsp
+
     # Download tools
     wget
     curl
