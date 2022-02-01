@@ -256,7 +256,10 @@ plugins = ->
                 * "lua-language-server"
                 * "-E"
                 * "/usr/share/lua-language-server/main.lua"
-        nvim_lsp.pyright.setup
+        -- nvim_lsp.pyright.setup
+        --     :on_attach
+        --     :capabilities
+        nvim_lsp.pylsp.setup
             :on_attach
             :capabilities
         nvim_lsp.hls.setup
