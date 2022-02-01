@@ -161,6 +161,7 @@
     pulsemixer
     libnotify
     brightnessctl
+    pamixer
 
     # Password manager
     pass
