@@ -177,6 +177,8 @@
     sxiv
     zathura
     xournalpp
+    slack
+    mailspring
   ];
 
   fonts.fonts = with pkgs; [
@@ -203,6 +205,10 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "slack"
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
