@@ -21,7 +21,6 @@ import Data.ByteString.Lazy.UTF8 (fromString)
 import XMonad hiding ((|||), config)
 import XMonad.Actions.ShowText
 import XMonad.Hooks.ManageHelpers (doFullFloat)
-import XMonad.Hooks.SetWMName
 import XMonad.Util.Cursor
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Actions.Navigation2D
@@ -31,6 +30,7 @@ import XMonad.Util.SpawnOnce
 import XMonad.Hooks.InsertPosition
 import XMonad.Util.NamedActions
 import XMonad.Hooks.ServerMode (serverModeEventHookF)
+import qualified XMonad.Util.Hacks as Hacks
 
 -- My Configs
 import XMonad.Csillag.Layouts
@@ -53,8 +53,6 @@ startup = do
 
   spawnOnce "/home/daniel/.xmonad/on_start.sh"
 
-  -- Set window manager name to LG3D, for compatibility with some finicky software
-  setWMName "LG3D"
   -- Set the default cursor to the left arrow/pointer (not the X).
   setDefaultCursor xC_left_ptr
 
@@ -64,6 +62,7 @@ myXMonadConfig = do
     wkss <- lines <$> readFile workspaceTempFile
     return
         $ ewmh
+        $ Hacks.javaHack
         $ withNavigation2DConfig myNavigation2DConfig
         $ addDescrKeys' ((mod4Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys
         $ def {
@@ -87,6 +86,7 @@ myXMonadConfig = do
         , handleEventHook    = serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
                                <+> handleTimerEvent
                                <+> docksEventHook
+                               <+> Hacks.windowedFullscreenFixEventHook
         , startupHook        = startup -- (on startup)
         , mouseBindings      = myMouse
         }
