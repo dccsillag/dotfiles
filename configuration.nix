@@ -19,6 +19,9 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
