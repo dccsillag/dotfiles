@@ -156,6 +156,7 @@ in {
     neofetch
     parallel
     sshfs
+    gpp
 
     # Development tools
     rustfmt
