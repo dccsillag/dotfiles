@@ -135,6 +135,7 @@ in {
     sshfs
 
     # Development tools
+    rustfmt
     cargo-edit
     cargo-audit
     cargo-bloat
