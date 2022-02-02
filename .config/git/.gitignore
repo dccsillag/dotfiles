@@ -10,3 +10,5 @@ compile_commands.json
 latex.out/
 .autosrc
 .target-rust_analyzer_check
+shell.nix
+.envrc
