@@ -194,6 +194,7 @@ in {
     libnotify
     brightnessctl
     pamixer
+    screenkey
 
     # Password manager
     pass
