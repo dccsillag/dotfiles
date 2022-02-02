@@ -388,6 +388,11 @@ julia() {
 
 #chpwd_functions+=(auto_nix_shell)
 
+if { which direnv &> /dev/null; }
+then
+    eval "$(direnv hook zsh)"
+fi
+
 # ---
 
 # function greet() {
