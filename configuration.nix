@@ -125,6 +125,7 @@ in {
     delta
     bat
     viu
+    tokei
     highlight
     tldr
     fzf
