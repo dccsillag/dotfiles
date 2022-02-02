@@ -29,6 +29,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (doFullFloat)
+import XMonad.Hooks.Rescreen
 import XMonad.Hooks.ServerMode (serverModeEventHookF)
 import XMonad.Util.Cursor
 import qualified XMonad.Util.Hacks as Hacks
@@ -51,6 +52,18 @@ startup = do
   -- Set the default cursor to the left arrow/pointer (not the X).
   setDefaultCursor xC_left_ptr
 
+rescreenConfig :: RescreenConfig
+rescreenConfig =
+  def
+    { afterRescreenHook = do
+        -- This runs after display configuration is changed (e.g., via xrandr)
+        spawn "eww reload" -- reload the statusbar
+        spawn "background-setter set", -- set a new desktop background
+      randrChangeHook = do
+        -- This runs after physical display changes, such as a display disconnect
+        return () -- TODO
+    }
+
 myXMonadConfig = do
   tempfileExists <- doesFileExist workspaceTempFile
   unless tempfileExists $ writeFile workspaceTempFile "."
@@ -60,34 +73,35 @@ myXMonadConfig = do
       Hacks.javaHack $
         withNavigation2DConfig myNavigation2DConfig $
           addDescrKeys' ((mod4Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys $
-            def
-              { terminal = termSpawn,
-                modMask = mod4Mask, -- Super key
-                focusFollowsMouse = False,
-                normalBorderColor = "#555555", -- "#cccccc"
-                focusedBorderColor = "#FFFFFF",
-                borderWidth = 1,
-                workspaces = wkss,
-                manageHook =
-                  insertPosition Below Newer
-                    <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
-                    <+> manageDocks -- ???
-                    <+> composeAll
-                      [ className =? "feh" --> doFloat, -- Float `feh` windows
-                        className =? "Sxiv" --> doFloat, -- Float `sxiv` windows
-                        title =? "KDE Connect Daemon" --> doFullFloat, -- Full float KDEConnect pointer
-                        className =? "Florence" --> doFloat -- Float `florence` windows
-                      ]
-                    <+> manageHook def, -- The default
-                layoutHook = avoidStruts myLayouts, -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
-                handleEventHook =
-                  serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
-                    <+> handleTimerEvent
-                    <+> docksEventHook
-                    <+> Hacks.windowedFullscreenFixEventHook,
-                startupHook = startup, -- (on startup)
-                mouseBindings = myMouse
-              }
+            rescreenHook rescreenConfig $
+              def
+                { terminal = termSpawn,
+                  modMask = mod4Mask, -- Super key
+                  focusFollowsMouse = False,
+                  normalBorderColor = "#555555", -- "#cccccc"
+                  focusedBorderColor = "#FFFFFF",
+                  borderWidth = 1,
+                  workspaces = wkss,
+                  manageHook =
+                    insertPosition Below Newer
+                      <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
+                      <+> manageDocks -- ???
+                      <+> composeAll
+                        [ className =? "feh" --> doFloat, -- Float `feh` windows
+                          className =? "Sxiv" --> doFloat, -- Float `sxiv` windows
+                          title =? "KDE Connect Daemon" --> doFullFloat, -- Full float KDEConnect pointer
+                          className =? "Florence" --> doFloat -- Float `florence` windows
+                        ]
+                      <+> manageHook def, -- The default
+                  layoutHook = avoidStruts myLayouts, -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
+                  handleEventHook =
+                    serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
+                      <+> handleTimerEvent
+                      <+> docksEventHook
+                      <+> Hacks.windowedFullscreenFixEventHook,
+                  startupHook = startup, -- (on startup)
+                  mouseBindings = myMouse
+                }
 
 main :: IO ()
 main = xmonad =<< myXMonadConfig
