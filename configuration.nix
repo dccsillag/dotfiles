@@ -97,6 +97,7 @@ in {
     clang # this provides clangd
     sumneko-lua-language-server
     pyright
+    python39Packages.python-lsp-server
     haskell-language-server
     texlab
     # TODO vimls
