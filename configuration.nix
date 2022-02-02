@@ -133,6 +133,21 @@ in {
     parallel
     sshfs
 
+    # Development tools
+    cargo-edit
+    cargo-audit
+    cargo-bloat
+    #cargo-crev
+    cargo-criterion
+    #cargo-cross
+    cargo-deny
+    cargo-expand
+    cargo-fuzz
+    cargo-license
+    cargo-udeps
+    cargo-valgrind
+    cargo-watch
+
     # Image tools
     imagemagick
 
