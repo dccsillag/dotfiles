@@ -21,6 +21,8 @@ in {
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
 
+  environment.etc.hosts.mode = "0644"; # make /etc/hosts editable by root for vpn-slice
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
