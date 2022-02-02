@@ -86,6 +86,28 @@ in {
 
       installPhase = ''mkdir -p $out/bin && make install DESTDIR=$out INSTALL_PREFIX= SHELL=${bash}/bin/bash'';
     };
+
+    streambinder-vpnc = stdenv.mkDerivation rec {
+      name = "vpnc";
+      version = "0.5.3";
+      src = fetchFromGitHub {
+        owner = "streambinder";
+        repo = "vpnc";
+        rev = "c8bb5371b881f8853f191c495e762f834c9def5d";
+        sha256 = "1j1p83nfc2fpwczjcggsby0b44hk97ky0s6vns6md3awlbpgdn57";
+        fetchSubmodules = true;
+      };
+
+      buildInputs = [ pkg-config perl libgcrypt gnutls ];
+
+      postPatch = ''patchShebangs src/makeman.pl'';
+
+      makeFlags = [
+        "PREFIX=$(out)"
+        "ETCDIR=$(out)/etc/vpnc"
+        "SCRIPT_PATH=$(out)/etc/vpnc/vpnc-script"
+      ];
+    };
   in [
     # Text editor
     vim
@@ -175,6 +197,11 @@ in {
     # ZSH
     starship
     direnv
+
+    # VPN
+    streambinder-vpnc
+    vpnc-scripts
+    vpn-slice
 
     # Desktop
     xterm
