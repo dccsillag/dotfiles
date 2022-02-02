@@ -172,6 +172,7 @@ in {
 
     # ZSH
     starship
+    direnv
 
     # Desktop
     xterm
