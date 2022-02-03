@@ -230,6 +230,7 @@ in {
     brightnessctl
     pamixer
     screenkey
+    xlayoutdisplay
 
     # Password manager
     pass
