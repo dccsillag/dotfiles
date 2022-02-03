@@ -233,6 +233,7 @@ plugins = ->
             settings:
                 ["rust-analyzer"]:
                     checkOnSave:
+                        command: "clippy"
                         extraArgs:
                             * "--target-dir"
                             * ".target-rust_analyzer_check"
