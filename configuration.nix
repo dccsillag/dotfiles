@@ -162,6 +162,7 @@ in {
 
     # Development tools
     rustfmt
+    clippy
     cargo-edit
     cargo-audit
     cargo-bloat
