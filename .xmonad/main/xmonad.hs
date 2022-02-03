@@ -61,7 +61,7 @@ rescreenConfig =
         spawn "background-setter set", -- set a new desktop background
       randrChangeHook = do
         -- This runs after physical display changes, such as a display disconnect
-        return () -- TODO
+        spawn "xlayoutdisplay" -- automatically setup screens via xrandr
     }
 
 myXMonadConfig = do
