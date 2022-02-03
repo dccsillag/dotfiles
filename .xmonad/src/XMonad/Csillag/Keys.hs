@@ -88,7 +88,7 @@ myKeys = flip mkNamedKeymap
     -- Screens (Xinerama)
     , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ screenWorkspace 0 >>= flip whenJust (windows . W.view))
     , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ screenWorkspace 1 >>= flip whenJust (windows . W.view))
-    , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap U True)
+    , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap R True)
     , ("M-S-s M-S-c",       addName "Change screen setup"                 changeScreenConfig)
     , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ setScreenOrientation "normal" 0)
     , ("M-S-s M-S-o M-S-j", addName "Set screen orientation to 'down'"  $ spawn $ setScreenOrientation "inverted" 0)
