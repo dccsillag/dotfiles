@@ -181,6 +181,8 @@ in {
     cargo-udeps
     cargo-valgrind
     cargo-watch
+    cargo-flamegraph
+    cargo-asm
 
     # Image tools
     imagemagick
