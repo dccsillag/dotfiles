@@ -264,6 +264,7 @@ in {
     write_stylus
     slack
     mailspring
+    unstable.zoom-us
   ];
 
   fonts.fonts = with pkgs; [
@@ -274,7 +275,7 @@ in {
     enable = true;
     wrappedBinaries = {
       zoom-firejail = {
-        executable = "${pkgs.zoom-us}/bin/zoom";
+        executable = "${unstable.zoom-us}/bin/zoom";
       };
     };
   };
