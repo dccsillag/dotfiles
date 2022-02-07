@@ -238,6 +238,7 @@ in {
     pamixer
     screenkey
     xlayoutdisplay
+    scrot
 
     # Password manager
     pass
