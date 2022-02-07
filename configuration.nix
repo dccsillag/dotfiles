@@ -258,12 +258,20 @@ in {
     write_stylus
     slack
     mailspring
-    zoom-us
   ];
 
   fonts.fonts = with pkgs; [
     nerdfonts
   ];
+
+  programs.firejail = {
+    enable = true;
+    wrappedBinaries = {
+      zoom-firejail = {
+        executable = "${pkgs.zoom-us}/bin/zoom";
+      };
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
