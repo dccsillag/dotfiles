@@ -5,7 +5,13 @@
 { config, pkgs, ... }:
 
 let
-  unstable = import <nixos-unstable> {};
+  allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "slack"
+    "write_stylus"
+    "zoom"
+  ];
+
+  unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -297,11 +303,7 @@ in {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "slack"
-    "write_stylus"
-    "zoom"
-  ];
+  nixpkgs.config.allowUnfreePredicate = allowUnfreePredicate;
 
   # Upgrade automatically once a day:
   system.autoUpgrade.enable = true;
