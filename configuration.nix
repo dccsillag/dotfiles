@@ -258,6 +258,7 @@ in {
     write_stylus
     slack
     mailspring
+    zoom-us
   ];
 
   fonts.fonts = with pkgs; [
@@ -291,6 +292,7 @@ in {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
     "write_stylus"
+    "zoom"
   ];
 
   # Upgrade automatically once a day:
