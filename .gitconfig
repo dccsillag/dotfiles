@@ -5,8 +5,6 @@
     date = relative
 [format]
     pretty = format:"%h %Cblue%>(14,trunc)%ad%Creset %Cgreen%<(16,trunc)%an%Creset %s"
-[diff]
-	colorMoved = default
 [pager]
 	diff = delta
 	log = delta
