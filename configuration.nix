@@ -7,6 +7,7 @@
 let
   allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
+    "discord"
     "write_stylus"
     "zoom"
   ];
@@ -263,6 +264,7 @@ in {
     xournalpp
     write_stylus
     slack
+    unstable.discord
     mailspring
     unstable.zoom-us
   ];
