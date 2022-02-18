@@ -171,6 +171,7 @@ in {
     parallel
     sshfs
     gpp
+    taskell
 
     # Development tools
     rustfmt
