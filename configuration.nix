@@ -197,6 +197,7 @@ in {
     # Archive tools
     atool
     zip
+    unzip
     bzip2
     gzip
 
