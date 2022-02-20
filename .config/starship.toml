@@ -11,8 +11,6 @@ $git_status\
 $hg_branch\
 $docker_context\
 $conda\
-$aws\
-$gcloud\
 $jobs\
 $cmd_duration\
 $status\
