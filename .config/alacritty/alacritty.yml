@@ -28,3 +28,40 @@ colors:
   cursor:
     text:   '#000000'
     cursor: '#FFFFFF'
+
+cursor:
+  style:
+    blinking: Never
+
+window:
+  padding:
+    x: 3
+    y: 3
+  dynamic_padding: true
+
+key_bindings:
+  - key: V
+    mods: Control|Shift
+    action: Paste
+  - key: C
+    mods: Control|Shift
+    action: Copy
+  - key: K
+    mods: Control|Shift
+    action: ScrollLineUp
+    mode: ~Alt
+  - key: J
+    mods: Control|Shift
+    action: ScrollLineDown
+    mode: ~Alt
+  - key: U
+    mods: Control|Shift
+    action: ScrollHalfPageUp
+    mode: ~Alt
+  - key: D
+    mods: Control|Shift
+    action: ScrollHalfPageDown
+    mode: ~Alt
+  - key: Return
+    mods: Control
+    action: ToggleViMode
