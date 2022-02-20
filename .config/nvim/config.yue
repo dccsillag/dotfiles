@@ -211,7 +211,7 @@ plugins = ->
 
             import nnoremap, vnoremap from require 'vimp'
 
-            nnoremap {'silent'}, '<C-k>',      -> vim.lsp.diagnostic.show_line_diagnostics()
+            nnoremap {'silent'}, '<C-k>',      -> vim.diagnostic.show_line_diagnostics()
             nnoremap {'silent'}, '<C-]>',      -> vim.lsp.buf.definition()
             nnoremap {'silent'}, 'K',          -> vim.lsp.buf.hover()
             nnoremap {'silent'}, 'gd',         -> vim.lsp.buf.definition()
@@ -228,8 +228,8 @@ plugins = ->
             nnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.code_action()
             vnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.range_code_action()
 
-            nnoremap {'silent'}, '[g', -> vim.lsp.diagnostic.goto_prev()
-            nnoremap {'silent'}, ']g', -> vim.lsp.diagnostic.goto_next()
+            nnoremap {'silent'}, '[g', -> vim.diagnostic.goto_prev()
+            nnoremap {'silent'}, ']g', -> vim.diagnostic.goto_next()
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
