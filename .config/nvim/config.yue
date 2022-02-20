@@ -902,6 +902,8 @@ do
             'b': fzflua 'buffers'
             'H': fzflua 'help_tags'
             'F': fzflua 'filetypes'
+            'f': fzflua 'live_grep_resume'
+
             -- carbon
             'E': vimcmd 'Carbon'
 
