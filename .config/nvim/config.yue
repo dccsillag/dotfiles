@@ -59,6 +59,9 @@ plugins = ->
                         color: "magenta"
     plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'}
     plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
+    plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"}, config: -> -- pretty and practical UI for vim.ui.select
+        vim.ui.select = require "popui.ui-overrider"
+        vim.g.popui_border_style = "rounded"
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim', config: -> -- highlight cursor jumps
         global specs, should_show_specs, maybe_show_specs
