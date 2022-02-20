@@ -285,6 +285,7 @@ plugins = ->
                 underline: true
                 signs: false
                 update_in_insert: true
+    plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate', config: -> -- easy treesitter config
         import 'nvim-treesitter.configs' as nvim_treesitter
         nvim_treesitter.setup
@@ -297,6 +298,13 @@ plugins = ->
                     init_selection: 'g.'
                     node_decremental: ','
                     node_incremental: '.'
+            textsubjects:
+                enable: true
+                prev_selection: '`'
+                keymaps:
+                    ["<CR>"]: 'textsubjects-smart'
+                    -- ["o<CR>"]: 'textsubjects-container-outer'
+                    -- ["i<CR>"]: 'textsubjects-container-inner'
             indent:
                 enable: false -- currently, this is broken.
     plug 'simrat39/symbols-outline.nvim', config: -> -- show code outline
