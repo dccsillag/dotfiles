@@ -156,6 +156,8 @@ plugins = ->
         vim.notify.setup
             stages: "slide"
             timeout: 1000
+    plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git', config: -> -- prettier quickfix list
+        (require 'pqf').setup!
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
