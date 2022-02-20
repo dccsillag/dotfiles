@@ -753,6 +753,15 @@ do
         augroup END
     ]]
 
+    -- Map 'q' in terminal normal mode to close the window
+    vim.cmd [[
+        augroup termopen
+            autocmd!
+            autocmd TermOpen * nnoremap <buffer><silent> q :bd<CR>
+            autocmd TermOpen * norm! G
+        augroup END
+    ]]
+
     -- LSP progress indicator
     spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
     global update_lsp_progress
