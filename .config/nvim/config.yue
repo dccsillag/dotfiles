@@ -905,6 +905,30 @@ do
             -- carbon
             'E': vimcmd 'Carbon'
 
+            -- code runner
+            'R': ->
+                local f = io.open "run.sh", "rb"
+                local command
+                if f then
+                    f\close!
+
+                    command = "./run.sh"
+                else
+                    print "Using default run command for filetype '" .. vim.o.filetype .. "'"
+                    switch vim.o.filetype
+                        when "python"
+                            command = "python %"
+                        when "rust"
+                            command = "cargo run"
+                        when "lua"
+                            command = "lua %"
+                        when "nail"
+                            command = "nail run %"
+                        else
+                            print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
+                            return
+
+                vim.cmd "split term://" .. command
 
             -- magma-nvim
             'r':
