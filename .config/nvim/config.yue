@@ -506,6 +506,8 @@ plugins = ->
         vim.g.cpp_named_requirements_highlight = true
     plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'}, config: -> -- better Markdown support
         vim.g.markdown_enable_insert_mode_leader_mappings = false
+    plug 'lukas-reineke/headlines.nvim', config: -> -- better headings for markdown & friends
+        (require 'headlines').setup!
     plug 'leafo/moonscript-vim', config: -> -- language support for {Moon,Yue}Script
         -- the official YueScript syntax is too slow for me, so I'll use MoonScript syntax for YueScript
         --   (they are similar enough, I think it'll be fine).
