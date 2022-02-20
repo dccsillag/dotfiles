@@ -288,6 +288,7 @@ plugins = ->
                 signs: false
                 update_in_insert: true
     plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
+    plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate', config: -> -- easy treesitter config
         import 'nvim-treesitter.configs' as nvim_treesitter
         nvim_treesitter.setup
@@ -307,6 +308,8 @@ plugins = ->
                     ["<CR>"]: 'textsubjects-smart'
                     -- ["o<CR>"]: 'textsubjects-container-outer'
                     -- ["i<CR>"]: 'textsubjects-container-inner'
+            playground:
+                enable: true
             indent:
                 enable: false -- currently, this is broken.
     plug 'stevearc/aerial.nvim', config: -> -- show code outline
