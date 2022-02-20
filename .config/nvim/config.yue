@@ -902,6 +902,9 @@ do
             'b': fzflua 'buffers'
             'H': fzflua 'help_tags'
             'F': fzflua 'filetypes'
+            -- carbon
+            'E': vimcmd 'Carbon'
+
 
             -- magma-nvim
             'r':
