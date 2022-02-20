@@ -124,10 +124,11 @@ plugins = ->
             * 'help'
             * 'Outline'
             * 'aerial'
-    -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
-    --     (require 'treesitter-context').setup
-    --         enable: true
-    --         throttle: true
+    plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
+        (require 'treesitter-context').setup
+            enable: true
+            throttle: true
+            max_lines: 4
     plug 'andymass/vim-matchup' -- better delimiter matching
     -- plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
     --     vim.g.context_nvim_no_redraw = 1
@@ -692,7 +693,7 @@ do
     vim.o.shortmess = [[filnxtToOFcI]] -- don't show messages regarding completion
 
     --- Always keep 2 lines around the cursor
-    vim.o.scrolloff = 2 -- keep 2 lines above&below the cursor at all times
+    vim.o.scrolloff = 4 -- keep 2 lines above&below the cursor at all times
 
     --- Setup sessions
     vim.o.sessionoptions = [[blank,buffers,curdir,help,tabpages,winsize,tabpages,globals]]
