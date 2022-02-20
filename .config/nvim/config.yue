@@ -123,6 +123,7 @@ plugins = ->
             * 'packer'
             * 'help'
             * 'Outline'
+            * 'aerial'
     -- plug 'romgrk/nvim-treesitter-context', config: -> -- show code context on top of the buffer
     --     (require 'treesitter-context').setup
     --         enable: true
@@ -307,71 +308,99 @@ plugins = ->
                     -- ["i<CR>"]: 'textsubjects-container-inner'
             indent:
                 enable: false -- currently, this is broken.
-    plug 'simrat39/symbols-outline.nvim', config: -> -- show code outline
-        symbols = {}
-        symbols_to_add =
-            File: 'FILE'
-            Module: 'MOD'
-            Namespace: 'NMSP'
-            Package: 'PKG'
-            Enum: 'ENUM'
-            EnumMember: '•'
-            Class: 'CLS'
-            Method: '::FUNC'
-            Property: '::PROP'
-            Field: '::VAR'
-            Constructor: '::NEW'
-            Interface: 'TRAIT'
-            Function: 'FUNC'
-            Variable: 'VAR'
-            Constant: 'CONST'
-            String: 'STR'
-            Number: 'NUM'
-            Boolean: 'BOOL'
-            Array: 'ARR'
-            Object: 'OBJ'
-            Key: 'KEY'
-            Null: 'NULL'
-            Struct: 'DATA'
-            Event: 'EVNT'
-            Operator: 'OP'
-            TypeParameter: 'TYPE'
-        for symbol, custom_name in pairs symbols_to_add
-            symbols[symbol] =
-                icon: if custom_name == '' then string.upper symbol else custom_name
-                -- icon: '|' .. (if custom_name == '' then string.upper symbol else custom_name) .. '|'
-                hl: 'SymbolIcon'
-        vim.g.symbols_outline =
-            highlight_hovered_item: true
+    plug 'stevearc/aerial.nvim', config: -> -- show code outline
+        (require 'aerial').setup
+            backends:
+                * "treesitter"
+                * "markdown"
+                * "lsp"
+            close_behaviour: "close"
+            default_direction: "left"
+            float:
+                border: "rounded"
+                row: 1
+                col: 1
+                max_height: 100
+                min_height: 10
+            min_width: 60
+            filter_kind:
+                * "Class"
+                * "Constructor"
+                * "Enum"
+                * "Function"
+                * "Interface"
+                * "Module"
+                * "Method"
+                * "Struct"
+            nerd_font: false
+            -- TODO post_jump_cmd       call beacon
+            close_on_select: true
             show_guides: false
-            auto_preview: false
-            position: 'right'
-            width: 75
-            show_symbol_details: false
-            keymaps:
-                close:
-                    * '<ESC>'
-                    * 'q'
-                goto_location:
-                    * '<CR>'
-                focus_location: {}
-                hover_symbol:
-                    * 'K'
-                toggle_preview:
-                    * '<C-l>'
-                rename_symbol:
-                    * 'r'
-                code_actions: {}
-                show_help: {}
-            :symbols
-
-        -- Autoclose:
-        vim.cmd [[
-            autocmd WinLeave OUTLINE SymbolsOutlineClose
-            autocmd FileType Outline setl cul
-            autocmd CursorMoved OUTLINE norm! zz0
-        ]]
-
+    -- plug 'simrat39/symbols-outline.nvim', config: -> -- show code outline
+    --     symbols = {}
+    --     symbols_to_add =
+    --         File: 'FILE'
+    --         Module: 'MOD'
+    --         Namespace: 'NMSP'
+    --         Package: 'PKG'
+    --         Enum: 'ENUM'
+    --         EnumMember: '•'
+    --         Class: 'CLS'
+    --         Method: '::FUNC'
+    --         Property: '::PROP'
+    --         Field: '::VAR'
+    --         Constructor: '::NEW'
+    --         Interface: 'TRAIT'
+    --         Function: 'FUNC'
+    --         Variable: 'VAR'
+    --         Constant: 'CONST'
+    --         String: 'STR'
+    --         Number: 'NUM'
+    --         Boolean: 'BOOL'
+    --         Array: 'ARR'
+    --         Object: 'OBJ'
+    --         Key: 'KEY'
+    --         Null: 'NULL'
+    --         Struct: 'DATA'
+    --         Event: 'EVNT'
+    --         Operator: 'OP'
+    --         TypeParameter: 'TYPE'
+    --     for symbol, custom_name in pairs symbols_to_add
+    --         symbols[symbol] =
+    --             icon: if custom_name == '' then string.upper symbol else custom_name
+    --             -- icon: '|' .. (if custom_name == '' then string.upper symbol else custom_name) .. '|'
+    --             hl: 'SymbolIcon'
+    --     vim.g.symbols_outline =
+    --         highlight_hovered_item: true
+    --         show_guides: false
+    --         auto_preview: false
+    --         position: 'right'
+    --         width: 75
+    --         show_symbol_details: false
+    --         keymaps:
+    --             close:
+    --                 * '<ESC>'
+    --                 * 'q'
+    --             goto_location:
+    --                 * '<CR>'
+    --             focus_location: {}
+    --             hover_symbol:
+    --                 * 'K'
+    --             toggle_preview:
+    --                 * '<C-l>'
+    --             rename_symbol:
+    --                 * 'r'
+    --             code_actions: {}
+    --             show_help: {}
+    --         :symbols
+    --
+    --     -- Autoclose:
+    --     vim.cmd [[
+    --         autocmd WinLeave OUTLINE SymbolsOutlineClose
+    --         autocmd FileType Outline setl cul
+    --         autocmd CursorMoved OUTLINE norm! zz0
+    --     ]]
+    --
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
     plug 'joshdick/onedark.vim' -- onedark colorscheme from Atom
@@ -999,8 +1028,8 @@ do
                 ' ': vimcmd [[Tabularize /,\zs]]
 
         'z':
-            -- open symbols outline
-            'g': vimcmd 'SymbolsOutline'
+            -- open aerial view
+            'g': vimcmd 'AerialOpen'
 
         -- specs & asterisk
         'n': addspecs 'n'
