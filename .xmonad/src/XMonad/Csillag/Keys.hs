@@ -40,6 +40,8 @@ import XMonad.Layout.LayoutCombinators (JumpToLayout(..))
 import XMonad.Layout.Maximize
 import XMonad.Util.Run
 import XMonad.Actions.TiledWindowDragging
+import XMonad.Actions.Warp
+import XMonad.Config.Prime (ScreenId)
 
 
 myKeys = flip mkNamedKeymap
@@ -86,8 +88,10 @@ myKeys = flip mkNamedKeymap
     , ("M-x M-d",   addName "Close program" kill)
     , ("M-x M-c",   addName "Close copy"    killCopy)
     -- Screens (Xinerama)
-    , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ screenWorkspace 0 >>= flip whenJust (windows . W.view))
-    , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ screenWorkspace 1 >>= flip whenJust (windows . W.view))
+    , ("M-S-s M-S-a",       addName "Focus on 1st screen"               $ goToScreen 0)
+    , ("M-S-s M-S-q",       addName "Focus on 2nd screen"               $ goToScreen 1)
+    , ("M-S-s M-a",         addName "Send window to 1st screen"         $ sendToScreen 0)
+    , ("M-S-s M-q",         addName "Send window to 2nd screen"         $ sendToScreen 1)
     , ("M-S-s M-S-s",       addName "Swap screens"                      $ screenSwap R True)
     , ("M-S-s M-S-c",       addName "Change screen setup"                 changeScreenConfig)
     , ("M-S-s M-S-o M-S-k", addName "Set screen orientation to 'up'"    $ spawn $ setScreenOrientation "normal" 0)
@@ -362,3 +366,13 @@ mouseActionsGridSelect = do
     where
         menu :: [(String, X ())] -> X ()
         menu xs = gridselect csillagGridSelectConfig xs >>= flip whenJust (io (threadDelay $ seconds 0.15) >>)
+
+goToScreen :: ScreenId -> X ()
+goToScreen i = do
+    screenWorkspace i >>= flip whenJust (windows . W.view)
+    warpToScreen i 0.5 0.5
+
+sendToScreen :: ScreenId -> X ()
+sendToScreen i = do
+    screenWorkspace i >>= flip whenJust (windows . W.shift)
+    goToScreen i
