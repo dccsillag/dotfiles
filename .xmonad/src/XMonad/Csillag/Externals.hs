@@ -4,16 +4,16 @@ module XMonad.Csillag.Externals
 -- Terminal Emulator
 
 termSpawn :: String
-termSpawn = "st"
+termSpawn = "alacritty"
 
 termSpawn' :: String -> String
-termSpawn' cls = "st -c '" ++ cls ++ "'"
+termSpawn' cls = "alacritty --class '" ++ cls ++ "'"
 
 termRun :: String -> String
-termRun cmd = "st -e sh -c '" ++ cmd ++ "'"
+termRun cmd = "alacritty -e sh -c '" ++ cmd ++ "'"
 
 termRun' :: String -> String -> String
-termRun' cls cmd = "st -c '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
+termRun' cls cmd = "alacritty --class '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
 
 -- Text Editor
 
