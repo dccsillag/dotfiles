@@ -238,9 +238,9 @@ plugins = ->
                 ["rust-analyzer"]:
                     checkOnSave:
                         command: "clippy"
-                        extraArgs:
-                            * "--target-dir"
-                            * ".target-rust_analyzer_check"
+                        -- extraArgs:
+                        --     * "--target-dir"
+                        --     * ".target-rust_analyzer_check"
                     cargo:
                         loadOutDirsFromCheck: true
                     procMacro:
