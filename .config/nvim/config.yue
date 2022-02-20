@@ -762,6 +762,14 @@ do
         augroup END
     ]]
 
+    -- Better setup for carbon buffers
+    vim.cmd [[
+        augroup carbonsetup
+            autocmd!
+            autocmd FileType carbon set sw=2
+        augroup END
+    ]]
+
     -- LSP progress indicator
     spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
     global update_lsp_progress
