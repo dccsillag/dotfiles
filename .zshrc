@@ -393,6 +393,8 @@ then
     eval "$(direnv hook zsh)"
 fi
 
+unset '_comps[nail]'
+
 # ---
 
 # function greet() {
