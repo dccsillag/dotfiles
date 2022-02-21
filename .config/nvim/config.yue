@@ -233,7 +233,7 @@ plugins = ->
 
             import nnoremap, vnoremap from require 'vimp'
 
-            nnoremap {'silent'}, '<C-k>',      -> vim.diagnostic.show_line_diagnostics()
+            nnoremap {'silent'}, '<C-k>',      -> vim.lsp.diagnostic.show_line_diagnostics()
             nnoremap {'silent'}, '<C-]>',      -> vim.lsp.buf.definition()
             nnoremap {'silent'}, 'K',          -> vim.lsp.buf.hover()
             nnoremap {'silent'}, 'gd',         -> vim.lsp.buf.definition()
