@@ -598,10 +598,6 @@ packer_config =
         header_sym: "━"
 packer.startup {plugins, config: packer_config}
 
--- Neovide (GUI) options
-vim.g.neovide_transparency = 0.75
-vim.o.guifont = 'FantasqueSansMono Nerd Font:12'
-
 -- Lots of Vim options
 do
     -- Set the regex engine
@@ -735,6 +731,15 @@ do
 
 -- Apply my color scheme
 vim.cmd 'colorscheme csillag'
+
+-- Neovide (GUI) options
+if vim.fn.exists('neovide')
+    -- We're in Neovide
+
+    vim.cmd [[hi Normal guibg=#282C33 guifg=#FFFFFF]]
+
+    -- vim.g.neovide_transparency = 0.75
+    vim.o.guifont = 'FantasqueSansMono Nerd Font:h9'
 
 -- Remappings
 do
