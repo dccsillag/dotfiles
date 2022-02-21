@@ -176,6 +176,7 @@ plugins = ->
 
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
+    plug 'direnv/direnv.vim' -- direnv integration
     plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
     plug 'tpope/vim-fugitive', config: -> -- use git from vim
