@@ -1093,3 +1093,6 @@ do
         -- Change o/O to not insert text at multiple lines, when used with a count
         'O': luacmd "insert_line_above()"
         'o': luacmd "insert_line_below()"
+
+        -- Disable suspend
+        '<C-z>': '<nop>'
