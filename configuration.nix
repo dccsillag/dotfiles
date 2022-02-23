@@ -231,6 +231,7 @@ in {
 
     # Desktop
     xterm
+    unstable.neovide
     stack
     eww
     dzen2
