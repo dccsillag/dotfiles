@@ -730,6 +730,24 @@ do
     --- Enable truecolors
     vim.o.termguicolors = true -- use trucolor in a terminal (i.e., use gui colors in a terminal)
 
+    --- Setup terminal colors
+    vim.g.terminal_color_0 = "#1d1f21"
+    vim.g.terminal_color_1 = "#cc6666"
+    vim.g.terminal_color_2 = "#b5bd68"
+    vim.g.terminal_color_3 = "#f0c674"
+    vim.g.terminal_color_4 = "#81a2be"
+    vim.g.terminal_color_5 = "#b294bb"
+    vim.g.terminal_color_6 = "#8abeb7"
+    vim.g.terminal_color_7 = "#c5c8c6"
+    vim.g.terminal_color_8 = "#666666"
+    vim.g.terminal_color_9 = "#d54e53"
+    vim.g.terminal_color_10 = "#b9ca4a"
+    vim.g.terminal_color_11 = "#e7c547"
+    vim.g.terminal_color_12 = "#7aa6da"
+    vim.g.terminal_color_13 = "#c397d8"
+    vim.g.terminal_color_14 = "#70c0b1"
+    vim.g.terminal_color_15 = "#eaeaea"
+
 -- Apply my color scheme
 vim.cmd 'colorscheme csillag'
 
