@@ -231,6 +231,7 @@ in {
 
     # Desktop
     xterm
+    alacritty
     unstable.neovide
     stack
     eww
