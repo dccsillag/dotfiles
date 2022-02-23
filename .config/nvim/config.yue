@@ -614,7 +614,7 @@ do
     vim.o.ruler = false -- remove the ruler
 
     --- Hide tabbar
-    vim.o.showtabline = 0 -- never show the tabline
+    vim.o.showtabline = 1 -- never show the tabline
 
     --- Setup :grep
     vim.o.grepprg = [[grep -R --exclude-dir=.git -n $* . /dev/null]]
