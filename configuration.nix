@@ -19,6 +19,12 @@ in {
       ./hardware-configuration.nix
     ];
 
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -125,7 +131,7 @@ in {
   in [
     # Text editor
     vim
-    unstable.neovim
+    neovim-nightly
     yuescript
 
     # LSPs
