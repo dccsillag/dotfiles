@@ -18,7 +18,7 @@ termRun' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c '" 
 -- Text Editor
 
 texteditorSpawn :: String
-texteditorSpawn = termRun "nvim"
+texteditorSpawn = "neovide --multigrid"
 
 -- File Manager
 
