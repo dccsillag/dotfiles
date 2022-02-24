@@ -7,13 +7,13 @@ termSpawn :: String
 termSpawn = "alacritty"
 
 termSpawn' :: String -> String
-termSpawn' cls = "alacritty --class '" ++ cls ++ "'"
+termSpawn' cls = "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
 
 termRun :: String -> String
 termRun cmd = "alacritty -e sh -c '" ++ cmd ++ "'"
 
 termRun' :: String -> String -> String
-termRun' cls cmd = "alacritty --class '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
+termRun' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
 
 -- Text Editor
 
