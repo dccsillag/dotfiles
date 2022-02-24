@@ -1057,6 +1057,25 @@ do
 
             'n': vimcmd 'set number!' -- toggle line numbers
 
+            'T': -> -- open taskell
+                local buffer = vim.api.nvim_create_buf false, true
+                local stats = vim.api.nvim_list_uis![1]
+                local width = stats.width
+                local height = stats.height - 1 -- to account for the statusline
+                local padding_x = math.floor(0.1 * width)
+                local padding_y = math.floor(0.1 * height)
+                vim.api.nvim_open_win buffer, true
+                    relative: "editor"
+                    width: width - 2*padding_x
+                    height: height - 2*padding_y
+                    row: padding_y - 1
+                    col: padding_x - 1
+                    anchor: "NW"
+                    border: "rounded"
+                vim.fn.termopen "taskell"
+                    on_exit: -> vim.fn.feedkeys "q"
+                vim.cmd "startinsert"
+
         -- :cn and :cp
         '[q': vimcmd 'cp'
         ']q': vimcmd 'cn'
