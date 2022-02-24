@@ -937,6 +937,7 @@ do
     RECURSIVE_PREFIX = '<rec>'
     VISUAL_PREFIX = '<visual>'
     INSERT_PREFIX = '<insert>'
+    TERMINAL_PREFIX = '<terminal>'
     myKeymaps = (maps) ->
         out = {}
         for k, v in pairs maps
@@ -947,6 +948,9 @@ do
             elseif k\sub(1, #INSERT_PREFIX) == INSERT_PREFIX
                 k = k\sub(#INSERT_PREFIX+1, #k)
                 mode = 'i'
+            elseif k\sub(1, #TERMINAL_PREFIX) == INSERT_PREFIX
+                k = k\sub(#TERMINAL_PREFIX+1, #k)
+                mode = 't'
             else
                 mode = 'n'
 
