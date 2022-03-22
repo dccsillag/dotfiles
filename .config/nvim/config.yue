@@ -226,7 +226,8 @@ plugins = ->
                     * "else_clause"
                     * "loop_expression"
                     * "mod_item"
-    plug 'andymass/vim-matchup' -- better delimiter matching
+    plug 'andymass/vim-matchup', config: -> -- better delimiter matching
+        vim.g.matchup_matchparen_offscreen = {}
     -- plug 'wellle/context.vim', config: -> -- show code context on top of the buffer
     --     vim.g.context_nvim_no_redraw = 1
     plug 'kshenoy/vim-signature' -- show marks in the sign column
