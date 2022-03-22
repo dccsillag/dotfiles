@@ -858,7 +858,7 @@ if vim.fn.exists('neovide')
 
     global set_font, gui_default_font_size, gui_font_size
     global increase_font_size, decrease_font_size, reset_font_size
-    gui_default_font_size = 9
+    gui_default_font_size = 8
     gui_font_size = gui_default_font_size
 
     set_font = ->
