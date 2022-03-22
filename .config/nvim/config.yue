@@ -1245,6 +1245,9 @@ do
         -- Disable suspend
         '<C-z>': '<nop>'
 
+        -- Map <C-6> to <C-^> (for GUIs)
+        '<C-6>': '<C-^>'
+
         '<C-+>': increase_font_size
         '<C-=>': increase_font_size
         '<C-->': decrease_font_size
