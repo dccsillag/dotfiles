@@ -27,6 +27,71 @@ plugins = ->
     plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
     -- Interface
+    plug 'nvim-lualine/lualine.nvim', config: -> -- statusline
+        my_theme = {
+            a:
+                bg: '#A8ACB3'
+                fg: '#000000'
+            b:
+                bg: '#888C93'
+                fg: '#000000'
+                gui: 'bold'
+            c:
+                bg: '#2F333A'
+                fg: '#cccccc'
+        }
+        (require 'lualine').setup
+            options:
+                icons_enabled: false
+                theme:
+                    normal: my_theme
+                    insert: my_theme
+                    visual: my_theme
+                    replace: my_theme
+                    command: my_theme
+                    inactive: my_theme
+                component_separators:
+                    left: ''
+                    right: ''
+                section_separators:
+                    left: ''
+                    right: ''
+                always_divide_middle: true
+                globalstatus: true
+            sections:
+                lualine_a: {'filename'}
+                -- lualine_b: {'b:gitsigns_status'}
+                lualine_b: {{
+                    'diff',
+                    colored: false
+                    diff_color:
+                        added: 'DiffAddStatus'
+                        modified: 'DiffChangeStatus'
+                        removed: 'DiffDeleteStatus'
+                    source: ->
+                        s = vim.b.gitsigns_status_dict
+                        {
+                            added: s.added
+                            modified: s.changed
+                            removed: s.removed
+                        } if s?
+                }}
+                lualine_c: {}
+                lualine_x: {'g:lsp_progress_msg'}
+                lualine_y: {{
+                    'diagnostics',
+                    colored: false
+                    sections:
+                        * 'error'
+                        * 'warn'
+                        * 'info'
+                }}
+                lualine_z: {'filetype', 'b:keymap_name'}
+            extensions:
+                * 'aerial'
+                * 'fzf'
+                * 'fugitive'
+                * 'quickfix'
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
     plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'}, config: -> -- fuzzy finder from neovim
         import 'fzf-lua' as fzf_lua
@@ -628,8 +693,8 @@ do
 
     --- Setup statusbar
     vim.o.showmode = false -- don't show the current mode below the statusbar
-    vim.o.laststatus = 0 -- only show the statusline when in between two windows
-    vim.o.statusline = [[%{repeat('―', nvim_win_get_width(0))}]] -- set the statusline to a horizontal separator
+    vim.o.laststatus = 3 -- use a global statusline
+    -- vim.o.statusline = [[%h%w%q%f %r %m (%L lines) @ %l:%c (%p%%)%=%y LSP]] -- set the statusline to a horizontal separator
     vim.o.ruler = false -- remove the ruler
 
     --- Hide tabbar
@@ -721,7 +786,7 @@ do
     vim.o.listchars = [[tab:--,trail:┈]] -- highlight tabs and trailing whitespace
 
     -- Remove `~` sign from filler lines
-    vim.o.fillchars = [[eob: ]]
+    vim.o.fillchars = [[eob: ,stl: ,stlnc: ]]
 
     --- Setup autocompletion in a way that is better
     vim.o.completeopt = 'menuone,noinsert,noselect' -- menuone: show a menu even if there's only one match
@@ -891,6 +956,7 @@ do
     global lsp_progress_spinner
     lsp_progress_buffers = {}
     lsp_progress_spinner = 1
+    vim.g.lsp_progress_msg = ""
     update_lsp_progress = ->
         bufnr = vim.fn.bufnr!
         if lsp_progress_buffers[bufnr] == nil
@@ -900,7 +966,8 @@ do
         last_message = messages[#messages]
 
         if last_message == nil
-            vim.api.nvim_echo {{""}}, false, {} if lsp_progress_buffers[bufnr].lsp_progress_running == true
+            vim.g.lsp_progress_msg = "" if lsp_progress_buffers[bufnr].lsp_progress_running == true
+            vim.cmd 'redrawstatus!'
             lsp_progress_buffers[bufnr].lsp_progress_running = false
             return
 
@@ -910,16 +977,17 @@ do
         has_message = type(last_message.message) == 'string' and #last_message.message > 0
 
         text = ""
-        text ..= "[#{last_message.name}] " if has_name
-        text ..= "[#{last_message.percentage}%] " if has_percentage
-        text ..= "#{last_message.title}" if has_title
-        text ..= " -- " if has_title and has_message
         text ..= "#{last_message.message}" if has_message
+        text ..= " -- " if has_title and has_message
+        text ..= "#{last_message.title}" if has_title
+        text ..= " [#{string.format('%3d', last_message.percentage)}%%]" if has_percentage
+        -- text ..= " [#{last_message.name}]" if has_name
 
         lsp_progress_spinner = ((lsp_progress_spinner) % #spinner) + 1
         spinner_now = spinner[lsp_progress_spinner]
 
-        vim.api.nvim_echo {{spinner_now .. " " .. text}}, false, {} if last_message.progress ~= nil
+        vim.g.lsp_progress_msg = text .. " " .. spinner_now if last_message.progress ~= nil
+        vim.cmd 'redrawstatus!'
 
         lsp_progress_buffers[bufnr].lsp_progress_running = true
     -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
