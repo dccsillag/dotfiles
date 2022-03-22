@@ -636,7 +636,7 @@ do
     vim.o.showtabline = 1 -- never show the tabline
 
     --- Setup :grep
-    vim.o.grepprg = [[grep -R --exclude-dir=.git -n $* . /dev/null]]
+    vim.o.grepprg = [[rg --vimgrep --hidden --glob '!.git']]
 
     --- Setup line wrap
     vim.o.wrap = false -- wrap lines
