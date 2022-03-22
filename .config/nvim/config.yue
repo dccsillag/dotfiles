@@ -1044,6 +1044,8 @@ do
                             command = "lua %"
                         when "nail"
                             command = "nail run %"
+                        when "sh"
+                            command = "bash %"
                         else
                             print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
                             return
