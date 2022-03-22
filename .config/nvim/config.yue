@@ -30,10 +30,10 @@ plugins = ->
     plug 'nvim-lualine/lualine.nvim', config: -> -- statusline
         my_theme = {
             a:
-                bg: '#A8ACB3'
+                bg: '#C8ACF6'
                 fg: '#000000'
             b:
-                bg: '#888C93'
+                bg: '#4F535A'
                 fg: '#000000'
                 gui: 'bold'
             c:
@@ -61,13 +61,14 @@ plugins = ->
             sections:
                 lualine_a: {'filename'}
                 -- lualine_b: {'b:gitsigns_status'}
-                lualine_b: {{
+                lualine_b: {}
+                lualine_c: {{
                     'diff',
-                    colored: false
-                    diff_color:
-                        added: 'DiffAddStatus'
-                        modified: 'DiffChangeStatus'
-                        removed: 'DiffDeleteStatus'
+                    colored: true
+                    -- diff_color:
+                    --     added: 'DiffAddStatus'
+                    --     modified: 'DiffChangeStatus'
+                    --     removed: 'DiffDeleteStatus'
                     source: ->
                         s = vim.b.gitsigns_status_dict
                         {
@@ -76,17 +77,29 @@ plugins = ->
                             removed: s.removed
                         } if s?
                 }}
-                lualine_c: {}
-                lualine_x: {'g:lsp_progress_msg'}
-                lualine_y: {{
-                    'diagnostics',
-                    colored: false
-                    sections:
-                        * 'error'
-                        * 'warn'
-                        * 'info'
-                }}
-                lualine_z: {'filetype', 'b:keymap_name'}
+                lualine_x:
+                    * 'g:lsp_progress_msg'
+                    * {
+                        'diagnostics',
+                        colored: true
+                        sections:
+                            * 'error'
+                            * 'warn'
+                            * 'info'
+                    }
+                lualine_y: {}
+                lualine_z:
+                    * ->
+                        ft = vim.o.filetype
+                        has_lsp = #vim.lsp.buf_get_clients(0) > 0
+                        if #ft == 0
+                            ""
+                        else
+                            if has_lsp
+                                ft .. "+"
+                            else
+                                ft
+                    * 'b:keymap_name'
             extensions:
                 * 'aerial'
                 * 'fzf'
