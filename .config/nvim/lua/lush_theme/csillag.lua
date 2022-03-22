@@ -34,7 +34,7 @@ local theme = lush(function()
     Directory         { fg = "#FFFFFF" }, -- directory names (and other special names in listings)
     DiffAdd           { fg = "#00FF00" }, -- diff mode: Added line |diff.txt|
     DiffChange        { fg = "#FFA500" }, -- diff mode: Changed line |diff.txt|
-    DiffDelete        { fg = "#FF0000" }, -- diff mode: Deleted line |diff.txt|
+    DiffDelete        { fg = "#FF7020" }, -- diff mode: Deleted line |diff.txt|
     DiffText          { DiffChange }, -- diff mode: Changed text within a changed line |diff.txt|
     EndOfBuffer       { bg = "#1e2229" }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
     TermCursor        { Cursor }, -- cursor in a focused terminal
@@ -71,7 +71,7 @@ local theme = lush(function()
     SpellLocal        { fg = "#BEBEBE" }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     SpellRare         { fg = "#BEBEBE" }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
     StatusLine        { fg = "#B0B0B0" }, -- status line of current window
-    StatusLineNC      { StatusLine }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLineNC      { fg = "#909090" }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     TabLine           { fg = "#000000", bg = "#777777" }, -- tab pages line, not active tab page label
     TabLineFill       { fg = "#000000", bg = "#AAAAAA" }, -- tab pages line, where there are no labels
     TabLineSel        { fg = "#000000", bg = "#555555" }, -- tab pages line, active tab page label
@@ -249,6 +249,12 @@ local theme = lush(function()
     ConflictMarkerTheirs { bg = "#344f69" },
     ConflictMarkerEnd { bg = "#2f628e" },
     ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
+
+    --
+
+    DiffAddStatus     { DiffAdd, bg = "NONE" },
+    DiffChangeStatus  { DiffChange, bg = "NONE" },
+    DiffDeleteStatus  { DiffDelete, bg = "NONE" },
 
   }
 end)
