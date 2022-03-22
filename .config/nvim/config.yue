@@ -955,6 +955,13 @@ do
         augroup END
     ]]
 
+    vim.cmd [[
+        augroup autoformat
+            autocmd!
+            autocmd InsertLeave * lua vim.lsp.buf.formatting()
+        augroup END
+    ]]
+
     -- Better setup for carbon buffers
     vim.cmd [[
         augroup carbonsetup
