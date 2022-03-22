@@ -305,10 +305,18 @@ plugins = ->
             :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
-                virtual_text: true
+                virtual_text: false
                 underline: true
                 signs: false
                 update_in_insert: true
+    plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim', config: -> -- show LSP diagnostics in virtual lines, not virtual text
+        (require 'lsp_lines').register_lsp_virtual_lines!
+        vim.diagnostic.config
+                virtual_lines:
+                    -- prefix: " "
+                    -- prefix: "↓"
+                    prefix: "!"
+                    -- prefix: "•"
     plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
     plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate', config: -> -- easy treesitter config
