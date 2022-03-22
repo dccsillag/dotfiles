@@ -148,10 +148,15 @@ local theme = lush(function()
     -- LspDiagnosticsDefaultInformation     { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
     -- LspDiagnosticsDefaultHint            { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
 
-    -- LspDiagnosticsVirtualTextError       { }, -- Used for "Error" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextWarning     { }, -- Used for "Warning" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextInformation { }, -- Used for "Information" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextHint        { }, -- Used for "Hint" diagnostic virtual text
+    DiagnosticVirtualTextError { fg = "#ff795B", bg = "#822234", gui = "bold" }, -- Used for "Error" diagnostic virtual text
+    DiagnosticVirtualTextWarn  { fg = "#efc809", bg = "#625234", gui = "bold" }, -- Used for "Warning" diagnostic virtual text
+    DiagnosticVirtualTextInfo  { fg = "#cccccc", bg = "#444454", gui = "bold" }, -- Used for "Information" diagnostic virtual text
+    DiagnosticVirtualTextHint  { fg = "#cccccc", bg = "#444454", gui = "bold" }, -- Used for "Hint" diagnostic virtual text
+
+    DiagnosticUnderlineError { bg = "#b23224" }, -- Used for "Error" diagnostic virtual text
+    DiagnosticUnderlineWarn  { bg = "#a28244" }, -- Used for "Warning" diagnostic virtual text
+    DiagnosticUnderlineInfo  { bg = "#666666" }, -- Used for "Information" diagnostic virtual text
+    DiagnosticUnderlineHint  { bg = "#666666" }, -- Used for "Hint" diagnostic virtual text
 
     -- LspDiagnosticsSignError              { }, -- Used for "Error" signs in sign column
     -- LspDiagnosticsSignWarning            { }, -- Used for "Warning" signs in sign column
