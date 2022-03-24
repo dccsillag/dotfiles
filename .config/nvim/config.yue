@@ -1014,6 +1014,7 @@ do
         augroup termopen
             autocmd!
             autocmd TermOpen * nnoremap <buffer><silent> q :bd<CR>
+            autocmd TermOpen * setl nonumber signcolumn=auto:3 nocursorline
             autocmd TermOpen * norm! G
         augroup END
     ]]
