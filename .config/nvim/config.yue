@@ -916,7 +916,6 @@ vim.cmd 'colorscheme csillag'
 if vim.fn.exists('neovide')
     -- We're in Neovide
 
-    vim.cmd [[hi Normal guibg=#282C33 guifg=#FFFFFF]]
     -- vim.g.neovide_transparency = 0.75
 
     global set_font, gui_default_font_size, gui_font_size
