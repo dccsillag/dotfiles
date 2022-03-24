@@ -41,6 +41,7 @@ plugins = ->
     plug 'kshenoy/vim-signature' -- show marks in the sign column
     plug 'rcarriga/nvim-notify' -- show notifications
     plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
+    plug 'goolord/alpha-nvim' -- custom startup screen
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
