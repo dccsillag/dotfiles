@@ -2,6 +2,7 @@
 do
     -- vimpeccable
     import 'vimp'
+    import map_command, nnoremap from require 'vimp'
     vimp.always_override = true
 
     -- startup screen
@@ -311,8 +312,6 @@ do
     vim.g.suda_smart_edit = 1
 
     -- fugitive
-    import map_command, nnoremap from require 'vimp'
-
     map_command 'Fugitive', ->
         vim.cmd ":G"
         vim.cmd "only"

@@ -97,7 +97,7 @@ applyKeymaps myKeymaps
 
             coro = coroutine.wrap () ->
                 selected = (require 'fzf-lua').fzf {
-                    prompt: "cd>"
+                    prompt: "cd> "
                         actions:
                             default: (selected, a) ->
                                 print("here")
