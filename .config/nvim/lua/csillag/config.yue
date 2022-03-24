@@ -278,30 +278,7 @@ do
         capabilities = (require 'cmp_nvim_lsp').update_capabilities vim.lsp.protocol.make_client_capabilities!
         capabilities.window.workDoneProgress = true
 
-        on_attach = (client) ->
-            vim.notify "Ready.", "info", title: "LSP", timeout: 500
-
-            import nnoremap, vnoremap from require 'vimp'
-
-            nnoremap {'silent'}, '<C-k>',      -> vim.lsp.diagnostic.show_line_diagnostics()
-            nnoremap {'silent'}, '<C-]>',      -> vim.lsp.buf.definition()
-            nnoremap {'silent'}, 'K',          -> vim.lsp.buf.hover()
-            nnoremap {'silent'}, 'gd',         -> vim.lsp.buf.definition()
-            nnoremap {'silent'}, 'gD',         ":FzfLua lsp_definitions<CR>"
-            nnoremap {'silent'}, 'gr',         ":FzfLua lsp_references<CR>"
-            nnoremap {'silent'}, 'gR',         -> vim.lsp.buf.references()
-            nnoremap {'silent'}, 'gq',         -> vim.lsp.buf.formatting()
-            nnoremap {'silent'}, '<Leader>lg', ":FzfLua lsp_live_workspace_symbols<CR>"
-            nnoremap {'silent'}, '<Leader>lG', ":FzfLua lsp_document_symbols<CR>"
-            nnoremap {'silent'}, '<Leader>li', ":FzfLua lsp_implementations<CR>"
-            nnoremap {'silent'}, '<Leader>ld', ":FzfLua lsp_workspace_diagnostics<CR>"
-            nnoremap {'silent'}, '<Leader>lD', ":FzfLua lsp_document_diagnostics<CR>"
-            nnoremap {'silent'}, '<Leader>lr', -> vim.lsp.buf.rename()
-            nnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.code_action()
-            vnoremap {'silent'}, '<Leader>a',  -> vim.lsp.buf.range_code_action()
-
-            nnoremap {'silent'}, '[g', -> vim.diagnostic.goto_prev()
-            nnoremap {'silent'}, ']g', -> vim.diagnostic.goto_next()
+        on_attach = (client) -> vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup

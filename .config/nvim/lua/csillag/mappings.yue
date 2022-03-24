@@ -54,7 +54,30 @@ addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 
 applyKeymaps myKeymaps
+    -- LSP
+    '<C-]>': -> vim.lsp.buf.definition!
+    'K': -> vim.lsp.buf.hover!
+    'gd': -> vim.lsp.buf.definition!
+    'gD': fzflua "lsp_definitions"
+    'gr': fzflua "lsp_references"
+    'gR': -> vim.lsp.buf.references!
+    'gq': -> vim.lsp.buf.formatting!
+
+    '[g': -> vim.diagnostic.goto_prev!
+    ']g': -> vim.diagnostic.goto_next!
+
     '<Leader>':
+        -- LSP
+        'l':
+            'g': fzflua "lsp_live_workspace_symbols"
+            'G': fzflua "lsp_document_symbols"
+            'i': fzflua "lsp_implementations"
+            'd': fzflua "lsp_workspace_diagnostics"
+            'D': fzflua "lsp_document_diagnostics"
+            'r': -> vim.lsp.buf.rename!
+            'a': -> vim.lsp.buf.code_action()
+            '<visual>a': -> vim.lsp.buf.range_code_action()
+
         -- FZF
         'e': fzflua 'files'
         'ge': fzflua 'git_files'
