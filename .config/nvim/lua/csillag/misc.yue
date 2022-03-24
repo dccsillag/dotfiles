@@ -37,12 +37,6 @@ do
 do
     import map_command from require 'vimp'
 
-    -- Automatically compile config.yue into config.lua
-    map_command 'CompileInit', ->
-        vim.cmd 'cexpr system("yue ~/.config/nvim/config.yue")'
-        vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es +PackerCompile'
-    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/config.yue')} CompileInit"
-
     -- AutoView
     -- vim.cmd [[
     --     augroup autoview
