@@ -1,0 +1,228 @@
+import applyKeymaps from require 'nest'
+
+EXPR_PREFIX = '<expr>'
+RECURSIVE_PREFIX = '<rec>'
+VISUAL_PREFIX = '<visual>'
+INSERT_PREFIX = '<insert>'
+TERMINAL_PREFIX = '<terminal>'
+myKeymaps = (maps) ->
+    out = {}
+    for k, v in pairs maps
+        local mode
+        if k\sub(1, #VISUAL_PREFIX) == VISUAL_PREFIX
+            k = k\sub(#VISUAL_PREFIX+1, #k)
+            mode = 'v'
+        elseif k\sub(1, #INSERT_PREFIX) == INSERT_PREFIX
+            k = k\sub(#INSERT_PREFIX+1, #k)
+            mode = 'i'
+        elseif k\sub(1, #TERMINAL_PREFIX) == INSERT_PREFIX
+            k = k\sub(#TERMINAL_PREFIX+1, #k)
+            mode = 't'
+        else
+            mode = 'n'
+
+        local expr
+        if k\sub(1, #EXPR_PREFIX) == EXPR_PREFIX
+            k = k\sub(#EXPR_PREFIX+1, #k)
+            expr = true
+        else
+            expr = fase
+
+        local noremap
+        if k\sub(1, #RECURSIVE_PREFIX) == RECURSIVE_PREFIX
+            k = k\sub(#RECURSIVE_PREFIX+1, #k)
+            noremap = false
+        else
+            noremap = true
+
+        if type(v) == 'table'
+            v = myKeymaps v
+
+        out[#out+1] =
+            * k
+            * v
+            :mode
+            options:
+                :expr
+                :noremap
+    out
+
+vimcmd = (cmd) -> ':' .. cmd .. '<CR>'
+luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
+plug = (op) -> '<Plug>(' .. op .. ')'
+addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
+fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
+
+applyKeymaps myKeymaps
+    '<Leader>':
+        -- FZF
+        'e': fzflua 'files'
+        'ge': fzflua 'git_files'
+        'gg': fzflua 'git_status'
+        'b': fzflua 'buffers'
+        'H': fzflua 'help_tags'
+        'F': fzflua 'filetypes'
+        'f': fzflua 'live_grep_resume'
+
+        -- carbon
+        'E': vimcmd 'Carbon'
+
+        -- code runner
+        'R': ->
+            local f = io.open "run.sh", "rb"
+            local command
+            if f then
+                f\close!
+
+                command = "./run.sh"
+            else
+                print "Using default run command for filetype '" .. vim.o.filetype .. "'"
+                switch vim.o.filetype
+                    when "python"
+                        command = "python %"
+                    when "rust"
+                        command = "cargo run"
+                    when "lua"
+                        command = "lua %"
+                    when "nail"
+                        command = "nail run %"
+                    when "sh"
+                        command = "bash %"
+                    else
+                        print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
+                        return
+
+            vim.cmd "split term://" .. command
+
+        -- magma-nvim
+        'r':
+            '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
+            '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
+            'r': vimcmd 'MagmaEvaluateLine'
+            'c': vimcmd 'MagmaReevaluateCell'
+            'd': vimcmd 'MagmaDelete'
+            'o': vimcmd 'MagmaShowOutput'
+            'n': vimcmd 'MagmaInit'
+
+        -- vim-test
+        't':
+            't': vimcmd 'TestNearest'
+            'f': vimcmd 'TestFile'
+            'l': vimcmd 'TestLast'
+
+        'G': vimcmd 'G' -- open fugitive
+
+        ';': luacmd 'specs.show_specs()' -- highlight the cursor
+
+        -- 'S': vimcmd 'set spell!' -- toggle spell
+        -- 's': ':set spelllang=' -- set spell language
+
+        'p': luacmd 'open_corresponding_pdf()' -- open corresponding PDF for the current [markup file]
+
+        '.': vimcmd 'nohl' -- :nohl
+
+        'o': -- open windows
+            'c': vimcmd 'copen' -- open quickfix window
+            't': vimcmd 'Trouble' -- open trouble window
+        'q': -- close windows
+            'c': vimcmd 'cclose' -- close quickfix window
+            't': vimcmd 'TroubleClose' -- close trouble window
+
+        'n': vimcmd 'set number!' -- toggle line numbers
+
+        'T': -> -- open taskell
+            local buffer = vim.api.nvim_create_buf false, true
+            local stats = vim.api.nvim_list_uis![1]
+            local width = stats.width
+            local height = stats.height - 1 -- to account for the statusline
+            local padding_x = math.floor(0.1 * width)
+            local padding_y = math.floor(0.1 * height)
+            vim.api.nvim_open_win buffer, true
+                relative: "editor"
+                width: width - 2*padding_x
+                height: height - 2*padding_y
+                row: padding_y - 1
+                col: padding_x - 1
+                anchor: "NW"
+                border: "rounded"
+            vim.fn.termopen "taskell"
+                on_exit: -> vim.fn.feedkeys "q"
+            vim.cmd "startinsert"
+
+    -- :cn and :cp
+    '[q': vimcmd 'cp'
+    ']q': vimcmd 'cn'
+
+    -- spell suggest
+    -- 'z=': fzflua 'spell_suggest'
+
+    -- substitute
+    '<C-s>':
+        '<rec>':      plug 'SubversiveSubstitute'
+        '<rec><C-s>': plug 'SubversiveSubstituteLine'
+
+    -- dial.nvim
+    '<rec><C-a>':         plug 'dial-increment'
+    '<rec><C-x>':         plug 'dial-decrement'
+    '<rec><visual><C-a>': plug 'dial-increment'
+    '<rec><visual><C-x>': plug 'dial-decrement'
+    '<rec>g<C-a>':        plug 'dial-increment-additional'
+    '<rec>g<C-x>':        plug 'dial-decrement-additional'
+
+    'g':
+        -- misc window operations
+        'w': "<C-w>"
+
+        -- text alignment
+        'a':
+            '=': vimcmd [[Tabularize /=]]
+            ':': vimcmd [[Tabularize /:\zs]]
+            ' ': vimcmd [[Tabularize /,\zs]]
+
+    'z':
+        -- open aerial view
+        'g': vimcmd 'AerialOpen'
+
+    -- specs & asterisk
+    'n': addspecs 'n'
+    'N': addspecs 'N'
+    '<rec>*': addspecs plug 'asterisk-*'
+    '<rec>#': addspecs plug 'asterisk-#'
+    '<rec>g*': addspecs plug 'asterisk-g*'
+    '<rec>g#': addspecs plug 'asterisk-g#'
+    '<rec>z*': addspecs plug 'asterisk-z*'
+    '<rec>z#': addspecs plug 'asterisk-z#'
+    '<rec>gz*': addspecs plug 'asterisk-gz*'
+    '<rec>gz#': addspecs plug 'asterisk-gz#'
+
+    -- swap "go to mark" maps
+    "'": "`"
+    "`": "'"
+
+    -- Make Y work like D
+    'Y': 'y$'
+
+    -- Map Q to quit if everything is saved
+    'Q': vimcmd "qa"
+
+    -- Change S to behave kinda like X
+    'S': '"_Xi<CR><Esc>l'
+
+    -- Change s to ys (normal) / S (visual)
+    '<rec>s': 'ys'
+    '<visual><rec>s': 'S'
+
+    -- Change o/O to not insert text at multiple lines, when used with a count
+    'O': luacmd "insert_line_above()"
+    'o': luacmd "insert_line_below()"
+
+    -- Disable suspend
+    '<C-z>': '<nop>'
+
+    -- Map <C-6> to <C-^> (for GUIs)
+    '<C-6>': '<C-^>'
+
+    '<C-+>': increase_font_size
+    '<C-=>': increase_font_size
+    '<C-->': decrease_font_size
+    '<C-0>': reset_font_size

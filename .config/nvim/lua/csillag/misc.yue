@@ -1,0 +1,196 @@
+-- Apply my color scheme
+vim.cmd 'colorscheme csillag'
+
+-- Neovide (GUI) options
+if vim.fn.exists('neovide')
+    -- We're in Neovide
+
+    -- vim.g.neovide_transparency = 0.75
+
+    global set_font, gui_default_font_size, gui_font_size
+    global increase_font_size, decrease_font_size, reset_font_size
+    gui_default_font_size = 8
+    gui_font_size = gui_default_font_size
+
+    set_font = ->
+        vim.o.guifont = 'FantasqueSansMono Nerd Font:h' .. gui_font_size
+    increase_font_size = ->
+        gui_font_size = math.min(gui_font_size + 1, 60)
+        set_font!
+    decrease_font_size = ->
+        gui_font_size = math.max(gui_font_size - 1, 4)
+        set_font!
+    reset_font_size = ->
+        gui_font_size = gui_default_font_size
+        set_font!
+
+    set_font!
+
+-- Remappings
+do
+    import nnoremap, vnoremap, onoremap, tnoremap, nmap, vmap, map from require 'vimp'
+
+    -- Abbreviate :w to :up
+    vim.cmd [[cnoreabbrev w up]]
+
+-- Autocommands
+do
+    import map_command from require 'vimp'
+
+    -- Automatically compile config.yue into config.lua
+    map_command 'CompileInit', ->
+        vim.cmd 'cexpr system("yue ~/.config/nvim/config.yue")'
+        vim.cmd 'silent !nvim -u ~/.config/nvim/init.lua -Es +PackerCompile'
+    vim.cmd "autocmd BufWritePost #{vim.fn.expand('~/.config/nvim/config.yue')} CompileInit"
+
+    -- AutoView
+    -- vim.cmd [[
+    --     augroup autoview
+    --         autocmd!
+    --         autocmd BufWinLeave,VimLeave,BufWritePost * if expand("%") != "" | silent! mkview | endif
+    --         autocmd BufWinEnter,BufReadPost * if expand("%") != "" | silent! loadview | endif
+    --     augroup END
+    -- ]]
+
+    -- SHADA
+    vim.cmd [[
+        augroup shada
+            autocmd!
+            autocmd FocusGained * if exists(':rshada') | rshada | endif
+            autocmd FocusLost   * if exists(':wshada') | wshada | endif
+        augroup END
+    ]]
+
+    -- -- SpellCheck
+    -- vim.cmd [[
+    --     augroup spellcheck
+    --         autocmd!
+    --         autocmd FileType markdown  set spell
+    --         autocmd FileType tex       set spell
+    --         autocmd FileType html      set spell
+    --         autocmd FileType gitcommit set spell
+    --     augroup END
+    -- ]]
+
+    -- More filetype detection
+    vim.cmd [[
+        augroup FtdetectExtra
+            autocmd!
+            autocmd BufRead,BufNewFile *.lmd setf markdown
+            autocmd BufRead,BufNewFile *.pmd setf markdown
+        augroup END
+    ]]
+
+    -- Autommatic compilation of markup documents
+    vim.cmd [[
+        augroup autocompile
+            autocmd!
+            autocmd BufReadPre *.tex               compiler latexrun
+            autocmd BufReadPre *.lmd               compiler pan-latex
+            autocmd BufReadPre *.pmd               compiler pan-revealjs
+            autocmd BufReadPre *.mmd               compiler mermaid
+            autocmd BufReadPre *.uml               compiler plantuml
+            autocmd BufReadPre *.ly,*.ily          compiler lilypond
+            autocmd BufReadPre *.c,*.h,*.cpp,*.hpp compiler tap
+
+            autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AsyncStop | sleep 100m | AsyncRun -program=make
+        augroup END
+    ]]
+
+    -- Map 'q' in terminal normal mode to close the window
+    vim.cmd [[
+        augroup termopen
+            autocmd!
+            autocmd TermOpen * nnoremap <buffer><silent> q :bd<CR>
+            autocmd TermOpen * setl nonumber signcolumn=auto:3 nocursorline
+            autocmd TermOpen * norm! G
+        augroup END
+    ]]
+
+    vim.cmd [[
+        augroup autoformat
+            autocmd!
+            autocmd InsertLeave,CursorHold * lua vim.lsp.buf.formatting()
+        augroup END
+    ]]
+
+    -- Better setup for carbon buffers
+    vim.cmd [[
+        augroup carbonsetup
+            autocmd!
+            autocmd FileType carbon set sw=2
+        augroup END
+    ]]
+
+    -- LSP progress indicator
+    spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
+    global update_lsp_progress
+    global lsp_progress_buffers
+    global lsp_progress_spinner
+    lsp_progress_buffers = {}
+    lsp_progress_spinner = 1
+    vim.g.lsp_progress_msg = ""
+    update_lsp_progress = ->
+        bufnr = vim.fn.bufnr!
+        if lsp_progress_buffers[bufnr] == nil
+            lsp_progress_buffers[bufnr] = {lsp_progress_running: false}
+
+        messages = vim.lsp.util.get_progress_messages!
+        last_message = messages[#messages]
+
+        if last_message == nil
+            vim.g.lsp_progress_msg = "" if lsp_progress_buffers[bufnr].lsp_progress_running == true
+            vim.cmd 'redrawstatus!'
+            lsp_progress_buffers[bufnr].lsp_progress_running = false
+            return
+
+        has_name = true
+        has_percentage = type(last_message.percentage) == 'number'
+        has_title = type(last_message.title) == 'string' and #last_message.title > 0
+        has_message = type(last_message.message) == 'string' and #last_message.message > 0
+
+        text = ""
+        text ..= "#{last_message.message}" if has_message
+        text ..= " -- " if has_title and has_message
+        text ..= "#{last_message.title}" if has_title
+        text ..= " [#{string.format('%3d', last_message.percentage)}%%]" if has_percentage
+        -- text ..= " [#{last_message.name}]" if has_name
+
+        lsp_progress_spinner = ((lsp_progress_spinner) % #spinner) + 1
+        spinner_now = spinner[lsp_progress_spinner]
+
+        vim.g.lsp_progress_msg = text .. " " .. spinner_now if last_message.progress ~= nil
+        vim.cmd 'redrawstatus!'
+
+        lsp_progress_buffers[bufnr].lsp_progress_running = true
+    -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
+    vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
+
+-- Functionality
+do
+    global open_corresponding_pdf
+    open_corresponding_pdf = ->
+        filename = vim.fn.expand("%:r") .. ".pdf"
+        if not vim.fn.filereadable filename
+            vim.cmd "echoerr 'No such file: #{filename}'"
+            return
+        vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
+
+    global insert_line_above
+    insert_line_above = ->
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! Oa]]
+        for _ = 1, count
+            vim.cmd [[put _]]
+            vim.cmd [[norm! k]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]
+    global insert_line_below
+    insert_line_below = ->
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! oa]]
+        for _ = 1, count
+            vim.cmd [[put! _]]
+            vim.cmd [[norm! j]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]

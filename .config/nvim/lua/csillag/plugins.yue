@@ -1,0 +1,144 @@
+vim.cmd 'packadd packer.nvim'
+
+plugins = ->
+    plug = (name, table) ->
+        table or= {}
+        table[1] = name
+        use table
+
+    plugown = (name, table) ->
+        maybepath = "~/code/#{name}"
+        local resolved_name
+        if (os.execute "[ -d #{maybepath} ]")
+            resolved_name = maybepath
+        else
+            resolved_name = "dccsillag/#{name}"
+        plug resolved_name, table
+
+    -- Core
+    plug 'wbthomason/packer.nvim' -- plugin manager
+    plug 'svermeulen/vimpeccable' -- convenience Lua functions for config
+    plug 'LionC/nest.nvim' -- easy API for creating mappings
+    plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
+
+    -- Interface
+    plug 'nvim-lualine/lualine.nvim' -- statusline
+    plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
+    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
+    plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'}
+    plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
+    plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
+    plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
+    plug 'edluffy/specs.nvim' -- highlight cursor jumps
+    plug 'folke/zen-mode.nvim' -- toggleable zen mode for editing
+    plug 'lewis6991/gitsigns.nvim' -- show git diff in the signcolumn
+    plug 'junegunn/limelight.vim' -- a spotlight for code, good for presenting bit-by-bit
+    plug 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
+    plug 'lukas-reineke/indent-blankline.nvim' -- indent guides
+    plug 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
+    plug 'andymass/vim-matchup' -- better delimiter matching
+    -- plug 'wellle/context.vim' -- show code context on top of the buffer
+    plug 'kshenoy/vim-signature' -- show marks in the sign column
+    plug 'rcarriga/nvim-notify' -- show notifications
+    plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
+    plug 'dstein64/vim-startuptime' -- profile startup time neatly
+
+    -- Behaviour
+    plug 'tpope/vim-repeat' -- better `.` key
+    plug 'chaoren/vim-wordmotion' -- improve the `w` key and similar
+    plug 'haya14busa/vim-asterisk' -- improve `*` and `#`
+    plug 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
+    plug 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
+    plug 'lambdalisue/suda.vim' -- for editting files which require root permission
+    plug 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
+    plug 'antoinemadec/FixCursorHold.nvim' -- fix CursorHold/CursorHoldI events (https://github.com/neovim/neovim/issues/12587)
+
+    -- Peripherals
+    plug 'tpope/vim-eunuch' -- add nice commands for shell commands
+    plug 'direnv/direnv.vim' -- direnv integration
+    plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
+    plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
+    plug 'tpope/vim-fugitive' -- use git from vim
+    plug 'junegunn/gv.vim' -- git commit browser
+    plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
+    plug 'vim-test/vim-test' -- run tests from NeoVim
+
+    -- Completion
+    plug 'hrsh7th/nvim-cmp', requires: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim
+    plug 'hrsh7th/cmp-nvim-lsp'
+    -- plug 'hrsh7th/cmp-buffer'
+    plug 'hrsh7th/cmp-path'
+    plug 'Saecki/crates.nvim'
+
+    -- LSP / TreeSitter / Formatting
+    plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
+    plug 'neovim/nvim-lspconfig' -- easily configure LSP
+    plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
+    plug 'nvim-treesitter/playground' -- treesitter playground
+    plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
+    plug 'stevearc/aerial.nvim' -- show code outline
+
+    -- Color Schemes
+    plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
+    plug 'joshdick/onedark.vim' -- onedark colorscheme from Atom
+    plug 'pbrisbin/vim-colors-off' -- a plain colorscheme that pretty much disables highlighting
+    plug 'arcticicestudio/nord-vim' -- nord colorscheme
+    plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
+
+    -- Editing Help
+    plug 'rhysd/conflict-marker.vim' -- easily solve git conflicts
+    plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
+    plug 'numToStr/Comment.nvim' -- comment/uncomment code
+    plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
+    plug 'godlygeek/tabular' -- aligns code
+    plug 'dhruvasagar/vim-table-mode' -- painlessly edit tables
+    plug 'tommcdo/vim-exchange' -- exchange text around
+    plug 'svermeulen/vim-subversive' -- replace text with current yank
+    plug 'monaqa/dial.nvim' -- better increment/decrement
+
+    -- Text Objects
+    plug 'wellle/targets.vim' -- better text objects
+    plug 'michaeljsmith/vim-indent-object' -- text object for indented text
+    plug 'kana/vim-textobj-entire' -- text object for the entire buffer
+    plug 'kana/vim-textobj-syntax' -- text object for text in the same highlight group
+    plug 'kana/vim-textobj-user' -- framework for creating text objects [used by other plugins]
+
+    -- Language Support
+    plug 'vim-python/python-syntax' -- better Python syntax highlight
+    plug 'petRUShka/vim-sage' -- language support for SageMath
+    plug 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
+    plug 'bfrg/vim-cpp-modern' -- better C++ syntax highlight
+    plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'} -- better Markdown support
+    plug 'lukas-reineke/headlines.nvim' -- better headings for markdown & friends
+    plug 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
+    plug 'tomlion/vim-solidity' -- language support for Solidity
+    plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
+    plug 'manicmaniac/coconut.vim' -- language support for Coconut
+    plug 'rust-lang/rust.vim' -- better Rust syntax support
+    plug 'neovimhaskell/haskell-vim' -- better support for Haskell
+    plug 'edwinb/idris2-vim' -- language support for Idris
+    plug 'mrk21/yaml-vim' -- better language support for YAML
+    plug 'cespare/vim-toml' -- language support for TOML
+    plug 'LnL7/vim-nix' -- language support for Nix
+    plug 'MaxMEllon/vim-jsx-pretty' -- language support for JSX
+    plug 'dart-lang/dart-vim-plugin' -- language support for Dart
+    plug 'tikhomirov/vim-glsl' -- language support for GLSL
+    plug 'aklt/plantuml-syntax' -- for PlantUML syntax support
+    plug 'wlangstroth/vim-racket' -- language support for Racket
+    plug 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
+    plug 'pest-parser/pest.vim' -- language support for Pest grammars
+
+import 'packer'
+import 'packer.util' as packer_util
+
+packer_config =
+    max_jobs: 8
+    display:
+        open_fn: -> packer_util.float border: 'single'
+        working_sym: "•"
+        error_sym: "✗"
+        done_sym: "✓"
+        removed_sym: "-"
+        moved_sym: "→"
+        header_sym: "━"
+packer.startup {plugins, config: packer_config}

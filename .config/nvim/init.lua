@@ -8,13 +8,21 @@ local function file_exists(path)
     end
 end
 
+local function require_yuescript(module)
+    local base_path = vim.fn.expand "~/.config/nvim/lua/csillag/"
 
-local config_root = vim.fn.expand "~/.config/nvim/config"
-local lua_config_path = config_root .. ".lua"
-local yue_config_path = config_root .. ".yue"
-if not file_exists(lua_config_path) then
-    print("config.lua not found, compiling config.yue")
-    os.execute("yue " .. yue_config_path)
+    local lua_file = base_path .. module .. ".lua"
+    local yue_file = base_path .. module .. ".yue"
+    if not file_exists(lua_file) then -- TODO or if the yue file is newer
+        print("`" .. lua_file .. "` not found, compiling it from `" .. yue_file .. "`")
+        os.execute("yue " .. yue_file)
+    end
+    return require("csillag." .. module)
 end
 
-dofile(lua_config_path)
+require_yuescript "plugins"
+require_yuescript "config"
+require_yuescript "misc"
+require_yuescript "mappings"
+
+-- TODO auto PackerCompile
