@@ -820,7 +820,7 @@ do
     vim.o.cursorline = true -- show the cursorline
 
     --- Set the updatetime
-    vim.o.updatetime = 250 -- how much time between updates, in ms
+    vim.o.updatetime = 500 -- how much time between updates, in ms
 
     --- Remove the bell sound
     vim.o.belloff = 'all' -- disable the bell everywhere
