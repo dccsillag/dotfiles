@@ -6,6 +6,12 @@ do
     vimp.always_override = true
 
     -- startup screen
+    map_command 'EditFile', ->
+        in_git_repository = os.execute "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+        if in_git_repository == 0
+            vim.cmd "norm \\ge"
+        else
+            vim.cmd "norm \\e"
     button = (sc, txt, keybind, keybind_opts) ->
         opts =
             position: 'center'
@@ -64,6 +70,8 @@ do
                 val:
                     * button "n", "New file", "<cmd>enew<CR>"
                     * button "m", "New markdown file", "<cmd>enew | setf markdown<CR>"
+                    * button "e", "Edit a file", "<cmd>EditFile<CR>"
+                    * button "c", "Change directory", "<cmd>norm \\c<CR>"
                     * button "pi", "Install plugins", "<cmd>PackerInstall<CR>"
                     * button "pu", "Update plugins", "<cmd>PackerUpdate<CR>"
                     * button "pc", "Clean plugins", "<cmd>PackerClean<CR>"
