@@ -171,6 +171,10 @@ plugins = ->
     plug 'lewis6991/gitsigns.nvim', config: -> -- show git diff in the signcolumn
         import 'gitsigns'
         gitsigns.setup
+            signcolumn: false
+            numhl: true
+            linehl: false
+            word_diff: true
             keymaps:
                 noremap: true
                 ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
