@@ -26,13 +26,6 @@ if vim.fn.exists('neovide')
 
     set_font!
 
--- Remappings
-do
-    import nnoremap, vnoremap, onoremap, tnoremap, nmap, vmap, map from require 'vimp'
-
-    -- Abbreviate :w to :up
-    vim.cmd [[cnoreabbrev w up]]
-
 -- Autocommands
 do
     import map_command from require 'vimp'
