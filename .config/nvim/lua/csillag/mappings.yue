@@ -87,6 +87,26 @@ applyKeymaps myKeymaps
         'F': fzflua 'filetypes'
         'f': fzflua 'live_grep_resume'
 
+        -- cd
+        'c': ->
+            fn = (fzf_cb) ->
+                handle = io.popen "fd --type d"
+                fzf_cb directory for directory in handle\lines!
+                handle\close!
+                fzf_cb!
+
+            coro = coroutine.wrap () ->
+                selected = (require 'fzf-lua').fzf {
+                    prompt: "cd>"
+                        actions:
+                            default: (selected, a) ->
+                                print("here")
+                                print(selected)
+                                print(a)
+                }, fn
+                vim.cmd "cd " .. selected[1]
+            coro!
+
         -- carbon
         'E': vimcmd 'Carbon'
 
