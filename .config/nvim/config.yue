@@ -1022,7 +1022,7 @@ do
     vim.cmd [[
         augroup autoformat
             autocmd!
-            autocmd InsertLeave * lua vim.lsp.buf.formatting()
+            autocmd InsertLeave,CursorHold * lua vim.lsp.buf.formatting()
         augroup END
     ]]
 
