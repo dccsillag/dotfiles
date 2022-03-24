@@ -153,14 +153,12 @@ applyKeymaps myKeymaps
 
         -- ultest
         't':
+            'd': vimcmd 'UltestDebugNearest'
             't': vimcmd 'UltestSummary'
             'n': vimcmd 'UltestNearest'
             'f': vimcmd 'Ultest'
             'l': vimcmd 'UltestLast'
         'd':
-            't':
-                'n': vimcmd 'UltestDebugNearest'
-                'f': vimcmd 'UltestDebug'
             'd': ->
                 import 'dap'
                 if dap.session! == nil

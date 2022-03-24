@@ -574,6 +574,35 @@ do
             postRunCommands:
                 * 'process handle -p true -s false -n false SIGWINCH'
 
+    -- ultest
+    (require 'ultest').setup
+        builders:
+            rust: (argv) ->
+                target = argv[#argv-2]
+
+                table.insert argv, 3, "--no-run"
+                table.insert argv, 3, "--message-format=json"
+
+                cargotest_cmd = (table.concat argv, " ") .. [[ 2>/dev/null | jq --raw-output 'select(.profile.test == true) | .filenames[]' | head -1]]
+                program = vim.fn.system cargotest_cmd
+                program = program\gsub "\n", ""
+
+                {
+                    dap:
+                        type: 'lldb'
+                        request: 'launch'
+                        mode: 'test'
+                        :program
+                        cwd: '${workspaceFolder}'
+                        stopOnEntry: false
+                        args:
+                            * target
+                            * "--exact"
+                        runInTerminal: false
+                        postRunCommands:
+                            * 'process handle -p true -s false -n false SIGWINCH'
+                }
+
     -- Comment.nvim
     (require 'Comment').setup!
 
