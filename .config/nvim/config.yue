@@ -256,6 +256,7 @@ plugins = ->
     plug 'lambdalisue/suda.vim', config: -> -- for editting files which require root permission
         vim.g.suda_smart_edit = 1
     plug 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
+    plug 'antoinemadec/FixCursorHold.nvim' -- fix CursorHold/CursorHoldI events (https://github.com/neovim/neovim/issues/12587)
 
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
