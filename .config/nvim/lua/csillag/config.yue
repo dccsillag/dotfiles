@@ -12,11 +12,11 @@ do
             vim.cmd "norm \\ge"
         else
             vim.cmd "norm \\e"
-    button = (sc, txt, keybind, keybind_opts) ->
+    button = (sc, icon, txt, keybind, keybind_opts) ->
         opts =
             position: 'center'
             shortcut: sc
-            cursor: 0
+            cursor: 5
             width: 50
             align_shortcut: 'right'
             hl_shortcut: 'Keyword'
@@ -30,7 +30,7 @@ do
 
         {
             type: 'button'
-            val: txt
+            val: icon .. " " .. txt
             :on_press
             :opts
         }
@@ -68,13 +68,13 @@ do
             *
                 type: 'group'
                 val:
-                    * button "n", "New file", "<cmd>enew<CR>"
-                    * button "m", "New markdown file", "<cmd>enew | setf markdown<CR>"
-                    * button "e", "Edit a file", "<cmd>EditFile<CR>"
-                    * button "c", "Change directory", "<cmd>norm \\c<CR>"
-                    * button "pi", "Install plugins", "<cmd>PackerInstall<CR>"
-                    * button "pu", "Update plugins", "<cmd>PackerUpdate<CR>"
-                    * button "pc", "Clean plugins", "<cmd>PackerClean<CR>"
+                    * button "n", " ", "New file", "<cmd>enew<CR>"
+                    * button "m", " ", "New markdown file", "<cmd>enew | setf markdown<CR>"
+                    * button "e", " ", "Edit a file", "<cmd>EditFile<CR>"
+                    * button "c", " ", "Change directory", "<cmd>norm \\c<CR>"
+                    * button "pi"," ", "Install plugins", "<cmd>PackerInstall<CR>"
+                    * button "pu"," ", "Update plugins", "<cmd>PackerUpdate<CR>"
+                    * button "pc"," ", "Clean plugins", "<cmd>PackerClean<CR>"
                 opts:
                     spacing: 1
             *
