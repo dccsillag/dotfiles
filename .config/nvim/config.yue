@@ -393,14 +393,68 @@ plugins = ->
                 underline: true
                 signs: false
                 update_in_insert: true
-    plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim', config: -> -- show LSP diagnostics in virtual lines, not virtual text
-        (require 'lsp_lines').register_lsp_virtual_lines!
-        vim.diagnostic.config
-                virtual_lines:
-                    -- prefix: " "
-                    -- prefix: "↓"
-                    prefix: "!"
-                    -- prefix: "•"
+
+        -- Based on https://git.sr.ht/~whynothugo/lsp_lines.nvim/tree/main/item/lua/lsp_lines/init.lua:
+        indentation_regex = vim.regex [[^\s\+]]
+        highlight_groups =
+            [vim.diagnostic.severity.ERROR]: "DiagnosticVirtualTextError"
+            [vim.diagnostic.severity.WARN]: "DiagnosticVirtualTextWarn"
+            [vim.diagnostic.severity.INFO]: "DiagnosticVirtualTextInfo"
+            [vim.diagnostic.severity.HINT]: "DiagnosticVirtualTextHint"
+        get_indentation_for_line = (bufnr, lnum) ->
+            lines = vim.api.nvim_buf_get_lines bufnr, lnum, lnum + 1, false
+            line = lines[1]
+            out = ""
+            for i = 1, #line
+                switch line\sub i, i
+                    when ' '
+                        if (i-1) % 4 == 0
+                            out ..= vim.g.indent_blankline_char
+                            -- out ..= "┊"
+                        else
+                            out ..= " "
+                    when '\t'
+                        out ..= "\t"
+                    else
+                        break
+            out
+        vim.diagnostic.handlers.virtual_lines =
+            show: (namespace, bufnr, diagnostics, opts) ->
+                vim.validate
+                    namespace: {namespace, 'n'}
+                    bufnr: {bufnr, 'n'}
+                    diagnostics: {diagnostics, vim.tbl_islist, "a list of diagnostics"}
+                    opts: {opts, 't', true}
+
+                ns = vim.diagnostic.get_namespace namespace
+                ns.user_data.virt_lines_ns = vim.api.nvim_create_namespace "" if not ns.user_data.virt_lines_ns
+                virt_lines_ns = ns.user_data.virt_lines_ns
+
+                vim.api.nvim_buf_clear_namespace bufnr, virt_lines_ns, 0, -1
+
+                prefix = "^"
+
+                for id, diagnostic in ipairs diagnostics
+                    virt_lines = {}
+                    lprefix = prefix
+                    indentation = get_indentation_for_line bufnr, diagnostic.lnum
+                    for diag_line in diagnostic.message\gmatch("([^\n]+)")
+                        table.insert virt_lines, {
+                            {
+                                indentation,
+                                "VirtualIndentBlanklineChar",
+                            },
+                            {
+                                lprefix .. " " .. diag_line,
+                                highlight_groups[diagnostic.severity],
+                            },
+                        }
+                        lprefix = string.rep(" ", #prefix)
+
+                    vim.api.nvim_buf_set_extmark bufnr, virt_lines_ns, diagnostic.lnum, 0, :id, :virt_lines
+            hide: (namespace, bufnr) ->
+                ns = vim.diagnostic.get_namespace namespace
+                vim.api.nvim_buf_clear_namespace bufnr, ns.user_data.virt_lines_ns, 0, -1 if ns.user_data.virt_lines_ns
     plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
     plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate', config: -> -- easy treesitter config
