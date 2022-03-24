@@ -62,7 +62,7 @@ plugins = ->
     plug 'tpope/vim-fugitive' -- use git from vim
     plug 'junegunn/gv.vim' -- git commit browser
     plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
-    plug 'vim-test/vim-test' -- run tests from NeoVim
+    plug 'rcarriga/vim-ultest', requires: {"vim-test/vim-test"}, run: ":UpdateRemotePlugins" -- run tests from NeoVim
 
     -- Completion
     plug 'hrsh7th/nvim-cmp', requires: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim

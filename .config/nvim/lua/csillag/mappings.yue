@@ -66,6 +66,9 @@ applyKeymaps myKeymaps
     '[g': -> vim.diagnostic.goto_prev!
     ']g': -> vim.diagnostic.goto_next!
 
+    '[t': plug 'ultest-prev-fail'
+    ']t': plug 'ultest-next-fail'
+
     '<Leader>':
         -- LSP
         'l':
@@ -147,11 +150,16 @@ applyKeymaps myKeymaps
             'o': vimcmd 'MagmaShowOutput'
             'n': vimcmd 'MagmaInit'
 
-        -- vim-test
+        -- ultest
         't':
-            't': vimcmd 'TestNearest'
-            'f': vimcmd 'TestFile'
-            'l': vimcmd 'TestLast'
+            't': vimcmd 'UltestSummary'
+            'n': vimcmd 'UltestNearest'
+            'f': vimcmd 'Ultest'
+            'l': vimcmd 'UltestLast'
+        'd':
+            't':
+                'n': vimcmd 'UltestDebugNearest'
+                'f': vimcmd 'UltestDebug'
 
         'G': vimcmd 'G' -- open fugitive
 
