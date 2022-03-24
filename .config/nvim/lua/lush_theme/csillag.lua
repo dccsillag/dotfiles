@@ -23,6 +23,7 @@ local theme = lush(function()
     -- styling for that group (meaning they mostly get styled as Normal)
     -- or leave them commented to apply vims default colouring or linking.
 
+    Normal            { fg = "#FFFFFF", bg = "#282C33" }, -- normal text
     Comment           { fg = "#A5A6A9", gui = "italic" }, -- any comment
     ColorColumn       { bg = "#494d54" }, -- used for the columns set with 'colorcolumn'
     Conceal           { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
@@ -42,10 +43,10 @@ local theme = lush(function()
     ErrorMsg          { fg = "#FF0000", gui = "bold" }, -- error messages on the command line
     VertSplit         { fg = "#B0B0B0" }, -- the column separating vertically split windows
     Folded            { fg = "#AAAAAA", gui = "bold" }, -- line used for closed folds
-    FoldColumn        { fg = "#FFFFFF", gui = "bold" }, -- 'foldcolumn'
-    SignColumn        { fg = "#FFFFFF", gui = "bold" }, -- column where |signs| are displayed
+    FoldColumn        { fg = "#FFFFFF", bg = "#383C43", gui = "bold" }, -- 'foldcolumn'
+    SignColumn        { fg = "#FFFFFF", bg = "#383C43" }, -- column where |signs| are displayed
     Substitute        { fg = "#EEEEEE", gui = "bold,reverse" }, -- |:substitute| replacement text highlighting
-    LineNr            { fg = "#7C7D7F", gui = "bold" }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    LineNr            { fg = "#7C7D7F", bg = "#383C43" }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr      { LineNr, fg = "#aeafc5" }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     MatchParen        { bg = "#575859", gui = "bold" }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     MsgArea           { bg = "#23272e" }, -- Area for messages and cmdline
@@ -53,7 +54,6 @@ local theme = lush(function()
     MsgSeparator      { MsgArea }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     MoreMsg           { MsgArea }, -- |more-prompt|
     NonText           { fg = "#777777" }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal            { fg = "#FFFFFF", bg = "NONE" }, -- normal text
     NormalFloat       { fg = "#FFFFFF", bg = "#30343b" }, -- Normal text in floating windows.
     NormalNC          { Normal }, -- normal text in non-current windows
     Pmenu             { NormalFloat }, -- Popup menu: normal item.
@@ -228,9 +228,14 @@ local theme = lush(function()
     diffAdded   { DiffAdd },    -- Color to use for added text in Fugitive inline diffs
     diffRemoved { DiffDelete }, -- Color to use for removed text in Fugitive inline diffs
 
+    GitSignsAdd { fg = DiffAdd.fg, bg = SignColumn.bg },
+    GitSignsChange { fg = DiffChange.fg, bg = SignColumn.bg },
+    GitSignsDelete { fg = DiffDelete.fg, bg = SignColumn.bg },
+
     SignatureMarkText { fg = "#f2b409", gui = "bold" }, -- Color to use for marker signs (signature.vim)
 
     IndentBlanklineChar { fg = "#666666" }, -- Color to use for indent guides (indent-blankline.nvim)
+    VirtualIndentBlanklineChar { fg = "#444444" }, -- Color to use for indent guides in virtual lines
 
     -- HopNextKey   { fg = "#FFFFFF", bg = "#4444EE", gui = "bold" }, -- color for hop sequence of length 1
     HopNextKey   { fg = "#FFFFFF", bg = "#44AA44", gui = "bold" }, -- color for hop sequence of length 1
