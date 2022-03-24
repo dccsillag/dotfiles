@@ -30,6 +30,8 @@ if vim.fn.exists('neovide')
 do
     import map_command from require 'vimp'
 
+    autocmd = vim.api.nvim_create_autocmd
+
     -- AutoView
     -- vim.cmd [[
     --     augroup autoview
@@ -40,13 +42,8 @@ do
     -- ]]
 
     -- SHADA
-    vim.cmd [[
-        augroup shada
-            autocmd!
-            autocmd FocusGained * if exists(':rshada') | rshada | endif
-            autocmd FocusLost   * if exists(':wshada') | wshada | endif
-        augroup END
-    ]]
+    autocmd 'FocusGained', command: [[if exists(':rshada') | rshada | endif]]
+    autocmd 'FocusLost', command: [[if exists(':wshada') | wshada | endif]]
 
     -- -- SpellCheck
     -- vim.cmd [[
@@ -59,55 +56,27 @@ do
     --     augroup END
     -- ]]
 
-    -- More filetype detection
-    vim.cmd [[
-        augroup FtdetectExtra
-            autocmd!
-            autocmd BufRead,BufNewFile *.lmd setf markdown
-            autocmd BufRead,BufNewFile *.pmd setf markdown
-        augroup END
-    ]]
-
     -- Autommatic compilation of markup documents
-    vim.cmd [[
-        augroup autocompile
-            autocmd!
-            autocmd BufReadPre *.tex               compiler latexrun
-            autocmd BufReadPre *.lmd               compiler pan-latex
-            autocmd BufReadPre *.pmd               compiler pan-revealjs
-            autocmd BufReadPre *.mmd               compiler mermaid
-            autocmd BufReadPre *.uml               compiler plantuml
-            autocmd BufReadPre *.ly,*.ily          compiler lilypond
-            autocmd BufReadPre *.c,*.h,*.cpp,*.hpp compiler tap
-
-            autocmd BufWritePost *.tex,*.lmd,*.pmd,*.mmd,*.uml,*.ly,*.ily AsyncStop | sleep 100m | AsyncRun -program=make
-        augroup END
-    ]]
+    autocmd 'BufReadPre', pattern: "*.tex", command: [[compiler latexrun]]
+    autocmd 'BufReadPre', pattern: "*.mmd", command: [[compiler mermaid]]
+    autocmd 'BufReadPre', pattern: "*.uml", command: [[compiler plantuml]]
+    autocmd 'BufReadPre', pattern: {"*.ly", "*.ily"}, command: [[compiler lilypond]]
+    autocmd 'BufReadPost', command: [[AsyncStop | sleep 100m | AsyncRun -program=make]]
+        pattern:
+            * "*.c"
+            * "*.h"
+            * "*.cpp"
+            * "*.hpp"
 
     -- Map 'q' in terminal normal mode to close the window
-    vim.cmd [[
-        augroup termopen
-            autocmd!
-            autocmd TermOpen * nnoremap <buffer><silent> q :bd<CR>
-            autocmd TermOpen * setl nonumber signcolumn=auto:3 nocursorline
-            autocmd TermOpen * norm! G
-        augroup END
-    ]]
+    autocmd 'TermOpen', command: [[nnoremap <buffer><silent> q :bd<CR>]]
+    autocmd 'TermOpen', command: [[setl nonumber signcolumn=auto:3 nocursorline]]
+    autocmd 'TermOpen', command: [[norm! G]]
 
-    vim.cmd [[
-        augroup autoformat
-            autocmd!
-            autocmd InsertLeave,CursorHold * lua vim.lsp.buf.formatting()
-        augroup END
-    ]]
+    autocmd {'InsertLeave', 'CursorHold'}, callback: -> vim.lsp.buf.formatting()
 
     -- Better setup for carbon buffers
-    vim.cmd [[
-        augroup carbonsetup
-            autocmd!
-            autocmd FileType carbon set sw=2
-        augroup END
-    ]]
+    autocmd 'FileType', pattern: 'carbon', command: [[set sw=2]]
 
     -- LSP progress indicator
     spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
