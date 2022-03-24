@@ -78,6 +78,7 @@ plugins = ->
     plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
     plug 'stevearc/aerial.nvim' -- show code outline
+    plug 'mfussenegger/nvim-dap' -- debugging
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim

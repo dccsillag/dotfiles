@@ -49,6 +49,7 @@ myKeymaps = (maps) ->
 
 vimcmd = (cmd) -> ':' .. cmd .. '<CR>'
 luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
+dapcmd = (cmd) -> luacmd 'if require"dap".session() ~= nil then ' .. cmd .. ' else print("no DAP session!") end'
 plug = (op) -> '<Plug>(' .. op .. ')'
 addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
@@ -160,6 +161,19 @@ applyKeymaps myKeymaps
             't':
                 'n': vimcmd 'UltestDebugNearest'
                 'f': vimcmd 'UltestDebug'
+            'd': ->
+                import 'dap'
+                if dap.session! == nil
+                    dap.continue!
+                else
+                    print "There is already a DAP session!"
+            'b': luacmd 'require"dap".toggle_breakpoint()'
+            'j': dapcmd 'require"dap".step_over()'
+            'l': dapcmd 'require"dap".step_into()'
+            'h': dapcmd 'require"dap".step_out()'
+            'c': dapcmd 'require"dap".continue()'
+            'r': dapcmd 'require"dap".repl.open()'
+            'v': dapcmd 'require"dap.ui.widgets".hover()'
 
         'G': vimcmd 'G' -- open fugitive
 

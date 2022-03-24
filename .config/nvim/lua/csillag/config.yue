@@ -98,7 +98,7 @@ do
             fg: '#000000'
         b:
             bg: '#4F535A'
-            fg: '#000000'
+            fg: '#FFFFFF'
             gui: 'bold'
         c:
             bg: '#2F333A'
@@ -151,7 +151,13 @@ do
                         * 'warn'
                         * 'info'
                 }
-            lualine_y: {}
+            lualine_y:
+                * ->
+                    import 'dap'
+                    if dap.session! ~= nil
+                        "Debugging"
+                    else
+                        ""
             lualine_z:
                 * ->
                     ft = vim.o.filetype
@@ -546,6 +552,27 @@ do
         -- TODO post_jump_cmd       call beacon
         close_on_select: true
         show_guides: false
+
+    -- DAP
+    import 'dap'
+
+    dap.adapters.lldb =
+        type: 'executable'
+        command: 'lldb-vscode'
+        name: "lldb"
+
+    dap.configurations.rust =
+        *
+            name: "Launch"
+            type: 'lldb'
+            request: 'launch'
+            program: -> vim.fn.input "Path to executable: ", vim.fn.getcwd! .. "/target/debug/", 'file'
+            cwd: '${workspaceFolder}'
+            stopOnEntry: false
+            args: {}
+            runInTerminal: false
+            postRunCommands:
+                * 'process handle -p true -s false -n false SIGWINCH'
 
     -- Comment.nvim
     (require 'Comment').setup!
