@@ -128,17 +128,17 @@ plugins = ->
     plug 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
     plug 'pest-parser/pest.vim' -- language support for Pest grammars
 
-import 'packer'
 import 'packer.util' as packer_util
 
-packer_config =
-    max_jobs: 8
-    display:
-        open_fn: -> packer_util.float border: 'single'
-        working_sym: "•"
-        error_sym: "✗"
-        done_sym: "✓"
-        removed_sym: "-"
-        moved_sym: "→"
-        header_sym: "━"
-packer.startup {plugins, config: packer_config}
+(require 'packer').startup
+    * plugins
+    config:
+        max_jobs: 8
+        display:
+            open_fn: -> packer_util.float border: 'single'
+            working_sym: "•"
+            error_sym: "✗"
+            done_sym: "✓"
+            removed_sym: "-"
+            moved_sym: "→"
+            header_sym: "━"
