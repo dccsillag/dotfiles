@@ -180,6 +180,7 @@ in {
     highlight
     tldr
     fzf
+    broot
     entr
     jq
     neofetch
