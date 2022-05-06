@@ -145,6 +145,7 @@ in {
     # LSPs
     rust-analyzer
     clang-tools # this provides clangd
+    lldb
     sumneko-lua-language-server
     pyright
     python39Packages.python-lsp-server
