@@ -265,6 +265,7 @@ in {
     screenkey
     xlayoutdisplay
     scrot
+    gnome.gnome-boxes
 
     # Password manager
     pass
