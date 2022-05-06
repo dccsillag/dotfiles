@@ -206,6 +206,7 @@ in {
     cargo-watch
     cargo-flamegraph
     cargo-asm
+    cargo-tarpaulin
 
     # Image tools
     imagemagick
