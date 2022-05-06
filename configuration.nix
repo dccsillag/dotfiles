@@ -336,7 +336,7 @@ in {
   nixpkgs.config.allowUnfreePredicate = allowUnfreePredicate;
 
   # Upgrade automatically once a day:
-  system.autoUpgrade.enable = true;
+  #system.autoUpgrade.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
