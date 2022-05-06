@@ -168,6 +168,7 @@ in {
     lsof
     file
     nix-index
+    socat
 
     # Misc tools
     ripgrep
