@@ -167,6 +167,7 @@ in {
     usbutils
     lsof
     file
+    nix-index
 
     # Misc tools
     ripgrep
