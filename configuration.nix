@@ -246,7 +246,13 @@ in {
     eww
     dzen2
     dunst
-    python3
+    (python3.withPackages(ps: with ps; [
+      pynvim
+      jupyter_client
+      ueberzug
+      pillow
+      cairosvg
+    ]))
     scrot
     feh
     gnome.zenity
