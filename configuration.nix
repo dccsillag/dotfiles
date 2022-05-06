@@ -272,7 +272,8 @@ in {
     pinentry-gnome
 
     # GUI Programs
-    qutebrowser
+    luakit
+    unstable.qutebrowser
     brave
     mpv
     libreoffice
