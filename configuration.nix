@@ -285,7 +285,6 @@ in {
     slack
     unstable.discord
     mailspring
-    unstable.zoom-us
   ];
 
   fonts.fonts = with pkgs; [
@@ -295,7 +294,7 @@ in {
   programs.firejail = {
     enable = true;
     wrappedBinaries = {
-      zoom-firejail = {
+      zoom = {
         executable = "${unstable.zoom-us}/bin/zoom";
       };
     };
