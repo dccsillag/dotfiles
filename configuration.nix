@@ -72,7 +72,15 @@ in {
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    browsing = true;
+    drivers = with pkgs; [ hplip ];
+  };
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
 
   # Enable sound.
   sound.enable = true;
