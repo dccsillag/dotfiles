@@ -264,6 +264,7 @@ in {
     pamixer
     screenkey
     xlayoutdisplay
+    mons
     scrot
     gnome.gnome-boxes
 
