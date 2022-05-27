@@ -27,7 +27,7 @@ config.load_autoconfig()
 
 # Misc Interface settings (behaviour) {{{
 
-c.tabs.position = 'top'
+c.tabs.position = 'left'
 c.session.lazy_restore = True
 c.search.wrap = False
 c.tabs.last_close = 'close'
@@ -82,7 +82,8 @@ config.bind('>', 'tab-move +')
 config.bind('%', 'open qute://back')
 
 MPV_COMMAND = 'mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp "--ytdl-format=best[width<=1920]" --force-window=immediate --save-position-on-quit URL'
-config.bind(",m", ('spawn sh -c ' + quote(MPV_COMMAND)).replace('URL', '{url}'))
+config.bind(",m", ('spawn sh -c ' + quote(MPV_COMMAND)
+                   ).replace('URL', '{url}'))
 
 # }}}
 
@@ -95,106 +96,107 @@ c.statusbar.widgets = ['keypress', 'progress', 'history', 'scroll', 'tabs']
 # Theme / Colors {{{
 
 TEXTFG = '#ffffff'
+DIMTEXTFG = '#aaaaaa'
 DISABLEDTEXTFG = '#aaaaaa'
 STDBG = '#282C33'
 SURFACEBG = '#31363f'
 SURFACEBG2 = '#3b4049'
 
-c.colors.completion.fg                          = TEXTFG
-c.colors.completion.category.fg                 = TEXTFG
-c.colors.completion.category.bg                 = SURFACEBG
-c.colors.completion.category.border.bottom      = SURFACEBG
-c.colors.completion.category.border.top         = SURFACEBG
-c.colors.completion.even.bg                     = SURFACEBG
-c.colors.completion.odd.bg                      = SURFACEBG
-c.colors.completion.item.selected.fg            = TEXTFG
-c.colors.completion.item.selected.bg            = SURFACEBG2
+c.colors.completion.fg = TEXTFG
+c.colors.completion.category.fg = TEXTFG
+c.colors.completion.category.bg = SURFACEBG
+c.colors.completion.category.border.bottom = SURFACEBG
+c.colors.completion.category.border.top = SURFACEBG
+c.colors.completion.even.bg = SURFACEBG
+c.colors.completion.odd.bg = SURFACEBG
+c.colors.completion.item.selected.fg = TEXTFG
+c.colors.completion.item.selected.bg = SURFACEBG2
 c.colors.completion.item.selected.border.bottom = SURFACEBG2
-c.colors.completion.item.selected.border.top    = SURFACEBG2
-c.colors.completion.item.selected.match.fg      = '#FC994F' # TODO
-c.colors.completion.match.fg                    = '#FC994F' # TODO
-c.colors.completion.scrollbar.fg                = TEXTFG
-c.colors.completion.scrollbar.bg                = SURFACEBG2
-c.colors.contextmenu.menu.fg                    = TEXTFG
-c.colors.contextmenu.menu.bg                    = SURFACEBG
-c.colors.contextmenu.disabled.fg                = DISABLEDTEXTFG
-c.colors.contextmenu.disabled.bg                = SURFACEBG
-c.colors.contextmenu.selected.fg                = TEXTFG
-c.colors.contextmenu.selected.bg                = SURFACEBG2
+c.colors.completion.item.selected.border.top = SURFACEBG2
+c.colors.completion.item.selected.match.fg = '#FC994F'  # TODO
+c.colors.completion.match.fg = '#FC994F'  # TODO
+c.colors.completion.scrollbar.fg = TEXTFG
+c.colors.completion.scrollbar.bg = SURFACEBG2
+c.colors.contextmenu.menu.fg = TEXTFG
+c.colors.contextmenu.menu.bg = SURFACEBG
+c.colors.contextmenu.disabled.fg = DISABLEDTEXTFG
+c.colors.contextmenu.disabled.bg = SURFACEBG
+c.colors.contextmenu.selected.fg = TEXTFG
+c.colors.contextmenu.selected.bg = SURFACEBG2
 
-c.colors.downloads.bar.bg                       = SURFACEBG
-c.colors.downloads.error.fg                     = TEXTFG
-c.colors.downloads.error.bg                     = '#E71B1B' # TODO
-c.colors.downloads.start.fg                     = TEXTFG
-c.colors.downloads.start.bg                     = SURFACEBG2 # TODO
-c.colors.downloads.stop.fg                      = TEXTFG
-c.colors.downloads.stop.bg                      = '#075C00' # TODO
-c.colors.downloads.system.fg                    = 'none'
-c.colors.downloads.system.bg                    = 'none'
-c.colors.hints.fg                               = '#000000'
-c.colors.hints.bg                               = '#eedd00'  # TODO
-c.colors.hints.match.fg                         = c.colors.hints.bg
-c.colors.keyhint.fg                             = TEXTFG
-c.colors.keyhint.bg                             = SURFACEBG
-c.colors.messages.error.fg                      = '#FF6666'  # TODO
-c.colors.messages.error.bg                      = SURFACEBG
-c.colors.messages.error.border                  = SURFACEBG
-c.colors.messages.warning.fg                    = '#FFE742'  # TODO
-c.colors.messages.warning.bg                    = SURFACEBG
-c.colors.messages.warning.border                = SURFACEBG
-c.colors.messages.info.fg                       = TEXTFG
-c.colors.messages.info.bg                       = SURFACEBG
-c.colors.messages.info.border                   = SURFACEBG
-c.colors.prompts.fg                             = TEXTFG
-c.colors.prompts.bg                             = SURFACEBG
-c.colors.prompts.border                         = TEXTFG
-c.colors.prompts.selected.bg                    = SURFACEBG2
-c.colors.statusbar.caret.fg                     = TEXTFG
-c.colors.statusbar.caret.bg                     = '#80101C78'  # TODO
-c.colors.statusbar.caret.selection.fg           = TEXTFG
-c.colors.statusbar.caret.selection.bg           = '#802E1BBC'  # TODO
-c.colors.statusbar.command.fg                   = TEXTFG
-c.colors.statusbar.command.bg                   = SURFACEBG
-c.colors.statusbar.command.private.fg           = TEXTFG
-c.colors.statusbar.command.private.bg           = SURFACEBG
-c.colors.statusbar.insert.fg                    = '#000000'  # TODO
-c.colors.statusbar.insert.bg                    = '#803DE305'  # TODO
-c.colors.statusbar.normal.fg                    = TEXTFG
-c.colors.statusbar.normal.bg                    = SURFACEBG
-c.colors.statusbar.passthrough.fg               = TEXTFG
-c.colors.statusbar.passthrough.bg               = '#80CF009F'  # TODO
-c.colors.statusbar.private.fg                   = TEXTFG
-c.colors.statusbar.private.bg                   = '#805B1282'  # TODO
-c.colors.statusbar.progress.bg                  = '#80999999'  # TODO
-c.colors.statusbar.url.fg                       = TEXTFG
-c.colors.statusbar.url.error.fg                 = TEXTFG
-c.colors.statusbar.url.hover.fg                 = TEXTFG
-c.colors.statusbar.url.success.http.fg          = TEXTFG
-c.colors.statusbar.url.success.https.fg         = TEXTFG
-c.colors.statusbar.url.warn.fg                  = TEXTFG
-c.colors.tabs.bar.bg                            = SURFACEBG
-c.colors.tabs.even.fg                           = TEXTFG
-c.colors.tabs.even.bg                           = SURFACEBG
-c.colors.tabs.odd.fg                            = TEXTFG
-c.colors.tabs.odd.bg                            = SURFACEBG
-c.colors.tabs.indicator.error                   = '#00D80707'  # TODO
-c.colors.tabs.indicator.start                   = '#00000000'  # TODO
-c.colors.tabs.indicator.stop                    = '#00000000'  # TODO
-c.colors.tabs.indicator.system                  = 'none'  # TODO
-c.colors.tabs.pinned.even.fg                    = '#000000'  # TODO
-c.colors.tabs.pinned.even.bg                    = 'seagreen'  # TODO
-c.colors.tabs.pinned.odd.fg                     = '#000000'  # TODO
-c.colors.tabs.pinned.odd.bg                     = 'seagreen'  # TODO
-c.colors.tabs.pinned.selected.even.fg           = '#000000'  # TODO
-c.colors.tabs.pinned.selected.even.bg           = 'darkseagreen'  # TODO
-c.colors.tabs.pinned.selected.odd.fg            = '#000000'  # TODO
-c.colors.tabs.pinned.selected.odd.bg            = 'darkseagreen'  # TODO
-c.colors.tabs.selected.even.fg                  = TEXTFG
-c.colors.tabs.selected.even.bg                  = SURFACEBG2
-c.colors.tabs.selected.odd.fg                   = TEXTFG
-c.colors.tabs.selected.odd.bg                   = SURFACEBG2
-c.colors.webpage.bg                             = STDBG
-c.window.transparent                            = False
+c.colors.downloads.bar.bg = SURFACEBG
+c.colors.downloads.error.fg = TEXTFG
+c.colors.downloads.error.bg = '#E71B1B'  # TODO
+c.colors.downloads.start.fg = TEXTFG
+c.colors.downloads.start.bg = SURFACEBG2  # TODO
+c.colors.downloads.stop.fg = TEXTFG
+c.colors.downloads.stop.bg = '#075C00'  # TODO
+c.colors.downloads.system.fg = 'none'
+c.colors.downloads.system.bg = 'none'
+c.colors.hints.fg = '#000000'
+c.colors.hints.bg = '#eedd00'  # TODO
+c.colors.hints.match.fg = c.colors.hints.bg
+c.colors.keyhint.fg = TEXTFG
+c.colors.keyhint.bg = SURFACEBG
+c.colors.messages.error.fg = '#FF6666'  # TODO
+c.colors.messages.error.bg = SURFACEBG
+c.colors.messages.error.border = SURFACEBG
+c.colors.messages.warning.fg = '#FFE742'  # TODO
+c.colors.messages.warning.bg = SURFACEBG
+c.colors.messages.warning.border = SURFACEBG
+c.colors.messages.info.fg = TEXTFG
+c.colors.messages.info.bg = SURFACEBG
+c.colors.messages.info.border = SURFACEBG
+c.colors.prompts.fg = TEXTFG
+c.colors.prompts.bg = SURFACEBG
+c.colors.prompts.border = TEXTFG
+c.colors.prompts.selected.bg = SURFACEBG2
+c.colors.statusbar.caret.fg = TEXTFG
+c.colors.statusbar.caret.bg = '#80101C78'  # TODO
+c.colors.statusbar.caret.selection.fg = TEXTFG
+c.colors.statusbar.caret.selection.bg = '#802E1BBC'  # TODO
+c.colors.statusbar.command.fg = TEXTFG
+c.colors.statusbar.command.bg = SURFACEBG
+c.colors.statusbar.command.private.fg = TEXTFG
+c.colors.statusbar.command.private.bg = SURFACEBG
+c.colors.statusbar.insert.fg = '#000000'  # TODO
+c.colors.statusbar.insert.bg = '#803DE305'  # TODO
+c.colors.statusbar.normal.fg = TEXTFG
+c.colors.statusbar.normal.bg = SURFACEBG
+c.colors.statusbar.passthrough.fg = TEXTFG
+c.colors.statusbar.passthrough.bg = '#80CF009F'  # TODO
+c.colors.statusbar.private.fg = TEXTFG
+c.colors.statusbar.private.bg = '#805B1282'  # TODO
+c.colors.statusbar.progress.bg = '#80999999'  # TODO
+c.colors.statusbar.url.fg = TEXTFG
+c.colors.statusbar.url.error.fg = TEXTFG
+c.colors.statusbar.url.hover.fg = TEXTFG
+c.colors.statusbar.url.success.http.fg = TEXTFG
+c.colors.statusbar.url.success.https.fg = TEXTFG
+c.colors.statusbar.url.warn.fg = TEXTFG
+c.colors.tabs.bar.bg = SURFACEBG
+c.colors.tabs.even.fg = DIMTEXTFG
+c.colors.tabs.even.bg = SURFACEBG
+c.colors.tabs.odd.fg = DIMTEXTFG
+c.colors.tabs.odd.bg = SURFACEBG
+c.colors.tabs.indicator.error = '#00D80707'  # TODO
+c.colors.tabs.indicator.start = '#00000000'  # TODO
+c.colors.tabs.indicator.stop = '#00000000'  # TODO
+c.colors.tabs.indicator.system = 'none'  # TODO
+c.colors.tabs.pinned.even.fg = '#000000'  # TODO
+c.colors.tabs.pinned.even.bg = 'seagreen'  # TODO
+c.colors.tabs.pinned.odd.fg = '#000000'  # TODO
+c.colors.tabs.pinned.odd.bg = 'seagreen'  # TODO
+c.colors.tabs.pinned.selected.even.fg = '#000000'  # TODO
+c.colors.tabs.pinned.selected.even.bg = 'darkseagreen'  # TODO
+c.colors.tabs.pinned.selected.odd.fg = '#000000'  # TODO
+c.colors.tabs.pinned.selected.odd.bg = 'darkseagreen'  # TODO
+c.colors.tabs.selected.even.fg = TEXTFG
+c.colors.tabs.selected.even.bg = SURFACEBG2
+c.colors.tabs.selected.odd.fg = TEXTFG
+c.colors.tabs.selected.odd.bg = SURFACEBG2
+c.colors.webpage.bg = STDBG
+c.window.transparent = False
 
 # }}}
 
@@ -213,7 +215,7 @@ c.fonts.messages.info = UI_FONT
 c.fonts.messages.warning = 'italic ' + UI_FONT
 c.fonts.prompts = UI_FONT
 c.fonts.statusbar = UI_FONT
-c.fonts.tabs.selected = 'bold ' + UI_FONT
+c.fonts.tabs.selected = UI_FONT
 c.fonts.tabs.unselected = UI_FONT
 c.fonts.contextmenu = UI_FONT
 c.fonts.default_family = 'Lato Regular'
@@ -237,7 +239,7 @@ c.hints.border = '1px solid #000000'
 c.tabs.indicator.width = 0
 c.tabs.favicons.show = 'never'
 
-c.tabs.padding = {"bottom": 5, "top": 5, "left": 7, "right": 7}
+c.tabs.padding = {"bottom": 5, "top": 5, "left": 4, "right": 1}
 c.statusbar.padding = {"bottom": 5, "top": 5, "left": 7, "right": 7}
 c.tabs.title.format = "{perc}{current_title}"
 
