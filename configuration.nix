@@ -23,6 +23,15 @@ in {
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
     }))
+    (self: super: {
+      haskellPackages = super.haskellPackages.override {
+        overrides = hself: hsuper: {
+          xmonad = super.haskell.lib.appendPatch hself.xmonad_0_17_0 ./xmonad-nix.patch;
+          xmonad-contrib = hself.xmonad-contrib_0_17_0;
+          xmonad-extras = hself.xmonad-extras_0_17_0;
+        };
+      };
+    })
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -65,7 +74,18 @@ in {
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.windowManager.xmonad.enable = true;
+  services.xserver.windowManager.xmonad = {
+    enable = true;
+    enableContribAndExtras = true;
+    extraPackages = haskellPackages: with haskellPackages; [
+      #containers_0_6_5_1
+      directory_1_3_7_0
+      aeson
+      utf8-string
+      process_1_6_13_2
+      xmobar
+    ];
+  };
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
