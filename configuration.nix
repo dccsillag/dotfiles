@@ -270,6 +270,8 @@ in {
     stack
     eww
     dzen2
+    rofi
+    rofi-pass
     dunst
     (python3.withPackages(ps: with ps; [
       pynvim
