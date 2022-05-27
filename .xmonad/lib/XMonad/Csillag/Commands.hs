@@ -16,6 +16,7 @@ import XMonad.Csillag.Scratchpads (myScratchpads)
 import XMonad.Layout.Maximize (maximizeRestore)
 import qualified XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad (namedScratchpadAction)
+import XMonad.Layout.LayoutCombinators (JumpToLayout (..))
 
 commandHandler :: [String] -> X ()
 -- Core

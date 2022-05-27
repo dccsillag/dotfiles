@@ -17,7 +17,6 @@ import Data.Aeson
 import Data.ByteString.Lazy.UTF8 (fromString)
 import System.Directory (doesFileExist)
 import XMonad hiding (config, (|||))
-import XMonad.ManageHook (willFloat)
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.ShowText
 import XMonad.Csillag.Commands
@@ -85,7 +84,7 @@ myXMonadConfig = do
                   borderWidth = 1,
                   workspaces = wkss,
                   manageHook =
-                    (fmap not willFloat --> insertPosition Below Newer)
+                    insertPosition Above Newer
                       <+> placeHook simpleSmart
                       <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
                       <+> manageDocks -- ???
@@ -93,7 +92,8 @@ myXMonadConfig = do
                         [ className =? "feh" --> doFloat, -- Float `feh` windows
                           className =? "Sxiv" --> doFloat, -- Float `sxiv` windows
                           title =? "KDE Connect Daemon" --> doFullFloat, -- Full float KDEConnect pointer
-                          className =? "Florence" --> doFloat -- Float `florence` windows
+                          className =? "Florence" --> doFloat, -- Float `florence` windows
+                          className =? "Xmessage" --> doFloat -- Float `xmessage` windows
                         ]
                       <+> manageHook def, -- The default
                   layoutHook = avoidStruts myLayouts, -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
