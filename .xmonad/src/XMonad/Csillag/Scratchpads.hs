@@ -59,8 +59,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = "mailspring"
-       , query = className =? "Mailspring"
+       , cmd   = "geary"
+       , query = className =? "Geary"
        , hook  = floatingScratchpad
        }
   , NS { name  = "element"
