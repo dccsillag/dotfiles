@@ -1,5 +1,4 @@
-module XMonad.Csillag.Externals
-    where
+module XMonad.Csillag.Externals where
 
 -- Terminal Emulator
 
@@ -28,13 +27,13 @@ filemanagerSpawn = termRun "lf" -- "nnn -nA"
 -- Browser
 
 browserSpawn :: String
-browserSpawn = "qutebrowser --target window about:blank"
+browserSpawn = "qutebrowser-quick"
 
 browserSpawnPrivate :: String
-browserSpawnPrivate = "qutebrowser --target private-window about:blank"
+browserSpawnPrivate = "qutebrowser-quick --private"
 
 browserOpen :: String -> String
-browserOpen url = "qutebrowser --target window '" ++ url ++ "'"
+browserOpen url = "qutebrowser-quick '" ++ url ++ "'"
 
 -- Camera Viewer
 
@@ -62,6 +61,7 @@ scrotThiswindow = "cd ~/media/screenshots/ && scrot -u -z" ++ scrotCopyToClipboa
 
 compositorSpawn :: String
 compositorSpawn = "picom --experimental-backends"
+
 -- compositor_spawn = "sh -c 'picom --glx-fshader-win \"$(cat ~/.config/picom-opacity-shader.glsl)\"'"
 
 compositorRestart :: String
