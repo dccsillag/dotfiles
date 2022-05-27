@@ -162,18 +162,15 @@ applyKeymaps myKeymaps
             'l': vimcmd 'UltestLast'
         'd':
             'd': ->
-                import 'dap'
-                if dap.session! == nil
-                    dap.continue!
-                else
-                    print "There is already a DAP session!"
+                import 'dapui'
+                dapui.toggle!
             'b': luacmd 'require"dap".toggle_breakpoint()'
             'j': dapcmd 'require"dap".step_over()'
             'l': dapcmd 'require"dap".step_into()'
             'h': dapcmd 'require"dap".step_out()'
             'c': dapcmd 'require"dap".continue()'
             'r': dapcmd 'require"dap".repl.open()'
-            'v': dapcmd 'require"dap.ui.widgets".hover()'
+            'v': dapcmd 'require"dapui".eval()'
 
         'G': vimcmd 'G' -- open fugitive
 

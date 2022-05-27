@@ -574,6 +574,8 @@ do
             postRunCommands:
                 * 'process handle -p true -s false -n false SIGWINCH'
 
+    (require 'dapui').setup!
+
     -- ultest
     (require 'ultest').setup
         builders:
