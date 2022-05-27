@@ -299,6 +299,11 @@ in {
     scrot
     gnome.gnome-boxes
 
+    # GTK themes
+    arc-theme
+    ayu-theme-gtk
+    materia-theme
+
     # Password manager
     pass
     pinentry
