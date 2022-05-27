@@ -266,7 +266,7 @@ in {
     # Desktop
     xterm
     alacritty
-    unstable.neovide
+    neovide # unstable.neovide
     stack
     eww
     dzen2
