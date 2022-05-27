@@ -20,7 +20,7 @@ keycode 108 = asterisk ampersand
 ! Control_R -> Asterisk / Ampersand
 keycode 105 = asterisk ampersand
 ! Escape -> Super_L
-keycode 9 = Super_L Super_R
+keycode 9 = grave asciitilde
 ! Fix space
 keycode 65 = space
 ! Fix Grave&Tilde
