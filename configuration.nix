@@ -316,6 +316,7 @@ in {
     zathura
     xournalpp
     write_stylus
+    unstable.rnote
     slack
     unstable.discord
     mailspring
