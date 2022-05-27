@@ -60,7 +60,7 @@ do
     autocmd 'BufReadPre', pattern: "*.tex", command: [[compiler latexrun]]
     autocmd 'BufReadPre', pattern: "*.mmd", command: [[compiler mermaid]]
     autocmd 'BufReadPre', pattern: "*.uml", command: [[compiler plantuml]]
-    autocmd 'BufReadPre', pattern: {"*.ly", "*.ily"}, command: [[compiler lilypond]]
+    --autocmd 'BufReadPre', pattern: {"*.ly", "*.ily"}, command: [[compiler lilypond]]
     autocmd 'BufReadPost', command: [[AsyncStop | sleep 100m | AsyncRun -program=make]]
         pattern:
             * "*.c"

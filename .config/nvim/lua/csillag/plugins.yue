@@ -113,6 +113,7 @@ plugins = ->
     plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'} -- better Markdown support
     plug 'lukas-reineke/headlines.nvim' -- better headings for markdown & friends
     plug 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
+    plug 'gisraptor/vim-lilypond-integrator' -- language support for Lilypond
     plug 'tomlion/vim-solidity' -- language support for Solidity
     plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
     plug 'manicmaniac/coconut.vim' -- language support for Coconut
