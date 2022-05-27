@@ -47,9 +47,8 @@ extra-deps:
 - generic-lens-2.0.0.0@sha256:7409fa0ce540d0bd41acf596edd1c5d0c0ab1cd1294d514cf19c5c24e8ef2550,3866
 - generic-lens-core-2.0.0.0@sha256:40b063c4a1399b3cdb19f2df1fae5a1a82f3313015c7c3e47fc23b8ef1b3e443,2913
 - git: https://github.com/xmonad/xmonad.git
-  commit: 33a86c0cdb9aa481e23cc5527a997adef5e32d42
-- git: https://github.com/xmonad/xmonad-contrib.git
-  commit: 0c6fdf4e75dd4d31bc8423010fbabbab7c23ee03
+  commit: 54d921c5a6f7ae2b4f345428c516dd7213acc990
+- xmonad-contrib-0.17.0@sha256:defd04a9ca0e031eb7280b734ccd6d6b73f757babfe4a561a7ff718e75211749,20357
 
 # Extra package databases containing global packages
 # extra-package-dbs: []

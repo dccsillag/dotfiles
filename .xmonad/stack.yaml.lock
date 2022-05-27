@@ -41,26 +41,22 @@ packages:
     hackage: generic-lens-core-2.0.0.0@sha256:40b063c4a1399b3cdb19f2df1fae5a1a82f3313015c7c3e47fc23b8ef1b3e443,2913
 - completed:
     name: xmonad
-    version: 0.16.99999
+    version: 0.17.0.9
     git: https://github.com/xmonad/xmonad.git
     pantry-tree:
-      size: 3621
-      sha256: 770666a45b8d6a1fee9f591b021c19e72b8a552e31ff7055e0f05a3cf7f1a886
-    commit: 33a86c0cdb9aa481e23cc5527a997adef5e32d42
+      size: 3650
+      sha256: e0b7d2616f753e9c94c122c5ab135f12a369ccb09bba0e08b0212c1ecdc9fd46
+    commit: 54d921c5a6f7ae2b4f345428c516dd7213acc990
   original:
     git: https://github.com/xmonad/xmonad.git
-    commit: 33a86c0cdb9aa481e23cc5527a997adef5e32d42
+    commit: 54d921c5a6f7ae2b4f345428c516dd7213acc990
 - completed:
-    name: xmonad-contrib
-    version: 0.16.999
-    git: https://github.com/xmonad/xmonad-contrib.git
+    hackage: xmonad-contrib-0.17.0@sha256:defd04a9ca0e031eb7280b734ccd6d6b73f757babfe4a561a7ff718e75211749,20357
     pantry-tree:
-      size: 23008
-      sha256: 8595e82da56db247e5c2d2719ec014da915f387e7e65c06257008c04c844d593
-    commit: 0c6fdf4e75dd4d31bc8423010fbabbab7c23ee03
+      size: 21783
+      sha256: 81a4589ef85fed434a852ba1324466b5ad8f4fd752cd88840aa4ea4348a16cec
   original:
-    git: https://github.com/xmonad/xmonad-contrib.git
-    commit: 0c6fdf4e75dd4d31bc8423010fbabbab7c23ee03
+    hackage: xmonad-contrib-0.17.0@sha256:defd04a9ca0e031eb7280b734ccd6d6b73f757babfe4a561a7ff718e75211749,20357
 snapshots:
 - completed:
     size: 587819

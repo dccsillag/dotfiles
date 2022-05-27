@@ -17,6 +17,7 @@ import Data.Aeson
 import Data.ByteString.Lazy.UTF8 (fromString)
 import System.Directory (doesFileExist)
 import XMonad hiding (config, (|||))
+import XMonad.ManageHook (willFloat)
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.ShowText
 import XMonad.Csillag.Commands
@@ -30,6 +31,7 @@ import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (doFullFloat)
 import XMonad.Hooks.Rescreen
+import XMonad.Hooks.Place
 import XMonad.Hooks.ServerMode (serverModeEventHookF)
 import XMonad.Util.Cursor
 import qualified XMonad.Util.Hacks as Hacks
@@ -83,7 +85,8 @@ myXMonadConfig = do
                   borderWidth = 1,
                   workspaces = wkss,
                   manageHook =
-                    insertPosition Below Newer
+                    (fmap not willFloat --> insertPosition Below Newer)
+                      <+> placeHook simpleSmart
                       <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
                       <+> manageDocks -- ???
                       <+> composeAll
