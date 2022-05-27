@@ -84,9 +84,8 @@ myXMonadConfig = do
                   borderWidth = 1,
                   workspaces = wkss,
                   manageHook =
-                    insertPosition Above Newer
-                      <+> placeHook simpleSmart
-                      <+> namedScratchpadManageHook myScratchpads -- Manage scratchpads
+                      namedScratchpadManageHook myScratchpads -- Manage scratchpads
+                      <+> placeHook simpleSmart -- fix placement of floating windows
                       <+> manageDocks -- ???
                       <+> composeAll
                         [ className =? "feh" --> doFloat, -- Float `feh` windows
