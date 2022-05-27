@@ -319,6 +319,7 @@ in {
     slack
     unstable.discord
     mailspring
+    gnome.geary
   ];
 
   fonts.fonts = with pkgs; [
