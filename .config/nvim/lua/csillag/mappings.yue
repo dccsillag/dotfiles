@@ -135,6 +135,8 @@ applyKeymaps myKeymaps
                         command = "nail run %"
                     when "sh"
                         command = "bash %"
+                    when "haskell"
+                        command = "runhaskell %"
                     else
                         print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
                         return
