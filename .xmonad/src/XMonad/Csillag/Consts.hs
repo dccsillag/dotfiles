@@ -16,9 +16,6 @@ import Data.Char (isSpace, isPrint)
 volumeChangeSound = "~/.xmonad/audio-volume-change.wav"
 workspaceTempFile = "/tmp/.xmonad_workspaces"
 
-gapsize :: Integer
-gapsize = 4
-
 uiFont :: String
 uiFont = "xft:FantasqueSansMono Nerd Font:size=18:antialias=true:autohint=True"
 
