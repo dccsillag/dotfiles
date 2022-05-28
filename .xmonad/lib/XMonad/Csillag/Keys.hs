@@ -40,12 +40,13 @@ import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.WindowProperties
+import XMonad.Util.Dmenu
 
 myKeys =
   flip
     mkNamedKeymap
     -- Core:
-    [ ("M-r", addName "Restart XMonad" $ spawn "restart-xmonad"),
+    [ ("M-r", addName "Restart XMonad" $ spawn "notify-send 'Restarting XMonad' 'You may need to wait a few seconds for everything to recompile.'; xmonad --restart"),
       ("M-S-9", addName "Kill the compositor" $ spawn compositorKill),
       ("M-S-0", addName "Start the compositor" $ spawn compositorSpawn),
       ("M-S-8", addName "Restart the compositor" $ spawn compositorRestart),
@@ -69,9 +70,9 @@ myKeys =
       ("M-S-,", addName "Swap window up on the stack" $ windows W.swapUp),
       ("M-S-.", addName "Swap window down on the stack" $ windows W.swapDown),
       -- Spawn Stuff
-      ("M-n M-n", addName "Open shell prompt" $ launcherPrompt csillagPromptConfig),
+      ("M-n M-n", addName "Open shell prompt" $ spawn "rofi -show drun -matching fuzzy -show-icons -markup"),
       ("M-n M-t", addName "Spawn a terminal" $ spawn termSpawn),
-      ("M-n M-S-t", addName "Spawn a terminal with SSH" $ sshPrompt csillagPromptConfig),
+      ("M-n M-S-t", addName "Spawn a terminal with SSH" $ spawn "rofi -show ssh -matching fuzzy"),
       ("M-n M-f", addName "Spawn a file manager" $ spawn filemanagerSpawn),
       ("M-n M-v", addName "Spawn an editor" $ spawn texteditorSpawn),
       ("M-n M-b", addName "Spawn a browser" $ spawn browserSpawn),
@@ -98,19 +99,13 @@ myKeys =
       ("M-S-s M-S-o M-S-h", addName "Set screen orientation to 'left'" $ spawn $ setScreenOrientation "left" 0),
       ("M-S-s M-S-o M-S-l", addName "Set screen orientation to 'right'" $ spawn $ setScreenOrientation "right" 0),
       -- Workspaces
-      ("M-w M-r", addName "Rename workspace" $ inputPrompt csillagPromptConfig "Rename Workspace" ?+ renameWorkspaceByName),
+      ("M-w M-r", addName "Rename workspace" $ rofi "Rename to" Nothing "new workspace name" [] ?+ renameWorkspaceByName),
       ("M-w M-d", addName "Delete workspace" $ removeEmptyWorkspaceAfter (windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/= "NSP") . W.tag) $ W.hidden ws)),
-      ("M-w M-g", addName "Go to workspace" $ myGridSelectWorkspace $ windows . W.view),
-      ("M-w M-s", addName "Send to workspace" $ myGridSelectWorkspace $ windows . W.shift),
-      ("M-w M-C-g", addName "Send&Go to workspace" $ myGridSelectWorkspace \x -> windows (W.shift x) >> windows (W.view x)),
-      ("M-w M-S-c", addName "Send copy to workspace" $ myGridSelectWorkspace $ windows . copy),
-      ("M-w M-c", addName "Send&Go copy to workspace" $ myGridSelectWorkspace \x -> windows (copy x) >> windows (W.view x)),
-      ("M-w M-b", addName "Bring from workspace" workspaceBring),
-      ("M-w M-n M-g", addName "Go to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.view wkname))),
-      ("M-w M-n M-s", addName "Send to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname))),
-      ("M-w M-n M-C-g", addName "Send&Go to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (W.shift wkname) >> windows (W.view wkname))),
-      ("M-w M-n M-S-c", addName "Send copy to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (copy wkname))),
-      ("M-w M-n M-c", addName "Send&Go copy to new workspace" $ inputPrompt csillagPromptConfig "New Workspace Name" ?+ (\wkname -> addHiddenWorkspace wkname >> windows (copy wkname) >> windows (W.view wkname))),
+      ("M-w M-g", addName "Go to workspace" $ promptWorkspaces "Go to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (W.view x))),
+      ("M-w M-s", addName "Send to workspace" $ promptWorkspaces "Send to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (W.shift x))),
+      ("M-w M-C-g", addName "Send&Go to workspace" $ promptWorkspaces "Send&Go to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (W.shift x) >> windows (W.view x))),
+      ("M-w M-S-c", addName "Send copy to workspace" $ promptWorkspaces "Send copy to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (copy x))),
+      ("M-w M-c", addName "Send&Go copy to workspace" $ promptWorkspaces "Send&Go copy to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (copy x) >> windows (W.view x))),
       ("M-6", addName "Switch with last workspace" $ windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/= "NSP") . W.tag) $ W.hidden ws),
       -- Layouts
       ("M-c M-<Space>", addName "Cycle to next layout" $ sendMessage NextLayout),
@@ -147,10 +142,7 @@ myKeys =
       ("M-s M-e", addName "Toggle scratchpad 'mail'" $ namedScratchpadAction myScratchpads "mail"),
       ("M-s M-m", addName "Toggle scratchpad 'element'" $ namedScratchpadAction myScratchpads "element"),
       -- Passwords
-      ("M-p M-p", addName "Get a password" $ passPrompt csillagPromptConfig),
-      ("M-p M-g", addName "Generate a random password" $ passGeneratePrompt csillagPromptConfig),
-      ("M-p M-n", addName "Insert a new password" $ passTypePrompt csillagPromptConfig),
-      ("M-p M-S-d", addName "Remove a password" $ passRemovePrompt csillagPromptConfig),
+      ("M-p M-p", addName "Get a password" $ spawn "rofi-pass"),
       -- Screenshots
       ("M-y M-s", addName "Yank the whole screen" $ spawn scrotScreen),
       ("M-y M-w", addName "Yank a window" $ spawn scrotWindow),
@@ -218,16 +210,14 @@ myKeys =
 
 myMouse config =
   M.fromList
-    [ ((modMask config, button2), considerClass "dzen" mouseActions $ considerFloat (windows . W.sink) (sendMessage . maximizeRestore)),
-      ((modMask config, button1), considerClass "dzen" (const toggleSuper) $ considerFloat translateFloatingWindow dragWindow),
+    [ ((modMask config, button2), considerFloat (windows . W.sink) (sendMessage . maximizeRestore)),
+      ((modMask config, button1), considerFloat translateFloatingWindow dragWindow),
       ((modMask config, button3), considerFloat resizeFloatingWindow floatTiledWindow)
     ]
   where
     translateFloatingWindow w = focus w >> mouseMoveWindow w >> windows W.shiftMaster
     resizeFloatingWindow w = focus w >> mouseResizeWindow w >> windows W.shiftMaster
     floatTiledWindow w = windows $ W.float w (W.RationalRect (1 / 3) (1 / 3) (1 / 3) (1 / 3))
-    toggleSuper = spawn ".local/scripts/statusbar/toggle-super-key.sh"
-    mouseActions _ = mouseActionsGridSelect >> toggleSuper
     considerFloat whenFloat whenTiled w = do
       isFloat <- withWindowSet $ \ws -> return $ M.member w $ W.floating ws
       if isFloat then whenFloat w else whenTiled w
@@ -241,11 +231,6 @@ killCopy =
         whenJust (W.peek ss) \w ->
           when (W.member w $ delete'' w ss) $
             windows $ delete'' w
-
-workspaceBring = myGridSelectWorkspace \x -> windows \ws ->
-  case filter ((== x) . W.tag) $ W.hidden ws of
-    targetWorkspace : _ -> foldl (\acc w -> copyWindow w (W.tag $ W.workspace $ W.current acc) acc) ws $ W.integrate' $ W.stack targetWorkspace
-    _ -> ws
 
 changeScreenConfig = do
   profiles <- io $ listDirectory ".config/autorandr"
@@ -292,22 +277,17 @@ changeKeyboard = do
     Just kbd_name -> liftIO (readFile $ basedir ++ kbd_name) >>= spawn . ("kb " ++)
     Nothing -> return ()
 
-myGridSelectWorkspace func = withWindowSet \ws -> do
-  let wss =
-        filter (/= "NSP") $
-          map W.tag $
-            filter ((/= "NSP") . W.tag) $
-              circshiftN (succ $ length $ W.visible ws) $
-                W.workspaces ws
-  gridselect csillagWorkspaceGridSelectConfig (zip wss wss) >>= flip whenJust func
-  where
-    circshiftN :: Int -> [a] -> [a]
-    circshiftN 0 lst = lst
-    circshiftN k lst = circshiftN (pred k) $ circshift lst
+promptWorkspaces prompt maybe_message = withWindowSet \ws -> do
+    let wss = filter (/= "NSP") $ map W.tag $ filter ((/= "NSP") . W.tag) $ circshiftN (succ $ length $ W.visible ws) $ W.workspaces ws
+    rofi prompt maybe_message "select or create a new workspace" wss
+    where
+      circshiftN :: Int -> [a] -> [a]
+      circshiftN 0 lst = lst
+      circshiftN k lst = circshiftN (pred k) $ circshift lst
 
-    circshift :: [a] -> [a]
-    circshift [] = []
-    circshift (x : xs) = xs ++ [x]
+      circshift :: [a] -> [a]
+      circshift [] = []
+      circshift (x : xs) = xs ++ [x]
 
 notify :: String -> X ()
 notify msg = spawn $ "dunstify -a xmonad XMonad '" ++ msg ++ "'"
@@ -334,76 +314,6 @@ asciibar x = p ++ "% [" ++ replicate k '#' ++ replicate (n - k) ' ' ++ "]"
 cmdout :: MonadIO m => String -> [String] -> m String
 cmdout c argv = runProcessWithInput c argv ""
 
-launcherPrompt :: XPConfig -> X ()
-launcherPrompt c = do
-  ps <- io $ listDirectory applicationsDirectory
-  ps' <- io $ forM ps \p -> fmap (p,) <$> getDesktopFileName p
-  let ps'' = catMaybes ps'
-  maybe (return ()) (launchProgram ps'')
-    =<< inputPromptWithCompl c "Launch" (mkComplFunFromList' c $ snd <$> ps'')
-  where
-    applicationsDirectory = "/usr/share/applications"
-
-    getDesktopFileName :: String -> IO (Maybe String)
-    getDesktopFileName p = do
-      ls <- lines <$> readFile (applicationsDirectory ++ "/" ++ p)
-      return $ case filter ("Name=" `isPrefixOf`) ls of
-        l : _ -> map toLower <$> stripPrefix "Name=" l
-        [] -> Nothing
-
-    launchProgram :: [(String, String)] -> String -> X ()
-    launchProgram ps' p = spawn $ "gtk-launch " ++ fst (head $ filter ((== p) . snd) ps')
-
-mouseActionsGridSelect :: X ()
-mouseActionsGridSelect = do
-  menu
-    [ ("Close the focused window", kill1),
-      ( "Programs..",
-        menu
-          [ ( "Scratchpads..",
-              menu
-                [ ("System Monitor", namedScratchpadAction myScratchpads "sysmon"),
-                  ("Calculator", namedScratchpadAction myScratchpads "calculator"),
-                  ("Audio", namedScratchpadAction myScratchpads "audio"),
-                  ("Slack", namedScratchpadAction myScratchpads "slack"),
-                  ("Discord", namedScratchpadAction myScratchpads "discord"),
-                  ("WhatsApp", namedScratchpadAction myScratchpads "whatsapp"),
-                  ("Telegram", namedScratchpadAction myScratchpads "telegram"),
-                  ("Email", namedScratchpadAction myScratchpads "mail")
-                ]
-            ),
-            ("Terminal", spawn termSpawn),
-            ("File manager", spawn filemanagerSpawn),
-            ("Browser", spawn browserSpawn),
-            ("Private Browser", spawn browserSpawnPrivate),
-            ("Camera", spawn camviewSpawn),
-            ("Notebook", spawn "xournalpp"),
-            ("Calculator", spawn calculatorSpawn)
-          ]
-      ),
-      ( "Manage workspaces..",
-        menu
-          [ ("Go to workspace..", myGridSelectWorkspace $ windows . W.view),
-            ("Send to workspace..", myGridSelectWorkspace $ windows . W.shift),
-            ("Send&Go to workspace..", myGridSelectWorkspace \x -> windows (W.shift x) >> windows (W.view x)),
-            ("Send copy to workspace..", myGridSelectWorkspace $ windows . copy),
-            ("Send&Go copy to workspace..", myGridSelectWorkspace \x -> windows (copy x) >> windows (W.view x))
-          ]
-      ),
-      ("Set layout..", changeLayoutGridselect),
-      ( "Yank the screen..",
-        menu
-          [ ("Yank the whole screen", spawn scrotScreen),
-            ("Yank a window", spawn scrotWindow),
-            ("Yank the current window", spawn scrotThiswindow),
-            ("Yank an area of the screen", spawn scrotRegion)
-          ]
-      )
-    ]
-  where
-    menu :: [(String, X ())] -> X ()
-    menu xs = gridselect csillagGridSelectConfig xs >>= flip whenJust (io (threadDelay $ seconds 0.15) >>)
-
 goToScreen :: ScreenId -> X ()
 goToScreen i = do
   screenWorkspace i >>= flip whenJust (windows . W.view)
@@ -413,3 +323,11 @@ sendToScreen :: ScreenId -> X ()
 sendToScreen i = do
   screenWorkspace i >>= flip whenJust (windows . W.shift)
   goToScreen i
+
+rofiArgs :: MonadIO m => String -> String -> [String] -> [String] -> m (Maybe String)
+rofiArgs prompt placeholder args options = do
+    out <- menuArgs "rofi" (["-dmenu", "-matching", "fuzzy", "-i", "-p", prompt, "-theme-str", "entry { placeholder: \"" ++ placeholder ++ "\"; }"] ++ args) options
+    return $ if null out then Nothing else Just out
+
+rofi :: MonadIO m => String -> Maybe String -> String -> [String] -> m (Maybe String)
+rofi prompt maybe_message placeholder options = rofiArgs prompt placeholder (maybe [] (\msg -> ["-mesg", msg]) maybe_message) options
