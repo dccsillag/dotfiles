@@ -46,7 +46,7 @@ in
     { device = "/swapfile"; }
   ];
 
-  networking.hostName = "lanczos"; # Define your hostname.
+  networking.hostName = pkgs.lib.removeSuffix "\n" (pkgs.lib.readFile /etc/nixos/hostname);
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
 
