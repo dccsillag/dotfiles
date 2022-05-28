@@ -178,8 +178,8 @@ do
 
     -- fzf-lua
     (require 'fzf-lua').setup
-        fzf_opts:
-            "--layout": 'default'
+        -- fzf_opts:
+        --     "--layout": 'default'
         keymap:
             builtin:
                 "<C-l>": "toggle-preview"
