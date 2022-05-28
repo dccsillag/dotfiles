@@ -173,7 +173,7 @@ in
     sumneko-lua-language-server
     pyright
     python39Packages.python-lsp-server
-    haskell-language-server
+    #haskell-language-server
     texlab
     # TODO vimls
     rnix-lsp
