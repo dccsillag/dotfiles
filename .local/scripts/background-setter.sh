@@ -35,7 +35,7 @@ then
     done
 elif [ "$1" = choose ]
 then
-    files="$(sxiv -otr ~/static/backgrounds)"
+    files="$(nsxiv -otr ~/static/backgrounds)"
     nfiles="$(echo "$files" | wc -l)"
     if [ "$nfiles" -eq 1 ]; then
         set_background "$files"
