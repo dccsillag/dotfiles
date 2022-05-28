@@ -323,7 +323,7 @@ in
     libreoffice
     arandr
     pavucontrol
-    sxiv
+    unstable.nsxiv
     zathura
     xournalpp
     write_stylus
