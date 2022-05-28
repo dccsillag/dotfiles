@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if { eww windows | grep '^\*bar-window$' >/dev/null 2>&1; }
+if { pgrep polybar >/dev/null 2>&1; }
 then
-    eww close bar-window
+    pkill polybar
 else
-    eww open bar-window
+    polybar csillag
 fi

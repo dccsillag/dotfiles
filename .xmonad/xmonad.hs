@@ -46,9 +46,8 @@ startup = do
   spawnOnce "redshift"
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
   spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
-  spawnOnce "eww open bar-window"
-
-  spawnOnce "/home/daniel/.xmonad/on_start.sh"
+  -- spawnOnce "eww open bar-window"
+  spawnOnce "polybar csillag"
 
   -- Set the default cursor to the left arrow/pointer (not the X).
   setDefaultCursor xC_left_ptr
