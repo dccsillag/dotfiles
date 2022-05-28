@@ -120,6 +120,12 @@ do
     -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
     --vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
 
+    -- Better setup for carbon buffers
+    autocmd 'FileType', command: [[set nonumber]], pattern:
+        * 'carbon'
+        * 'markdown'
+        * 'fugitive'
+
 -- Functionality
 do
     global open_corresponding_pdf
