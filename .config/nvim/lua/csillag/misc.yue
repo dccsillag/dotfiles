@@ -73,8 +73,6 @@ do
     autocmd 'TermOpen', command: [[setl nonumber signcolumn=auto:3 nocursorline]]
     autocmd 'TermOpen', command: [[norm! G]]
 
-    autocmd {'InsertLeave', 'CursorHold'}, callback: -> vim.lsp.buf.formatting()
-
     -- Better setup for carbon buffers
     autocmd 'FileType', pattern: 'carbon', command: [[set sw=2]]
 
@@ -120,7 +118,7 @@ do
 
         lsp_progress_buffers[bufnr].lsp_progress_running = true
     -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
-    vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
+    --vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
 
 -- Functionality
 do
