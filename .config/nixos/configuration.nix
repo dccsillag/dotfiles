@@ -273,6 +273,7 @@ in
     stack
     eww
     dzen2
+    polybar
     rofi
     rofi-pass
     dunst
