@@ -237,8 +237,8 @@ do
 
     -- gitsigns
     (require 'gitsigns').setup
-        signcolumn: false
-        numhl: true
+        signcolumn: true
+        numhl: false
         linehl: false
         word_diff: true
         keymaps:
@@ -609,6 +609,11 @@ do
                         postRunCommands:
                             * 'process handle -p true -s false -n false SIGWINCH'
                 }
+    vim.g.ultest_output_on_line = false
+    vim.g.ultest_pass_sign = "✓"
+    vim.g.ultest_fail_sign = "✗"
+    vim.g.ultest_running_sign = "⊙"
+    vim.g.ultest_not_run_sign = "?"
 
     -- Comment.nvim
     (require 'Comment').setup!
