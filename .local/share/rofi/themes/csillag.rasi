@@ -26,9 +26,11 @@ window {
     background-color:   @bg0;
 
     location:       center;
-    width:          640;
+    width:          850;
     y-offset:       -300;
     border-radius:  8;
+    border-color:   #555555;
+    border: 1px;
 }
 
 inputbar {
@@ -75,6 +77,12 @@ listview {
     fixed-height:   false;
     border:         1px 0 0;
     border-color:   @bg1;
+
+    scrollbar: true;
+}
+
+scrollbar {
+    handle-color: @bg1;
 }
 
 element {
