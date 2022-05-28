@@ -336,6 +336,7 @@ in
 
   fonts.fonts = with pkgs; [
     nerdfonts
+    google-fonts
   ];
 
   programs.firejail = {
