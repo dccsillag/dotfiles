@@ -1,0 +1,11 @@
+configuration {
+    drun {
+        display-name: "Launch";
+    }
+    ssh {
+        display-name: "SSH to";
+    }
+}
+
+//@theme "/home/daniel/.local/share/rofi/themes/spotlight-dark.rasi"
+@theme "/home/daniel/.local/share/rofi/themes/csillag.rasi"
