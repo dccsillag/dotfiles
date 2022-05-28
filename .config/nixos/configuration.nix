@@ -13,9 +13,11 @@ let
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
-in {
+in
+{
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -157,7 +159,8 @@ in {
         "SCRIPT_PATH=$(out)/etc/vpnc/vpnc-script"
       ];
     };
-  in [
+  in
+  [
     # Text editor
     vim
     neovim-nightly
@@ -273,7 +276,7 @@ in {
     rofi
     rofi-pass
     dunst
-    (python3.withPackages(ps: with ps; [
+    (python3.withPackages (ps: with ps; [
       pynvim
       jupyter_client
       ueberzug
