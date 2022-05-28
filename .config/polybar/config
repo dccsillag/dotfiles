@@ -417,7 +417,7 @@ label = %temperature-c:2%
 thermal-zone = 0
 
 base-temperature = 20
-warn-temperature = 90
+warn-temperature = 105
 
 ; make_ramp('ramp', 'lightblue', 'red')
 ramp-0 = %{o#add8e6}
@@ -520,6 +520,16 @@ ramp-96 = %{o#fd1f06}
 ramp-97 = %{o#fe1504}
 ramp-98 = %{o#fe0a02}
 ramp-99 = %{o#f00}
+ramp-100 = %{o#f00}
+ramp-101 = %{o#f00}
+ramp-102 = %{o#f00}
+ramp-103 = %{o#f00}
+ramp-104 = %{o#f00}
+ramp-105 = %{o#f00}
+ramp-106 = %{o#f00}
+ramp-107 = %{o#f00}
+ramp-108 = %{o#f00}
+ramp-109 = %{o#f00}
 
 [module/netdown]
 type = internal/network
