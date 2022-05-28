@@ -163,7 +163,7 @@ myKeys =
       ("M-q M-S-s", addName "Suspend" $ spawn "systemctl suspend"),
       ("M-q M-S-h", addName "Hibernate" $ spawn "systemctl hibernate"),
       ("M-q M-b", addName "Blank the screen" $ spawn "sleep 0.5; xset dpms force off"),
-      ("M-q M-l", addName "Lock" $ spawn "lock"),
+      ("M-q M-l", addName "Lock" $ spawn "dm-tool lock"),
       ("M-q M-d M-[", addName "Enable 'do not disturb'" $ spawn "dunstctl set-paused true"),
       ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "dunstctl set-paused false"),
       ("M-q M-a", addName "Fix audio" $ spawn "fix-audio" >> notify "Spawn: fix-audio"),
