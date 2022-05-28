@@ -38,7 +38,7 @@ padding-right = 1
 margin-bottom = 0
 margin-top    = 0
 
-module-margin-left  = 2
+module-margin-left  = 0
 module-margin-right = 1
 
 ; font-0 = Lato-Regular:pixelsize=11;0
@@ -50,7 +50,7 @@ module-margin-right = 1
 ; font-3 = Hack Nerd Font:pixelsize=14;0
 ; font-4 = Hack Nerd Fnot:pixelsize=7;0
 font-0 = CodeNewRoman Nerd Font Mono:pixelsize=11;0
-font-1 = Lato-Regular:pixelsize=11;0
+font-1 = Lato-Regular:pixelsize=12;0
 font-2 = CodeNewRoman Nerd Font Mono:pixelsize=7;0
 font-3 = CodeNewRoman Nerd Font:pixelsize=14;0
 font-4 = CodeNewRoman Nerd Font:pixelsize=7;0
@@ -80,7 +80,7 @@ type = internal/cpu
 ; interval = 0.5
 interval = 1
 
-format = <ramp-load>%{+o}%{T5}CPU%{T-} <label>%{o-}
+format = <ramp-load>%{+o} %{T5}CPU%{T-} <label> %{o-}
 label = %percentage:3%%
 
 ; make_ramp('ramp-load', 'green', 'red')
@@ -190,7 +190,7 @@ type = internal/memory
 
 interval = 1
 
-format = <ramp-used>%{+o}%{T5}RAM%{T-} <label>%{o-}
+format = <ramp-used>%{+o} %{T5}RAM%{T-} <label> %{o-}
 label = %percentage_used:3%%
 
 ; make_ramp('ramp-used', 'green', 'red')
@@ -300,7 +300,7 @@ type = internal/memory
 
 interval = 1
 
-format = <ramp-swap-used>%{+o}%{T5}SWAP%{T-} <label>%{o-}
+format = <ramp-swap-used>%{+o} %{T5}SWAP%{T-} <label> %{o-}
 label = %percentage_swap_used:3%%
 
 ; make_ramp('ramp-used', 'green', 'red')
@@ -411,7 +411,7 @@ type = internal/temperature
 ; interval = 0.5
 interval = 1
 
-format = <ramp>%{+o}%{T5}TEMP%{T-} <label>%{o-}
+format = <ramp>%{+o} %{T5}TEMP%{T-} <label> %{o-}
 label = %temperature-c:2%
 
 thermal-zone = 0
@@ -582,7 +582,7 @@ interval = 0.5
 
 format-font = 4
 
-exec = if [ -f /home/daniel/.dunst_paused ]; then echo "%{F#00aa88}%{F-}"; else echo; fi
+exec = if [ $(dunstctl is-paused) = true ]; then echo "%{F#00aa88}%{F-}"; else echo; fi
 
 [module/mic]
 type = custom/script
@@ -592,7 +592,7 @@ interval = 0.1
 format-font = 4
 
 ; exec = if [ $(amixer sget Capture | grep '[0-9]\+%' | sed 's/^.\+\[\([0-9]\+\)%\].\+$/\1/' | head -n 1) = 0 ]; then echo ""; else echo "%{F#ff3333}%{F-}"; fi
-exec = if { pacmd list-sources | grep -q "muted: no"; }; then echo "%{F#ff3333}%{F-}"; else echo ""; fi
+exec = if { pacmd list-sources | grep -q "muted: no"; }; then echo "%{F#ff3333} %{F-}"; else echo " "; fi
 
 [module/volume]
 type = custom/script
@@ -656,7 +656,7 @@ interface = wlo1
 interval = 1.0
 
 ; format-connected = <ramp-signal>%{T4}直%{T-}%{F-} <label-connected>
-format-connected = <ramp-signal>%{+o}%{T4}直%{T-}%{o-}
+format-connected = <ramp-signal>%{+o} %{T4}直%{T-} %{o-}
 format-disconnected = <label-disconnected>
 
 label-connected = %{T2}%essid%%{T-}
@@ -770,9 +770,9 @@ type = internal/battery
 
 battery = BAT1
 
-format-charging = <ramp-capacity>%{+o}%{T5}BAT%{T-} <label-charging>%{o-}
-format-discharging = <ramp-capacity>%{+o}%{T5}BAT%{T-} <label-discharging>%{o-}
-format-full = <ramp-capacity>%{+o}%{T5}BAT%{T-} <label-full>%{o-}
+format-charging = <ramp-capacity>%{+o} %{T5}BAT%{T-} <label-charging> %{o-}
+format-discharging = <ramp-capacity>%{+o} %{T5}BAT%{T-} <label-discharging> %{o-}
+format-full = <ramp-capacity>%{+o} %{T5}BAT%{T-} <label-full> %{o-}
 
 ; format-charging = <ramp-capacity>ﮣ%{F-} <label-charging>
 ; format-discharging = <ramp-capacity>%{F-} <label-discharging>
