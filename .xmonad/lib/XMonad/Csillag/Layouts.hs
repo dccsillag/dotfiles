@@ -3,6 +3,7 @@
 module XMonad.Csillag.Layouts
     ( myLayouts
     , pickOrPlace
+    , toggleCollapsed
     )
 where
 
@@ -47,12 +48,17 @@ myLayouts = draggingVisualizer $ maximize $ subLayout [] Full $ boringWindows $
 -- Implementation of the `TreeLayout` layout
 
 data TreeLayout a = TreeLayout (Maybe (Tree a)) (Maybe Window) deriving (Show, Read)
-data Tree a = Split (Tree a) (Tree a) | Leaf a deriving (Show, Read)
+data Tree a = Split (Tree a) (Tree a) | Leaf Collapse a deriving (Show, Read)
+data Collapse = Collapsed | Expanded deriving (Eq, Enum, Show, Read)
 treeLayout = TreeLayout Nothing Nothing
 
 data PickOrPlace = PickOrPlace Window deriving (Read, Show, Eq)
 instance Message PickOrPlace
 pickOrPlace = PickOrPlace
+
+data ToggleCollapsed = ToggleCollapsed Window deriving (Read, Show, Eq)
+instance Message ToggleCollapsed
+toggleCollapsed = ToggleCollapsed
 
 instance LayoutClass TreeLayout Window where
     description _ = "Tree"
@@ -65,15 +71,28 @@ instance LayoutClass TreeLayout Window where
             show_tree rect@(Rectangle x y w h) (Just (Split l r))
                 = show_tree rect_l (Just l) ++ show_tree rect_r (Just r)
                 where
+                    ratio = case (isCollapsed l, isCollapsed r) of
+                        (False, False) -> 0.5
+                        (False, True) -> 0.9
+                        (True, False) -> 0.1
+                        (True, True) -> 0.5 -- reachable, but `rect` will already be collapsed
+
                     (rect_l, rect_r)
                         = if rect_width rect > rect_height rect
-                            then ( Rectangle x y (w `div` 2) h
-                                 , Rectangle (x + fromIntegral (w `div` 2)) y (w `div` 2) h
+                            then ( Rectangle x y hw h
+                                 , Rectangle (x + fromIntegral hw) y (w - hw) h
                                  )
-                            else ( Rectangle x y w (h `div` 2)
-                                 , Rectangle x (y + fromIntegral (h `div` 2)) w (h `div` 2)
+                            else ( Rectangle x y w hh
+                                 , Rectangle x (y + fromIntegral hh) w (h - hh)
                                  )
-            show_tree rect (Just (Leaf w)) = [(w, rect)]
+                    hw = ceiling $ fromIntegral w * ratio
+                    hh = ceiling $ fromIntegral h * ratio
+
+                    isCollapsed :: Tree a -> Bool
+                    isCollapsed (Leaf Collapsed _) = True
+                    isCollapsed (Leaf Expanded _) = False
+                    isCollapsed (Split l r) = isCollapsed l && isCollapsed r
+            show_tree rect (Just (Leaf _ w)) = [(w, rect)]
             show_tree rect Nothing = []
 
             update_tree :: Maybe (Tree Window) -> [Window] -> Maybe (Tree Window)
@@ -83,7 +102,7 @@ instance LayoutClass TreeLayout Window where
                     getWindowsInTree :: Maybe (Tree Window) -> [Window]
                     getWindowsInTree (Just (Split l r)) 
                         = getWindowsInTree (Just l) ++ getWindowsInTree (Just r)
-                    getWindowsInTree (Just (Leaf w)) = [w]
+                    getWindowsInTree (Just (Leaf _ w)) = [w]
                     getWindowsInTree Nothing = []
 
                     windows_in_tree = getWindowsInTree tree :: [Window]
@@ -95,24 +114,36 @@ instance LayoutClass TreeLayout Window where
 
                     changeFocused :: (Maybe (Tree Window) -> Maybe (Tree Window)) -> Maybe (Tree Window) -> Maybe (Tree Window)
                     changeFocused f t@(Just (Split l r)) = changeFocused f (Just l) `merge` changeFocused f (Just r)
-                    changeFocused f t@(Just (Leaf w)) = if Just w == old_focused' then f t else t
+                    changeFocused f t@(Just (Leaf _ w)) = if Just w == old_focused' then f t else t
                     changeFocused f Nothing = f Nothing
 
                     addWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
-                    addWindow window (Just tree) = Just $ Split (Leaf window) tree
-                    addWindow window Nothing = Just $ Leaf window
+                    addWindow window (Just tree) = Just $ Split (Leaf Expanded window) tree
+                    addWindow window Nothing = Just $ Leaf Expanded window
 
                     removeWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
                     removeWindow window (Just (Split l r))
                         = removeWindow window (Just l) `merge` removeWindow window (Just r)
-                    removeWindow window t@(Just (Leaf w)) = if w == window then Nothing else t
+                    removeWindow window t@(Just (Leaf _ w)) = if w == window then Nothing else t
                     removeWindow window Nothing = Nothing
 
-                    merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
-                    Just l `merge` Just r = Just $ Split l r
-                    Just l `merge` Nothing = Just l
-                    Nothing `merge` Just r = Just r
-                    Nothing `merge` Nothing = Nothing
+    pureMessage (TreeLayout tree old_focused) message = case fromMessage message of
+        Just (ToggleCollapsed w) -> Just $ TreeLayout (toggleCollapsed' w tree) old_focused
+        _ -> Nothing
+        where
+            toggleCollapsed' :: Eq a => a -> Maybe (Tree a) -> Maybe (Tree a)
+            toggleCollapsed' w (Just (Split l r)) = toggleCollapsed' w (Just l) `merge` toggleCollapsed' w (Just r)
+            toggleCollapsed' w t@(Just (Leaf c w'))
+                = if w' /= w then t else Just $ flip Leaf w' $ case c of
+                    Collapsed -> Expanded
+                    Expanded -> Collapsed
+            toggleCollapsed' w Nothing = Nothing
+
+merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
+Just l `merge` Just r = Just $ Split l r
+Just l `merge` Nothing = Just l
+Nothing `merge` Just r = Just r
+Nothing `merge` Nothing = Nothing
 
 -- -- Implementation of the `Pick` modifier:
 --
