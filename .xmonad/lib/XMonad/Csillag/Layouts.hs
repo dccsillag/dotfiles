@@ -1,38 +1,29 @@
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, BlockArguments #-}
 
 module XMonad.Csillag.Layouts
     ( myLayouts
+    , pickOrPlace
     )
 where
 
 import XMonad hiding ((|||))
+import Data.List ((\\))
 import Data.Maybe (fromMaybe)
 import qualified XMonad.StackSet as W
-
 import XMonad.Layout.LayoutCombinators ((|||))
 
-import XMonad.Layout.Renamed
 import XMonad.Layout.IfMax
-import XMonad.Layout.Dwindle
 import XMonad.Layout.Grid
-import XMonad.Layout.OneBig
-import XMonad.Layout.ThreeColumns
-import XMonad.Layout.StackTile
-import XMonad.Layout.Accordion
-import XMonad.Layout.Circle
-import XMonad.Layout.Cross
+import XMonad.Layout.BinarySpacePartition
+import XMonad.Layout.PerScreen
 
 import XMonad.Layout.Spacing (spacingRaw, Border(..))
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Maximize
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.BoringWindows hiding (Replace)
+import XMonad.Layout.NoBorders
 
-
-spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
-    where
-        gapsize = 4
-        gapsize' = 10
 
 -- spacing layout = withoutPadding
 -- spacing layout = IfMax 3 withoutPadding withPadding
@@ -41,58 +32,112 @@ spacing layout = ifWider 2000 withPadding withoutPadding
         withoutPadding = spacing' 0 layout
         withPadding = IfMax 1 (spacing' 1000 layout) $ IfMax 2 (spacing' 500 layout) $ withoutPadding
 
-myLayouts = draggingVisualizer
-          $ maximize
-          $ subLayout [] Full
-          $ boringWindows
-          $ renamed [Replace "Grid"]           (spacing $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid) |||
-            renamed [Replace "ThreeColMid"]    (spacing $ ThreeColMid 1 (3/100) (1/2))         |||
-            renamed [Replace "Dishes"]         (spacing $ StackTile 2 (3/100) (5/6))           |||
-            renamed [Replace "OneBig"]         (spacing' 0 $ OneBig (6/7) (6/7))               |||
-            renamed [Replace "Dwindle"]        (spacing $ Dwindle R CW 1 1.1)                  |||
-            renamed [Replace "Mirror Dwindle"] (spacing $ Mirror $ Dwindle R CW 1 1.1)         |||
-            renamed [Replace "Spiral"]         (spacing $ Spiral R CW 1 1.1)                   |||
-            renamed [Replace "Accordion"]      (spacing' 0 Accordion)                          |||
-            renamed [Replace "Circle"]         (spacing' 0 Circle)                             |||
-            renamed [Replace "Plus"]           (spacing simpleCross)                           |||
-            renamed [Replace "Tall"]           (spacing $ Tall 1 (3/100) (1/2))                |||
-            renamed [Replace "Mirror Tall"]    (spacing $ Mirror $ Tall 1 (3/100) (1/2))       |||
-            renamed [Replace "Full"]           Full
+        spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
+            where
+                gapsize = 4
+                gapsize' = 10
 
-----------------------------------------------------
--- PerScreen
--- adapted from https://hackage.haskell.org/package/xmonad-contrib-0.17.0/docs/src/XMonad.Layout.PerScreen.html
+myLayouts = draggingVisualizer $ maximize $ subLayout [] Full $ boringWindows $
+    fallbackLayout ||| normalLayout ||| fullLayout
+    where
+        normalLayout = spacing treeLayout
+        fallbackLayout = spacing $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid
+        fullLayout = noBorders Full
 
-ifWider :: (LayoutClass l1 a, LayoutClass l2 a)
-               => Dimension   -- ^ target screen width
-               -> l1 a        -- ^ layout to use when the screen is wide enough
-               -> l2 a        -- ^ layout to use otherwise
-               -> PerScreen l1 l2 a
-ifWider w = PerScreen w False
+-- Implementation of the `TreeLayout` layout
 
-data PerScreen l1 l2 a = PerScreen Dimension Bool (l1 a) (l2 a) deriving (Read, Show)
+data TreeLayout a = TreeLayout (Maybe (Tree a)) (Maybe Window) deriving (Show, Read)
+data Tree a = Split (Tree a) (Tree a) | Leaf a deriving (Show, Read)
+treeLayout = TreeLayout Nothing Nothing
 
-instance (LayoutClass l1 Window, LayoutClass l2 Window) => LayoutClass (PerScreen l1 l2) Window where
-    runLayout (W.Workspace i p@(PerScreen w _ lt lf) ms) r
-        | rect_width r > w    = do (wrs, mlt') <- runLayout (W.Workspace i lt ms) r
-                                   return (wrs, Just $ mkNewPerScreenT p mlt')
-        | otherwise           = do (wrs, mlt') <- runLayout (W.Workspace i lf ms) r
-                                   return (wrs, Just $ mkNewPerScreenF p mlt')
+data PickOrPlace = PickOrPlace Window deriving (Read, Show, Eq)
+instance Message PickOrPlace
+pickOrPlace = PickOrPlace
+
+instance LayoutClass TreeLayout Window where
+    description _ = "Tree"
+
+    doLayout (TreeLayout tree old_focused) master_rect stack = do
+        let tree' = update_tree tree $ W.integrate stack
+        return (show_tree master_rect tree', Just $ TreeLayout tree' $ Just $ W.focus stack)
         where
-            mkNewPerScreenT :: PerScreen l1 l2 a -> Maybe (l1 a) ->
-                                  PerScreen l1 l2 a
-            mkNewPerScreenT (PerScreen w' _ lt' lf') mlt' =
-                (\lt'' -> PerScreen w' True lt'' lf') $ fromMaybe lt' mlt'
+            show_tree :: Rectangle -> Maybe (Tree Window) -> [(Window, Rectangle)]
+            show_tree rect@(Rectangle x y w h) (Just (Split l r))
+                = show_tree rect_l (Just l) ++ show_tree rect_r (Just r)
+                where
+                    (rect_l, rect_r)
+                        = if rect_width rect > rect_height rect
+                            then ( Rectangle x y (w `div` 2) h
+                                 , Rectangle (x + fromIntegral (w `div` 2)) y (w `div` 2) h
+                                 )
+                            else ( Rectangle x y w (h `div` 2)
+                                 , Rectangle x (y + fromIntegral (h `div` 2)) w (h `div` 2)
+                                 )
+            show_tree rect (Just (Leaf w)) = [(w, rect)]
+            show_tree rect Nothing = []
 
-            mkNewPerScreenF :: PerScreen l1 l2 a -> Maybe (l2 a) ->
-                                  PerScreen l1 l2 a
-            mkNewPerScreenF (PerScreen w' _ lt' lf') mlf' =
-                PerScreen w' False lt' $ fromMaybe lf' mlf'
+            update_tree :: Maybe (Tree Window) -> [Window] -> Maybe (Tree Window)
+            update_tree tree stack_windows
+                = foldl (\acc x -> changeFocused (addWindow x) acc) (foldl (flip removeWindow) tree removed_windows) new_windows
+                where
+                    getWindowsInTree :: Maybe (Tree Window) -> [Window]
+                    getWindowsInTree (Just (Split l r)) 
+                        = getWindowsInTree (Just l) ++ getWindowsInTree (Just r)
+                    getWindowsInTree (Just (Leaf w)) = [w]
+                    getWindowsInTree Nothing = []
 
+                    windows_in_tree = getWindowsInTree tree :: [Window]
+                    removed_windows = windows_in_tree \\ stack_windows :: [Window]
+                    new_windows = stack_windows \\ windows_in_tree :: [Window]
+                    old_focused' = case old_focused of
+                        Nothing -> Nothing
+                        Just w -> if w `elem` removed_windows then Nothing else Just w
 
-    handleMessage (PerScreen w bool lt lf) m
-        | bool      = handleMessage lt m >>= maybe (return Nothing) (\nt -> return . Just $ PerScreen w bool nt lf)
-        | otherwise = handleMessage lf m >>= maybe (return Nothing) (return . Just . PerScreen w bool lt)
+                    changeFocused :: (Maybe (Tree Window) -> Maybe (Tree Window)) -> Maybe (Tree Window) -> Maybe (Tree Window)
+                    changeFocused f t@(Just (Split l r)) = changeFocused f (Just l) `merge` changeFocused f (Just r)
+                    changeFocused f t@(Just (Leaf w)) = if Just w == old_focused' then f t else t
+                    changeFocused f Nothing = f Nothing
 
-    description (PerScreen _ True  l1 _) = description l1
-    description (PerScreen _ _     _ l2) = description l2
+                    addWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
+                    addWindow window (Just tree) = Just $ Split (Leaf window) tree
+                    addWindow window Nothing = Just $ Leaf window
+
+                    removeWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
+                    removeWindow window (Just (Split l r))
+                        = removeWindow window (Just l) `merge` removeWindow window (Just r)
+                    removeWindow window t@(Just (Leaf w)) = if w == window then Nothing else t
+                    removeWindow window Nothing = Nothing
+
+                    merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
+                    Just l `merge` Just r = Just $ Split l r
+                    Just l `merge` Nothing = Just l
+                    Nothing `merge` Just r = Just r
+                    Nothing `merge` Nothing = Nothing
+
+-- -- Implementation of the `Pick` modifier:
+--
+-- newtype Pick a = Pick (Maybe a) deriving (Show, Read)
+-- pick = ModifiedLayout $ Pick Nothing
+--
+-- instance LayoutModifier Pick Window where
+--     modifierDescription (Pick _) = "Pick"
+--
+--     pureModifier (Pick  Nothing) _ _ rects = (rects, Nothing)
+--     pureModifier (Pick (Just w)) _ _ rects = (map (\(w', rect) -> (w', if w /= w' then rect else pickedRect rect)) rects, Nothing)
+--         where
+--             pickedRect (Rectangle x y w h)
+--                 = Rectangle { rect_x = x + fromIntegral (w `div` 4)
+--                             , rect_y = y + fromIntegral (h `div` 4)
+--                             , rect_width = w `div` 2
+--                             , rect_height = h `div` 2
+--                             }
+--
+--     handleMess (Pick Nothing) message = case fromMessage message of
+--         Just (PickOrPlace w) -> return $ Just $ Pick $ Just w
+--         _ -> return Nothing
+--     handleMess (Pick (Just w)) message = case fromMessage message of
+--         Just (PickOrPlace _) -> do
+--             -- Let's place the window above the current window.
+--             windows $ W.modify' \(W.Stack t l r) -> W.Stack w (filter (/= w) l) (filter (/= w) $ t:r)
+--             return $ Just $ Pick Nothing
+--         _ -> return Nothing
