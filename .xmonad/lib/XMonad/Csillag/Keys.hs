@@ -49,7 +49,6 @@ myKeys =
     [ ("M-r", addName "Restart XMonad" $ spawn "notify-send 'Restarting XMonad' 'You may need to wait a few seconds for everything to recompile.'; xmonad --restart"),
       ("M-S-9", addName "Kill the compositor" $ spawn compositorKill),
       ("M-S-0", addName "Start the compositor" $ spawn compositorSpawn),
-      ("M-S-8", addName "Restart the compositor" $ spawn compositorRestart),
       ("M-<Space>", addName "Change keyboard" changeKeyboard),
       -- Directional keys
       ("M-h", addName "Focus window to the left" $ windowGo L False),
@@ -107,23 +106,8 @@ myKeys =
       ("M-w M-S-c", addName "Send copy to workspace" $ promptWorkspaces "Send copy to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (copy x))),
       ("M-w M-c", addName "Send&Go copy to workspace" $ promptWorkspaces "Send&Go copy to" Nothing ?+ (\x -> addHiddenWorkspace x >> windows (copy x) >> windows (W.view x))),
       ("M-6", addName "Switch with last workspace" $ windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/= "NSP") . W.tag) $ W.hidden ws),
-      -- Layouts
-      ("M-c M-<Space>", addName "Cycle to next layout" $ sendMessage NextLayout),
-      ("M-c M-c", addName "Change layout" changeLayoutGridselect),
-      ("M-c M-l M-g", addName "Set layout to 'Grid'" $ sendMessage $ JumpToLayout "Grid"),
-      ("M-c M-l M-t", addName "Set layout to 'ThreeColMid'" $ sendMessage $ JumpToLayout "ThreeColMid"),
-      ("M-c M-l M-d", addName "Set layout to 'Dishes'" $ sendMessage $ JumpToLayout "Dishes"),
-      ("M-c M-l M-o", addName "Set layout to 'OneBig'" $ sendMessage $ JumpToLayout "OneBig"),
-      ("M-c M-l M-S-d", addName "Set layout to 'Dwindle'" $ sendMessage $ JumpToLayout "Dwindle"),
-      ("M-c M-l M-m", addName "Set layout to 'Mirror Dwindle'" $ sendMessage $ JumpToLayout "Mirror Dwindle"),
-      ("M-c M-l M-S-t", addName "Set layout to 'Tall'" $ sendMessage $ JumpToLayout "Tall"),
-      ("M-c M-l M-S-m", addName "Set layout to 'Mirror Tall'" $ sendMessage $ JumpToLayout "Mirror Tall"),
-      ("M-c M-l M-s", addName "Set layout to 'Spiral'" $ sendMessage $ JumpToLayout "Spiral"),
-      ("M-c M-l M-a", addName "Set layout to 'Accordion'" $ sendMessage $ JumpToLayout "Accordion"),
-      ("M-c M-l M-c", addName "Set layout to 'Circle'" $ sendMessage $ JumpToLayout "Circle"),
-      ("M-c M-l M-p", addName "Set layout to 'Plus'" $ sendMessage $ JumpToLayout "Plus"),
-      ("M-c M-l M-f", addName "Set layout to 'Full'" $ sendMessage $ JumpToLayout "Full"),
-      -- Layout Messages
+      -- Layouts & Layout Messages
+      ("M-;", addName "Cycle to next layout" $ sendMessage NextLayout),
       ("M-[", addName "Shrink master area" $ sendMessage Shrink),
       ("M-]", addName "Expand master area" $ sendMessage Expand),
       ("M-S-[", addName "Add one window to master pane" $ sendMessage $ IncMasterN 1),
@@ -166,9 +150,7 @@ myKeys =
       ("M-q M-l", addName "Lock" $ spawn "dm-tool lock"),
       ("M-q M-d M-[", addName "Enable 'do not disturb'" $ spawn "dunstctl set-paused true"),
       ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "dunstctl set-paused false"),
-      ("M-q M-a", addName "Fix audio" $ spawn "fix-audio" >> notify "Spawn: fix-audio"),
       ("M-q M-=", addName "Toggle Statusbar" $ spawn "toggle_statusbar"),
-      ("M-q M-k", addName "Toggle Screenkey" $ spawn ".local/scripts/screenkey_toggle.sh"),
       ("M-q M-v M-u", addName "Enable VPN" $ mvpn "up"),
       ("M-q M-v M-d", addName "Disable VPN" $ mvpn "down"),
       -- Notifications
@@ -203,9 +185,7 @@ myKeys =
           spawn ("pamixer -t; paplay " ++ volumeChangeSound)
             >> spawnOSD "Volume" ((\case "true\n" -> "Muted."; "false\n" -> "Unmuted."; _ -> "?") <$> cmdout "pamixer" ["--get-mute"])
       ),
-      ("M-C-v", addName "Play test sound" $ spawnOSD "Sound" (pure "Played test sound.") >> spawn ("paplay " ++ volumeChangeSound)),
-      ("M-\\", addName "Toggle play/pause" $ spawn "mcm toggle"),
-      ("M-S-\\", addName "Go to next track" $ spawn "mcm next")
+      ("M-C-v", addName "Play test sound" $ spawnOSD "Sound" (pure "Played test sound.") >> spawn ("paplay " ++ volumeChangeSound))
     ]
 
 myMouse config =
@@ -238,27 +218,6 @@ changeScreenConfig = do
   case maybe_profile_name of
     Just profile_name -> spawn $ "autorandr --load " ++ profile_name
     Nothing -> return ()
-
-changeLayoutGridselect =
-  gridselect
-    csillagGridSelectConfig
-    ( map
-        (\x -> (x, x))
-        [ "Grid",
-          "ThreeColMid",
-          "Dishes",
-          "OneBig",
-          "Dwindle",
-          "Mirror Dwindle",
-          "Tall",
-          "Mirror Tall",
-          "Spiral",
-          "Accordion",
-          "Circle",
-          "Plus"
-        ]
-    )
-    >>= flip whenJust (sendMessage . JumpToLayout)
 
 mvpn :: String -> X ()
 mvpn action = do
