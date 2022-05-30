@@ -47,10 +47,10 @@ myLayouts = draggingVisualizer $ maximize $ subLayout [] Full $ boringWindows $
 
 -- Implementation of the `TreeLayout` layout
 
-data TreeLayout a = TreeLayout (Maybe (Tree a)) (Maybe Window) deriving (Show, Read)
+data TreeLayout a = TreeLayout (Maybe (Tree a)) (Maybe Window) (Maybe Window) deriving (Show, Read)
 data Tree a = Split (Tree a) (Tree a) | Leaf Collapse a deriving (Show, Read)
 data Collapse = Collapsed | Expanded deriving (Eq, Enum, Show, Read)
-treeLayout = TreeLayout Nothing Nothing
+treeLayout = TreeLayout Nothing Nothing Nothing
 
 data PickOrPlace = PickOrPlace Window deriving (Read, Show, Eq)
 instance Message PickOrPlace
@@ -63,9 +63,9 @@ toggleCollapsed = ToggleCollapsed
 instance LayoutClass TreeLayout Window where
     description _ = "Tree"
 
-    doLayout (TreeLayout tree old_focused) master_rect stack = do
+    doLayout (TreeLayout tree old_focused picked) master_rect stack = do
         let tree' = update_tree tree $ W.integrate stack
-        return (show_tree master_rect tree', Just $ TreeLayout tree' $ Just $ W.focus stack)
+        return (show_tree master_rect tree', Just $ TreeLayout tree' (Just $ W.focus stack) picked)
         where
             show_tree :: Rectangle -> Maybe (Tree Window) -> [(Window, Rectangle)]
             show_tree rect@(Rectangle x y w h) (Just (Split l r))
@@ -92,12 +92,14 @@ instance LayoutClass TreeLayout Window where
                     isCollapsed (Leaf Collapsed _) = True
                     isCollapsed (Leaf Expanded _) = False
                     isCollapsed (Split l r) = isCollapsed l && isCollapsed r
-            show_tree rect (Just (Leaf _ w)) = [(w, rect)]
+            show_tree rect@(Rectangle x y w h) (Just (Leaf _ window))
+              | Just window == picked = [(window, Rectangle (x-5) (y-5) (w+10) (h+10))]
+              | otherwise = [(window, rect)]
             show_tree rect Nothing = []
 
             update_tree :: Maybe (Tree Window) -> [Window] -> Maybe (Tree Window)
             update_tree tree stack_windows
-                = foldl (\acc x -> changeFocused (addWindow x) acc) (foldl (flip removeWindow) tree removed_windows) new_windows
+                = foldl (\acc x -> changeFocused old_focused' (addWindow x) acc) (foldl (flip removeWindow) tree removed_windows) new_windows
                 where
                     getWindowsInTree :: Maybe (Tree Window) -> [Window]
                     getWindowsInTree (Just (Split l r)) 
@@ -112,24 +114,14 @@ instance LayoutClass TreeLayout Window where
                         Nothing -> Nothing
                         Just w -> if w `elem` removed_windows then Nothing else Just w
 
-                    changeFocused :: (Maybe (Tree Window) -> Maybe (Tree Window)) -> Maybe (Tree Window) -> Maybe (Tree Window)
-                    changeFocused f t@(Just (Split l r)) = changeFocused f (Just l) `merge` changeFocused f (Just r)
-                    changeFocused f t@(Just (Leaf _ w)) = if Just w == old_focused' then f t else t
-                    changeFocused f Nothing = f Nothing
-
-                    addWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
-                    addWindow window (Just tree) = Just $ Split (Leaf Expanded window) tree
-                    addWindow window Nothing = Just $ Leaf Expanded window
-
-                    removeWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
-                    removeWindow window (Just (Split l r))
-                        = removeWindow window (Just l) `merge` removeWindow window (Just r)
-                    removeWindow window t@(Just (Leaf _ w)) = if w == window then Nothing else t
-                    removeWindow window Nothing = Nothing
-
-    pureMessage (TreeLayout tree old_focused) message = case fromMessage message of
-        Just (ToggleCollapsed w) -> Just $ TreeLayout (toggleCollapsed' w tree) old_focused
-        _ -> Nothing
+    pureMessage (TreeLayout tree old_focused picked) message
+        | Just (ToggleCollapsed w) <- fromMessage message
+            = Just $ TreeLayout (toggleCollapsed' w tree) old_focused picked
+        | Just (PickOrPlace w) <- fromMessage message
+            = case picked of
+                Nothing -> Just $ TreeLayout tree old_focused $ Just w
+                Just picked -> Just $ TreeLayout (if picked == w then tree else changeFocused (Just w) (addWindow picked) $ removeWindow picked $ tree) old_focused Nothing
+        | otherwise = Nothing
         where
             toggleCollapsed' :: Eq a => a -> Maybe (Tree a) -> Maybe (Tree a)
             toggleCollapsed' w (Just (Split l r)) = toggleCollapsed' w (Just l) `merge` toggleCollapsed' w (Just r)
@@ -139,36 +131,23 @@ instance LayoutClass TreeLayout Window where
                     Expanded -> Collapsed
             toggleCollapsed' w Nothing = Nothing
 
+changeFocused :: Maybe Window -> (Maybe (Tree Window) -> Maybe (Tree Window)) -> Maybe (Tree Window) -> Maybe (Tree Window)
+changeFocused focused f t@(Just (Split l r)) = changeFocused focused f (Just l) `merge` changeFocused focused f (Just r)
+changeFocused focused f t@(Just (Leaf _ w)) = if Just w == focused then f t else t
+changeFocused focused f Nothing = f Nothing
+
+addWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
+addWindow window (Just tree) = Just $ Split (Leaf Expanded window) tree
+addWindow window Nothing = Just $ Leaf Expanded window
+
+removeWindow :: Window -> Maybe (Tree Window) -> Maybe (Tree Window)
+removeWindow window (Just (Split l r))
+    = removeWindow window (Just l) `merge` removeWindow window (Just r)
+removeWindow window t@(Just (Leaf _ w)) = if w == window then Nothing else t
+removeWindow window Nothing = Nothing
+
 merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
 Just l `merge` Just r = Just $ Split l r
 Just l `merge` Nothing = Just l
 Nothing `merge` Just r = Just r
 Nothing `merge` Nothing = Nothing
-
--- -- Implementation of the `Pick` modifier:
---
--- newtype Pick a = Pick (Maybe a) deriving (Show, Read)
--- pick = ModifiedLayout $ Pick Nothing
---
--- instance LayoutModifier Pick Window where
---     modifierDescription (Pick _) = "Pick"
---
---     pureModifier (Pick  Nothing) _ _ rects = (rects, Nothing)
---     pureModifier (Pick (Just w)) _ _ rects = (map (\(w', rect) -> (w', if w /= w' then rect else pickedRect rect)) rects, Nothing)
---         where
---             pickedRect (Rectangle x y w h)
---                 = Rectangle { rect_x = x + fromIntegral (w `div` 4)
---                             , rect_y = y + fromIntegral (h `div` 4)
---                             , rect_width = w `div` 2
---                             , rect_height = h `div` 2
---                             }
---
---     handleMess (Pick Nothing) message = case fromMessage message of
---         Just (PickOrPlace w) -> return $ Just $ Pick $ Just w
---         _ -> return Nothing
---     handleMess (Pick (Just w)) message = case fromMessage message of
---         Just (PickOrPlace _) -> do
---             -- Let's place the window above the current window.
---             windows $ W.modify' \(W.Stack t l r) -> W.Stack w (filter (/= w) l) (filter (/= w) $ t:r)
---             return $ Just $ Pick Nothing
---         _ -> return Nothing
