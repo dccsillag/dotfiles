@@ -27,6 +27,7 @@ import XMonad.Config.Prime (ScreenId)
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 import XMonad.Csillag.Scratchpads
+import XMonad.Csillag.Layouts
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.LayoutCombinators (JumpToLayout (..))
 import XMonad.Layout.Maximize
@@ -49,7 +50,7 @@ myKeys =
     [ ("M-r", addName "Restart XMonad" $ spawn "notify-send 'Restarting XMonad' 'You may need to wait a few seconds for everything to recompile.'; xmonad --restart"),
       ("M-S-9", addName "Kill the compositor" $ spawn compositorKill),
       ("M-S-0", addName "Start the compositor" $ spawn compositorSpawn),
-      ("M-<Space>", addName "Change keyboard" changeKeyboard),
+      -- ("M-<Space>", addName "Change keyboard" changeKeyboard),
       -- Directional keys
       ("M-h", addName "Focus window to the left" $ windowGo L False),
       ("M-j", addName "Focus window below" $ windowGo D False),
@@ -60,14 +61,10 @@ myKeys =
       ("M-S-k", addName "Move window up" $ windowSwap U False),
       ("M-S-l", addName "Move window to the right" $ windowSwap R False),
       -- Stack Keys
-      ("M-m", addName "Focus master window" $ windows W.focusMaster),
-      ("M-S-m", addName "Swap with master window" $ windows W.swapMaster),
       ("M-S-<Tab>", addName "Focus up on the stack" $ windows W.focusUp),
       ("M-<Tab>", addName "Focus down on the stack" $ windows W.focusDown),
-      ("M-,", addName "Focus up on the stack" $ windows W.focusUp),
-      ("M-.", addName "Focus down on the stack" $ windows W.focusDown),
-      ("M-S-,", addName "Swap window up on the stack" $ windows W.swapUp),
-      ("M-S-.", addName "Swap window down on the stack" $ windows W.swapDown),
+      ("M-C-S-<Tab>", addName "Swap window up on the stack" $ windows W.swapUp),
+      ("M-C-<Tab>", addName "Swap window down on the stack" $ windows W.swapDown),
       -- Spawn Stuff
       ("M-n M-n", addName "Open shell prompt" $ spawn "rofi -show drun -matching fuzzy -show-icons -markup"),
       ("M-n M-t", addName "Spawn a terminal" $ spawn termSpawn),
@@ -108,11 +105,11 @@ myKeys =
       ("M-6", addName "Switch with last workspace" $ windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/= "NSP") . W.tag) $ W.hidden ws),
       -- Layouts & Layout Messages
       ("M-;", addName "Cycle to next layout" $ sendMessage NextLayout),
-      ("M-[", addName "Shrink master area" $ sendMessage Shrink),
-      ("M-]", addName "Expand master area" $ sendMessage Expand),
-      ("M-S-[", addName "Add one window to master pane" $ sendMessage $ IncMasterN 1),
-      ("M-S-]", addName "Take one window from master pane" $ sendMessage $ IncMasterN (-1)),
+      -- ("M-[", addName "Shrink master area" $ sendMessage Shrink),
+      -- ("M-]", addName "Expand master area" $ sendMessage Expand),
       ("M-<Return>", addName "Toggle magnifier" $ withFocused $ sendMessage . maximizeRestore),
+      ("M-<Space>", addName "Pick or place a window" $ withFocused $ sendMessage . pickOrPlace),
+      ("M-c", addName "Collapse or decollapse a window" $ withFocused $ sendMessage . toggleCollapsed),
       -- Scratchpads
       ("M-s M-b", addName "Toggle scratchpad 'sysmon'" $ namedScratchpadAction myScratchpads "sysmon"),
       ("M-s M-q", addName "Toggle scratchpad 'terminal'" $ namedScratchpadAction myScratchpads "terminal"),
