@@ -47,7 +47,11 @@ myLayouts = draggingVisualizer $ maximize $ subLayout [] Full $ boringWindows $
 
 -- Implementation of the `TreeLayout` layout
 
-data TreeLayout a = TreeLayout (Maybe (Tree a)) (Maybe Window) (Maybe Window) deriving (Show, Read)
+data TreeLayout a = TreeLayout
+    { treelayout_tree :: (Maybe (Tree a))
+    , treelayout_old_focused :: (Maybe Window)
+    , treelayout_picked :: (Maybe Window)
+    } deriving (Show, Read)
 data Tree a = Split (Tree a) (Tree a) | Leaf Collapse a deriving (Show, Read)
 data Collapse = Collapsed | Expanded deriving (Eq, Enum, Show, Read)
 treeLayout = TreeLayout Nothing Nothing Nothing
@@ -78,7 +82,7 @@ instance LayoutClass TreeLayout Window where
                         (True, True) -> 0.5 -- reachable, but `rect` will already be collapsed
 
                     (rect_l, rect_r)
-                        = if rect_width rect > rect_height rect
+                        = if w > h
                             then ( Rectangle x y hw h
                                  , Rectangle (x + fromIntegral hw) y (w - hw) h
                                  )
