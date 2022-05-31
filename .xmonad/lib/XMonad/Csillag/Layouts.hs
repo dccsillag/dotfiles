@@ -12,6 +12,8 @@ import Data.List ((\\))
 import Data.Maybe (fromMaybe)
 import qualified XMonad.StackSet as W
 import XMonad.Layout.LayoutCombinators ((|||))
+import XMonad.Layout.Decoration
+import XMonad.Layout.LayoutModifier
 
 import XMonad.Layout.IfMax
 import XMonad.Layout.Grid
@@ -38,12 +40,52 @@ spacing layout = ifWider 2000 withPadding withoutPadding
                 gapsize = 4
                 gapsize' = 10
 
-myLayouts = draggingVisualizer $ maximize $ subLayout [] Full $ boringWindows $
-    fallbackLayout ||| normalLayout ||| fullLayout
+myLayouts = boringWindows $ fallbackLayout ||| normalLayout ||| fullLayout
     where
-        normalLayout = spacing treeLayout
-        fallbackLayout = spacing $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid
+        normalLayout = nonfull treeLayout
+        fallbackLayout = nonfull $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid
         fullLayout = noBorders Full
+
+        nonfull l = draggingVisualizer $ maximize $ spacing l
+
+-- Implementation of the WindowCard decoration
+
+data ReverseLayout a = ReverseLayout deriving (Show, Read)
+reverseLayout = ModifiedLayout ReverseLayout
+instance LayoutModifier ReverseLayout a where
+    pureModifier ReverseLayout _ _ rects = (reverse rects, Nothing)
+
+data WindowCard a = WindowCard deriving (Show, Read)
+-- windowCard = reverseLayout . decoration shrinkText theme WindowCard . reverseLayout
+--     where
+--         bg = "#181C25"
+--         theme = Theme
+--             { activeColor = bg
+--             , inactiveColor = bg
+--             , urgentColor = bg
+--             , activeBorderColor = "#FFFFFF"
+--             , inactiveBorderColor = "#666666"
+--             , urgentBorderColor = "#666666"
+--             , activeBorderWidth = 0
+--             , inactiveBorderWidth = 0
+--             , urgentBorderWidth = 0
+--             , activeTextColor = bg
+--             , inactiveTextColor = bg
+--             , urgentTextColor = bg
+--             , fontName = "xft:FantasqueSansMono Nerd Font:size=18:antialias=true:autohint=True"
+--             , decoWidth = 2 -- unused
+--             , decoHeight = 2 -- unused
+--             , windowTitleAddons = []
+--             , windowTitleIcons = []
+--             }
+
+instance DecorationStyle WindowCard Window where
+    describeDeco _ = "WindowCard"
+
+    shrink WindowCard _ (Rectangle x y w h) = Rectangle (x + 26) (y + 4) (w - 26 - 4) (h - 8)
+    pureDecoration WindowCard _ _ _ stack _ (win, Rectangle x y w h)
+      | win `elem` W.integrate stack && 30 < w && 10 < h = Just $ Rectangle x y w h
+      | otherwise = Nothing
 
 -- Implementation of the `TreeLayout` layout
 
