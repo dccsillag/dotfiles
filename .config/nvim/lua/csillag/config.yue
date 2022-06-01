@@ -106,7 +106,6 @@ do
     }
     (require 'lualine').setup
         options:
-            icons_enabled: false
             theme:
                 normal: my_theme
                 insert: my_theme
@@ -190,19 +189,6 @@ do
                 hidden: 'hidden'
         lsp:
             severity: "warning"
-            icons:
-                "Error":
-                    icon: "E"
-                    color: "red"
-                "Warning":
-                    icon: "W"
-                    color: "yellow"
-                "Information":
-                    icon: "I"
-                    color: "blue"
-                "Hint":
-                    icon: "H"
-                    color: "magenta"
 
     -- popui
     vim.ui.select = require "popui.ui-overrider"
