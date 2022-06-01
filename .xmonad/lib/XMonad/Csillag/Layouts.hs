@@ -56,10 +56,10 @@ instance LayoutModifier ReverseLayout a where
     pureModifier ReverseLayout _ _ rects = (reverse rects, Nothing)
 
 data WindowCard a = WindowCard Int deriving (Show, Read)
-windowCard size = reverseLayout . decoration shrinkText theme (WindowCard size)
+windowCard size = reverseLayout . decoration shrinkText theme (WindowCard size) . reverseLayout
     where
-        bg = "#131720"
-        bg' = "#1A1E27"
+        bg = "#1D212A"
+        bg' = "#00040A"
         theme = Theme
             { activeColor = bg'
             , inactiveColor = bg

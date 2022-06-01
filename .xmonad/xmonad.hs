@@ -78,9 +78,9 @@ myXMonadConfig = do
                 { terminal = termSpawn,
                   modMask = mod4Mask, -- Super key
                   focusFollowsMouse = False,
-                  normalBorderColor = "#555555", -- "#cccccc"
-                  focusedBorderColor = "#FFFFFF",
-                  borderWidth = 1,
+                  normalBorderColor = "#282C33", -- "#cccccc"
+                  focusedBorderColor = "#DDDDDD",
+                  borderWidth = 0,
                   workspaces = wkss,
                   manageHook =
                       namedScratchpadManageHook myScratchpads -- Manage scratchpads
