@@ -146,7 +146,7 @@ instance LayoutClass TreeLayout Window where
 
             update_tree :: Maybe (Tree Window) -> [Window] -> Maybe (Tree Window)
             update_tree tree stack_windows
-                = foldl (\acc x -> changeFocused old_focused' (addWindow x) acc) (foldl (flip removeWindow) tree removed_windows) new_windows
+                = changeFocused old_focused' (addWindows new_windows) $ removeWindows removed_windows tree
                 where
                     getWindowsInTree :: Maybe (Tree Window) -> [Window]
                     getWindowsInTree (Just (Split l r)) 
@@ -192,6 +192,12 @@ removeWindow window (Just (Split l r))
     = removeWindow window (Just l) `merge` removeWindow window (Just r)
 removeWindow window t@(Just (Leaf _ w)) = if w == window then Nothing else t
 removeWindow window Nothing = Nothing
+
+addWindows :: [Window] -> Maybe (Tree Window) -> Maybe (Tree Window)
+addWindows windows tree = foldl (flip addWindow) tree windows
+
+removeWindows :: [Window] -> Maybe (Tree Window) -> Maybe (Tree Window)
+removeWindows windows tree = foldl (flip removeWindow) tree windows
 
 merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
 Just l `merge` Just r = Just $ Split l r
