@@ -95,7 +95,7 @@ data TreeLayout a = TreeLayout
     , treelayout_old_focused :: (Maybe Window)
     , treelayout_picked :: (Maybe Window)
     } deriving (Show, Read)
-data Tree a = Split (Tree a) (Tree a) | Leaf Collapse a deriving (Show, Read)
+data Tree a = Split (Tree a) (Tree a) | Leaf Collapse a deriving (Eq, Show, Read)
 data Collapse = Collapsed | Expanded deriving (Eq, Enum, Show, Read)
 treeLayout = TreeLayout Nothing Nothing Nothing
 
@@ -167,7 +167,7 @@ instance LayoutClass TreeLayout Window where
         | Just (PickOrPlace w) <- fromMessage message
             = case picked of
                 Nothing -> Just $ TreeLayout tree old_focused $ Just w
-                Just picked -> Just $ TreeLayout (if picked == w then tree else changeFocused (Just w) (addWindow picked) $ removeWindow picked $ tree) old_focused Nothing
+                Just picked -> Just $ TreeLayout (placeWindow picked w tree) old_focused Nothing
         | otherwise = Nothing
         where
             toggleCollapsed' :: Eq a => a -> Maybe (Tree a) -> Maybe (Tree a)
@@ -198,6 +198,17 @@ addWindows windows tree = foldl (flip addWindow) tree windows
 
 removeWindows :: [Window] -> Maybe (Tree Window) -> Maybe (Tree Window)
 removeWindows windows tree = foldl (flip removeWindow) tree windows
+
+placeWindow :: Window -> Window -> Maybe (Tree Window) -> Maybe (Tree Window)
+placeWindow picked place_at tree
+    | picked == place_at = tree
+    | otherwise = if tree'_a /= tree then tree'_a else tree'_b
+    where
+        tree'_a = placeWindow' picked place_at
+        tree'_b = placeWindow' place_at picked
+
+        placeWindow' :: Window -> Window -> Maybe (Tree Window)
+        placeWindow' picked place_at = changeFocused (Just place_at) (addWindow picked) $ removeWindow picked $ tree
 
 merge :: Maybe (Tree a) -> Maybe (Tree a) -> Maybe (Tree a)
 Just l `merge` Just r = Just $ Split l r
