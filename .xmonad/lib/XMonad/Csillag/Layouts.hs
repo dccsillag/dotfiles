@@ -125,7 +125,7 @@ instance LayoutClass TreeLayout Window where
                         (True, True) -> 0.5 -- reachable, but `rect` will already be collapsed
 
                     (rect_l, rect_r)
-                        = if w > h
+                        = if w > h + 100
                             then ( Rectangle x y hw h
                                  , Rectangle (x + fromIntegral hw) y (w - hw) h
                                  )
