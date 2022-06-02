@@ -1,52 +1,19 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, BlockArguments #-}
 
 module XMonad.Csillag.Layouts
-    ( myLayouts
-    , pickOrPlace
+    ( pickOrPlace
     , toggleCollapsed
+    , windowCard
+    , treeLayout
     )
 where
 
-import XMonad hiding ((|||))
+import XMonad
 import Data.List ((\\))
-import Data.Maybe (fromMaybe)
 import qualified XMonad.StackSet as W
-import XMonad.Layout.LayoutCombinators ((|||))
 import XMonad.Layout.Decoration
 import XMonad.Layout.LayoutModifier
 
-import XMonad.Layout.IfMax
-import XMonad.Layout.Grid
-import XMonad.Layout.BinarySpacePartition
-import XMonad.Layout.PerScreen
-
-import XMonad.Layout.Spacing (spacingRaw, Border(..))
-import XMonad.Layout.DraggingVisualizer
-import XMonad.Layout.Maximize
-import XMonad.Layout.SubLayouts
-import XMonad.Layout.BoringWindows hiding (Replace)
-import XMonad.Layout.NoBorders
-
-
--- spacing layout = withoutPadding
--- spacing layout = IfMax 3 withoutPadding withPadding
-spacing layout = ifWider 2000 withPadding withoutPadding
-    where
-        withoutPadding = spacing' 0 layout
-        withPadding = IfMax 1 (spacing' 1000 layout) $ IfMax 2 (spacing' 500 layout) $ withoutPadding
-
-        spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
-            where
-                gapsize = 4
-                gapsize' = 10
-
-myLayouts = boringWindows $ normalLayout ||| fallbackLayout ||| fullLayout
-    where
-        normalLayout = nonfull treeLayout
-        fallbackLayout = nonfull $ IfMax 2 (Tall 1 (3/100) (1/2)) Grid
-        fullLayout = noBorders Full
-
-        nonfull l = windowCard 24 $ draggingVisualizer $ maximize $ spacing l
 
 -- Implementation of the WindowCard decoration
 

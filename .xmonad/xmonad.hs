@@ -37,6 +37,13 @@ import qualified XMonad.Util.Hacks as Hacks
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.SpawnOnce
+import XMonad.Layout.LayoutCombinators ((|||))
+import XMonad.Layout.IfMax
+import XMonad.Layout.Spacing (spacingRaw, Border(..))
+import XMonad.Layout.DraggingVisualizer
+import XMonad.Layout.Maximize
+import XMonad.Layout.BoringWindows hiding (Replace)
+import XMonad.Layout.NoBorders
 
 -- Things to do upon startup:
 startup = do
@@ -94,7 +101,7 @@ myXMonadConfig = do
                           className =? "Xmessage" --> doFloat -- Float `xmessage` windows
                         ]
                       <+> manageHook def, -- The default
-                  layoutHook = avoidStruts myLayouts, -- Respect struts (mainly for `polybar`/`xmobar` and `onboard`
+                  layoutHook = avoidStruts $ boringWindows $ normalLayout ||| fullLayout,
                   handleEventHook =
                     serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
                       <+> handleTimerEvent
@@ -103,6 +110,14 @@ myXMonadConfig = do
                   startupHook = startup, -- (on startup)
                   mouseBindings = myMouse
                 }
+
+normalLayout = windowCard 24 $ draggingVisualizer $ maximize $ spacing' 0 treeLayout
+    where
+        spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
+
+        gapsize = 4
+        gapsize' = 10
+fullLayout = noBorders Full
 
 main :: IO ()
 main = xmonad =<< myXMonadConfig
