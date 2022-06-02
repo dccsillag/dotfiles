@@ -27,7 +27,7 @@ import XMonad.Config.Prime (ScreenId)
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts
+import XMonad.Csillag.Layouts.TreeLayout
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.LayoutCombinators (JumpToLayout (..))
 import XMonad.Layout.Maximize
@@ -47,7 +47,7 @@ myKeys =
   flip
     mkNamedKeymap
     -- Core:
-    [ ("M-r", addName "Restart XMonad" $ spawn "notify-send 'Restarting XMonad' 'You may need to wait a few seconds for everything to recompile.'; xmonad --restart"),
+    [ ("M-r", addName "Restart XMonad" $ spawn "xmonad --restart"),
       ("M-S-9", addName "Kill the compositor" $ spawn compositorKill),
       ("M-S-0", addName "Start the compositor" $ spawn compositorSpawn),
       -- ("M-<Space>", addName "Change keyboard" changeKeyboard),
@@ -108,7 +108,7 @@ myKeys =
       -- ("M-[", addName "Shrink master area" $ sendMessage Shrink),
       -- ("M-]", addName "Expand master area" $ sendMessage Expand),
       ("M-<Return>", addName "Toggle magnifier" $ withFocused $ sendMessage . maximizeRestore),
-      ("M-<Space>", addName "Pick or place a window" $ withFocused $ sendMessage . pickOrPlace),
+      ("M-t", addName "Pick or place a window" $ withFocused $ sendMessage . pickOrPlace),
       ("M-c", addName "Collapse or decollapse a window" $ withFocused $ sendMessage . toggleCollapsed),
       -- Scratchpads
       ("M-s M-b", addName "Toggle scratchpad 'sysmon'" $ namedScratchpadAction myScratchpads "sysmon"),

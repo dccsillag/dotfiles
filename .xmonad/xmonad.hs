@@ -23,7 +23,8 @@ import XMonad.Csillag.Commands
 import XMonad.Csillag.Consts
 import XMonad.Csillag.Externals
 import XMonad.Csillag.Keys
-import XMonad.Csillag.Layouts
+import XMonad.Csillag.Layouts.TreeLayout
+import XMonad.Csillag.Layouts.WindowCard
 import XMonad.Csillag.Scratchpads
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
