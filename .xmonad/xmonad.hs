@@ -112,13 +112,33 @@ myXMonadConfig = do
                   mouseBindings = myMouse
                 }
 
-normalLayout = windowCard defaultWindowCardConfig $ draggingVisualizer $ maximize $ spacing' 0 treeLayout
+normalLayout = windowCard windowCardConfig $ maximize $ spacing' 0 treeLayout
     where
         spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
 
         gapsize = 4
         gapsize' = 10
+
+        windowCardConfig = WindowCardConfig
+            { barSize = 24
+            , buttonSize = 10
+            , buttonSpacing = 10
+            , barButtons =
+                [ BarButton "#e6194B" CloseWindow
+                , BarButton "#ffe119" CollapseWindow
+                , BarButton "#3cb44b" MaximizeWindow
+                ]
+            }
 fullLayout = noBorders Full
+
+data ButtonActions = CloseWindow
+                   | MaximizeWindow
+                   | CollapseWindow
+                   deriving (Show, Read)
+instance ButtonAction ButtonActions where
+    runAction CloseWindow w = killWindow w
+    runAction MaximizeWindow w = focus w >> sendMessage (maximizeRestore w)
+    runAction CollapseWindow w = focus w >> sendMessage (toggleCollapsed w)
 
 main :: IO ()
 main = xmonad =<< myXMonadConfig

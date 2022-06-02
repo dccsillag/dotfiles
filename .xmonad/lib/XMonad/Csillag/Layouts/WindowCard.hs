@@ -3,9 +3,9 @@
 module XMonad.Csillag.Layouts.WindowCard
     ( windowCard
     , WindowCard
-    , WindowCardConfig
-    , ButtonAction
-    , BarButton
+    , WindowCardConfig(..)
+    , ButtonAction(..)
+    , BarButton(..)
     , defaultWindowCardConfig
     )
 where
