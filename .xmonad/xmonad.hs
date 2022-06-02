@@ -112,7 +112,7 @@ myXMonadConfig = do
                   mouseBindings = myMouse
                 }
 
-normalLayout = windowCard def $ draggingVisualizer $ maximize $ spacing' 0 treeLayout
+normalLayout = windowCard defaultWindowCardConfig $ draggingVisualizer $ maximize $ spacing' 0 treeLayout
     where
         spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
 

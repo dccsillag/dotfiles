@@ -2,9 +2,15 @@
 
 module XMonad.Csillag.Layouts.WindowCard
     ( windowCard
+    , WindowCard
+    , WindowCardConfig
+    , ButtonAction
+    , BarButton
+    , defaultWindowCardConfig
     )
 where
 
+import Foreign.C.Types (CInt)
 import Data.List ((\\), stripPrefix)
 import Control.Monad
 import qualified Data.Bimap as M
@@ -23,26 +29,40 @@ instance (Read a, Read b, Ord a, Ord b) => Read (Bimap a b) where
 
 newtype DecorationWindow = DecorationWindow { xwin :: Window } deriving (Show, Read, Eq, Ord)
 
-data WindowCardConfig = WindowCardConfig
+class (Show a, Read a) => ButtonAction a where
+    runAction :: a -> Window -> X ()
+
+data WindowCardConfig a = WindowCardConfig
     { barSize :: Int
     , buttonSize :: Int
     , buttonSpacing :: Int
+    , barButtons :: [BarButton a]
     } deriving (Show, Read)
-instance Default WindowCardConfig where
-    def = WindowCardConfig
-        { barSize = 24
-        , buttonSize = 10
-        , buttonSpacing = 10
-        }
 
-data WindowCard a = WindowCard
-    { windowcard_config :: WindowCardConfig
+data BarButton a = BarButton
+    { button_color :: String
+    , button_onPress :: a
+    } deriving (Show, Read)
+
+data DefaultButtonAction = KillWindow deriving (Show, Read)
+instance ButtonAction DefaultButtonAction where
+    runAction KillWindow = killWindow
+defaultWindowCardConfig :: WindowCardConfig DefaultButtonAction
+defaultWindowCardConfig = WindowCardConfig
+    { barSize = 24
+    , buttonSize = 10
+    , buttonSpacing = 10
+    , barButtons = [BarButton "#ff0000" KillWindow]
+    }
+
+data WindowCard a w = WindowCard
+    { windowcard_config :: WindowCardConfig a
     , windowcard_windowmap :: (Bimap Window DecorationWindow)
     , windowcard_currentwindow :: Maybe Window
     } deriving (Read, Show)
 windowCard config = ModifiedLayout $ WindowCard config M.empty Nothing
 
-instance LayoutModifier WindowCard Window where
+instance ButtonAction a => LayoutModifier (WindowCard a) Window where
     modifierDescription (WindowCard _ _ _) = "WindowCard"
 
     redoLayout (WindowCard config@WindowCardConfig{barSize} windowmap _) _ stack window_rects = do
@@ -79,8 +99,8 @@ instance LayoutModifier WindowCard Window where
             return $ Just $ WindowCard config M.empty current_window
         | otherwise = return Nothing
 
-handleEvent :: WindowCardConfig -> Bimap Window DecorationWindow -> Maybe Window -> Event -> X ()
-handleEvent c@WindowCardConfig{buttonSize, buttonSpacing} windowmap current_window event
+handleEvent :: ButtonAction a => WindowCardConfig a -> Bimap Window DecorationWindow -> Maybe Window -> Event -> X ()
+handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons} windowmap current_window event
     | PropertyEvent{ev_window = w} <- event, Just w' <- M.lookup w windowmap
         = redrawWindow c (Just w == current_window) w'
     | ExposeEvent{ev_window = w} <- event, Just w' <- M.lookup w windowmap
@@ -88,26 +108,22 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing} windowmap current_wind
     | ButtonEvent{ev_window = w', ev_event_type = et, ev_y = ey} <- event
     , et == buttonPress
     , Just w <- M.lookupR (DecorationWindow w') windowmap
-        = if
-            | 1*fi buttonSpacing + 0*fi buttonSize <= ey && ey <= 2*fi buttonSpacing + 1*fi buttonSize
-                -> spawn "notify-send windowcard 1"
-            | 2*fi buttonSpacing + 1*fi buttonSize <= ey && ey <= 3*fi buttonSpacing + 2*fi buttonSize
-                -> spawn "notify-send windowcard 2"
-            | 3*fi buttonSpacing + 2*fi buttonSize <= ey && ey <= 4*fi buttonSpacing + 3*fi buttonSize
-                -> spawn "notify-send windowcard 3"
-            | otherwise -> return ()
+        = considerClick 0 barButtons ey w
     | otherwise = return ()
+    where
+        considerClick :: ButtonAction a => Int -> [BarButton a] -> CInt -> Window -> X ()
+        considerClick i ((BarButton _ action):buttons) y w
+          | (i+1)*fi buttonSpacing + i*fi buttonSize <= fi y && fi y <= (i+2)*fi buttonSpacing + (i+1)*fi buttonSize = runAction action w
+          | otherwise = considerClick (succ i) buttons y w
+        considerClick _ [] _ _ = return () -- didn't click anything
 
-redrawWindow :: WindowCardConfig -> Bool -> DecorationWindow -> X ()
-redrawWindow WindowCardConfig{barSize, buttonSize, buttonSpacing} is_current (DecorationWindow w) = do
+redrawWindow :: WindowCardConfig a -> Bool -> DecorationWindow -> X ()
+redrawWindow WindowCardConfig{barSize, buttonSize, buttonSpacing, barButtons} is_current (DecorationWindow w) = do
     d <- asks display
     gc <- io $ createGC d w
     io $ setGraphicsExposures d gc False
 
     colorGray <- stringToPixel d "#333333"
-    colorRed <- stringToPixel d "#e6194B"
-    colorYellow <- stringToPixel d "#ffe119"
-    colorGreen <- stringToPixel d "#3cb44b"
 
     let button i color = io $ do
         let x = fi $ (barSize - buttonSize) `div` 2
@@ -117,16 +133,16 @@ redrawWindow WindowCardConfig{barSize, buttonSize, buttonSpacing} is_current (De
         -- fillRectangle d w gc x y buttonSize buttonSize
         fillArc d w gc x y (fi buttonSize) (fi buttonSize) 0 (360*64)
 
-    button 0 $ if is_current then colorRed else colorGray
-    button 1 $ if is_current then colorYellow else colorGray
-    button 2 $ if is_current then colorGreen else colorGray
+    forM_ (zip [0..] barButtons) \(i, BarButton color onPress) -> do
+        color' <- stringToPixel d color
+        button i $ if is_current then color' else colorGray
 
     io $ freeGC d gc
 
 
-shouldDecorate :: WindowCardConfig -> Rectangle -> Bool
+shouldDecorate :: WindowCardConfig a -> Rectangle -> Bool
 shouldDecorate WindowCardConfig{barSize} (Rectangle _ _ w _) = w > fi barSize
 
-shrinkWindowRectangle :: WindowCardConfig -> Rectangle -> Rectangle
+shrinkWindowRectangle :: WindowCardConfig a -> Rectangle -> Rectangle
 shrinkWindowRectangle WindowCardConfig{barSize} (Rectangle x y w h)
     = Rectangle (x + fi barSize) y (w - fi barSize) h
