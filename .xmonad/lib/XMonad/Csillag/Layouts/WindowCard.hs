@@ -18,6 +18,7 @@ import Data.Bimap (Bimap)
 import XMonad
 import qualified XMonad.StackSet as W
 import XMonad.Layout.LayoutModifier
+import XMonad.Layout.DraggingVisualizer
 import XMonad.Util.XUtils
 
 
@@ -121,8 +122,12 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons, dragStartA
           | (i+1)*fi buttonSpacing + i*fi buttonSize <= fi y && fi y <= (i+2)*fi buttonSpacing + (i+1)*fi buttonSize = runAction action w
           | otherwise = considerClick (succ i) buttons y w
         considerClick _ [] _ w = do -- pressed on the bar, not on a button
+            d <- asks display
+            (_, _, _, win_w, win_h, _, _) <- io $ getGeometry d w
+
             runAction dragStartAction w
-            mouseDrag (\x y -> return ()) $
+            mouseDrag (\x y -> sendMessage $ DraggingWindow w $ Rectangle x y win_w win_h) do
+                sendMessage DraggingStopped
                 runAction dragEndAction w
 
 redrawWindow :: WindowCardConfig a -> Bool -> DecorationWindow -> X ()
