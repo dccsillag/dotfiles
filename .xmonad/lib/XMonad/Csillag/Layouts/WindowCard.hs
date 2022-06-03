@@ -20,6 +20,8 @@ import qualified XMonad.StackSet as W
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Util.XUtils
+import XMonad.Actions.AfterDrag
+import Data.Time (NominalDiffTime, diffUTCTime, getCurrentTime)
 
 
 instance (Read a, Read b, Ord a, Ord b) => Read (Bimap a b) where
@@ -160,8 +162,12 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons, dragStartA
             (_, _, _, win_w, win_h, _, _) <- io $ getGeometry d w
 
             runAction dragStartAction w
+            start_time <- io getCurrentTime
             mouseDrag (\x' y' -> sendMessage $ DraggingWindow w $ Rectangle (x'-fi x) (y'-fi y) win_w win_h) do
+                end_time <- io getCurrentTime
                 sendMessage DraggingStopped
+                when (end_time `diffUTCTime` start_time <= (300 / 10^3 :: NominalDiffTime)) $
+                    focus w
                 runAction dragEndAction w
 
 redrawWindow :: WindowCardConfig a -> Bool -> Maybe CInt -> DecorationWindow -> X ()
