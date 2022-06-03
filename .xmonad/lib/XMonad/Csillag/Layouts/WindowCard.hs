@@ -84,7 +84,6 @@ defaultWindowCardConfig = WindowCardConfig
     , inactiveButtonColor = "#333333"
     , dragStartAction = Noop
     , dragEndAction = Noop
-
     }
 
 data WindowCard a w = WindowCard

@@ -86,6 +86,7 @@ in
       utf8-string
       process_1_6_13_2
       xmobar
+      bimap
     ];
   };
 
