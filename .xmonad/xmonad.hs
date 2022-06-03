@@ -123,12 +123,13 @@ normalLayout = windowCard windowCardConfig $ draggingVisualizer $ maximize $ spa
 
         windowCardConfig = WindowCardConfig
             { barSize = 24
-            , buttonSize = 10
+            , buttonSize = 12
+            , buttonSizeIncrease = 0
             , buttonSpacing = 10
             , barButtons =
-                [ BarButton "#e6194B" CloseWindow
-                , BarButton "#ffe119" CollapseWindow
-                , BarButton "#3cb44b" MaximizeWindow
+                [ BarButton "#c6002B" "#e6194B" CloseWindow
+                , BarButton "#dfc100" "#ffe119" CollapseWindow
+                , BarButton "#1c942b" "#3cb44b" MaximizeWindow
                 ]
             , dragStartAction = PickWindow
             , dragEndAction = PlaceWindow
