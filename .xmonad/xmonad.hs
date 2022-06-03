@@ -9,14 +9,16 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NumericUnderscores #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE BlockArguments #-}
 
 -- Imports.
 
-import Control.Monad (unless)
+import Control.Monad (unless, when)
 import Data.Aeson
 import Data.ByteString.Lazy.UTF8 (fromString)
 import System.Directory (doesFileExist)
 import XMonad hiding (config, (|||))
+import qualified XMonad.StackSet as W
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.ShowText
 import XMonad.Csillag.Commands
@@ -128,17 +130,32 @@ normalLayout = windowCard windowCardConfig $ maximize $ spacing' 0 treeLayout
                 , BarButton "#ffe119" CollapseWindow
                 , BarButton "#3cb44b" MaximizeWindow
                 ]
+            , dragStartAction = PickWindow
+            , dragEndAction = PlaceWindow
             }
 fullLayout = noBorders Full
 
 data ButtonActions = CloseWindow
                    | MaximizeWindow
                    | CollapseWindow
+                   | PickWindow
+                   | PlaceWindow
                    deriving (Show, Read)
 instance ButtonAction ButtonActions where
     runAction CloseWindow w = killWindow w
     runAction MaximizeWindow w = focus w >> sendMessage (maximizeRestore w)
     runAction CollapseWindow w = focus w >> sendMessage (toggleCollapsed w)
+    runAction PickWindow w = sendMessage $ pickOrPlace w
+    runAction PlaceWindow w = do
+        -- first, let's get the window under the cursor (if there is any)
+        withDisplay \d -> do
+            root <- asks theRoot
+            (_, _, w', _, _, _, _, _) <- io $ queryPointer d root
+            ws <- gets windowset
+            let all_windows = W.index ws
+            if (w `elem` all_windows) && (w' `elem` all_windows)
+                then focus w' >> sendMessage (pickOrPlace w')
+                else sendMessage (pickOrPlace w)
 
 main :: IO ()
 main = xmonad =<< myXMonadConfig

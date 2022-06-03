@@ -37,6 +37,8 @@ data WindowCardConfig a = WindowCardConfig
     , buttonSize :: Int
     , buttonSpacing :: Int
     , barButtons :: [BarButton a]
+    , dragStartAction :: a
+    , dragEndAction :: a
     } deriving (Show, Read)
 
 data BarButton a = BarButton
@@ -44,15 +46,18 @@ data BarButton a = BarButton
     , button_onPress :: a
     } deriving (Show, Read)
 
-data DefaultButtonAction = KillWindow deriving (Show, Read)
+data DefaultButtonAction = KillWindow | Noop deriving (Show, Read)
 instance ButtonAction DefaultButtonAction where
     runAction KillWindow = killWindow
+    runAction Noop = const $ return ()
 defaultWindowCardConfig :: WindowCardConfig DefaultButtonAction
 defaultWindowCardConfig = WindowCardConfig
     { barSize = 24
     , buttonSize = 10
     , buttonSpacing = 10
     , barButtons = [BarButton "#ff0000" KillWindow]
+    , dragStartAction = Noop
+    , dragEndAction = Noop
     }
 
 data WindowCard a w = WindowCard
@@ -100,7 +105,7 @@ instance ButtonAction a => LayoutModifier (WindowCard a) Window where
         | otherwise = return Nothing
 
 handleEvent :: ButtonAction a => WindowCardConfig a -> Bimap Window DecorationWindow -> Maybe Window -> Event -> X ()
-handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons} windowmap current_window event
+handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons, dragStartAction, dragEndAction} windowmap current_window event
     | PropertyEvent{ev_window = w} <- event, Just w' <- M.lookup w windowmap
         = redrawWindow c (Just w == current_window) w'
     | ExposeEvent{ev_window = w} <- event, Just w' <- M.lookup w windowmap
@@ -115,7 +120,10 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons} windowmap 
         considerClick i ((BarButton _ action):buttons) y w
           | (i+1)*fi buttonSpacing + i*fi buttonSize <= fi y && fi y <= (i+2)*fi buttonSpacing + (i+1)*fi buttonSize = runAction action w
           | otherwise = considerClick (succ i) buttons y w
-        considerClick _ [] _ _ = return () -- didn't click anything
+        considerClick _ [] _ w = do -- pressed on the bar, not on a button
+            runAction dragStartAction w
+            mouseDrag (\x y -> return ()) $
+                runAction dragEndAction w
 
 redrawWindow :: WindowCardConfig a -> Bool -> DecorationWindow -> X ()
 redrawWindow WindowCardConfig{barSize, buttonSize, buttonSpacing, barButtons} is_current (DecorationWindow w) = do
