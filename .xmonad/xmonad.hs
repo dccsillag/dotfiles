@@ -127,10 +127,52 @@ normalLayout = windowCard windowCardConfig $ draggingVisualizer $ maximize $ spa
             , buttonSizeIncrease = 0
             , buttonSpacing = 10
             , barButtons =
-                [ BarButton "#c6002B" "#e6194B" CloseWindow
-                , BarButton "#dfc100" "#ffe119" CollapseWindow
-                , BarButton "#1c942b" "#3cb44b" MaximizeWindow
+                [ BarButton
+                    { button_color = "#c6002B"
+                    , button_hoverColor = "#e6194B"
+                    , button_icon = map (map (==1))
+                        [ [1,1,0,0,0,1,1]
+                        , [1,1,1,0,1,1,1]
+                        , [0,1,1,1,1,1,0]
+                        , [0,0,1,1,1,0,0]
+                        , [0,1,1,1,1,1,0]
+                        , [1,1,1,0,1,1,1]
+                        , [1,1,0,0,0,1,1]
+                        ]
+                    , button_onPress = CloseWindow
+                    }
+                , BarButton
+                    { button_color = "#dfc100"
+                    , button_hoverColor = "#ffe119"
+                    , button_icon = map (map (==1))
+                        [ [0,0,0,0,0,0,0]
+                        , [0,0,0,0,0,0,0]
+                        , [0,0,0,0,0,0,0]
+                        , [1,1,1,1,1,1,1]
+                        , [1,1,1,1,1,1,1]
+                        , [0,0,0,0,0,0,0]
+                        , [0,0,0,0,0,0,0]
+                        ]
+                    , button_onPress = CollapseWindow
+                    }
+                , BarButton
+                    { button_color = "#1c942b"
+                    , button_hoverColor = "#3cb44b"
+                    , button_icon = map (map (==1))
+                        [ [0,0,1,1,1,1,1]
+                        , [0,0,0,1,1,1,1]
+                        , [1,0,0,0,1,1,1]
+                        , [1,1,0,0,0,1,1]
+                        , [1,1,1,0,0,0,1]
+                        , [1,1,1,1,0,0,0]
+                        , [1,1,1,1,1,0,0]
+                        ]
+                    , button_onPress = MaximizeWindow
+                    }
                 ]
+            , barColor = "#000000"
+            , iconColor = "#111111"
+            , inactiveButtonColor = "#333333"
             , dragStartAction = PickWindow
             , dragEndAction = PlaceWindow
             }
