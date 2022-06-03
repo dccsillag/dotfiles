@@ -137,10 +137,10 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons, dragStartA
         = redrawWindow c (Just w == current_window) Nothing w'
     | ExposeEvent{ev_window = w} <- event, Just w' <- M.lookup w windowmap
         = redrawWindow c (Just w == current_window) Nothing w'
-    | ButtonEvent{ev_window = w', ev_event_type = et, ev_y = ey} <- event
+    | ButtonEvent{ev_window = w', ev_event_type = et, ev_x = ex, ev_y = ey} <- event
     , et == buttonPress
     , Just w <- M.lookupR (DecorationWindow w') windowmap
-        = considerClick 0 barButtons ey w
+        = considerClick 0 barButtons ex ey w
     | MotionEvent{ev_window = w', ev_event_type = et, ev_y} <- event
     , et == motionNotify
     , Just w <- M.lookupR (DecorationWindow w') windowmap
@@ -151,16 +151,16 @@ handleEvent c@WindowCardConfig{buttonSize, buttonSpacing, barButtons, dragStartA
         = redrawWindow c (Just w == current_window) Nothing (DecorationWindow w')
     | otherwise = return ()
     where
-        considerClick :: ButtonAction a => Int -> [BarButton a] -> CInt -> Window -> X ()
-        considerClick i ((BarButton _ _ _ action):buttons) y w
+        considerClick :: ButtonAction a => Int -> [BarButton a] -> CInt -> CInt -> Window -> X ()
+        considerClick i ((BarButton _ _ _ action):buttons) x y w
           | (i+1)*fi buttonSpacing + i*fi buttonSize <= fi y && fi y <= (i+2)*fi buttonSpacing + (i+1)*fi buttonSize = runAction action w
-          | otherwise = considerClick (succ i) buttons y w
-        considerClick _ [] _ w = do -- pressed on the bar, not on a button
+          | otherwise = considerClick (succ i) buttons x y w
+        considerClick _ [] x y w = do -- pressed on the bar, not on a button
             d <- asks display
             (_, _, _, win_w, win_h, _, _) <- io $ getGeometry d w
 
             runAction dragStartAction w
-            mouseDrag (\x y -> sendMessage $ DraggingWindow w $ Rectangle x y win_w win_h) do
+            mouseDrag (\x' y' -> sendMessage $ DraggingWindow w $ Rectangle (x'-fi x) (y'-fi y) win_w win_h) do
                 sendMessage DraggingStopped
                 runAction dragEndAction w
 
