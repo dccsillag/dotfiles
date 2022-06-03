@@ -59,6 +59,8 @@ startup = do
   -- spawnOnce "eww open bar-window"
   spawnOnce "polybar csillag"
 
+  spawn "/home/daniel/.xmonad/on_start.sh"
+
   -- Set the default cursor to the left arrow/pointer (not the X).
   setDefaultCursor xC_left_ptr
 
