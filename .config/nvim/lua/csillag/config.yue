@@ -357,9 +357,9 @@ do
         capabilities.window.workDoneProgress = true
 
         on_attach = (client) ->
-            vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
-                buffer: vim.api.nvim_get_current_buf!
-                callback: -> vim.lsp.buf.format!
+            -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
+            --     buffer: vim.api.nvim_get_current_buf!
+            --     callback: -> vim.lsp.buf.format!
 
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
