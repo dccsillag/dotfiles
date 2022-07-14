@@ -567,39 +567,25 @@ do
 
     (require 'dapui').setup!
 
-    -- ultest
-    (require 'ultest').setup
-        builders:
-            rust: (argv) ->
-                target = argv[#argv-2]
-
-                table.insert argv, 3, "--no-run"
-                table.insert argv, 3, "--message-format=json"
-
-                cargotest_cmd = (table.concat argv, " ") .. [[ 2>/dev/null | jq --raw-output 'select(.profile.test == true) | .filenames[]' | head -1]]
-                program = vim.fn.system cargotest_cmd
-                program = program\gsub "\n", ""
-
-                {
-                    dap:
-                        type: 'lldb'
-                        request: 'launch'
-                        mode: 'test'
-                        :program
-                        cwd: '${workspaceFolder}'
-                        stopOnEntry: false
-                        args:
-                            * target
-                            * "--exact"
-                        runInTerminal: false
-                        postRunCommands:
-                            * 'process handle -p true -s false -n false SIGWINCH'
-                }
-    vim.g.ultest_output_on_line = false
-    vim.g.ultest_pass_sign = "✓"
-    vim.g.ultest_fail_sign = "✗"
-    vim.g.ultest_running_sign = "⊙"
-    vim.g.ultest_not_run_sign = "?"
+    -- neotest
+    (require 'neotest').setup
+        adapters:
+            * (require "neotest-python")
+                dap:
+                    justMyCode: false
+            * (require "neotest-plenary")
+            * (require "neotest-vim-test")
+                ignore_file_types:
+                    * "python"
+                    * "vim"
+                    * "lua"
+    -- TODO neotest.diagnostic
+    -- TODO neotest.status
+    -- vim.g.ultest_output_on_line = false
+    -- vim.g.ultest_pass_sign = "✓"
+    -- vim.g.ultest_fail_sign = "✗"
+    -- vim.g.ultest_running_sign = "⊙"
+    -- vim.g.ultest_not_run_sign = "?"
 
     -- Comment.nvim
     (require 'Comment').setup!

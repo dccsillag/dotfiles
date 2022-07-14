@@ -155,12 +155,14 @@ applyKeymaps myKeymaps
 
         -- ultest
         't':
-            'o': vimcmd 'UltestOutput'
-            'd': vimcmd 'UltestDebugNearest'
-            't': vimcmd 'UltestSummary'
-            'n': vimcmd 'UltestNearest'
-            'f': vimcmd 'Ultest'
-            'l': vimcmd 'UltestLast'
+            'o': luacmd 'require"neotest".output.open({ enter = true })'
+            't': luacmd 'require"neotest".summary.toggle()'
+            'n': luacmd 'require"neotest".run.run()'
+            'f': luacmd 'require"neotest".run.run(vim.fn.expand("%"))'
+            'd': luacmd 'require"neotest".run.run({strategy = "dap"})'
+            'D': luacmd 'require"neotest".run.attach()'
+            's': luacmd 'require"neotest".run.stop()'
+            'l': luacmd 'require"neotest".run.run_last()'
         'd':
             'd': ->
                 import 'dapui'
