@@ -60,7 +60,7 @@ local theme = lush(function()
     PopupNotification                 { fg = foreground, bg = background_popup }, -- Popup menu for notifications
     IndentBlanklineChar               { fg = foreground_ui.darken(20) }, -- Color to use for indent guides (indent-blankline.nvim)
     VirtualIndentBlanklineChar        { fg = foreground_ui.darken(30) }, -- Color to use for indent guides in virtual lines
-    ColorColumn                       { fg = foreground_ui, bg = background }, -- used for the columns set with 'colorcolumn'
+    ColorColumn                       { bg = foreground_ui.darken(20) }, -- used for the columns set with 'colorcolumn'
     Whitespace                        { fg = foreground_ui }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     NonText                           { fg = foreground_ui }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Conceal                           { fg = foreground_virtual }, -- placeholder characters substituted for concealed text (see 'conceallevel')
