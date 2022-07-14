@@ -41,9 +41,9 @@ do
     --     augroup END
     -- ]]
 
-    -- SHADA
-    autocmd 'FocusGained', command: [[if exists(':rshada') | rshada | endif]]
-    autocmd 'FocusLost', command: [[if exists(':wshada') | wshada | endif]]
+    -- -- SHADA
+    -- autocmd 'FocusGained', command: [[if exists(':rshada') | rshada | endif]]
+    -- autocmd 'FocusLost', command: [[if exists(':wshada') | wshada | endif]]
 
     -- -- SpellCheck
     -- vim.cmd [[

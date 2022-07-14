@@ -194,6 +194,7 @@ do
     -- telescope
     (require 'telescope').setup
         defaults:
+            sorting_strategy: 'ascending'
             layout_strategy: 'vertical'
             layout_config:
                 prompt_position: 'top'
@@ -303,9 +304,10 @@ do
     vim.g.matchup_matchparen_offscreen = {}
 
     -- nvim-notify
+    vim.o.termguicolors = true
     vim.notify = require 'notify'
     vim.notify.setup
-        stages: "slide"
+        stages: "fade"
         timeout: 1000
 
     -- nvim-pqf
@@ -734,6 +736,7 @@ do
     --- Setup statusbar
     vim.o.showmode = false -- don't show the current mode below the statusbar
     vim.o.laststatus = 3 -- use a global statusline
+    vim.o.cmdheight = 0 -- hide the command line if there's nothing to show
     -- vim.o.statusline = [[%h%w%q%f %r %m (%L lines) @ %l:%c (%p%%)%=%y LSP]] -- set the statusline to a horizontal separator
     vim.o.ruler = false -- remove the ruler
 
@@ -779,9 +782,6 @@ do
     --- Keep indentation structure
     vim.o.autoindent = true -- use same indentation level for the neighbouring lines
     vim.o.cinoptions = [[L0,N-s,E-s,(0,mN,j1,J1,P1]] -- setup better C/C++ autoindent
-
-    --- Highlight past the textwidth
-    vim.o.colorcolumn = '+1' -- highlight the column after the one specified in 'textwidth'
 
     -- Highlight the current line
     vim.o.cursorline = true -- show the cursorline
