@@ -174,6 +174,7 @@ do
             * 'fzf'
             * 'fugitive'
             * 'quickfix'
+            * 'neo-tree'
 
     -- fzf-lua
     (require 'fzf-lua').setup

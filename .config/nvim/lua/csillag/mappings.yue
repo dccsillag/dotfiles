@@ -84,12 +84,15 @@ applyKeymaps myKeymaps
             '<visual>a': -> vim.lsp.buf.range_code_action()
 
         -- FZF
-        'e': telescope 'find_files'
-        'ge': telescope 'git_files'
+        'e': telescope 'git_files'
+        'E': telescope 'find_files'
         'b': telescope 'buffers'
         'H': telescope 'help_tags'
         'F': telescope 'filetypes'
-        'f': telescope 'live_grep'
+        's': telescope 'live_grep'
+
+        -- toggle file tree
+        'f': vimcmd 'Neotree'
 
         -- cd
         'c': ->
