@@ -52,6 +52,7 @@ luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
 dapcmd = (cmd) -> luacmd 'if require"dap".session() ~= nil then ' .. cmd .. ' else print("no DAP session!") end'
 plug = (op) -> '<Plug>(' .. op .. ')'
 addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
+telescope = (provider) -> vimcmd 'Telescope ' .. provider
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 
 applyKeymaps myKeymaps
@@ -59,8 +60,8 @@ applyKeymaps myKeymaps
     '<C-]>': -> vim.lsp.buf.definition!
     'K': -> vim.lsp.buf.hover!
     'gd': -> vim.lsp.buf.definition!
-    'gD': fzflua "lsp_definitions"
-    'gr': fzflua "lsp_references"
+    'gD': telescope "lsp_definitions"
+    'gr': telescope "lsp_references"
     'gR': -> vim.lsp.buf.references!
     'gq': -> vim.lsp.buf.formatting!
 
@@ -73,23 +74,22 @@ applyKeymaps myKeymaps
     '<Leader>':
         -- LSP
         'l':
-            'g': fzflua "lsp_live_workspace_symbols"
-            'G': fzflua "lsp_document_symbols"
-            'i': fzflua "lsp_implementations"
-            'd': fzflua "lsp_workspace_diagnostics"
-            'D': fzflua "lsp_document_diagnostics"
+            'g': telescope "lsp_dynamic_workspace_symbols"
+            'G': telescope "lsp_document_symbols"
+            'i': telescope "lsp_implementations"
+            'd': telescope "diagnostics"
+            'D': telescope "diagnostics bufnr=0"
             'r': -> vim.lsp.buf.rename!
             'a': -> vim.lsp.buf.code_action()
             '<visual>a': -> vim.lsp.buf.range_code_action()
 
         -- FZF
-        'e': fzflua 'files'
-        'ge': fzflua 'git_files'
-        'gg': fzflua 'git_status'
-        'b': fzflua 'buffers'
-        'H': fzflua 'help_tags'
-        'F': fzflua 'filetypes'
-        'f': fzflua 'live_grep_resume'
+        'e': telescope 'find_files'
+        'ge': telescope 'git_files'
+        'b': telescope 'buffers'
+        'H': telescope 'help_tags'
+        'F': telescope 'filetypes'
+        'f': telescope 'live_grep'
 
         -- cd
         'c': ->

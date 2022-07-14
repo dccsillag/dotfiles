@@ -190,6 +190,15 @@ do
         lsp:
             severity: "warning"
 
+    -- telescope
+    (require 'telescope').setup
+        defaults:
+            layout_strategy: 'vertical'
+            layout_config:
+                prompt_position: 'top'
+                mirror: true
+                preview_height: 0.3
+
     -- popui
     vim.ui.select = require "popui.ui-overrider"
     vim.g.popui_border_style = "rounded"
@@ -590,85 +599,90 @@ do
     -- Comment.nvim
     (require 'Comment').setup!
 
-    -- pear-tree
-    vim.g.pear_tree_repeatable_expand = 0
+    -- nvim-autopairs
+    (require 'nvim-autopairs').setup {}
 
-    global all_peartree_pairs
-    all_peartree_pairs =
-        basic_pairs: -- parentheses, bracktes, etc.
-            ["("]: closer: ")"
-            ["["]: closer: "]"
-            ["{"]: closer: "}"
-        quotes_and_apostrophes: -- quotes, apostrophes, etc.
-            ["\""]: closer: "\""
-            ["'"]: closer: "'"
-            ["`"]: closer: "`"
-        math_dolars: -- inline&display math
-            ["$"]: closer: "$"
-            ["$$"]: closer: "$$"
-        texmath: -- TeX Math
-            -- -- delimiters
-            ["\\\\("]: closer: "\\\\)"
-            ["\\\\["]: closer: "\\\\]"
-            ["\\\\left("]: closer: "\\\\right)"
-            ["\\\\left["]: closer: "\\\\right]"
-            ["\\\\{"]: closer: "\\\\}"
-            ["\\\\left\\\\{"]: closer: "\\\\right\\\\}"
-            ["\\\\lceil"]: closer: "\\\\rceil"
-            ["\\\\left\\\\lceil"]: closer: "\\\\right\\\\rceil"
-            ["\\\\lfloor"]: closer: "\\\\rfloor"
-            ["\\\\left\\\\lfloor"]: closer: "\\\\right\\\\rfloor"
-            ["\\\\lvert"]: closer: "\\\\rvert"
-            ["\\\\left\\\\lvert"]: closer: "\\\\right\\\\rvert"
-            ["\\\\lVert"]: closer: "\\\\rVert"
-            ["\\\\left\\\\lVert"]: closer: "\\\\right\\\\rVert"
-            -- -- multi-args
-            ["\\\\frac"]: closer: "{}{}"
-            ["\\\\inn"]: closer: "{}{}"
-            ["\\\\diff"]: closer: "{}{}"
-            ["\\\\pdiff"]: closer: "{}{}"
-            ["\\\\sqrt["]: closer: "]{}"
-            -- -- LaTeX environments
-            ["\\\\begin{*}"]: closer: "\\\\end{*}", until: "}"
-        xml: -- XML tags
-            ["<!--"]: closer: "-->"
-            ["<*>"]: closer: "</*>", until: "\\W"
-        markdown: -- Markdown formatting
-            ["\\*"]: closer: "\\*"
-            ["\\*\\*"]: closer: "\\*\\*"
-            ["```"]: closer: "```"
-            [":::"]: closer: ":::"
-        templates: -- c++ templates / rust type variables
-            ["<"]: closer: ">", not_at: {"\\W", "^"}
-
-    global pairs_per_filetype, set_pairs_for_filetype
-    pairs_per_filetype =
-        xml:        {'xml'}
-        html:       {'xml'}
-        tex:        {'basic_pairs', 'math_dolars', 'texmath'}
-        markdown:   {'basic_pairs', 'math_dolars', 'markdown', 'xml'}
-        python:     {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-        rust:       {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-        cpp:        {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-        python:     {'basic_pairs', 'quotes_and_apostrophes'}
-        -- TODO: javascript
-        -- TODO: haskell
-        -- TODO: lua
-    set_pairs_for_filetype = (filetype) ->
-        outpairs = {}
-        pair_names_for_filetype = pairs_per_filetype[filetype]
-        if pair_names_for_filetype == nil
-            outpairs = vim.g.pear_tree_pairs
-        else
-            for _, subpairs_name in ipairs pair_names_for_filetype
-                subpairs = all_peartree_pairs[subpairs_name]
-                for k, v in pairs subpairs
-                    outpairs[k] = v
-        vim.b.pear_tree_pairs = outpairs
-
-    vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
-
-    vim.g.pear_tree_pairs = basic_pairs
+    -- -- pear-tree
+    -- vim.g.pear_tree_repeatable_expand = 0
+    -- vim.g.pear_tree_ft_disabled =
+    --     * 'telescope'
+    --
+    -- global all_peartree_pairs
+    -- all_peartree_pairs =
+    --     basic_pairs: -- parentheses, bracktes, etc.
+    --         ["("]: closer: ")"
+    --         ["["]: closer: "]"
+    --         ["{"]: closer: "}"
+    --     quotes_and_apostrophes: -- quotes, apostrophes, etc.
+    --         ["\""]: closer: "\""
+    --         ["'"]: closer: "'"
+    --         ["`"]: closer: "`"
+    --     math_dolars: -- inline&display math
+    --         ["$"]: closer: "$"
+    --         ["$$"]: closer: "$$"
+    --     texmath: -- TeX Math
+    --         -- -- delimiters
+    --         ["\\\\("]: closer: "\\\\)"
+    --         ["\\\\["]: closer: "\\\\]"
+    --         ["\\\\left("]: closer: "\\\\right)"
+    --         ["\\\\left["]: closer: "\\\\right]"
+    --         ["\\\\{"]: closer: "\\\\}"
+    --         ["\\\\left\\\\{"]: closer: "\\\\right\\\\}"
+    --         ["\\\\lceil"]: closer: "\\\\rceil"
+    --         ["\\\\left\\\\lceil"]: closer: "\\\\right\\\\rceil"
+    --         ["\\\\lfloor"]: closer: "\\\\rfloor"
+    --         ["\\\\left\\\\lfloor"]: closer: "\\\\right\\\\rfloor"
+    --         ["\\\\lvert"]: closer: "\\\\rvert"
+    --         ["\\\\left\\\\lvert"]: closer: "\\\\right\\\\rvert"
+    --         ["\\\\lVert"]: closer: "\\\\rVert"
+    --         ["\\\\left\\\\lVert"]: closer: "\\\\right\\\\rVert"
+    --         -- -- multi-args
+    --         ["\\\\frac"]: closer: "{}{}"
+    --         ["\\\\inn"]: closer: "{}{}"
+    --         ["\\\\diff"]: closer: "{}{}"
+    --         ["\\\\pdiff"]: closer: "{}{}"
+    --         ["\\\\sqrt["]: closer: "]{}"
+    --         -- -- LaTeX environments
+    --         ["\\\\begin{*}"]: closer: "\\\\end{*}", until: "}"
+    --     xml: -- XML tags
+    --         ["<!--"]: closer: "-->"
+    --         ["<*>"]: closer: "</*>", until: "\\W"
+    --     markdown: -- Markdown formatting
+    --         ["\\*"]: closer: "\\*"
+    --         ["\\*\\*"]: closer: "\\*\\*"
+    --         ["```"]: closer: "```"
+    --         [":::"]: closer: ":::"
+    --     templates: -- c++ templates / rust type variables
+    --         ["<"]: closer: ">", not_at: {"\\W", "^"}
+    --
+    -- global pairs_per_filetype, set_pairs_for_filetype
+    -- pairs_per_filetype =
+    --     xml:        {'xml'}
+    --     html:       {'xml'}
+    --     tex:        {'basic_pairs', 'math_dolars', 'texmath'}
+    --     markdown:   {'basic_pairs', 'math_dolars', 'markdown', 'xml'}
+    --     python:     {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+    --     rust:       {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+    --     cpp:        {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
+    --     python:     {'basic_pairs', 'quotes_and_apostrophes'}
+    --     -- TODO: javascript
+    --     -- TODO: haskell
+    --     -- TODO: lua
+    -- set_pairs_for_filetype = (filetype) ->
+    --     outpairs = {}
+    --     pair_names_for_filetype = pairs_per_filetype[filetype]
+    --     if pair_names_for_filetype == nil
+    --         outpairs = vim.g.pear_tree_pairs
+    --     else
+    --         for _, subpairs_name in ipairs pair_names_for_filetype
+    --             subpairs = all_peartree_pairs[subpairs_name]
+    --             for k, v in pairs subpairs
+    --                 outpairs[k] = v
+    --     vim.b.pear_tree_pairs = outpairs
+    --
+    -- vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
+    --
+    -- vim.g.pear_tree_pairs = basic_pairs
 
     -- vim-table-mode
     vim.g.table_mode_map_prefix = '<Leader><Bar>'

@@ -25,7 +25,7 @@ plugins = ->
     plug 'nvim-lualine/lualine.nvim' -- statusline
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
     plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
-    plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'}
+    plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
     -- plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
     plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
@@ -95,7 +95,8 @@ plugins = ->
     plug 'rhysd/conflict-marker.vim' -- easily solve git conflicts
     plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
     plug 'numToStr/Comment.nvim' -- comment/uncomment code
-    plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
+    plug 'windwp/nvim-autopairs' -- automatic delimiter pair closing
+    -- plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
     plug 'godlygeek/tabular' -- aligns code
     plug 'dhruvasagar/vim-table-mode' -- painlessly edit tables
     plug 'tommcdo/vim-exchange' -- exchange text around
