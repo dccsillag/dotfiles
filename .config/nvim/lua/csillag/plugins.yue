@@ -45,6 +45,7 @@ plugins = ->
     plug 'rcarriga/nvim-notify' -- show notifications
     plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
     plug 'goolord/alpha-nvim' -- custom startup screen
+    plug 'sunjon/Shade.nvim' -- fade out inactive windows
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
@@ -80,12 +81,15 @@ plugins = ->
     -- LSP / TreeSitter / Formatting
     plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
     plug 'neovim/nvim-lspconfig' -- easily configure LSP
+    plug 'ray-x/lsp_signature.nvim' -- show function signatures while inserting
     plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
     plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
+    plug 'lewis6991/spellsitter.nvim' -- better spellchecking with treesitter
     plug 'stevearc/aerial.nvim' -- show code outline
     plug 'mfussenegger/nvim-dap' -- debugging
     plug 'rcarriga/nvim-dap-ui' -- an UI for debugging
+    plug 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
 
     -- Color Schemes
     plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim

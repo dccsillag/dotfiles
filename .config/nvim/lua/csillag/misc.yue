@@ -6,6 +6,8 @@ if vim.fn.exists('neovide')
     -- We're in Neovide
 
     vim.g.neovide_transparency = 0.9
+    vim.g.neovide_floating_blur_amount_x = 3.0
+    vim.g.neovide_floating_blur_amount_y = 3.0
 
     global set_font, gui_default_font_size, gui_font_size
     global increase_font_size, decrease_font_size, reset_font_size
@@ -118,7 +120,7 @@ do
 
         lsp_progress_buffers[bufnr].lsp_progress_running = true
     -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
-    --vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
+    vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
 
     -- Better setup for carbon buffers
     autocmd 'FileType', command: [[set nonumber]], pattern:

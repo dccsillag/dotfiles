@@ -47,7 +47,7 @@ myKeymaps = (maps) ->
                 :noremap
     out
 
-vimcmd = (cmd) -> ':' .. cmd .. '<CR>'
+vimcmd = (cmd) -> '<cmd>' .. cmd .. '<CR>'
 luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
 dapcmd = (cmd) -> luacmd 'if require"dap".session() ~= nil then ' .. cmd .. ' else print("no DAP session!") end'
 plug = (op) -> '<Plug>(' .. op .. ')'
@@ -57,10 +57,7 @@ fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 
 applyKeymaps myKeymaps
     -- LSP
-    '<C-]>': -> vim.lsp.buf.definition!
-    'K': -> vim.lsp.buf.hover!
     'gd': -> vim.lsp.buf.definition!
-    'gD': telescope "lsp_definitions"
     'gr': telescope "lsp_references"
     'gR': -> vim.lsp.buf.references!
     'gq': -> vim.lsp.buf.formatting!
@@ -74,11 +71,13 @@ applyKeymaps myKeymaps
     '<Leader>':
         -- LSP
         'l':
+            'h': -> vim.lsp.buf.hover!
             'g': telescope "lsp_dynamic_workspace_symbols"
             'G': telescope "lsp_document_symbols"
             'i': telescope "lsp_implementations"
-            'd': telescope "diagnostics"
-            'D': telescope "diagnostics bufnr=0"
+            'd': telescope 'lsp_definitions'
+            -- 'd': telescope "diagnostics"
+            -- 'D': telescope "diagnostics bufnr=0"
             'r': -> vim.lsp.buf.rename!
             'a': -> vim.lsp.buf.code_action()
             '<visual>a': -> vim.lsp.buf.range_code_action()
@@ -92,7 +91,7 @@ applyKeymaps myKeymaps
         's': telescope 'live_grep'
 
         -- toggle file tree
-        'f': vimcmd 'Neotree'
+        'f': vimcmd 'NeoTreeFocusToggle'
 
         -- cd
         'c': telescope 'zoxide list'
@@ -250,8 +249,8 @@ applyKeymaps myKeymaps
     -- Make Y work like D
     'Y': 'y$'
 
-    -- Map Q to quit if everything is saved
-    'Q': vimcmd "qa"
+    -- Map Q to a nop
+    'Q': '<nop>'
 
     -- Change S to behave kinda like X
     'S': '"_Xi<CR><Esc>l'

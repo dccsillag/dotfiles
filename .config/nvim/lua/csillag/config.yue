@@ -96,6 +96,11 @@ do
         opts:
             margin: 5
 
+    -- shade.nvim
+    -- (require 'shade').setup
+    --     overlay_opacity: 80
+    --     opacity_step: 1
+
     -- statusline
     my_theme = {
         a:
@@ -205,6 +210,13 @@ do
                 prompt_position: 'top'
                 mirror: true
                 preview_height: 0.3
+    (require 'telescope').load_extension 'zoxide'
+    (require 'telescope._extensions.zoxide.config').setup
+        mappings:
+            default:
+                after_action: (selection) ->
+                    vim.notify "Directory changed to " .. selection.path
+
     (require 'trouble').setup
         padding: false
         indent_lines: false
@@ -286,7 +298,7 @@ do
 
     -- nvim-treesitter-context
     (require 'treesitter-context').setup
-        enable: true
+        enable: false
         throttle: true
         max_lines: 4
         patterns:
@@ -373,6 +385,9 @@ do
     -- crates.nvim
     (require 'crates').setup!
 
+    -- Automatic formatting
+    (require 'lsp-format').setup {}
+
     -- LSP
     do
         import 'lspconfig' as nvim_lsp
@@ -384,6 +399,14 @@ do
             -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
             --     buffer: vim.api.nvim_get_current_buf!
             --     callback: -> vim.lsp.buf.format!
+            -- (require 'lsp-format').on_attach client
+
+            (require 'lsp_signature').on_attach
+                floating_window: true
+                hint_enable: false
+                hint_prefix: "→"
+                close_timeout: 500
+                timer_interval: 50
 
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
@@ -454,6 +477,7 @@ do
             lines = vim.api.nvim_buf_get_lines bufnr, lnum, lnum + 1, false
             line = lines[1]
             out = ""
+            offset = 0
             for i = 1, #line
                 switch line\sub i, i
                     when ' '
@@ -466,7 +490,8 @@ do
                         out ..= "\t"
                     else
                         break
-            out
+                offset = offset + 1
+            out, offset
         vim.diagnostic.handlers.virtual_lines =
             show: (namespace, bufnr, diagnostics, opts) ->
                 vim.validate
@@ -481,16 +506,21 @@ do
 
                 vim.api.nvim_buf_clear_namespace bufnr, virt_lines_ns, 0, -1
 
-                prefix = "^"
+                prefix = "﬌" -- "↑" -- "^"
 
                 for id, diagnostic in ipairs diagnostics
                     virt_lines = {}
                     lprefix = prefix
-                    indentation = get_indentation_for_line bufnr, diagnostic.lnum
+                    indentation, indentation_offset = get_indentation_for_line bufnr, diagnostic.lnum
                     for diag_line in diagnostic.message\gmatch("([^\n]+)")
+                        print(vim.inspect(diagnostic))
                         table.insert virt_lines, {
                             {
                                 indentation,
+                                "VirtualIndentBlanklineChar",
+                            },
+                            {
+                                string.rep(' ', diagnostic.col - indentation_offset),
                                 "VirtualIndentBlanklineChar",
                             },
                             {
@@ -528,6 +558,9 @@ do
         indent:
             enable: false -- currently, this is broken.
 
+    -- spellsitter
+    (require 'spellsitter').setup!
+
     -- aerial
     (require 'aerial').setup
         backends:
@@ -535,6 +568,7 @@ do
             * "markdown"
             * "lsp"
         close_behaviour: "close"
+        post_jump_cmd: "normal! zt"
         default_direction: "float"
         float:
             border: "rounded"
@@ -563,7 +597,16 @@ do
             * "Module"
             * "Method"
             * "Struct"
-        nerd_font: false
+        icons:
+            Class: "class"
+            Constructor: "func"
+            Enum: "enum"
+            Function: "func"
+            Interface: "trait"
+            Module: "module"
+            Method: "func"
+            Struct: "struct"
+        nerd_font: true
         -- TODO post_jump_cmd       call beacon
         close_on_select: true
         show_guides: false
@@ -778,7 +821,7 @@ do
     vim.o.signcolumn = 'auto:1-3' -- automatically resize signcolumn to show at most 3 signs, and at least 1 sign
 
     --- Show line numbers
-    vim.o.number = true -- show line numbers
+    vim.o.number = false -- don't show line numbers
     vim.o.numberwidth = 1 -- use the least amount of space for the line numbers
 
     --- Setup folding
@@ -795,8 +838,8 @@ do
     vim.o.autoindent = true -- use same indentation level for the neighbouring lines
     vim.o.cinoptions = [[L0,N-s,E-s,(0,mN,j1,J1,P1]] -- setup better C/C++ autoindent
 
-    -- Highlight the current line
-    vim.o.cursorline = true -- show the cursorline
+    -- -- Don't highlight the current line
+    vim.o.cursorline = false -- don't show the cursorline
 
     --- Set the updatetime
     vim.o.updatetime = 500 -- how much time between updates, in ms
@@ -861,6 +904,7 @@ do
 
     --- Setup spellcheck
     vim.o.spelllang = 'en_us,pt_br'
+    vim.o.spell = true
 
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
