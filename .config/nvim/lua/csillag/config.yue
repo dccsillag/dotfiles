@@ -9,9 +9,13 @@ do
     map_command 'EditFile', ->
         in_git_repository = os.execute "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
         if in_git_repository == 0
-            vim.cmd "norm \\ge"
-        else
             vim.cmd "norm \\e"
+        else
+            vim.cmd "norm \\E"
+    map_command 'EditDotFile', ->
+        vim.env.GIT_DIR = vim.fn.expand("~/.dotfiles.git")
+        vim.env.GIT_WORK_TREE = vim.fn.expand("~")
+        vim.cmd 'EditFile'
     button = (sc, icon, txt, keybind, keybind_opts) ->
         opts =
             position: 'center'
@@ -75,6 +79,7 @@ do
                     * button "pi"," ", "Install plugins", "<cmd>PackerInstall<CR>"
                     * button "pu"," ", "Update plugins", "<cmd>PackerUpdate<CR>"
                     * button "pc"," ", "Clean plugins", "<cmd>PackerClean<CR>"
+                    * button "de"," ", "Edit a dotfile", "<cmd>EditDotFile<CR>"
                 opts:
                     spacing: 1
             *
