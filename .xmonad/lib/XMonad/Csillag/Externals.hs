@@ -27,13 +27,13 @@ filemanagerSpawn = termRun "lf" -- "nnn -nA"
 -- Browser
 
 browserSpawn :: String
-browserSpawn = "qutebrowser-quick"
+browserSpawn = "brave --new-window"
 
 browserSpawnPrivate :: String
-browserSpawnPrivate = "qutebrowser-quick --private"
+browserSpawnPrivate = "brave --new-window --incognito"
 
 browserOpen :: String -> String
-browserOpen url = "qutebrowser-quick '" ++ url ++ "'"
+browserOpen url = "brave --new-window '" ++ url ++ "'"
 
 -- Camera Viewer
 
