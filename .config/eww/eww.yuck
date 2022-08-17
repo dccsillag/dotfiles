@@ -1,180 +1,101 @@
-(defvar panel-is-open false)
-(defwidget bar []
-           (button ; :onclick {panel-is-open ? "eww close panel-window && eww update panel-is-open=false" : "eww open panel-window && eww update panel-is-open=true"}
-                   ; :onhoverlost "eww close panel-window"
-                   (centerbox :class "bar" :orientation "h"
-                              (resource-monitors)
-                              (datetime)
-                              (misc))))
-
-(defwidget resource-monitors []
-           (box :class "resource-monitors" :orientation "h" :space-evenly false :halign "start" :spacing 5
-                (metric :label "﬙" :value "${round(EWW_CPU.avg, 0)}%")
-                (metric :label "" :value "${round(EWW_RAM.used_mem_perc, 0)}%")
-                (metric :label "易" :value "${round(100*(1 - EWW_RAM.free_swap / EWW_RAM.total_swap), 0)}%")
-                (metric :label "﨎" :value "${EWW_TEMPS.CPU}°C")
-                (metric :label "" :value "${battery}%")))
-
-(defpoll battery :interval "5s" `battery charge`)
-(defpoll online :interval "5s" `nm-online >/dev/null 2>&1 && echo '直 ' || echo '睊 '`)
-(defpoll mic :interval "100ms" `~/.local/scripts/is-mic-on.sh && echo ' ' || echo ' '`)
-
-(defwidget datetime []
-           (box :class "datetime" :orientation "h" :space-evenly false :halign "center"
-                time))
-
-(defwidget misc []
-           (box :class "misc" :orientation "h" :space-evenly false :halign "end" :spacing 5
-                (box :class "icon" :width 25 :halign "fill" {mic})
-                (box :class "icon" :width 25 :halign "fill" {online})))
-
-(defpoll time :interval "1s" `date +'%a, %d/%m/%Y %H:%M:%S'`)
-
-(defwidget metric [label value]
-           (box :orientation "h"
-                :class "metric"
-                :space-evenly false
-                (box :orientation "h" :class "icon" label)
-                (box :orientation "h" :class "metric-value" :halign "end" :width 60 value)))
-
-(defwindow bar-window
+(defwindow bar
            :monitor 0
-           :windowtype "dock"
            :geometry (geometry :x "0%"
                                :y "0%"
                                :width "100%"
-                               :height "40px"
+                               :height "35px"
                                :anchor "top center")
-           :reserve (struts :distance "40px" :side "top")
            :stacking "fg"
-           :wm-ignore false
-           (bar))
-
-(defwidget panel []
-           (box :class "panel"
-                :orientation "v"
-                :space-evenly false
-                :halign "fill"
-                :valign "fill"
-                :spacing 10
-                ; (wm-actions)
-                (box :orientation "h" :spacing 10
-                     (box :orientation "h" :spacing 10
-                          (card :name "common programs" :content "(common-programs-panel)")
-                          (card :name "scratchpads" :content "(scratchpads-panel)")))
-                (box :orientation "h" :spacing 10
-                     (card :name "calendar" :content "(calendar)")
-                     (box :orientation "v" :spacing 10
-                          (box :orientation "h" :spacing 10
-                               (card :name "packages installed" :content "' ${packages-installed}'")
-                               (card :name "packages explicitly installed" :content "'* ${packages-explicitly-installed}'")
-                               (card :name "updates available" :content "' ${packages-updates}'"))
-                          (card :name "uptime" :content "(box :style \"font-size: 40pt\" '${uptime}')")
-                          ; "TODO"
-                          (box :orientation "h" :spacing 10
-                               "TODO"
-                               (card :name "enter super key mode"
-                                     :content "(super-key-mode-button)"))))))
-
-(defwidget common-programs-panel []
-           (box :orientation "h" :space-evenly true :spacing 20
-                (common-program-button :command "st" :icon "")
-                (common-program-button :command "st -e lf" :icon "")
-                (common-program-button :command "st -e nvim" :icon "")
-                (common-program-button :command "qutebrowser-quick" :icon "爵") ; maybe use brave here?
-                (common-program-button :command "xournalpp" :icon "")))
-(defwidget common-program-button [command icon]
-           (button :class "card-button" :onclick "${command}" " ${icon} "))
-
-(defwidget scratchpads-panel []
-           (box :orientation "h" :space-evenly true :spacing 20
-                ; (scratchpad-button :name "terminal" :icon "")
-                (scratchpad-button :name "whatsapp" :icon "")
-                (scratchpad-button :name "slack" :icon "")
-                (scratchpad-button :name "telegram" :icon "")
-                (scratchpad-button :name "sysmon" :icon "")
-                (scratchpad-button :name "audio" :icon "墳")
-                ; (scratchpad-button :name "discord" :icon "ﭮ")
-                (scratchpad-button :name "mail" :icon "")
-                (scratchpad-button :name "calculator" :icon "")))
-(defwidget scratchpad-button [name icon]
-           (button :class "card-button" :onclick "xmonadctl toggle-scratchpad ${name}" " ${icon} "))
-
-(defwidget layouts-panel []
-           (box :orientation "h" :space-evenly true :spacing 20
-             (box :orientation "v" :space-evenly true :spacing 10
-                  (layout-button :name "Grid")
-                  (layout-button :name "ThreeColMid")
-                  (layout-button :name "Dishes")
-                  (layout-button :name "OneBig")
-                  (layout-button :name "Dwindle")
-                  (layout-button :name "Mirror Dwindle"))
-             (box :orientation "v" :space-evenly true :spacing 10
-                  (layout-button :name "Spiral")
-                  (layout-button :name "Accordion")
-                  (layout-button :name "Circle")
-                  (layout-button :name "Plus")
-                  (layout-button :name "Tall")
-                  (layout-button :name "Mirror Tall"))))
-(defwidget layout-button [name]
-           (button :class "card-text-button" :onclick "xmonadctl set-layout '${name}'" "${name}"))
-
-(defwidget card [name content]
-           (box :class "card"
-                :orientation "v"
-                :space-evenly false
-                :spacing 10
-                (box :class "card-name" :halign "start" {name})
-                (box :class "card-content"
-                     :halign "center"
-                     :hexpand true
-                     :vexpand true
-                     (literal :content {content}))))
-
-(defpoll uptime :interval "1m" `uptime --pretty`)
-(defpoll packages-updates :interval "1m" `yay -Qu | wc -l`)
-(defpoll packages-explicitly-installed :interval "1m" `yay -Qe | wc -l`)
-(defpoll packages-installed :interval "1m" `yay -Q | wc -l`)
-
-(defwidget wm-actions []
-           (box :class "wm-actions" :orientation "h" :space-evenly true :halign "top" :valign "center" :spacing 10
-                (button "Programs")
-                (button "Scratchpads")
-                (button "Workspaces")
-                (button "Layouts")))
-
-(defwidget super-key-mode-button []
-           (button
-             :halign "fill"
-             :valign "fill"
-             :onclick "xdo key_press -k 133 && eww open super-key-mode-window && eww close panel-window && eww update panel-is-open=false"
-             ""))
-
-(defwindow panel-window
-           :monitor 0
+           :reserve (struts :distance "35px" :side "top")
            :windowtype "dock"
+           :wm-ignore false
+           (centerbox :orientation "horizontal" (wmcontrols) (datetime) (sysmonitor)))
+
+(defwidget datetime []
+           (box :orientation "horizontal"
+                :halign "center"
+                :class "datetime"
+                (eventbox :onclick "eww open --toggle calendar" "${datetime}")))
+(defpoll datetime
+         :interval "1s"
+         `date +"%a,  %b %d %Y  %H:%M:%S"`)
+
+(defwidget sysmonitor []
+           (eventbox :onclick "eww open --toggle graphs"
+                     (box :orientation "horizontal"
+                          :halign "end"
+                          (metric :label "MIC" (literal :content "${mic}"))
+                          (metric :label "TEMP" "${EWW_TEMPS.CPU}℃")
+                          (metric :label "CPU" "${round(EWW_CPU.avg, 0)}%")
+                          (metric :label "RAM" "${round(EWW_RAM.used_mem_perc, 0)}%")
+                          (metric :label "SWAP" "${round((EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)}%"))))
+(defwidget metric [label]
+           (box :orientation "horizontal"
+                :class "metric"
+                (box :class "metric-label" "${label}")
+                (box :class "metric-value" (children))))
+(defpoll mic
+         :interval "200ms"
+         `if { pacmd list-sources | grep -q "muted: no"; }; then echo "(box :class 'mic-on' 'ON')"; else echo "(box :class 'mic-off' 'OFF')"; fi`)
+
+(defwidget wmcontrols []
+           (box :orientation "horizontal"
+                :halign "start"
+                (workspace-bit)))
+
+(defwidget workspace-bit []
+           (box :orientation "horizontal"
+                :class "workspace-bit"
+                "${workspace_name} "))
+(defpoll workspace_name
+         :interval "200ms"
+         `wmctrl -d | awk '{ print $2,$9 }' | grep '^\*' | cut -d' ' -f2-`)
+
+; ---
+
+(defwindow calendar
+           :monitor 0
            :geometry (geometry :x "0%"
                                :y "40px"
-                               :width "100%"
-                               :height "65%"
+                               :width "20%"
+                               :height "20%"
                                :anchor "top center")
-           ; :reserve (struts :distance "30px" :side "top")
            :stacking "fg"
-           :wm-ignore true
-           :windowtype "toolbar"
-           (panel))
-
-(defwindow super-key-mode-window
-           :monitor 0
            :windowtype "dock"
-           :geometry (geometry :x "94%"
-                               :y "50px"
-                               :width "5%"
-                               :height "5%")
+           :wm-ignore false
+           (calendar))
+
+; ---
+
+(defwindow graphs
+           :monitor 0
+           :geometry (geometry :x "-5px"
+                               :y "40px"
+                               :width "15%"
+                               :height "40%"
+                               :anchor "top right")
            :stacking "fg"
-           :wm-ignore true
-           :windowtype "toolbar"
-           (button :onclick "xdo key_release -k 133 && eww close super-key-mode-window"
-                   (box :class "super-key-mode" :orientation "v"
-                        "In WM mode."
-                        "Press to exit.")))
+           ;; :reserve (struts :distance "15%" :side "right")
+           :windowtype "dock"
+           :wm-ignore false
+           (box :orientation "vertical" :space-evenly false
+                (box :orientation "horizontal" :space-evenly false
+                     (label :class "heading" :hexpand true :markup "<b>System Monitor</b>")
+                     ;; (button :class "close-button" :onclick "eww close graphs" "")
+                     )
+                (box :orientation "vertical" :vexpand true
+                     (metricgraph :label "CPU usage" :value "${EWW_CPU.avg}" :valuetext "${round(EWW_CPU.avg,2)}%" :min 0 :max 100)
+                     (metricgraph :label "CPU Temperature" :value "${EWW_TEMPS.CPU}" :valuetext "${EWW_TEMPS.CPU}℃" :min 20 :max 120)
+                     (metricgraph :label "RAM usage" :value "${EWW_RAM.used_mem_perc}" :valuetext "${round(EWW_RAM.used_mem_perc, 2)}%" :min 0 :max 100)
+                     (metricgraph :label "Swap usage" :value "${round((EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 2)}" :valuetext "${(EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap}%" :min 0 :max 100))))
+(defwidget metricgraph [label value valuetext min max]
+           (box :orientation "vertical"
+                :class "metricgraph-container"
+                :halign "fill"
+                :space-evenly false
+                (label :class "metricgraph-label" :xalign 0 :text "${label}: ${valuetext} (last 2 minutes)")
+                (box :class "metricgraph"
+                     :vexpand true
+                     (graph :value "${value}" :min min :max max :dynamic true :time-range "2m" :line-style "round"))))
+
+; vim: ft=lisp

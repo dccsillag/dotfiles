@@ -3,65 +3,74 @@
 }
 
 .bar {
-    background-color: black;
-    color: #EEEEEE;
-    padding: 10px;
-}
-
-.panel {
-    background-color: #282C33;
-    color: #9CB0BA;
-    padding: 10px;
-}
-
-.super-key-mode {
-    background-color: #9CB0BA;
-    color: #282C33;
-    padding: 10px;
-}
-
-.icon {
-    font-family: FantasqueSansMono Nerd Font Mono;
-    font-size: 13pt;
-}
-
-.wm-actions > button {
-    background-color: #3b4049;
-    color: #9cb0ba;
-    padding: 20px;
-    border-radius: 10px;
-    font-size: 20pt;
-}
-
-.card {
-    background-color: #31363f;
-    color: #9cb0ba;
-    padding: 20px;
-    border-radius: 20px;
-}
-
-calendar {
-    font-size: 30pt;
-}
-
-.card-name {
-    font-size: 10pt;
-    color: #889ca6;
-}
-
-.card-content {
-    font-size: 50pt;
-}
-
-.card-button {
-    font-size: 70pt;
-    background-color: #3b4049;
-    border-radius: 20px;
-}
-
-.card-text-button {
-    font-size: 20pt;
-    background-color: #3b4049;
-    border-radius: 10px;
+    background-color: #222222;
+    color: #FFFFFF;
     padding: 5px;
+}
+
+.datetime {
+    font: 16px Lato Regular;
+}
+
+.metric {
+    background-color: #333333;
+    padding: 2px;
+    margin: 2px;
+    border-radius: 3px;
+}
+
+.metric-label {
+    padding: 2px;
+    font: 11px Lato Regular;
+}
+
+.metric-value {
+    background-color: #444444;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.workspace-bit {
+    // background-color: #7F9BC7;
+    background-color: #C8ACF6;
+    color: #000000;
+    font: 16px Lato Regular;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.mic-off {
+    color: #999999;
+}
+
+.mic-on {
+    background-color: #e6194B;
+    border-radius: 3px;
+    padding: 2px;
+}
+
+.metricgraph-container {
+    background-color: #333333;
+    border-radius: 3px;
+}
+
+.metricgraph-label {
+    margin: 5px;
+    margin-bottom: 0px;
+}
+
+.metricgraph {
+    margin: 5px;
+    background-color: #444444;
+    border-radius: 3px;
+}
+
+.heading {
+    font: 30px Lato Regular;
+    padding: 12px;
+}
+
+.close-button {
+    font: 22px Lato Regular;
+    padding: 20px;
 }
