@@ -137,17 +137,17 @@ method = ncurses
 #
 #   grad('blue', 'red')
 #
-gradient = 1
-gradient_count = 8
-gradient_color_0 = '#add8e6'
-gradient_color_0 = '#0000ff'
-gradient_color_1 = '#0092ff'
-gradient_color_2 = '#00ffdb'
-gradient_color_3 = '#00ff49'
-gradient_color_4 = '#49ff00'
-gradient_color_5 = '#dbff00'
-gradient_color_6 = '#ff9200'
-gradient_color_7 = '#ff0000'
+# gradient = 1
+# gradient_count = 8
+# gradient_color_0 = '#add8e6'
+# gradient_color_0 = '#0000ff'
+# gradient_color_1 = '#0092ff'
+# gradient_color_2 = '#00ffdb'
+# gradient_color_3 = '#00ff49'
+# gradient_color_4 = '#49ff00'
+# gradient_color_5 = '#dbff00'
+# gradient_color_6 = '#ff9200'
+# gradient_color_7 = '#ff0000'
 
 
 
