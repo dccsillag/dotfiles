@@ -6,6 +6,7 @@
 --
 --  @what My XMonad configuration.
 --  @author Daniel Csillag (aka. dccsillag)
+{-# OPTIONS_GHC -O2 #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NumericUnderscores #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
@@ -28,6 +29,8 @@ import XMonad.Csillag.Keys
 import XMonad.Csillag.Layouts.TreeLayout
 import XMonad.Csillag.Layouts.WindowCard
 import XMonad.Csillag.Scratchpads
+import XMonad.Csillag.Layouts.WacomMap
+import XMonad.Csillag.Layouts.DesktopBackground
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
@@ -57,7 +60,7 @@ startup = do
   spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
   spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
   -- spawnOnce "eww open bar-window"
-  spawnOnce "polybar csillag"
+  -- spawnOnce "polybar csillag"
 
   spawn "/home/daniel/.xmonad/on_start.sh"
 
@@ -86,42 +89,41 @@ myXMonadConfig = do
         withNavigation2DConfig myNavigation2DConfig $
           addDescrKeys' ((mod4Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys $
             rescreenHook rescreenConfig $
-              def
-                { terminal = termSpawn,
-                  modMask = mod4Mask, -- Super key
-                  focusFollowsMouse = False,
-                  normalBorderColor = "#282C33", -- "#cccccc"
-                  focusedBorderColor = "#DDDDDD",
-                  borderWidth = 0,
-                  workspaces = wkss,
-                  manageHook =
-                      namedScratchpadManageHook myScratchpads -- Manage scratchpads
-                      <+> placeHook simpleSmart -- fix placement of floating windows
-                      <+> manageDocks -- ???
-                      <+> composeAll
-                        [ className =? "feh" --> doFloat, -- Float `feh` windows
-                          className =? "Sxiv" --> doFloat, -- Float `sxiv` windows
-                          title =? "KDE Connect Daemon" --> doFullFloat, -- Full float KDEConnect pointer
-                          className =? "Florence" --> doFloat, -- Float `florence` windows
-                          className =? "Xmessage" --> doFloat -- Float `xmessage` windows
-                        ]
-                      <+> manageHook def, -- The default
-                  layoutHook = avoidStruts $ boringWindows $ normalLayout ||| fullLayout,
-                  handleEventHook =
-                    serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
-                      <+> handleTimerEvent
-                      <+> docksEventHook
-                      <+> Hacks.windowedFullscreenFixEventHook,
-                  startupHook = startup, -- (on startup)
-                  mouseBindings = myMouse
-                }
+              docks $
+                def
+                  { terminal = termSpawn,
+                    modMask = mod4Mask, -- Super key
+                    focusFollowsMouse = False,
+                    normalBorderColor = "#282C33", -- "#cccccc"
+                    focusedBorderColor = "#DDDDDD",
+                    borderWidth = 0,
+                    workspaces = wkss,
+                    manageHook =
+                        namedScratchpadManageHook myScratchpads -- Manage scratchpads
+                        <+> placeHook simpleSmart -- fix placement of floating windows
+                        <+> composeAll
+                          [ className =? "feh" --> doFloat, -- Float `feh` windows
+                            className =? "Sxiv" --> doFloat, -- Float `sxiv` windows
+                            title =? "KDE Connect Daemon" --> doFullFloat, -- Full float KDEConnect pointer
+                            className =? "Florence" --> doFloat, -- Float `florence` windows
+                            className =? "Xmessage" --> doFloat -- Float `xmessage` windows
+                          ]
+                        <+> manageHook def, -- The default
+                    layoutHook = {- desktopBackground () $ -} avoidStruts $ boringWindows $ normalLayout ||| fullLayout,
+                    handleEventHook =
+                      serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
+                        <+> handleTimerEvent
+                        <+> Hacks.windowedFullscreenFixEventHook,
+                    startupHook = startup, -- (on startup)
+                    mouseBindings = myMouse
+                  }
 
-normalLayout = windowCard windowCardConfig $ draggingVisualizer $ maximize $ spacing' 0 treeLayout
+normalLayout = {- desktopBackground (Just "/home/daniel/static/backgrounds/landscapes/golden-landscape.jpg") $ -} windowCard windowCardConfig $ draggingVisualizer $ maximize $ spacing' treeLayout
     where
-        spacing' amount = spacingRaw False (Border gapsize' gapsize' (amount + gapsize') (amount + gapsize')) True (Border gapsize gapsize gapsize gapsize) True
+        spacing' = spacingRaw False (Border gapsize' gapsize' gapsize' gapsize') True (Border gapsize gapsize gapsize gapsize) True
 
-        gapsize = 4
-        gapsize' = 10
+        gapsize = 6
+        gapsize' = 14
 
         windowCardConfig = WindowCardConfig
             { barSize = 24
