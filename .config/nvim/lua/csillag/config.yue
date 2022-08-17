@@ -427,6 +427,9 @@ do
                         enable: true
                     diagnostics:
                         enable: false
+        nvim_lsp.zls.setup
+            :capabilities
+            :on_attach
         nvim_lsp.clangd.setup
             :capabilities
             :on_attach
