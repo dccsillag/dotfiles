@@ -32,7 +32,7 @@ c.session.lazy_restore = True
 c.search.wrap = False
 c.tabs.last_close = 'close'
 c.tabs.background = True
-# c.tabs.wrap = False
+c.tabs.wrap = False
 
 # }}}
 
@@ -81,7 +81,7 @@ config.bind('<', 'tab-move -')
 config.bind('>', 'tab-move +')
 config.bind('%', 'open qute://back')
 
-MPV_COMMAND = 'mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp "--ytdl-format=best[width<=1920]" --force-window=immediate --save-position-on-quit URL'
+MPV_COMMAND = 'mpv --force-window=immediate --save-position-on-quit URL'
 config.bind(",m", ('spawn sh -c ' + quote(MPV_COMMAND)
                    ).replace('URL', '{url}'))
 
@@ -202,6 +202,7 @@ c.window.transparent = False
 
 # Fonts {{{
 
+NORMAL_UI_FONT = '14px Lato'
 UI_FONT = '13px FantasqueSansMono Nerd Font'
 
 c.fonts.completion.category = 'bold ' + UI_FONT
@@ -210,14 +211,14 @@ c.fonts.debug_console = UI_FONT
 c.fonts.downloads = 'italic ' + UI_FONT
 c.fonts.hints = UI_FONT
 c.fonts.keyhint = UI_FONT
-c.fonts.messages.error = 'bold ' + UI_FONT
-c.fonts.messages.info = UI_FONT
-c.fonts.messages.warning = 'italic ' + UI_FONT
-c.fonts.prompts = UI_FONT
+c.fonts.messages.error = 'bold ' + NORMAL_UI_FONT
+c.fonts.messages.info = NORMAL_UI_FONT
+c.fonts.messages.warning = 'italic ' + NORMAL_UI_FONT
+c.fonts.prompts = NORMAL_UI_FONT
 c.fonts.statusbar = UI_FONT
-c.fonts.tabs.selected = UI_FONT
-c.fonts.tabs.unselected = UI_FONT
-c.fonts.contextmenu = UI_FONT
+c.fonts.tabs.selected = NORMAL_UI_FONT
+c.fonts.tabs.unselected = NORMAL_UI_FONT
+c.fonts.contextmenu = NORMAL_UI_FONT
 c.fonts.default_family = 'Lato Regular'
 c.fonts.default_size = '13px'
 c.fonts.web.family.fixed = 'FantasqueSansMono Nerd Font'
@@ -237,11 +238,11 @@ c.fonts.web.size.minimum_logical = 6
 
 c.hints.border = '1px solid #000000'
 c.tabs.indicator.width = 0
-c.tabs.favicons.show = 'never'
+c.tabs.favicons.show = 'always'
 
 c.tabs.padding = {"bottom": 5, "top": 5, "left": 4, "right": 1}
 c.statusbar.padding = {"bottom": 5, "top": 5, "left": 7, "right": 7}
-c.tabs.title.format = "{perc}{current_title}"
+c.tabs.title.format = "{perc} {current_title}"
 
 c.completion.scrollbar.width = 0
 
