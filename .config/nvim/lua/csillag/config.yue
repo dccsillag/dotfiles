@@ -205,6 +205,12 @@ do
                 prompt_position: 'top'
                 mirror: true
                 preview_height: 0.3
+    (require 'trouble').setup
+        padding: false
+        indent_lines: false
+        auto_preview: false
+        auto_open: true
+        auto_close: true
 
     -- popui
     vim.ui.select = require "popui.ui-overrider"
@@ -276,6 +282,7 @@ do
         * 'help'
         * 'Outline'
         * 'aerial'
+        * 'Trouble'
 
     -- nvim-treesitter-context
     (require 'treesitter-context').setup
