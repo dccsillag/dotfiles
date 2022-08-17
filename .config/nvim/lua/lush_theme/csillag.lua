@@ -11,7 +11,7 @@ local hsl = lush.hsl
 
 local background = hsl(218, 22, 20)
 local background_popup = background.lighten(20)
-local background_gutter = hsl(200, 10, 20)
+local background_gutter = background -- hsl(200, 10, 20)
 local foreground = hsl(0, 0, 100)
 local foreground_ui = hsl(0, 0, 50)
 local foreground_ui_highlight = hsl(200, 40, 85)
@@ -52,7 +52,7 @@ local theme = lush(function()
     Ignore                            { }, -- (preferred) left blank, hidden  |hl-Ignore|
     Normal                            { fg = foreground, bg = background }, -- normal text
     NormalNC                          { fg = foreground, bg = background }, -- normal text in non-current windows
-    NormalFloat                       { fg = foreground, bg = background_popup }, -- Normal text in floating windows.
+    NormalFloat                       { fg = foreground, bg = background }, -- Normal text in floating windows.
     Pmenu                             { fg = foreground, bg = background_popup }, -- Popup menu: normal item.
     PmenuSel                          { fg = foreground, bg = background_popup, gui = "standout,bold" }, -- Popup menu: selected item.
     PmenuSbar                         { fg = foreground, bg = background_popup }, -- Popup menu: scrollbar.
@@ -73,8 +73,8 @@ local theme = lush(function()
     MatchParen                        { fg = hsl(0, 0, 100), bg = background.lighten(30), gui = "bold" }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     CursorColumn                      { bg = cursor_highlight }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
     CursorLine                        { bg = cursor_highlight }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
-    Visual                            { bg = background.lighten(10) }, -- Visual mode selection
-    VisualNOS                         { bg = background.lighten(10) }, -- Visual mode selection when vim is "Not Owning the Selection".
+    Visual                            { bg = background.lighten(20) }, -- Visual mode selection
+    VisualNOS                         { bg = background.lighten(20) }, -- Visual mode selection when vim is "Not Owning the Selection".
     Directory                         { fg = foreground }, -- directory names (and other special names in listings)
     DiffAdd                           { fg = diff_add }, -- diff mode: Added line |diff.txt|
     diffAdded                         { fg = diff_add },    -- Color to use for added text in Fugitive inline diffs
@@ -222,6 +222,26 @@ local theme = lush(function()
     TSURI                { fg = hsl(190, 80, 65), gui = 'underline' };    -- Any URI like a link or email.
     Todo                 { fg = hsl(0, 0, 0), bg = hsl(60, 100, 50), gui = "bold" }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
     -- TSNone               { };    -- TODO: docs
+
+    AerialClassIcon       { fg = syntax_statement, gui = 'bold' },
+    AerialClass           { },
+    AerialConstructorIcon { fg = syntax_statement, gui = 'bold' },
+    AerialConstructor     { },
+    AerialEnumIcon        { fg = syntax_statement, gui = 'bold' },
+    AerialEnum            { },
+    AerialFunctionIcon    { fg = syntax_statement, gui = 'bold' },
+    AerialFunction        { },
+    AerialInterfaceIcon   { fg = syntax_statement, gui = 'bold' },
+    AerialInterface       { },
+    AerialModuleIcon      { fg = syntax_statement, gui = 'bold' },
+    AerialModule          { },
+    AerialMethodIcon      { fg = syntax_statement, gui = 'bold' },
+    AerialMethod          { },
+    AerialStructIcon      { fg = syntax_statement, gui = 'bold' },
+    AerialStruct          { },
+    AerialLine            { },
+    AerialLineNC          { },
+    AerialGuide           { fg = foreground_ui.darken(20) },
 
     Tag               { bg = background.lighten(10) }, --    you can use CTRL-] on this
 
