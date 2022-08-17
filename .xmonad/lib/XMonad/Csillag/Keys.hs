@@ -133,12 +133,6 @@ myKeys =
       ("M-b M-r", addName "Set a random background" $ spawn "background-setter set"),
       ("M-b M-a", addName "Automatically set a random background every 1h" $ spawn "background-setter auto"),
       ("M-b M-b", addName "Automatically set a random background every 1h" $ spawn "background-setter choose"),
-      -- Devices
-      ("M-d M-t M-w M-k", addName "Map wacom tablet to current window, with orientation 'up'" $ spawn "wacom-map up"),
-      ("M-d M-t M-w M-j", addName "Map wacom tablet to current window, with orientation 'down'" $ spawn "wacom-map down"),
-      ("M-d M-t M-w M-h", addName "Map wacom tablet to current window, with orientation 'cw'" $ spawn "wacom-map cw"),
-      ("M-d M-t M-w M-l", addName "Map wacom tablet to current window, with orientation 'ccw'" $ spawn "wacom-map ccw"),
-      ("M-d M-t M-s", addName "Map wacom tablet to whole screen" $ spawn "wacom-map screen"),
       -- System
       ("M-q M-S-q", addName "Quit XMonad" $ io exitSuccess),
       ("M-q M-S-s", addName "Suspend" $ spawn "systemctl suspend"),
