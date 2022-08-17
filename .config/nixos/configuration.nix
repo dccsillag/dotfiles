@@ -8,8 +8,8 @@ let
   allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
     "discord"
-    "write_stylus"
     "zoom"
+    "steam-original"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -19,21 +19,14 @@ in
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Include machine-local configuration.
+      ./local-configuration.nix
     ];
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/b718d256bae7c0c0f2d40d895140cd0da50953ee.tar.gz;
     }))
-    (self: super: {
-      haskellPackages = super.haskellPackages.override {
-        overrides = hself: hsuper: {
-          xmonad = super.haskell.lib.appendPatch hself.xmonad_0_17_0 ./xmonad-nix.patch;
-          xmonad-contrib = hself.xmonad-contrib_0_17_0;
-          xmonad-extras = hself.xmonad-extras_0_17_0;
-        };
-      };
-    })
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -52,8 +45,14 @@ in
 
   environment.etc.hosts.mode = "0644"; # make /etc/hosts editable by root for vpn-slice
 
+  # hardware.enableAllFirmware = true;
+  # hardware.firmware = [ pkgs.linux-firmware ];
+  # hardware.enableRedistributableFirmware = true;
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
+
+  virtualisation.libvirtd.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -76,6 +75,9 @@ in
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  # services.xserver.displayManager.defaultSession = "none+xmonad";
+  services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
@@ -84,9 +86,10 @@ in
       directory_1_3_7_0
       aeson
       utf8-string
-      process_1_6_13_2
+      process_1_6_14_0
       xmobar
       bimap
+      JuicyPixels
     ];
   };
 
@@ -116,7 +119,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.daniel = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "libvirt" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
@@ -160,8 +163,29 @@ in
         "SCRIPT_PATH=$(out)/etc/vpnc/vpnc-script"
       ];
     };
+
+    my-eww = rustPlatform.buildRustPackage rec {
+      pname = "eww";
+      version = "0.3.0";
+      src = fetchFromGitHub {
+        owner = "elkowar";
+        repo = pname;
+        rev = "0b0715fd505200db5954432b8a27ed57e3e6a72a";
+        sha256 = "sha256-wtrq8crcN7fdNAkCqKHrPpptP4FOEQwReUnSFcCMQzs=";
+      };
+      cargoSha256 = "sha256-3hGA730g8E4rwQ9V0wSLUcAEmockXi+spwp50cgf0Mw=";
+      nativeBuildInputs = [ pkg-config ];
+      buildInputs = [ gtk3 ] ++ lib.optional false gtk-layer-shell;
+      buildNoDefaultFeatures = false;
+      buildFeatures = lib.optional false "wayland";
+      cargoBuildFlags = [ "--bin" "eww" ];
+      cargoTestFlags = cargoBuildFlags;
+      RUSTC_BOOTSTRAP = 1;
+    };
   in
   [
+    linux-firmware
+
     # Text editor
     vim
     neovim-nightly
@@ -169,6 +193,7 @@ in
 
     # LSPs
     rust-analyzer
+    zls
     clang-tools # this provides clangd
     lldb
     sumneko-lua-language-server
@@ -182,8 +207,8 @@ in
     # Download tools
     wget
     curl
-    youtube-dl
-    yt-dlp
+    #unstable.youtube-dl
+    unstable.yt-dlp
     git # ... and git
 
     # Misc linux utils
@@ -201,6 +226,7 @@ in
     procs
     exa
     delta
+    difftastic
     bat
     viu
     tokei
@@ -211,10 +237,14 @@ in
     entr
     jq
     neofetch
+    pfetch
+    onefetch
     parallel
     sshfs
     gpp
     unstable.taskell
+    hyperfine
+    zoxide
 
     # Development tools
     rustfmt
@@ -270,9 +300,9 @@ in
     # Desktop
     xterm
     alacritty
-    neovide # unstable.neovide
+    unstable.neovide
     stack
-    eww
+    my-eww
     dzen2
     polybar
     rofi
@@ -305,6 +335,7 @@ in
     mons
     scrot
     gnome.gnome-boxes
+    bottles
 
     # GTK themes
     arc-theme
@@ -327,7 +358,6 @@ in
     unstable.nsxiv
     zathura
     xournalpp
-    write_stylus
     unstable.rnote
     slack
     unstable.discord
