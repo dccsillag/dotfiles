@@ -42,7 +42,8 @@
     show_indicators      = yes
 
     frame_width          = 1
-    frame_color          = "#ffffff"
+    frame_color          = "#777777"
+    # frame_color          = "#ffffff"
     # frame_color          = "#808080"
 
     sticky_history       = yes
