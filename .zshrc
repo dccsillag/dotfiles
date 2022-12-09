@@ -64,6 +64,7 @@ if ! zgen saved; then
     abbr -U gich='git checkout'
     abbr -U gic='git commit'
     abbr -U gid='git diff'
+    abbr -U gisd='GIT_EXTERNAL_DIFF="difft --display=inline" git diff'
     abbr -U gif='git fetch'
     abbr -U gil='git log'
     abbr -U gim='git merge'
@@ -82,6 +83,7 @@ if ! zgen saved; then
     abbr -U cicr='config checkout'
     abbr -U cic='config commit'
     abbr -U cid='config diff'
+    abbr -U cisd='GIT_EXTERNAL_DIFF="difft --display=inline" config diff'
     abbr -U cif='config fetch'
     abbr -U cil='config log'
     abbr -U cim='config merge'
@@ -308,10 +310,10 @@ alias vi=nvim
 alias vim=nvim
 # # Edit a file in Vim
 alias fzf-inline='fzf --height 50% --reverse'
-alias ed='f=$(fzf-inline) && nvim $f'
-alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" nvim $f )'
-alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && nvim $f'
-alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && nvim $f'
+alias ed='f=$(fzf-inline) && gvim $f'
+alias ce='f=$(config ls-tree --full-tree -r --name-only HEAD | sed "s|^|$HOME/|" | fzf-inline) && ( cd ~ && GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" gvim $f )'
+alias ge='f=$({ cd $(git rev-parse --show-toplevel); realpath $(git ls-tree --full-tree -r --name-only HEAD | fzf-inline) }) && gvim $f'
+alias age='f=$(ls ~/agenda/calendar/*.rem | fzf-inline) && gvim $f'
 
 # Setup better history completion
 if [ -z "$key" ]; then
@@ -387,6 +389,8 @@ julia() {
 }
 
 #chpwd_functions+=(auto_nix_shell)
+
+{ which zoxide >/dev/null 2>&1 } && eval "$(zoxide init zsh)"
 
 if { which direnv &> /dev/null; }
 then
