@@ -42,8 +42,8 @@ instance LayoutClass TreeLayout Window where
                 where
                     ratio = case (isCollapsed l, isCollapsed r) of
                         (False, False) -> 0.5
-                        (False, True) -> 0.9
-                        (True, False) -> 0.1
+                        (False, True) -> 0.95
+                        (True, False) -> 0.05
                         (True, True) -> 0.5 -- reachable, but `rect` will already be collapsed
 
                     (rect_l, rect_r)
