@@ -56,10 +56,10 @@ startup = do
   -- Start the compositor
   spawn compositorSpawn
   -- spawnOnce "kdeconnect-cli -l"
-  spawnOnce "redshift"
-  spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
-  spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
-  -- spawnOnce "eww open bar-window"
+  -- spawnOnce "redshift"
+  -- spawnOnce "/home/daniel/.local/scripts/zoom-autodevour.sh"
+  -- spawnOnce "/home/daniel/.local/scripts/browser-screensharing-autohide.sh"
+  spawnOnce "eww open bar-window"
   -- spawnOnce "polybar csillag"
 
   spawn "/home/daniel/.xmonad/on_start.sh"
@@ -122,14 +122,14 @@ normalLayout = {- desktopBackground (Just "/home/daniel/static/backgrounds/lands
     where
         spacing' = spacingRaw False (Border gapsize' gapsize' gapsize' gapsize') True (Border gapsize gapsize gapsize gapsize) True
 
-        gapsize = 6
+        gapsize = 12
         gapsize' = 14
 
         windowCardConfig = WindowCardConfig
-            { barSize = 24
+            { barSize = 30
             , buttonSize = 12
             , buttonSizeIncrease = 0
-            , buttonSpacing = 10
+            , buttonSpacing = 12
             , barButtons =
                 [ BarButton
                     { button_color = "#c6002B"

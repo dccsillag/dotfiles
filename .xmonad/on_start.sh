@@ -4,7 +4,7 @@
 xmodmap ~/.config/Xmodmap
 # xcape -e "Control_L=Escape;Alt_L=Tab;Control_R=Shift_L|asterisk"
 # xcape -e "Control_L=Escape;Super_R=Tab;Control_R=Shift_L|asterisk"
-xcape -e "Control_L=Escape;Super_R=Tab"
+pgrep xcape || xcape -e "Control_L=Escape;Super_R=Tab"
 
 # Enable push-to-talk
 xbindkeys -f ~/.config/xbindkeys/config
@@ -23,15 +23,15 @@ xset -r 86
 
 # Set screensaver timeout to 1 hour
 xset s 3600 3600
-.local/scripts/ensure-no-dpms.sh &
+# .local/scripts/ensure-no-dpms.sh &
 # setterm -blank 0 -powerdown 0
 
 # Warn low battery
 # batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
-battery-monitor &
+# battery-monitor &
 
 # Set background image
-.local/scripts/background-setter.sh set &
+# .local/scripts/background-setter.sh set &
 
 # Launch redshift
 # redshift &
@@ -42,4 +42,4 @@ battery-monitor &
 # Disable touch
 # disable-touch
 
-/usr/lib/geoclue-2.0/demos/agent &
+# /usr/lib/geoclue-2.0/demos/agent &
