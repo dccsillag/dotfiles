@@ -29,8 +29,6 @@ import XMonad.Csillag.Keys
 import XMonad.Csillag.Layouts.TreeLayout
 import XMonad.Csillag.Layouts.WindowCard
 import XMonad.Csillag.Scratchpads
-import XMonad.Csillag.Layouts.WacomMap
-import XMonad.Csillag.Layouts.DesktopBackground
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
