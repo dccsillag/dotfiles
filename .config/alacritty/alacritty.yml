@@ -3,19 +3,30 @@ env:
 
 font:
   normal:
-    family: FantasqueSansMono Nerd Font
+    # family: &font Caskaydia Cove Nerd Font
+    # family: &font FantasqueSansMono Nerd Font
+    family: &font CodeNewRoman Nerd Font
+    # family: &font Mononoki Nerd Font
+    # family: &font BlexMono Nerd Font
+    # family: &font Cousine Nerd Font
+    # family: &font UbuntuMono Nerd Font
+    # family: &font RobotoMono Nerd Font
+    # family: &font Inconsolata Nerd Font
     style: Regular
   bold:
-    family: FantasqueSansMono Nerd Font
+    family: *font
     style: Bold
   italic:
-    family: FantasqueSansMono Nerd Font
+    family: *font
     style: Italic
   bold_italic:
-    family: FantasqueSansMono Nerd Font
+    family: *font
     style: Bold Italic
-  size: 8.0
+  size: 7.0
   # size: 11.0
+
+  offset:
+    y: 3
 
 colors:
   primary:
