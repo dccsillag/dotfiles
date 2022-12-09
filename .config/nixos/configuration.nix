@@ -10,6 +10,7 @@ let
     "discord"
     "zoom"
     "steam-original"
+    "android-studio-stable"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -25,8 +26,9 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/b718d256bae7c0c0f2d40d895140cd0da50953ee.tar.gz;
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
     }))
+    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -90,6 +92,12 @@ in
       xmobar
       bimap
       JuicyPixels
+    ];
+  };
+  services.xserver.windowManager.awesome = {
+    enable = true;
+    luaModules = with pkgs.luaPackages; [
+      vicious
     ];
   };
 
@@ -198,8 +206,8 @@ in
     lldb
     sumneko-lua-language-server
     pyright
-    python39Packages.python-lsp-server
-    #haskell-language-server
+    # python39Packages.python-lsp-server # already present way later
+    haskell-language-server
     texlab
     # TODO vimls
     rnix-lsp
@@ -218,6 +226,7 @@ in
     lsof
     file
     nix-index
+    comma
     socat
 
     # Misc tools
@@ -265,6 +274,8 @@ in
     cargo-flamegraph
     cargo-asm
     cargo-tarpaulin
+    # cargo-llvm-cov
+    cargo-nextest
 
     # Image tools
     imagemagick
@@ -291,6 +302,7 @@ in
     # ZSH
     starship
     direnv
+    nix-direnv
 
     # VPN
     streambinder-vpnc
@@ -314,6 +326,10 @@ in
       ueberzug
       pillow
       cairosvg
+
+      python-lsp-server
+      pylsp-mypy
+      python-lsp-black
     ]))
     scrot
     feh
@@ -363,6 +379,7 @@ in
     unstable.discord
     mailspring
     gnome.geary
+    thunderbird
   ];
 
   fonts.fonts = with pkgs; [
@@ -393,15 +410,26 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.forwardX11 = true;
+  programs.mosh.enable = true;
+
+  # # Enable remote desktop
+  # services.xrdp = {
+  #   enable = true;
+  #   defaultWindowManager = "xmonad";
+  # };
+  # services.x2goserver.enable = true;
 
   # Enable the keyring for Mailspring
   services.gnome.gnome-keyring.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 3389 8080 ];
+  networking.firewall.allowedUDPPorts = [ 8080 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  virtualisation.docker.enable = true;
 
   nixpkgs.config.allowUnfreePredicate = allowUnfreePredicate;
 
