@@ -5,7 +5,7 @@ vim.cmd 'colorscheme csillag'
 if vim.fn.exists('neovide')
     -- We're in Neovide
 
-    vim.g.neovide_transparency = 0.9
+    -- vim.g.neovide_transparency = 0.9
     vim.g.neovide_floating_blur_amount_x = 3.0
     vim.g.neovide_floating_blur_amount_y = 3.0
 
@@ -78,55 +78,18 @@ do
     -- Better setup for carbon buffers
     autocmd 'FileType', pattern: 'carbon', command: [[set sw=2]]
 
-    -- LSP progress indicator
-    spinner = {'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
-    global update_lsp_progress
-    global lsp_progress_buffers
-    global lsp_progress_spinner
-    lsp_progress_buffers = {}
-    lsp_progress_spinner = 1
-    vim.g.lsp_progress_msg = ""
-    update_lsp_progress = ->
-        bufnr = vim.fn.bufnr!
-        if lsp_progress_buffers[bufnr] == nil
-            lsp_progress_buffers[bufnr] = {lsp_progress_running: false}
-
-        messages = vim.lsp.util.get_progress_messages!
-        last_message = messages[#messages]
-
-        if last_message == nil
-            vim.g.lsp_progress_msg = "" if lsp_progress_buffers[bufnr].lsp_progress_running == true
-            vim.cmd 'redrawstatus!'
-            lsp_progress_buffers[bufnr].lsp_progress_running = false
-            return
-
-        has_name = true
-        has_percentage = type(last_message.percentage) == 'number'
-        has_title = type(last_message.title) == 'string' and #last_message.title > 0
-        has_message = type(last_message.message) == 'string' and #last_message.message > 0
-
-        text = ""
-        text ..= "#{last_message.message}" if has_message
-        text ..= " -- " if has_title and has_message
-        text ..= "#{last_message.title}" if has_title
-        text ..= " [#{string.format('%3d', last_message.percentage)}%%]" if has_percentage
-        -- text ..= " [#{last_message.name}]" if has_name
-
-        lsp_progress_spinner = ((lsp_progress_spinner) % #spinner) + 1
-        spinner_now = spinner[lsp_progress_spinner]
-
-        vim.g.lsp_progress_msg = text .. " " .. spinner_now if last_message.progress ~= nil
-        vim.cmd 'redrawstatus!'
-
-        lsp_progress_buffers[bufnr].lsp_progress_running = true
-    -- vim.cmd 'autocmd User LspProgressUpdate UpdateLSPProgress'
-    vim.cmd 'call timer_start(50, { _ -> luaeval("update_lsp_progress()") }, #{repeat: -1})'
-
     -- Better setup for carbon buffers
     autocmd 'FileType', command: [[set nonumber]], pattern:
         * 'carbon'
         * 'markdown'
         * 'fugitive'
+
+    vim.api.nvim_create_autocmd 'FileType',
+        pattern: "gitcommit"
+        callback: ->
+            vim.api.nvim_buf_set_lines 0, 0, -1, true, {}
+            vim.cmd "silent w"
+            vim.cmd "norm! u"
 
 -- Functionality
 do

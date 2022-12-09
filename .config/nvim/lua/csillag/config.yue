@@ -60,7 +60,7 @@ do
                 type: 'text'
                 val: do
                     version = vim.version!
-                    if version.api_prerelease
+                    if version.prerelease
                         "Version  #{version.major}.#{version.minor}.#{version.patch}"
                     else
                         "Version #{version.major}.#{version.minor}.#{version.patch}"
@@ -95,11 +95,37 @@ do
                 val: 1
         opts:
             margin: 5
+            setup: ->
+                showtabline_save = vim.opt.showtabline
+                laststatus_save = vim.opt.laststatus
+                vim.opt.showtabline = 0
+                vim.opt.laststatus = 0
+                vim.api.nvim_create_autocmd "BufUnload"
+                    nested: true
+                    once: true
+                    buffer: vim.api.nvim_get_current_buf!
+                    callback: ->
+                        vim.opt.showtabline = showtabline_save
+                        vim.opt.laststatus = laststatus_save
+                        vim.cmd "NeoTreeShow"
 
     -- shade.nvim
     -- (require 'shade').setup
     --     overlay_opacity: 80
     --     opacity_step: 1
+
+    (require 'scrollbar').setup
+        excluded_filetypes:
+            * "prompt"
+            * "TelescopePrompt"
+            * "noice"
+            -- * "neo-tree"
+        handlers:
+            cursor: false
+            gitsigns: true
+            -- search: true -- requires hlslens
+
+    (require 'colortils').setup!
 
     -- statusline
     my_theme = {
@@ -132,9 +158,11 @@ do
             always_divide_middle: true
             globalstatus: true
         sections:
-            lualine_a: {'filename'}
-            -- lualine_b: {'b:gitsigns_status'}
-            lualine_b: {}
+            lualine_a: {'branch'}
+            lualine_b: {{
+                'filename',
+                path: 1 -- show the relative path
+            }}
             lualine_c: {{
                 'diff',
                 colored: true
@@ -151,7 +179,6 @@ do
                     } if s?
             }}
             lualine_x:
-                * 'g:lsp_progress_msg'
                 * {
                     'diagnostics',
                     colored: true
@@ -167,7 +194,6 @@ do
                         "Debugging"
                     else
                         ""
-            lualine_z:
                 * ->
                     ft = vim.o.filetype
                     has_lsp = #vim.lsp.buf_get_clients(0) > 0
@@ -175,16 +201,55 @@ do
                         ""
                     else
                         if has_lsp
-                            ft .. "+"
+                            ft .. "⁺"
                         else
                             ft
                 * 'b:keymap_name'
+            lualine_z:
+                * ->
+                    register = vim.fn.reg_recording!
+                    if register == ""
+                        ""
+                    else
+                        "recording @#{register}"
         extensions:
             * 'aerial'
             * 'fzf'
             * 'fugitive'
             * 'quickfix'
             * 'neo-tree'
+
+    (require 'luatab').setup
+        windowCount: -> ''
+
+    -- do
+    --     theme =
+    --         fill: "TabLineFill"
+    --         head: "TabLine"
+    --         current_tab: "TabLineSel"
+    --         fg: "Normal"
+    --         tab: "TabLine"
+    --
+    --     (require 'tabby.tabline').set((line) -> {
+    --         {
+    --             line.sep(" ", theme.head, theme.fill),
+    --         },
+    --         line.tabs().foreach((tab) ->
+    --             hl = tab.is_current! and theme.current_tab or theme.tab
+    --             {
+    --                 line.sep("⎸", theme.fg, hl),
+    --                 -- tab.current_win!.buf!.type!,
+    --                 -- tab.is_current! and " " or " ",
+    --                 tab.number!,
+    --                 tab.name!,
+    --                 line.sep("⎹", theme.fg, hl),
+    --                 hl: hl,
+    --                 margin: ' ',
+    --             }
+    --         ),
+    --         line.spacer!,
+    --         hl: theme.fill,
+    --     })
 
     -- fzf-lua
     (require 'fzf-lua').setup
@@ -210,6 +275,12 @@ do
                 prompt_position: 'top'
                 mirror: true
                 preview_height: 0.3
+        pickers:
+            buffers:
+                show_all_buffers: false
+                ignore_current_buffer: true
+                sort_mru: true
+                sort_lastused: true
     (require 'telescope').load_extension 'zoxide'
     (require 'telescope._extensions.zoxide.config').setup
         mappings:
@@ -218,11 +289,119 @@ do
                     vim.notify "Directory changed to " .. selection.path
 
     (require 'trouble').setup
+        height: 5
         padding: false
         indent_lines: false
         auto_preview: false
         auto_open: true
         auto_close: true
+
+    -- (require 'todo-comments').setup
+    --     signs: false
+    --     keywords:
+    --         FIX:
+    --             icon: " "
+    --             color: "error"
+    --             alt:
+    --                 * "FIXME"
+    --                 * "BUG"
+    --                 * "FIXIT"
+    --                 * "ISSUE"
+    --         TODO:
+    --             icon: " "
+    --             color: "info"
+    --         HACK:
+    --             icon: " "
+    --             color: "warning"
+    --         WARN:
+    --             icon: " "
+    --             color: "warning"
+    --             alt:
+    --                 * "WARNING"
+    --                 * "XXX"
+    --         PERF:
+    --             icon: " "
+    --             alt:
+    --                 * "OPTIM"
+    --                 * "PERFORMANCE"
+    --                 * "OPTIMIZE"
+    --     highlight:
+    --         comments_only: true
+    --     search:
+    --         command: "rg"
+    --         args:
+    --             * "--color=never"
+    --             * "--no-heading"
+    --             * "--with-filename"
+    --             * "--line-number"
+    --             * "--column"
+    --         pattern: [[\b(KEYWORDS)\b]]
+
+    (require "neo-tree").setup
+        close_if_last_window: false -- sure?
+        popup_border_style: "rounded"
+        enable_git_status: true
+        enable_diagnostics: false
+        sort_case_insensitive: true
+        default_component_configs:
+            container:
+                enable_character_fade: true
+            indent:
+                indent_size: 2
+                padding: 1
+                with_markers: false
+                indent_maker: "│"
+                last_indent_marker: "│"
+                highlight: "IndentBlanklineChar"
+                with_expanders: true
+                expander_collapsed: ""
+                expander_expanded: ""
+                expander_highlight: "NeoTreeExpander"
+            icon:
+                folder_closed: ""
+                folder_empty: ""
+                folder_empty: ""
+                default: "*"
+                highlight: "NeoTreeFileIcon"
+            modified:
+                symbbol: "[+]"
+                highlight: "NeoTreeModified"
+            name:
+                trailing_slash: true
+                use_git_status_colors: false
+                highlight: "NeoTreeFileName"
+            git_status:
+                symbols:
+                    added: "A"
+                    modified: "M"
+                    deleted: "D"
+                    renamed: "R"
+                    untracked: "?"
+                    ignored: "(I)"
+                    unstaged: "" -- ""
+                    staged: "" -- ""
+                    conflict: "!"
+        window:
+            -- ...
+        nesting_rules: {}
+        filesystem:
+            filtered_items:
+                visible: false
+                hide_dotfiles: false
+                hide_hidden: false
+                hide_gitignored: true
+                hide_by_name:
+                    * ".git"
+                never_show:
+                    * ".DS_Store"
+            follow_current_file: true
+            group_empty_dirs: false
+            hijack_netrw_behaviour: "open_default"
+            -- use_libuv_file_watcher: false
+        buffers:
+            follow_current_file: true
+            group_empty_dirs: false
+            show_unloaded: true -- ???
 
     -- popui
     vim.ui.select = require "popui.ui-overrider"
@@ -277,6 +456,12 @@ do
 
             ["o ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
             ["x ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
+        preview_config:
+            border: 'rounded'
+            style: 'minimal'
+            relative: 'cursor'
+            row: 1
+            col: 0
 
     -- limelight
     vim.g.limelight_conceal_ctermfg = 242
@@ -295,12 +480,19 @@ do
         * 'Outline'
         * 'aerial'
         * 'Trouble'
+        * "neo-tree"
+
+    (require 'virt-column').setup
+        -- char: "·"
+        -- char: "╷"
+        char: "╵"
+    vim.opt.colorcolumn = "+1"
 
     -- nvim-treesitter-context
     (require 'treesitter-context').setup
-        enable: false
+        enable: true
         throttle: true
-        max_lines: 4
+        max_lines: 6
         patterns:
             default:
                 * "class"
@@ -320,6 +512,10 @@ do
                 * "else_clause"
                 * "loop_expression"
                 * "mod_item"
+        separator: "╴"
+
+    (require 'treesitter-unit').setup {}
+    -- (require 'treesitter-unit').toggle_highlighting "TreeHighlight"
 
     -- context.vim
     -- vim.g.context_nvim_no_redraw = 1
@@ -327,12 +523,58 @@ do
     -- vim-matchup
     vim.g.matchup_matchparen_offscreen = {}
 
+    -- fidget.nvim
+    (require "fidget").setup
+        text:
+            spinner: "dots"
+
+    -- noice.nvim
+    (require "noice").setup
+        lsp_progress:
+            enabled: false
+        routes:
+            * -- hide 'written' messages
+                filter:
+                    event: "msg_show"
+                    kind: ""
+                    find: "written"
+                opts:
+                    skip: true
+            * -- hide search count
+                filter:
+                    event: "msg_show"
+                    kind: "search_count"
+                opts:
+                    skip: true
+        views:
+            cmdline_popup:
+                position:
+                    row: 5
+                    col: "50%"
+                size:
+                    width: 60
+                    height: "auto"
+            popupmenu:
+                relative: "editor"
+                position:
+                    row: 8
+                    col: "50%"
+                size:
+                    width: 60
+                    height: 10
+                border:
+                    style: "rounded"
+                    padding: {0, 1}
+                win_options:
+                    winhighlight:
+                        Normal: "Normal"
+                        FloatBorder: "DiagnosticInfo"
+
     -- nvim-notify
     vim.o.termguicolors = true
-    vim.notify = require 'notify'
-    vim.notify.setup
-        stages: "fade"
-        timeout: 1000
+    (require 'notify').setup
+        stages: "slide"
+        timeout: 750
 
     -- nvim-pqf
     (require 'pqf').setup!
@@ -354,9 +596,18 @@ do
         nnoremap {"buffer"}, "gq", ":qa!<CR>"
 
     -- magma-nvim
-    vim.g.magma_automatically_open_output = false
-    vim.g.magma_show_mimetype_debug = true
-    vim.g.magma_image_provider = "ueberzug"
+    if (os.getenv "NO_MAGMA") == nil
+        (require 'magma').setup
+            automatically_open_output: true
+            wrap_output: true
+            output_window_borders: true
+            cell_highlight_group: "CursorLine"
+            save_path: vim.fn.stdpath("data") .. "/magma"
+            image_provider: "None"
+            show_mimetype_debug: true
+        -- vim.g.magma_automatically_open_output = false
+        -- vim.g.magma_show_mimetype_debug = true
+        -- vim.g.magma_image_provider = "ueberzug"
 
     -- vim-test
     vim.g['test#strategy'] = 'neovim'
@@ -384,22 +635,29 @@ do
 
     -- crates.nvim
     (require 'crates').setup!
+    -- vim.api.nvim_create_autocmd "DiagnosticChanged",
+    --     callback: -> do
+    --         row, _col = vim.api.nvim_win_get_cursor(0)
+    --         vim.cmd "norm " .. (if row == 0 then "jk" else "kj")
 
     -- Automatic formatting
     (require 'lsp-format').setup {}
+
+    -- virt_lines.nvim
+    (require 'lsp_lines').setup!
+    -- hack so that the cursor shows up in the right place with virt_lines:
 
     -- LSP
     do
         import 'lspconfig' as nvim_lsp
 
-        capabilities = (require 'cmp_nvim_lsp').update_capabilities vim.lsp.protocol.make_client_capabilities!
-        capabilities.window.workDoneProgress = true
+        capabilities = (require 'cmp_nvim_lsp').default_capabilities!
 
         on_attach = (client) ->
             -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
             --     buffer: vim.api.nvim_get_current_buf!
             --     callback: -> vim.lsp.buf.format!
-            -- (require 'lsp-format').on_attach client
+            (require 'lsp-format').on_attach client
 
             (require 'lsp_signature').on_attach
                 floating_window: true
@@ -462,93 +720,37 @@ do
         nvim_lsp.rnix.setup
             :on_attach
             :capabilities
+        nvim_lsp.tsserver.setup
+            :on_attach
+            :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
-                virtual_text: false
+                virtual_text: true
+                virtual_lines: false
                 underline: true
                 signs: false
                 update_in_insert: true
 
-        -- Based on https://git.sr.ht/~whynothugo/lsp_lines.nvim/tree/main/item/lua/lsp_lines/init.lua:
-        indentation_regex = vim.regex [[^\s\+]]
-        highlight_groups =
-            [vim.diagnostic.severity.ERROR]: "DiagnosticVirtualTextError"
-            [vim.diagnostic.severity.WARN]: "DiagnosticVirtualTextWarn"
-            [vim.diagnostic.severity.INFO]: "DiagnosticVirtualTextInfo"
-            [vim.diagnostic.severity.HINT]: "DiagnosticVirtualTextHint"
-        get_indentation_for_line = (bufnr, lnum) ->
-            lines = vim.api.nvim_buf_get_lines bufnr, lnum, lnum + 1, false
-            line = lines[1]
-            out = ""
-            offset = 0
-            for i = 1, #line
-                switch line\sub i, i
-                    when ' '
-                        if (i-1) % 4 == 0
-                            out ..= vim.g.indent_blankline_char
-                            -- out ..= "┊"
-                        else
-                            out ..= " "
-                    when '\t'
-                        out ..= "\t"
-                    else
-                        break
-                offset = offset + 1
-            out, offset
-        vim.diagnostic.handlers.virtual_lines =
-            show: (namespace, bufnr, diagnostics, opts) ->
-                vim.validate
-                    namespace: {namespace, 'n'}
-                    bufnr: {bufnr, 'n'}
-                    diagnostics: {diagnostics, vim.tbl_islist, "a list of diagnostics"}
-                    opts: {opts, 't', true}
-
-                ns = vim.diagnostic.get_namespace namespace
-                ns.user_data.virt_lines_ns = vim.api.nvim_create_namespace "" if not ns.user_data.virt_lines_ns
-                virt_lines_ns = ns.user_data.virt_lines_ns
-
-                vim.api.nvim_buf_clear_namespace bufnr, virt_lines_ns, 0, -1
-
-                prefix = "﬌" -- "↑" -- "^"
-
-                for id, diagnostic in ipairs diagnostics
-                    virt_lines = {}
-                    lprefix = prefix
-                    indentation, indentation_offset = get_indentation_for_line bufnr, diagnostic.lnum
-                    for diag_line in diagnostic.message\gmatch("([^\n]+)")
-                        print(vim.inspect(diagnostic))
-                        table.insert virt_lines, {
-                            {
-                                indentation,
-                                "VirtualIndentBlanklineChar",
-                            },
-                            {
-                                string.rep(' ', diagnostic.col - indentation_offset),
-                                "VirtualIndentBlanklineChar",
-                            },
-                            {
-                                lprefix .. " " .. diag_line,
-                                highlight_groups[diagnostic.severity],
-                            },
-                        }
-                        lprefix = string.rep(" ", #prefix)
-
-                    vim.api.nvim_buf_set_extmark bufnr, virt_lines_ns, diagnostic.lnum, 0, :id, :virt_lines
-            hide: (namespace, bufnr) ->
-                ns = vim.diagnostic.get_namespace namespace
-                vim.api.nvim_buf_clear_namespace bufnr, ns.user_data.virt_lines_ns, 0, -1 if ns.user_data.virt_lines_ns
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with vim.lsp.handlers.hover,
+            border: "rounded"
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with vim.lsp.handlers.signature_help,
+            border: "rounded"
 
     -- treesitter
     (require 'nvim-treesitter.configs').setup
         highlight:
             enable: true
             additional_vim_regex_highlighting: false
+            disable:
+                * "dart"
         incremental_selection:
             enable: true
             keymaps:
                 init_selection: 'g.'
                 node_decremental: ','
                 node_incremental: '.'
+            disable:
+                * "dart"
         textsubjects:
             enable: true
             prev_selection: '`'
@@ -556,13 +758,42 @@ do
                 ["<CR>"]: 'textsubjects-smart'
                 -- ["o<CR>"]: 'textsubjects-container-outer'
                 -- ["i<CR>"]: 'textsubjects-container-inner'
+            disable:
+                * "dart"
+        textobjects:
+            select:
+                enable: true
+                lookahead: true
+                keymaps:
+                    "iA": "@attribute.inner"
+                    "aA": "@attribute.outer"
+                    "ib": "@block.inner"
+                    "ab": "@block.outer"
+                    "ic": "@call.inner"
+                    "ac": "@call.outer"
+                    "is": "@class.inner"
+                    "as": "@class.outer"
+                    "a-": "@comment.outer"
+                    "i-": "@comment.outer"
+                    "if": "@function.inner"
+                    "af": "@function.outer"
+                    "ia": "@parameter.inner"
+                    "aa": "@parameter.outer"
+                selection_modes:
+                    "@parameter.outer": 'v'
+                    "@function.outer": 'V'
+                    '@class.outer': '<C-v>'
+                include_surrounding_whitespace: true
+            disable:
+                * "dart"
         playground:
             enable: true
+            disable:
+                * "dart"
         indent:
             enable: false -- currently, this is broken.
-
-    -- spellsitter
-    (require 'spellsitter').setup!
+            disable:
+                * "dart"
 
     -- aerial
     (require 'aerial').setup
@@ -644,11 +875,38 @@ do
                 dap:
                     justMyCode: false
             * (require "neotest-plenary")
+            -- * (require "neotest-rust")
             * (require "neotest-vim-test")
                 ignore_file_types:
                     * "python"
                     * "vim"
                     * "lua"
+                    -- * "rust"
+        discovery:
+            enabled: true
+        icons:
+            child_indent: "│"
+            child_prefix: "├"
+            collapsed: "─"
+            expanded: "┬"
+            final_child_indent: " "
+            final_child_prefix: "╰"
+            non_collapsible: "─"
+            failed: "✗"
+            passed: "✓"
+            running: "…"
+            skipped: " "
+            unknown: "?"
+        summary:
+            enabled: true
+        output:
+            enabled: true
+        diagnostic:
+            enabled: false
+        status:
+            enabled: true
+            virtual_text: true
+            signs: false
     -- TODO neotest.diagnostic
     -- TODO neotest.status
     -- vim.g.ultest_output_on_line = false
@@ -798,8 +1056,8 @@ do
     -- vim.o.statusline = [[%h%w%q%f %r %m (%L lines) @ %l:%c (%p%%)%=%y LSP]] -- set the statusline to a horizontal separator
     vim.o.ruler = false -- remove the ruler
 
-    --- Hide tabbar
-    vim.o.showtabline = 1 -- never show the tabline
+    --- Setup tabbar
+    vim.o.showtabline = 2 -- always show the tabline
 
     --- Setup :grep
     vim.o.grepprg = [[rg --vimgrep --hidden --glob '!.git']]
@@ -821,7 +1079,8 @@ do
     vim.o.foldcolumn = 'auto:5' -- automatically manage foldcolumn width
 
     --- Show the signcolumn
-    vim.o.signcolumn = 'auto:1-3' -- automatically resize signcolumn to show at most 3 signs, and at least 1 sign
+    -- vim.o.signcolumn = 'auto:1-3' -- automatically resize signcolumn to show at most 3 signs, and at least 1 sign
+    vim.o.signcolumn = 'yes:1' -- show always one sign
 
     --- Show line numbers
     vim.o.number = false -- don't show line numbers
@@ -881,7 +1140,7 @@ do
 
     --- Setup conceal
     vim.o.concealcursor = '' -- don't conceal the current line in any mode
-    vim.o.conceallevel = 2 -- conceal everything, hiding concealed text completely
+    vim.o.conceallevel = 0 -- conceal nothing
 
     --- Show trailing whitespace and tabs
     vim.o.list = true -- show listchars
@@ -899,15 +1158,16 @@ do
     --- Setup verbosity
     vim.o.shortmess = [[filnxtToOFcI]] -- don't show messages regarding completion
 
-    --- Always keep 2 lines around the cursor
-    vim.o.scrolloff = 4 -- keep 2 lines above&below the cursor at all times
+    --- Always keep 3 lines around the cursor
+    vim.o.scrolloff = 3 -- keep 3 lines above&below the cursor at all times
 
     --- Setup sessions
     vim.o.sessionoptions = [[blank,buffers,curdir,help,tabpages,winsize,tabpages,globals]]
 
     --- Setup spellcheck
     vim.o.spelllang = 'en_us,pt_br'
-    vim.o.spell = true
+    vim.o.spell = false
+    vim.cmd [[autocmd TermOpen * setl nospell]]
 
     --- Accelerate Esc presses
     vim.o.ttimeout = true -- enable timeout
@@ -916,6 +1176,9 @@ do
 
     --- Enable truecolors
     vim.o.termguicolors = true -- use trucolor in a terminal (i.e., use gui colors in a terminal)
+
+    --- Stabilize window contents on window size change
+    vim.o.splitkeep = "topline"
 
     --- Setup terminal colors
     vim.g.terminal_color_0 = "#1d1f21"

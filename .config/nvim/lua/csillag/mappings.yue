@@ -1,5 +1,8 @@
 import applyKeymaps from require 'nest'
 
+-- vim.cmd [[cabbrev q qa]]
+vim.cmd [[cabbrev q Bdelete]]
+
 EXPR_PREFIX = '<expr>'
 RECURSIVE_PREFIX = '<rec>'
 VISUAL_PREFIX = '<visual>'
@@ -62,8 +65,8 @@ applyKeymaps myKeymaps
     'gR': -> vim.lsp.buf.references!
     'gq': -> vim.lsp.buf.formatting!
 
-    '[g': -> vim.diagnostic.goto_prev!
-    ']g': -> vim.diagnostic.goto_next!
+    '[g': -> vim.diagnostic.goto_prev wrap: false, float: false
+    ']g': -> vim.diagnostic.goto_next wrap: false, float: false
 
     '[t': plug 'ultest-prev-fail'
     ']t': plug 'ultest-next-fail'
@@ -75,12 +78,19 @@ applyKeymaps myKeymaps
             'g': telescope "lsp_dynamic_workspace_symbols"
             'G': telescope "lsp_document_symbols"
             'i': telescope "lsp_implementations"
-            'd': telescope 'lsp_definitions'
+            -- 'd': telescope 'lsp_definitions'
+            'd': -> vim.diagnostic.open_float
+                source: true
+                -- header:
+                -- format:
+                -- prefix:
+                border: "rounded"
             -- 'd': telescope "diagnostics"
             -- 'D': telescope "diagnostics bufnr=0"
             'r': -> vim.lsp.buf.rename!
             'a': -> vim.lsp.buf.code_action()
             '<visual>a': -> vim.lsp.buf.range_code_action()
+            't': -> (require "lsp_lines").toggle!
 
         -- FZF
         'e': telescope 'git_files'
@@ -118,28 +128,33 @@ applyKeymaps myKeymaps
                     when "sh"
                         command = "bash %"
                     when "haskell"
-                        command = "runhaskell %"
+                        command = "stack runhaskell %"
                     else
                         print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
                         return
 
-            vim.cmd "split term://" .. command
+            -- vim.cmd "split term://" .. command
+            vim.cmd "tabedit term://" .. command
 
         -- magma-nvim
         'r':
-            '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
-            '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
-            'r': vimcmd 'MagmaEvaluateLine'
-            'c': vimcmd 'MagmaReevaluateCell'
-            'd': vimcmd 'MagmaDelete'
-            'o': vimcmd 'MagmaShowOutput'
-            'n': vimcmd 'MagmaInit'
+            '<expr>': -> (require "magma").run_code_operator!
+            'r': -> (require "magma").run_code_line!
+            'o': -> (require 'magma').show_output!
+            -- '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
+            -- '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
+            -- 'r': vimcmd 'MagmaEvaluateLine'
+            -- 'c': vimcmd 'MagmaReevaluateCell'
+            -- 'd': vimcmd 'MagmaDelete'
+            -- 'o': vimcmd 'MagmaShowOutput'
+            -- 'n': vimcmd 'MagmaInit'
 
         -- ultest
         't':
             'o': luacmd 'require"neotest".output.open({ enter = true })'
             't': luacmd 'require"neotest".summary.toggle()'
             'n': luacmd 'require"neotest".run.run()'
+            'a': luacmd 'require"neotest".run.run{suite = true}'
             'f': luacmd 'require"neotest".run.run(vim.fn.expand("%"))'
             'd': luacmd 'require"neotest".run.run({strategy = "dap"})'
             'D': luacmd 'require"neotest".run.attach()'
@@ -157,7 +172,7 @@ applyKeymaps myKeymaps
             'r': dapcmd 'require"dap".repl.open()'
             'v': dapcmd 'require"dapui".eval()'
 
-        'G': vimcmd 'G' -- open fugitive
+        'G': vimcmd 'tab G' -- open fugitive
 
         ';': luacmd 'specs.show_specs()' -- highlight the cursor
 
@@ -168,32 +183,18 @@ applyKeymaps myKeymaps
 
         '.': vimcmd 'nohl' -- :nohl
 
-        'o': -- open windows
-            'c': vimcmd 'copen' -- open quickfix window
-            't': vimcmd 'Trouble' -- open trouble window
-        'q': -- close windows
-            'c': vimcmd 'cclose' -- close quickfix window
-            't': vimcmd 'TroubleClose' -- close trouble window
+        -- 'o': -- open windows
+        --     'c': vimcmd 'copen' -- open quickfix window
+        --     't': vimcmd 'Trouble' -- open trouble window
+        -- 'q': -- close windows
+        --     'c': vimcmd 'cclose' -- close quickfix window
+        --     't': vimcmd 'TroubleClose' -- close trouble window
+        'q': vimcmd 'Bdelete'
 
         'n': vimcmd 'set number!' -- toggle line numbers
 
         'T': -> -- open taskell
-            local buffer = vim.api.nvim_create_buf false, true
-            local stats = vim.api.nvim_list_uis![1]
-            local width = stats.width
-            local height = stats.height - 1 -- to account for the statusline
-            local padding_x = math.floor(0.1 * width)
-            local padding_y = math.floor(0.1 * height)
-            vim.api.nvim_open_win buffer, true
-                relative: "editor"
-                width: width - 2*padding_x
-                height: height - 2*padding_y
-                row: padding_y - 1
-                col: padding_x - 1
-                anchor: "NW"
-                border: "rounded"
-            vim.fn.termopen "taskell"
-                on_exit: -> vim.fn.feedkeys "q"
+            vim.cmd "tabedit term://taskell"
             vim.cmd "startinsert"
 
     -- :cn and :cp

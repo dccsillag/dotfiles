@@ -23,11 +23,15 @@ plugins = ->
 
     -- Interface
     plug 'nvim-lualine/lualine.nvim' -- statusline
+    -- plug 'romgrk/barbar.nvim' -- tabline
+    plug 'alvarosevilla95/luatab.nvim' -- tabline
+    -- plug 'nanozuki/tabby.nvim', requires: {'kyazdani42/nvim-web-devicons'} -- tabline
     plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
     plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
     plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
     plug 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
     plug 'folke/trouble.nvim', requires: {'kyazdani42/nvim-web-devicons'} -- pretty diagnostic list
+    -- plug 'B4mbus/todo-comments.nvim' -- list todo comments in Trouble
     -- plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
     plug 'nvim-neo-tree/neo-tree.nvim', branch: 'v2.x', requires: {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
     plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
@@ -38,14 +42,21 @@ plugins = ->
     plug 'junegunn/limelight.vim' -- a spotlight for code, good for presenting bit-by-bit
     plug 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
     plug 'lukas-reineke/indent-blankline.nvim' -- indent guides
+    plug 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
     plug 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
     plug 'andymass/vim-matchup' -- better delimiter matching
     -- plug 'wellle/context.vim' -- show code context on top of the buffer
-    plug 'kshenoy/vim-signature' -- show marks in the sign column
+    -- plug 'kshenoy/vim-signature' -- show marks in the sign column
+    plug 'j-hui/fidget.nvim' -- LSP progress indicator
     plug 'rcarriga/nvim-notify' -- show notifications
+    plug 'folke/noice.nvim', requires: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
     plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
+    plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' -- show diagnostics with virtual lines
     plug 'goolord/alpha-nvim' -- custom startup screen
     plug 'sunjon/Shade.nvim' -- fade out inactive windows
+    plug 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
+    plug 'moll/vim-bbye' -- better buffer closing
+    plug 'nvim-colortils/colortils.nvim' -- color picker
     plug 'dstein64/vim-startuptime' -- profile startup time neatly
 
     -- Behaviour
@@ -56,7 +67,6 @@ plugins = ->
     plug 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
     plug 'lambdalisue/suda.vim' -- for editting files which require root permission
     plug 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
-    plug 'antoinemadec/FixCursorHold.nvim' -- fix CursorHold/CursorHoldI events (https://github.com/neovim/neovim/issues/12587)
 
     -- Peripherals
     plug 'tpope/vim-eunuch' -- add nice commands for shell commands
@@ -65,10 +75,12 @@ plugins = ->
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
     plug 'tpope/vim-fugitive' -- use git from vim
     plug 'junegunn/gv.vim' -- git commit browser
-    plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
+    -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
+    plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
     plug 'nvim-neotest/neotest', requires: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
     plug 'nvim-neotest/neotest-plenary'
     plug 'nvim-neotest/neotest-python'
+    plug 'rouge8/neotest-rust'
     plug 'nvim-neotest/neotest-vim-test', requires: {"vim-test/vim-test"}
 
     -- Completion
@@ -83,9 +95,10 @@ plugins = ->
     plug 'neovim/nvim-lspconfig' -- easily configure LSP
     plug 'ray-x/lsp_signature.nvim' -- show function signatures while inserting
     plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
+    plug 'David-Kunz/treesitter-unit' -- treesitter-based selection & highlight
+    plug 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter-based text objects
     plug 'nvim-treesitter/playground' -- treesitter playground
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
-    plug 'lewis6991/spellsitter.nvim' -- better spellchecking with treesitter
     plug 'stevearc/aerial.nvim' -- show code outline
     plug 'mfussenegger/nvim-dap' -- debugging
     plug 'rcarriga/nvim-dap-ui' -- an UI for debugging
@@ -97,6 +110,10 @@ plugins = ->
     plug 'pbrisbin/vim-colors-off' -- a plain colorscheme that pretty much disables highlighting
     plug 'arcticicestudio/nord-vim' -- nord colorscheme
     plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
+    plug 'catppuccin/nvim', as: 'catppuccin' -- catppuccin colorscheme
+    plug 'folke/tokyonight.nvim' -- tokyonight colorscheme
+    plug 'EdenEast/nightfox.nvim' -- nightfox colorscheme
+    plug 'Shatur/neovim-ayu' -- ayu colorscheme
 
     -- Editing Help
     plug 'rhysd/conflict-marker.vim' -- easily solve git conflicts
@@ -118,6 +135,7 @@ plugins = ->
     plug 'kana/vim-textobj-user' -- framework for creating text objects [used by other plugins]
 
     -- Language Support
+    plugown 'nail.vim' -- Nail syntax highlight
     plug 'vim-python/python-syntax' -- better Python syntax highlight
     plug 'petRUShka/vim-sage' -- language support for SageMath
     plug 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
