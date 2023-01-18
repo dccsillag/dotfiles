@@ -221,6 +221,7 @@ in
     #unstable.youtube-dl
     unstable.yt-dlp
     git # ... and git
+    gh
 
     # Misc linux utils
     lshw
