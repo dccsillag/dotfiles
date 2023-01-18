@@ -102,7 +102,7 @@ local theme = lush(function()
         ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
         EndOfBuffer { bg = background.darken(5) }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
         VertSplit { fg = foreground_ui }, -- the column separating vertically split windows
-        Folded { fg = foreground_ui, bg = background.lighten(15) }, -- line used for closed folds
+        Folded {}, -- line used for closed folds
         FoldColumn { fg = foreground_ui, bg = background_gutter }, -- 'foldcolumn'
         SignColumn { fg = foreground_ui, bg = background_gutter }, -- column where |signs| are displayed
         LineNr { fg = foreground_ui, bg = background_gutter }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.

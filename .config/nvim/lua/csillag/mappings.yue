@@ -5,6 +5,7 @@ vim.cmd [[cabbrev q Bdelete]]
 
 EXPR_PREFIX = '<expr>'
 RECURSIVE_PREFIX = '<rec>'
+NOWAIT_PREFIX = '<nowait>'
 VISUAL_PREFIX = '<visual>'
 INSERT_PREFIX = '<insert>'
 TERMINAL_PREFIX = '<terminal>'
@@ -29,7 +30,7 @@ myKeymaps = (maps) ->
             k = k\sub(#EXPR_PREFIX+1, #k)
             expr = true
         else
-            expr = fase
+            expr = false
 
         local noremap
         if k\sub(1, #RECURSIVE_PREFIX) == RECURSIVE_PREFIX
@@ -37,6 +38,13 @@ myKeymaps = (maps) ->
             noremap = false
         else
             noremap = true
+
+        local nowait
+        if k\sub(1, #NOWAIT_PREFIX) == NOWAIT_PREFIX
+            k = k\sub(#NOWAIT_PREFIX+1, #k)
+            nowait = true
+        else
+            nowait = false
 
         if type(v) == 'table'
             v = myKeymaps v
@@ -48,6 +56,7 @@ myKeymaps = (maps) ->
             options:
                 :expr
                 :noremap
+                :nowait
     out
 
 vimcmd = (cmd) -> '<cmd>' .. cmd .. '<CR>'
@@ -57,8 +66,14 @@ plug = (op) -> '<Plug>(' .. op .. ')'
 addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
 telescope = (provider) -> vimcmd 'Telescope ' .. provider
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
+blankline = (op) -> op .. '<CMD>IndentBlanklineRefresh<CR>'
 
 applyKeymaps myKeymaps
+    -- Redraw
+    '<C-r>': ->
+        vim.cmd 'IndentBlanklineRefresh'
+        vim.cmd 'redraw'
+
     -- LSP
     'gd': -> vim.lsp.buf.definition!
     'gr': telescope "lsp_references"
@@ -70,6 +85,10 @@ applyKeymaps myKeymaps
 
     '[t': plug 'ultest-prev-fail'
     ']t': plug 'ultest-next-fail'
+
+    -- :cn and :cp
+    '[q': vimcmd 'cp'
+    ']q': vimcmd 'cn'
 
     '<Leader>':
         -- LSP
@@ -91,6 +110,8 @@ applyKeymaps myKeymaps
             'a': -> vim.lsp.buf.code_action()
             '<visual>a': -> vim.lsp.buf.range_code_action()
             't': -> (require "lsp_lines").toggle!
+            'N': -> vim.diagnostic.goto_prev wrap: false, float: false
+            'n': -> vim.diagnostic.goto_next wrap: false, float: false
 
         -- FZF
         'e': telescope 'git_files'
@@ -197,10 +218,6 @@ applyKeymaps myKeymaps
             vim.cmd "tabedit term://taskell"
             vim.cmd "startinsert"
 
-    -- :cn and :cp
-    '[q': vimcmd 'cp'
-    ']q': vimcmd 'cn'
-
     -- spell suggest
     -- 'z=': fzflua 'spell_suggest'
 
@@ -229,7 +246,20 @@ applyKeymaps myKeymaps
 
     'z':
         -- open aerial view
-        'g': vimcmd 'AerialOpen'
+        -- 'g': vimcmd 'AerialOpen'
+        'o': blankline 'zo'
+        'O': blankline 'zO'
+        'c': blankline 'zc'
+        'C': blankline 'zC'
+        'a': blankline 'za'
+        'A': blankline 'zA'
+        'v': blankline 'zv'
+        'x': blankline 'zx'
+        'X': blankline 'zX'
+        'm': blankline 'zm'
+        'M': blankline(luacmd "require'ufo'.closeAllFolds()")
+        'r': blankline 'zr'
+        'R': blankline(luacmd "require'ufo'.openAllFolds()")
 
     -- specs & asterisk
     'n': addspecs 'n'
@@ -269,6 +299,11 @@ applyKeymaps myKeymaps
 
     -- Map <C-6> to <C-^> (for GUIs)
     '<C-6>': '<C-^>'
+
+    '<Leader>[': vimcmd 'BufferPrevious'
+    '<Leader>]': vimcmd 'BufferNext'
+    '<Leader>{': vimcmd 'BufferMovePrevious'
+    '<Leader>}': vimcmd 'BufferMoveNext'
 
     '<C-+>': increase_font_size
     '<C-=>': increase_font_size

@@ -122,7 +122,7 @@ do
             -- * "neo-tree"
         handlers:
             cursor: false
-            gitsigns: true
+            gitsigns: false -- true
             -- search: true -- requires hlslens
 
     (require 'colortils').setup!
@@ -219,8 +219,31 @@ do
             * 'quickfix'
             * 'neo-tree'
 
-    (require 'luatab').setup
-        windowCount: -> ''
+    -- (require 'luatab').setup
+    --     windowCount: -> ''
+
+    (require 'bufferline').setup
+        animation: true
+        auto_hide: false
+        tabpages: true
+        closable: true
+        clickable: true
+        -- diagnostics: {}
+        -- exclude_ft:
+        -- exclude_name:
+        -- hide
+        highlight_alternate: true
+        highlight_visible: true
+        icons: true
+        icon_custom_colors: false
+    -- vim.api.nvim_create_autocmd 'BufWinEnter'
+    --     pattern: "*"
+    --     callback: -> if vim.bo.filetype == 'neo-tree'
+    --         (require 'bufferline.api').set_offset 40, ''
+    -- vim.api.nvim_create_autocmd 'BufWinLeave'
+    --     pattern: "*"
+    --     callback: -> if vim.fn.expand('<afile>')\match('neo-tree')
+    --         (require 'bufferline.api').set_offset 0, ''
 
     -- do
     --     theme =
@@ -403,6 +426,49 @@ do
             group_empty_dirs: false
             show_unloaded: true -- ???
 
+    -- nvim-ufo
+    (require "ufo").setup
+        open_fold_hl_timeout: 0
+        fold_virt_text_handler: (virtText, lnum, endLnum, width, truncate) ->
+            newVirtText = {}
+            suffix = " ⋯ "
+            targetWidth = width - vim.fn.strdisplaywidth suffix
+            curWidth = 0
+            if #virtText > 0
+                chunkText = virtText[1][1]
+                hlGroup = virtText[1][2]
+                str = ""
+                shiftwidth = vim.o.shiftwidth
+                pos = 1
+                for c in chunkText\gmatch"."
+                    if c != ' '
+                        break
+                    if math.fmod(pos - 1, shiftwidth) == 0
+                        table.insert newVirtText, {str, hlGroup}
+                        table.insert newVirtText, {"│", "IndentBlanklineChar"}
+                        str = ""
+                    else
+                        str = str .. c
+                    pos = pos + 1
+                table.insert newVirtText, {str .. (chunkText\sub pos, -1), hlGroup}
+                table.remove virtText, 1
+            for _, chunk in ipairs virtText
+                chunkText = chunk[1]
+                chunkWidth = vim.fn.strdisplaywidth chunkText
+                if targetWidth > curWidth + chunkWidth
+                    table.insert newVirtText, chunk
+                else
+                    chunkText = truncate chunkText, targetWidth - curWidth
+                    hlGroup = chunk[2]
+                    table.insert newVirtText, {chunkText, hlGroup}
+                    chunkwidth = vim.fn.strdisplaywidth chunkText
+                    if curWidth + chunkWidth < targetWidth
+                        suffix = suffix .. (' ')\rep(targetWidth - curWidth - chunkWidth)
+                    break
+                curWidth = curWidth + chunkWidth
+            table.insert newVirtText, {suffix, 'MoreMsg'}
+            newVirtText
+
     -- popui
     vim.ui.select = require "popui.ui-overrider"
     vim.g.popui_border_style = "rounded"
@@ -442,8 +508,8 @@ do
         word_diff: true
         keymaps:
             noremap: true
-            ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
-            ['n ]c']: { expr: true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" }
+            -- ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
+            -- ['n ]c']: { expr: true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" }
 
             ["n <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk()<CR>'
             ["v <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
@@ -529,47 +595,47 @@ do
             spinner: "dots"
 
     -- noice.nvim
-    (require "noice").setup
-        lsp_progress:
-            enabled: false
-        routes:
-            * -- hide 'written' messages
-                filter:
-                    event: "msg_show"
-                    kind: ""
-                    find: "written"
-                opts:
-                    skip: true
-            * -- hide search count
-                filter:
-                    event: "msg_show"
-                    kind: "search_count"
-                opts:
-                    skip: true
-        views:
-            cmdline_popup:
-                position:
-                    row: 5
-                    col: "50%"
-                size:
-                    width: 60
-                    height: "auto"
-            popupmenu:
-                relative: "editor"
-                position:
-                    row: 8
-                    col: "50%"
-                size:
-                    width: 60
-                    height: 10
-                border:
-                    style: "rounded"
-                    padding: {0, 1}
-                win_options:
-                    winhighlight:
-                        Normal: "Normal"
-                        FloatBorder: "DiagnosticInfo"
-
+    -- (require "noice").setup
+    --     lsp_progress:
+    --         enabled: false
+    --     routes:
+    --         * -- hide 'written' messages
+    --             filter:
+    --                 event: "msg_show"
+    --                 kind: ""
+    --                 find: "written"
+    --             opts:
+    --                 skip: true
+    --         * -- hide search count
+    --             filter:
+    --                 event: "msg_show"
+    --                 kind: "search_count"
+    --             opts:
+    --                 skip: true
+    --     views:
+    --         cmdline_popup:
+    --             position:
+    --                 row: 5
+    --                 col: "50%"
+    --             size:
+    --                 width: 60
+    --                 height: "auto"
+    --         popupmenu:
+    --             relative: "editor"
+    --             position:
+    --                 row: 8
+    --                 col: "50%"
+    --             size:
+    --                 width: 60
+    --                 height: 10
+    --             border:
+    --                 style: "rounded"
+    --                 padding: {0, 1}
+    --             win_options:
+    --                 winhighlight:
+    --                     Normal: "Normal"
+    --                     FloatBorder: "DiagnosticInfo"
+    --
     -- nvim-notify
     vim.o.termguicolors = true
     (require 'notify').setup
@@ -595,19 +661,19 @@ do
         vim.cmd "only"
         nnoremap {"buffer"}, "gq", ":qa!<CR>"
 
-    -- magma-nvim
-    if (os.getenv "NO_MAGMA") == nil
-        (require 'magma').setup
-            automatically_open_output: true
-            wrap_output: true
-            output_window_borders: true
-            cell_highlight_group: "CursorLine"
-            save_path: vim.fn.stdpath("data") .. "/magma"
-            image_provider: "None"
-            show_mimetype_debug: true
-        -- vim.g.magma_automatically_open_output = false
-        -- vim.g.magma_show_mimetype_debug = true
-        -- vim.g.magma_image_provider = "ueberzug"
+    -- -- magma-nvim
+    -- if (os.getenv "NO_MAGMA") == nil
+    --     (require 'magma').setup
+    --         automatically_open_output: true
+    --         wrap_output: true
+    --         output_window_borders: true
+    --         cell_highlight_group: "CursorLine"
+    --         save_path: vim.fn.stdpath("data") .. "/magma"
+    --         image_provider: "None"
+    --         show_mimetype_debug: true
+    --     -- vim.g.magma_automatically_open_output = false
+    --     -- vim.g.magma_show_mimetype_debug = true
+    --     -- vim.g.magma_image_provider = "ueberzug"
 
     -- vim-test
     vim.g['test#strategy'] = 'neovim'
@@ -641,30 +707,26 @@ do
     --         vim.cmd "norm " .. (if row == 0 then "jk" else "kj")
 
     -- Automatic formatting
-    (require 'lsp-format').setup {}
+    (require 'lsp-format').setup
+        sync: true
 
     -- virt_lines.nvim
     (require 'lsp_lines').setup!
-    -- hack so that the cursor shows up in the right place with virt_lines:
 
     -- LSP
     do
         import 'lspconfig' as nvim_lsp
 
         capabilities = (require 'cmp_nvim_lsp').default_capabilities!
+        capabilities.textDocument.foldingRange =
+            dynamicRegistration: false
+            lineFoldingOnly: true
 
         on_attach = (client) ->
             -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
             --     buffer: vim.api.nvim_get_current_buf!
             --     callback: -> vim.lsp.buf.format!
             (require 'lsp-format').on_attach client
-
-            (require 'lsp_signature').on_attach
-                floating_window: true
-                hint_enable: false
-                hint_prefix: "→"
-                close_timeout: 500
-                timer_interval: 50
 
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
@@ -725,15 +787,13 @@ do
             :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
-                virtual_text: true
-                virtual_lines: false
+                virtual_text: false
+                virtual_lines: true
                 underline: true
                 signs: false
                 update_in_insert: true
 
         vim.lsp.handlers["textDocument/hover"] = vim.lsp.with vim.lsp.handlers.hover,
-            border: "rounded"
-        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with vim.lsp.handlers.signature_help,
             border: "rounded"
 
     -- treesitter
@@ -1076,7 +1136,11 @@ do
     vim.o.smartcase = true -- but if there are capital letters, then case sensitive
 
     --- Setup the foldcolumn
-    vim.o.foldcolumn = 'auto:5' -- automatically manage foldcolumn width
+    vim.o.foldcolumn = '0' -- no foldcolumn
+    vim.o.foldlevel = 99 -- for nvim-ufo
+    vim.o.foldlevelstart = 99 -- for nvim-ufo
+    vim.o.foldenable = true -- enable folds
+    vim.o.foldminlines = 1 -- require at least 1 line of content to create a fold
 
     --- Show the signcolumn
     -- vim.o.signcolumn = 'auto:1-3' -- automatically resize signcolumn to show at most 3 signs, and at least 1 sign
@@ -1085,11 +1149,6 @@ do
     --- Show line numbers
     vim.o.number = false -- don't show line numbers
     vim.o.numberwidth = 1 -- use the least amount of space for the line numbers
-
-    --- Setup folding
-    vim.o.foldenable = false -- disable folding
-    vim.o.foldminlines = 1 -- require at least 10 lines of content to create a fold
-    vim.o.foldnestmax = 5 -- set maximum amount of fold nesting
 
     --- Use 4 spaces instead of tabs
     vim.o.expandtab = true -- expand tabs
