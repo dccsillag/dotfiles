@@ -32,12 +32,13 @@ in
       ./local-configuration.nix
     ];
 
-  # nixpkgs.overlays = [
-  #   (import (builtins.fetchTarball {
-  #     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-  #   }))
-  #   (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
-  # ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+  };
+
+  nixpkgs.overlays = [
+    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
