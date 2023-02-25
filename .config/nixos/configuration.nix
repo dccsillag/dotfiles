@@ -18,6 +18,7 @@ let
 
     "nvidia-x11"
     "nvidia-settings"
+    "corefonts"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -536,6 +537,7 @@ in
   xdg.portal.config.common.default = "*";
   fonts.packages = with pkgs; [
     google-fonts
+    corefonts
   ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues nerd-fonts);
 
   programs.firejail = {
