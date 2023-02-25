@@ -594,6 +594,7 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
+  # services.openssh.ports = [ 49106 ];
   programs.mosh.enable = true;
 
   services.tailscale.enable = true;
