@@ -108,27 +108,6 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'rcarriga/nvim-dap-ui' -- an UI for debugging
         * [1]: 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
 
-        -- AI
-        *
-            [1]: 'yetone/avante.nvim' -- AI assistance, Cursor style. Not sure if it will be useful, but it's worth trying...
-            -- event: "VeryLazy"
-            build: "nix-shell -p cargo rustc gnumake --run 'make clean && make BUILD_FROM_SOURCE=true luajit'"
-            -- opts: {...}
-            dependencies:
-                * "nvim-tree/nvim-web-devicons"
-                * "stevearc/dressing.nvim"
-                * "nvim-lua/plenary.nvim"
-                * "MunifTanjim/nui.nvim"
-                *
-                    [1]: "MeanderingProgrammer/render-markdown.nvim"
-                    opts:
-                        file_types:
-                            -- * "markdown"
-                            * "Avante"
-                    ft:
-                        -- * "markdown"
-                        * "Avante"
-
         -- Color Schemes
         * [1]: 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
         * [1]: 'joshdick/onedark.vim' -- onedark colorscheme from Atom
