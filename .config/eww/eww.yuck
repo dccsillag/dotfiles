@@ -23,10 +23,11 @@
 (defwidget sysmonitor []
            (box :orientation "horizontal"
                 :halign "start"
-                (metric :label "CPU" (caution :danger 60 :value {round(EWW_CPU.avg, 0)} :postfix "%"))
-                (metric :label "RAM" (caution :danger 25 :value {round(EWW_RAM.used_mem_perc, 0)} :postfix "%"))
-                (metric :label "SWAP" (caution :danger 80 :value {round((EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)} :postfix "%"))
-                (metric :label "TEMP" (caution :danger 50 :value {EWW_TEMPS.CPU} :postfix "℃"))
+                (metric :label "CPU" (caution :t 60 :leq "ok" :gt "danger" :value {round(EWW_CPU.avg, 0)} :postfix "%"))
+                (metric :label "RAM" (caution :t 25 :leq "ok" :gt "danger" :value {round(EWW_RAM.used_mem_perc, 0)} :postfix "%"))
+                (metric :label "SWAP" (caution :t 80 :leq "ok" :gt "danger" :value {round((EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)} :postfix "%"))
+                (metric :label "TEMP" (caution :t 50 :leq "ok" :gt "danger" :value {EWW_TEMPS.CPU} :postfix "℃"))
+                (metric :label "BAT" (caution :t 20 :leq "danger" :gt "ok" :value {EWW_BATTERY.BAT1.capacity} :postfix "%"))
                 (metric :label "MIC" (literal :content "${mic}"))
                 ))
 (defwidget metric [label]
@@ -34,8 +35,8 @@
                 :class "metric"
                 (box :class "metric-label" "${label}")
                 (box :class "metric-value" (children))))
-(defwidget caution [danger value postfix]
-           (box :class {value >= danger ? "caution-danger" : "caution-ok"} "${value}${postfix}"))
+(defwidget caution [t leq gt value postfix]
+           (box :class {value <= t ? "caution-${leq}" : "caution-${gt}"} "${value}${postfix}"))
 (defpoll mic
          :interval "200ms"
          `if { pacmd list-sources | grep -q "muted: no"; }; then echo "(box :class 'mic-on' 'ON')"; else echo "(box :class 'mic-off' 'OFF')"; fi`)
@@ -51,7 +52,7 @@
                 "${workspace_name}"))
 (defpoll workspace_name
          :interval "200ms"
-         `wmctrl -d | awk '{ print $2,$9 }' | grep '^\*' | cut -d' ' -f2-`)
+         `wmctrl -d | grep '^[0-9].\\+ \\*' | tr -s ' ' | cut -d' ' -f9-`)
 
 ; ---
 

@@ -12,7 +12,7 @@ keycode 37 = Alt_L
 ! Caps -> Ctrl
 keycode 66 = Control_L
 ! Tab -> Super_R
-keycode 23 = Super_R
+keycode 23 = Alt_L
 ! Alt_R -> Compose
 keycode 64 = Multi_key
 ! Alt_R -> Compose

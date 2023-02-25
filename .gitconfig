@@ -10,6 +10,7 @@
 	log = delta
 	reflog = delta
 	show = delta
+	difftool = true
 [core]
 	excludesfile = ~/.config/git/.gitignore
 	pager = delta --paging always
@@ -52,5 +53,14 @@
 # 	commit-decoration-style = bold yellow box ul
 # 	file-style = bold yellow ul
 # 	file-decoration-style = none
+
+[diff]
+    tool = difftastic
+[difftool]
+    prompt = false
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
 [alias]
 	authors = shortlog -s -n --all --no-merges
+	dft = difftool
