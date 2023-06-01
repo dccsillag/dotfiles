@@ -24,12 +24,12 @@ in
       ./local-configuration.nix
     ];
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
-  ];
+  # nixpkgs.overlays = [
+  #   (import (builtins.fetchTarball {
+  #     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+  #   }))
+  #   (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
+  # ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -193,6 +193,7 @@ in
       cargoTestFlags = cargoBuildFlags;
       RUSTC_BOOTSTRAP = 1;
     };
+    neovim-nightly = (builtins.getFlake "github:neovim/neovim?dir=contrib").packages.x86_64-linux.default;
   in
   [
     linux-firmware
@@ -210,7 +211,7 @@ in
     sumneko-lua-language-server
     pyright
     # python39Packages.python-lsp-server # already present way later
-    haskell-language-server
+    # haskell-language-server
     texlab
     # TODO vimls
     rnix-lsp
@@ -221,6 +222,7 @@ in
     #unstable.youtube-dl
     unstable.yt-dlp
     git # ... and git
+    gitoxide
     gh
 
     # Misc linux utils
@@ -258,6 +260,7 @@ in
     unstable.taskell
     hyperfine
     zoxide
+    unstable.vhs
 
     # Development tools
     rustfmt
@@ -356,6 +359,7 @@ in
     scrot
     gnome.gnome-boxes
     bottles
+    zotero
 
     # GTK themes
     arc-theme
@@ -417,6 +421,9 @@ in
   services.openssh.forwardX11 = true;
   programs.mosh.enable = true;
 
+  services.tailscale.enable = true;
+  networking.firewall.checkReversePath = "loose";
+
   # # Enable remote desktop
   # services.xrdp = {
   #   enable = true;
@@ -433,9 +440,16 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 
   nixpkgs.config.allowUnfreePredicate = allowUnfreePredicate;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Upgrade automatically once a day:
   #system.autoUpgrade.enable = true;
