@@ -123,6 +123,8 @@ if ! zgen saved; then
     #abbr -U npsp='nix-shell --pure -p'
     # # # Rum
     abbr -U --force r='rum'
+    # # # Cobench
+    abbr -U --force co='cobench'
 
     zgen save
 fi
