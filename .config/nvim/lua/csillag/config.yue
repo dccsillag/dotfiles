@@ -54,9 +54,6 @@ do
                 opts:
                     position: 'center'
             *
-                type: 'padding'
-                val: 1
-            *
                 type: 'text'
                 val: do
                     version = vim.version!
@@ -80,8 +77,6 @@ do
                     * button "pu"," ", "Update plugins", "<cmd>PackerUpdate<CR>"
                     * button "pc"," ", "Clean plugins", "<cmd>PackerClean<CR>"
                     * button "de"," ", "Edit a dotfile", "<cmd>EditDotFile<CR>"
-                opts:
-                    spacing: 1
             *
                 type: 'padding'
                 val: 1
@@ -140,6 +135,36 @@ do
             bg: '#2F333A'
             fg: '#cccccc'
     }
+    winbar =
+        lualine_a: {}
+        lualine_b: {{
+            'filename',
+            path: 1 -- show the relative path
+        }}
+        lualine_c:
+            * ->
+                ft = vim.o.filetype
+                has_lsp = #vim.lsp.buf_get_clients(0) > 0
+                if #ft == 0
+                    ""
+                else
+                    if has_lsp
+                        ft .. "⁺"
+                    else
+                        ft
+            * 'b:keymap_name'
+            * {
+                'diagnostics',
+                colored: true
+                sections:
+                    * 'error'
+                    * 'warn'
+                    * 'info'
+            }
+        lualine_x:
+            * 'location'
+        lualine_y: {}
+        lualine_z: {}
     (require 'lualine').setup
         options:
             theme:
@@ -157,55 +182,29 @@ do
                 right: ''
             always_divide_middle: true
             globalstatus: true
+            disabled_filetypes:
+                winbar:
+                    * 'neo-tree'
+                    * 'Trouble'
+        winbar: winbar
+        inactive_winbar: winbar
         sections:
-            lualine_a: {'branch'}
-            lualine_b: {{
-                'filename',
-                path: 1 -- show the relative path
-            }}
-            lualine_c: {{
-                'diff',
-                colored: true
-                -- diff_color:
-                --     added: 'DiffAddStatus'
-                --     modified: 'DiffChangeStatus'
-                --     removed: 'DiffDeleteStatus'
-                source: ->
-                    s = vim.b.gitsigns_status_dict
-                    {
-                        added: s.added
-                        modified: s.changed
-                        removed: s.removed
-                    } if s?
-            }}
+            lualine_a:
+                * 'branch'
+            lualine_b:
+                * -> vim.fn.getcwd!
+            lualine_c: {}
             lualine_x:
-                * {
-                    'diagnostics',
-                    colored: true
-                    sections:
-                        * 'error'
-                        * 'warn'
-                        * 'info'
-                }
+                * -> vim.fn.expand '$USER'
             lualine_y:
+                * 'hostname'
+            lualine_z:
                 * ->
                     import 'dap'
                     if dap.session! ~= nil
                         "Debugging"
                     else
                         ""
-                * ->
-                    ft = vim.o.filetype
-                    has_lsp = #vim.lsp.buf_get_clients(0) > 0
-                    if #ft == 0
-                        ""
-                    else
-                        if has_lsp
-                            ft .. "⁺"
-                        else
-                            ft
-                * 'b:keymap_name'
-            lualine_z:
                 * ->
                     register = vim.fn.reg_recording!
                     if register == ""
@@ -234,7 +233,9 @@ do
         -- hide
         highlight_alternate: true
         highlight_visible: true
-        icons: true
+        icons:
+            filetype:
+                enabled: true
         icon_custom_colors: false
     -- vim.api.nvim_create_autocmd 'BufWinEnter'
     --     pattern: "*"
@@ -311,13 +312,13 @@ do
                 after_action: (selection) ->
                     vim.notify "Directory changed to " .. selection.path
 
-    (require 'trouble').setup
-        height: 5
-        padding: false
-        indent_lines: false
-        auto_preview: false
-        auto_open: true
-        auto_close: true
+    -- (require 'trouble').setup
+    --     height: 5
+    --     padding: false
+    --     indent_lines: false
+    --     auto_preview: false
+    --     auto_open: true
+    --     auto_close: true
 
     -- (require 'todo-comments').setup
     --     signs: false
@@ -505,11 +506,11 @@ do
         signcolumn: true
         numhl: false
         linehl: false
-        word_diff: true
+        word_diff: false  -- true
         keymaps:
             noremap: true
-            -- ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
-            -- ['n ]c']: { expr: true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" }
+            ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
+            ['n ]c']: { expr: true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" }
 
             ["n <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk()<CR>'
             ["v <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
@@ -595,47 +596,47 @@ do
             spinner: "dots"
 
     -- noice.nvim
-    -- (require "noice").setup
-    --     lsp_progress:
-    --         enabled: false
-    --     routes:
-    --         * -- hide 'written' messages
-    --             filter:
-    --                 event: "msg_show"
-    --                 kind: ""
-    --                 find: "written"
-    --             opts:
-    --                 skip: true
-    --         * -- hide search count
-    --             filter:
-    --                 event: "msg_show"
-    --                 kind: "search_count"
-    --             opts:
-    --                 skip: true
-    --     views:
-    --         cmdline_popup:
-    --             position:
-    --                 row: 5
-    --                 col: "50%"
-    --             size:
-    --                 width: 60
-    --                 height: "auto"
-    --         popupmenu:
-    --             relative: "editor"
-    --             position:
-    --                 row: 8
-    --                 col: "50%"
-    --             size:
-    --                 width: 60
-    --                 height: 10
-    --             border:
-    --                 style: "rounded"
-    --                 padding: {0, 1}
-    --             win_options:
-    --                 winhighlight:
-    --                     Normal: "Normal"
-    --                     FloatBorder: "DiagnosticInfo"
-    --
+    (require "noice").setup
+        lsp_progress:
+            enabled: false
+        routes:
+            * -- hide 'written' messages
+                filter:
+                    event: "msg_show"
+                    kind: ""
+                    find: "written"
+                opts:
+                    skip: true
+            * -- hide search count
+                filter:
+                    event: "msg_show"
+                    kind: "search_count"
+                opts:
+                    skip: true
+        views:
+            cmdline_popup:
+                position:
+                    row: 5
+                    col: "50%"
+                size:
+                    width: 60
+                    height: "auto"
+            popupmenu:
+                relative: "editor"
+                position:
+                    row: 8
+                    col: "50%"
+                size:
+                    width: 60
+                    height: 10
+                border:
+                    style: "rounded"
+                    padding: {0, 1}
+                win_options:
+                    winhighlight:
+                        Normal: "Normal"
+                        FloatBorder: "DiagnosticInfo"
+
     -- nvim-notify
     vim.o.termguicolors = true
     (require 'notify').setup
@@ -773,6 +774,12 @@ do
         nvim_lsp.hls.setup
             :on_attach
             :capabilities
+        nvim_lsp.typst_lsp.setup
+            :on_attach
+            :capabilities
+            -- settings:
+            --     -- ["typst-lsp"]:
+            --     exportPdf: "onType"
         nvim_lsp.texlab.setup
             :on_attach
             :capabilities
@@ -1147,7 +1154,7 @@ do
     vim.o.signcolumn = 'yes:1' -- show always one sign
 
     --- Show line numbers
-    vim.o.number = false -- don't show line numbers
+    vim.o.number = true -- show line numbers
     vim.o.numberwidth = 1 -- use the least amount of space for the line numbers
 
     --- Use 4 spaces instead of tabs

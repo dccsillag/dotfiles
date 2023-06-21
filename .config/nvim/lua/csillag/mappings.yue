@@ -73,6 +73,8 @@ applyKeymaps myKeymaps
     '<C-r>': ->
         vim.cmd 'IndentBlanklineRefresh'
         vim.cmd 'redraw'
+    -- Redo
+    'U': "<C-r>"
 
     -- LSP
     'gd': -> vim.lsp.buf.definition!
@@ -98,14 +100,14 @@ applyKeymaps myKeymaps
             'G': telescope "lsp_document_symbols"
             'i': telescope "lsp_implementations"
             -- 'd': telescope 'lsp_definitions'
-            'd': -> vim.diagnostic.open_float
-                source: true
-                -- header:
-                -- format:
-                -- prefix:
-                border: "rounded"
-            -- 'd': telescope "diagnostics"
-            -- 'D': telescope "diagnostics bufnr=0"
+            -- 'd': -> vim.diagnostic.open_float
+            --     source: true
+            --     -- header:
+            --     -- format:
+            --     -- prefix:
+            --     border: "rounded"
+            'd': telescope "diagnostics"
+            'D': telescope "diagnostics bufnr=0"
             'r': -> vim.lsp.buf.rename!
             'a': -> vim.lsp.buf.code_action()
             '<visual>a': -> vim.lsp.buf.range_code_action()
