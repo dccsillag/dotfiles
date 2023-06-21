@@ -46,6 +46,9 @@ export OPENER='open'
 export LESS='SRX'
 export PYTHONPATH=.
 
+# Hack for Pip / Poetry
+export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
+
 # NNN
 
 export NNN_FIFO=/tmp/nnn.fifo
