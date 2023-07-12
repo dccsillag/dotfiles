@@ -85,12 +85,12 @@ myXMonadConfig = do
     ewmh $
       Hacks.javaHack $
         withNavigation2DConfig myNavigation2DConfig $
-          addDescrKeys' ((mod4Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys $
+          addDescrKeys' ((mod1Mask, xK_F1), \x -> writeFile "/tmp/xmonad-help.txt" (unlines $ showKm x) >> spawn (termRun "less /tmp/xmonad-help.txt")) myKeys $
             rescreenHook rescreenConfig $
               docks $
                 def
                   { terminal = termSpawn,
-                    modMask = mod4Mask, -- Super key
+                    modMask = mod1Mask, -- Super key
                     focusFollowsMouse = False,
                     normalBorderColor = "#282C33", -- "#cccccc"
                     focusedBorderColor = "#DDDDDD",

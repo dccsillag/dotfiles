@@ -42,20 +42,21 @@ camviewSpawn = "mpv --demuxer-lavf-format=video4linux2 --demuxer-lavf-o-set=inpu
 
 -- Screenshot Tool
 
-scrotCopyToClipboard :: String
-scrotCopyToClipboard = " -e 'xclip -selection clipboard -target image/png -i $f'"
+scrotSaveAndCopyToClipboard :: String
+-- scrotSaveAndCopyToClipboard = " -e 'xclip -selection clipboard -target image/png -i $f'"
+scrotSaveAndCopyToClipboard = " | tee ~/media/screenshots/\"$(date +'%Y-%m-%d-%H%M%S.png')\" | xclip -selection clipboard -target image/png"
 
 scrotScreen :: String
-scrotScreen = "cd ~/media/screenshots/ && scrot -z" ++ scrotCopyToClipboard
+scrotScreen = "maim" ++ scrotSaveAndCopyToClipboard
 
 scrotWindow :: String
-scrotWindow = "cd ~/media/screenshots/ && scrot -s -z" ++ scrotCopyToClipboard
+scrotWindow = "maim --select" ++ scrotSaveAndCopyToClipboard
 
 scrotRegion :: String
-scrotRegion = "cd ~/media/screenshots/ && scrot -s -z" ++ scrotCopyToClipboard
+scrotRegion = "maim --select" ++ scrotSaveAndCopyToClipboard
 
 scrotThiswindow :: String
-scrotThiswindow = "cd ~/media/screenshots/ && scrot -u -z" ++ scrotCopyToClipboard
+scrotThiswindow = "maim --window $(xdotool getactivewindow)" ++ scrotSaveAndCopyToClipboard
 
 -- Compositor
 

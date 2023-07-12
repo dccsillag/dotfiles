@@ -126,9 +126,8 @@ myKeys =
       ("M-p M-p", addName "Get a password" $ spawn "rofi-pass"),
       -- Screenshots
       ("M-y M-s", addName "Yank the whole screen" $ spawn scrotScreen),
-      ("M-y M-w", addName "Yank a window" $ spawn scrotWindow),
       ("M-y M-f", addName "Yank the current window" $ spawn scrotThiswindow),
-      ("M-y M-a", addName "Yank an area of the screen" $ spawn scrotRegion),
+      ("M-y M-r", addName "Yank a region of the screen" $ spawn scrotRegion),
       -- Background
       ("M-b M-r", addName "Set a random background" $ spawn "background-setter set"),
       ("M-b M-a", addName "Automatically set a random background every 1h" $ spawn "background-setter auto"),
