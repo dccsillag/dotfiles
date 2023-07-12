@@ -13,7 +13,7 @@
     monitor              = 0
 
     # font                 = "Lato Regular 11"
-    font                 = "FantasqueSansMono Nerd Font 14"
+    font                 = "FantasqueSansM Nerd Font 14"
 
     allow_markup         = yes
     markup               = full

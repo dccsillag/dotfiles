@@ -4,8 +4,8 @@ env:
 font:
   normal:
     # family: &font Caskaydia Cove Nerd Font
-    # family: &font FantasqueSansMono Nerd Font
-    family: &font CodeNewRoman Nerd Font
+    family: &font FantasqueSansM Nerd Font
+    # family: &font CodeNewRoman Nerd Font
     # family: &font Mononoki Nerd Font
     # family: &font BlexMono Nerd Font
     # family: &font Cousine Nerd Font
@@ -26,7 +26,8 @@ font:
   # size: 11.0
 
   offset:
-    y: 3
+    x: 0
+    y: 4
 
 colors:
   primary:
