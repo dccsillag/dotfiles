@@ -11,6 +11,7 @@ let
     "zoom"
     "steam-original"
     "android-studio-stable"
+    "snes9x-gtk"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -87,10 +88,10 @@ in
     enableContribAndExtras = true;
     extraPackages = haskellPackages: with haskellPackages; [
       #containers_0_6_5_1
-      directory_1_3_7_0
+      directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_14_0
+      process_1_6_17_0
       xmobar
       bimap
       JuicyPixels
@@ -145,8 +146,8 @@ in
       src = fetchFromGitHub {
         owner = "pigpigyyy";
         repo = "Yuescript";
-        rev = "b933fbfce34e9afc798e6882a96586b496ac432f";
-        sha256 = "0bkzalbbdrx09qgv6lk3ynxlknypw99vy7lk2i2rrlpl5x4c597p";
+        rev = "738154d37dd4ec20b09acd0f9f81601d0dc069ba";
+        sha256 = "XyNczRcNsKWYhcYZN84qqDuvO4O69syuQIR5gT4h68s=";
         fetchSubmodules = true;
       };
 
@@ -339,6 +340,7 @@ in
       python-lsp-black
     ]))
     scrot
+    maim
     feh
     gnome.zenity
     xorg.xmodmap
@@ -356,7 +358,6 @@ in
     screenkey
     xlayoutdisplay
     mons
-    scrot
     gnome.gnome-boxes
     bottles
     zotero
@@ -374,7 +375,7 @@ in
     # GUI Programs
     luakit
     unstable.qutebrowser
-    brave
+    unstable.brave
     mpv
     libreoffice
     arandr
@@ -388,6 +389,7 @@ in
     mailspring
     gnome.geary
     thunderbird
+    snes9x-gtk
   ];
 
   fonts.fonts = with pkgs; [
@@ -418,7 +420,7 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.forwardX11 = true;
+  services.openssh.settings.X11Forwarding = true;
   programs.mosh.enable = true;
 
   services.tailscale.enable = true;
