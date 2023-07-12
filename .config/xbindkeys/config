@@ -1,8 +1,8 @@
 "for SRC in $(pactl list sources short | cut -f 1); do pacmd set-source-mute $SRC 0; done"
-  c:169
+  c:86
 
 "for SRC in $(pactl list sources short | cut -f 1); do pacmd set-source-mute $SRC 1; done"
-  release+c:169
+  release+c:86
 
 "for SRC in $(pactl list sources short | cut -f 1); do pacmd set-source-mute $SRC 0; done"
-  shift+c:169
+  shift+c:86

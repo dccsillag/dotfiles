@@ -26,6 +26,11 @@ keycode 65 = space
 ! Fix Grave&Tilde
 keycode 49 = grave asciitilde
 
+! Assign a key for quotes
+keycode 16 = 7 apostrophe
+! Assign a key for quotes
+keycode 17 = 8 quotedbl
+
 ! Unused keycode -> Tab (so that xcape can still use Tab)
 keycode any = Tab
 ! Unused keycode -> Escape (so that xcape can still use Escape)
