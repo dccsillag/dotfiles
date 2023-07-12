@@ -780,9 +780,9 @@ do
             -- settings:
             --     -- ["typst-lsp"]:
             --     exportPdf: "onType"
-        nvim_lsp.texlab.setup
-            :on_attach
-            :capabilities
+        -- nvim_lsp.texlab.setup
+        --     :on_attach
+        --     :capabilities
         nvim_lsp.vimls.setup
             :on_attach
             :capabilities
@@ -792,6 +792,9 @@ do
         nvim_lsp.tsserver.setup
             :on_attach
             :capabilities
+        -- nvim_lsp.denols.setup
+        --     :on_attach
+        --     :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
                 virtual_text: false

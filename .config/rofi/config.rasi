@@ -1,4 +1,6 @@
 configuration {
+    terminal: "alacritty";
+
     drun {
         display-name: "Launch";
     }
