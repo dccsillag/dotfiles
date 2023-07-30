@@ -67,3 +67,5 @@
 	dft = difftool
 [init]
 	defaultBranch = main
+[safe]
+	directory = /nix/store/hcwgjwf78nh7falwpf4nhjbisd5a27qd-flutter-2.10.1-unwrapped
