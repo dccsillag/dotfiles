@@ -124,7 +124,7 @@ applyKeymaps myKeymaps
         's': telescope 'live_grep'
 
         -- toggle file tree
-        'f': vimcmd 'NeoTreeFocusToggle'
+        'f': vimcmd 'Neotree focus toggle'
 
         -- cd
         'c': telescope 'zoxide list'
@@ -219,6 +219,18 @@ applyKeymaps myKeymaps
         'T': -> -- open taskell
             vim.cmd "tabedit term://taskell"
             vim.cmd "startinsert"
+
+        "g":
+            "s": luacmd 'require"gitsigns.actions".stage_hunk()'
+            "<visual>s": luacmd 'require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})'
+            "u": luacmd 'require"gitsigns.actions".undo_stage_hunk()'
+            "x": luacmd 'require"gitsigns.actions".reset_hunk()'
+            "<visual>x": luacmd 'require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})'
+            "d": luacmd 'require"gitsigns".preview_hunk()'
+            "b": luacmd 'require"gitsigns".blame_line{full = true}'
+
+    "[c": luacmd 'require"gitsigns.actions".prev_hunk()'
+    "]c": luacmd 'require"gitsigns.actions".next_hunk()'
 
     -- spell suggest
     -- 'z=': fzflua 'spell_suggest'
