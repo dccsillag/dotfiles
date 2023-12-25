@@ -64,3 +64,5 @@
 [alias]
 	authors = shortlog -s -n --all --no-merges
 	dft = difftool
+[init]
+	defaultBranch = main
