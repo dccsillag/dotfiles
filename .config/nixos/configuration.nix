@@ -154,6 +154,21 @@ in
       installPhase = ''mkdir -p $out/bin && make install DESTDIR=$out INSTALL_PREFIX= SHELL=${bash}/bin/bash'';
     };
 
+    my-zathura = stdenv.mkDerivation rec {
+      name = "zathura";
+      version = "nightly-2023-11-27";
+      # FIXME new fetch
+      src = fetchFromGitHub {
+        owner = "pigpigyyy";
+        repo = "Yuescript";
+        rev = "738154d37dd4ec20b09acd0f9f81601d0dc069ba";
+        sha256 = "XyNczRcNsKWYhcYZN84qqDuvO4O69syuQIR5gT4h68s=";
+        fetchSubmodules = true;
+      };
+
+      installPhase = ''mkdir -p $out/bin && make install DESTDIR=$out INSTALL_PREFIX= SHELL=${bash}/bin/bash'';
+    };
+
     streambinder-vpnc = stdenv.mkDerivation rec {
       name = "vpnc";
       version = "0.5.3";
@@ -201,7 +216,7 @@ in
 
     # Text editor
     vim
-    neovim-nightly
+    neovim # neovim-nightly
     yuescript
 
     # LSPs
@@ -257,6 +272,7 @@ in
     onefetch
     parallel
     sshfs
+    rclone
     gpp
     unstable.taskell
     hyperfine
@@ -360,7 +376,6 @@ in
     mons
     gnome.gnome-boxes
     bottles
-    zotero
 
     # GTK themes
     arc-theme
@@ -375,7 +390,7 @@ in
     # GUI Programs
     luakit
     unstable.qutebrowser
-    unstable.brave
+    brave
     mpv
     libreoffice
     arandr
@@ -386,7 +401,7 @@ in
     unstable.rnote
     slack
     unstable.discord
-    mailspring
+    # mailspring
     gnome.geary
     thunderbird
     snes9x-gtk
@@ -418,6 +433,31 @@ in
 
   # List services that you want to enable:
 
+  programs.fuse.userAllowOther = true;
+  systemd.services.rcloneGDrive = {
+    wantedBy = [ "default.target" ]; # [ "multi-user.target" ]
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    description = "rclone: Remote FUSE filesystem for cloud storage config mygoogledrive";
+    serviceConfig = {
+      Type = "notify";
+      User = "daniel";
+      ExecStartPre = ''-${pkgs.coreutils}/bin/mkdir -p /home/daniel/mnt/mygoogledrive'';
+      # ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
+      ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
+      ExecStop = ''${pkgs.fuse}/bin/fusermount -u /home/daniel/mnt/mygoogledrive'';
+      Restart = "always";
+      RestartSec = "10s";
+      Environment = [ "PATH=/run/wrappers/bin:$PATH" ];
+    };
+  };
+  security.wrappers = {
+    fusermount.source = "${pkgs.fuse}/bin/fusermount";
+  };
+
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
@@ -432,6 +472,16 @@ in
   #   defaultWindowManager = "xmonad";
   # };
   # services.x2goserver.enable = true;
+
+  services.xserver.libinput = {
+    mouse = {
+      naturalScrolling = true;
+    };
+    touchpad = {
+      naturalScrolling = true;
+      accelProfile = "flat";
+    };
+  };
 
   # Enable the keyring for Mailspring
   services.gnome.gnome-keyring.enable = true;
