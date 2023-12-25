@@ -27,7 +27,7 @@
                 (metric :label "RAM" (caution :t 25 :leq "ok" :gt "danger" :value {round(EWW_RAM.used_mem_perc, 0)} :postfix "%"))
                 (metric :label "SWAP" (caution :t 80 :leq "ok" :gt "danger" :value {round((EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)} :postfix "%"))
                 (metric :label "TEMP" (caution :t 50 :leq "ok" :gt "danger" :value {EWW_TEMPS.CPU} :postfix "℃"))
-                (metric :label "BAT" (caution :t 20 :leq "danger" :gt "ok" :value {EWW_BATTERY.BAT1.capacity} :postfix "%"))
+                (metric :label "BAT" (caution :t 20 :leq "danger" :gt "ok" :value {EWW_BATTERY.BAT0.capacity} :postfix "%"))
                 (metric :label "MIC" (literal :content "${mic}"))
                 ))
 (defwidget metric [label]
