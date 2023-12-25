@@ -61,7 +61,7 @@ scrotThiswindow = "maim --window $(xdotool getactivewindow)" ++ scrotSaveAndCopy
 -- Compositor
 
 compositorSpawn :: String
-compositorSpawn = "picom --experimental-backends"
+compositorSpawn = "picom"
 
 -- compositor_spawn = "sh -c 'picom --glx-fshader-win \"$(cat ~/.config/picom-opacity-shader.glsl)\"'"
 
