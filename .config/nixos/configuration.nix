@@ -91,7 +91,7 @@ in
       directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_17_0
+      process_1_6_18_0
       xmobar
       bimap
       JuicyPixels
@@ -191,24 +191,24 @@ in
       ];
     };
 
-    my-eww = rustPlatform.buildRustPackage rec {
-      pname = "eww";
-      version = "0.3.0";
-      src = fetchFromGitHub {
-        owner = "elkowar";
-        repo = pname;
-        rev = "0b0715fd505200db5954432b8a27ed57e3e6a72a";
-        sha256 = "sha256-wtrq8crcN7fdNAkCqKHrPpptP4FOEQwReUnSFcCMQzs=";
-      };
-      cargoSha256 = "sha256-3hGA730g8E4rwQ9V0wSLUcAEmockXi+spwp50cgf0Mw=";
-      nativeBuildInputs = [ pkg-config ];
-      buildInputs = [ gtk3 ] ++ lib.optional false gtk-layer-shell;
-      buildNoDefaultFeatures = false;
-      buildFeatures = lib.optional false "wayland";
-      cargoBuildFlags = [ "--bin" "eww" ];
-      cargoTestFlags = cargoBuildFlags;
-      RUSTC_BOOTSTRAP = 1;
-    };
+    # my-eww = rustPlatform.buildRustPackage rec {
+    #   pname = "eww";
+    #   version = "0.3.0";
+    #   src = fetchFromGitHub {
+    #     owner = "elkowar";
+    #     repo = pname;
+    #     rev = "0b0715fd505200db5954432b8a27ed57e3e6a72a";
+    #     sha256 = "sha256-wtrq8crcN7fdNAkCqKHrPpptP4FOEQwReUnSFcCMQzs=";
+    #   };
+    #   cargoSha256 = "sha256-3hGA730g8E4rwQ9V0wSLUcAEmockXi+spwp50cgf0Mw=";
+    #   nativeBuildInputs = [ pkg-config ];
+    #   buildInputs = [ gtk3 ] ++ lib.optional false gtk-layer-shell;
+    #   buildNoDefaultFeatures = false;
+    #   buildFeatures = lib.optional false "wayland";
+    #   cargoBuildFlags = [ "--bin" "eww" ];
+    #   cargoTestFlags = cargoBuildFlags;
+    #   RUSTC_BOOTSTRAP = 1;
+    # };
     neovim-nightly = (builtins.getFlake "github:neovim/neovim?dir=contrib").packages.x86_64-linux.default;
   in
   [
@@ -216,7 +216,19 @@ in
 
     # Text editor
     vim
-    neovim # neovim-nightly
+    (neovim.override {
+      withPython3 = true;
+      extraPython3Packages = p: with p; [
+        pynvim
+        jupyter_client
+        pillow
+        cairosvg
+
+        python-lsp-server
+        pylsp-mypy
+        python-lsp-black
+      ];
+    })
     yuescript
 
     # LSPs
@@ -227,7 +239,7 @@ in
     sumneko-lua-language-server
     pyright
     # python39Packages.python-lsp-server # already present way later
-    # haskell-language-server
+    haskell-language-server
     texlab
     # TODO vimls
     rnix-lsp
@@ -255,7 +267,7 @@ in
     ripgrep
     fd
     procs
-    exa
+    eza
     delta
     difftastic
     bat
@@ -338,7 +350,7 @@ in
     alacritty
     unstable.neovide
     stack
-    my-eww
+    eww # my-eww
     dzen2
     polybar
     rofi
@@ -347,14 +359,16 @@ in
     (python3.withPackages (ps: with ps; [
       pynvim
       jupyter_client
-      ueberzug
       pillow
       cairosvg
 
       python-lsp-server
+      rope
       pylsp-mypy
+      # python-lsp-ruff
       python-lsp-black
     ]))
+    ueberzugpp
     scrot
     maim
     feh
@@ -407,7 +421,16 @@ in
     snes9x-gtk
   ];
 
-  fonts.fonts = with pkgs; [
+  # trace: warning: xdg-desktop-portal 1.17 reworked how portal implementations are loaded, you
+  # should either set `xdg.portal.config` or `xdg.portal.configPackages`
+  # to specify which portal backend to use for the requested interface.
+  #
+  # https://github.com/flatpak/xdg-desktop-portal/blob/1.18.1/doc/portals.conf.rst.in
+  #
+  # If you simply want to keep the behaviour in < 1.17, which uses the first
+  # portal implementation found in lexicographical order, use the following:
+  xdg.portal.config.common.default = "*";
+  fonts.packages = with pkgs; [
     nerdfonts
     google-fonts
   ];
@@ -434,23 +457,24 @@ in
   # List services that you want to enable:
 
   programs.fuse.userAllowOther = true;
-  systemd.services.rcloneGDrive = {
-    wantedBy = [ "default.target" ]; # [ "multi-user.target" ]
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    description = "rclone: Remote FUSE filesystem for cloud storage config mygoogledrive";
-    serviceConfig = {
-      Type = "notify";
-      User = "daniel";
-      ExecStartPre = ''-${pkgs.coreutils}/bin/mkdir -p /home/daniel/mnt/mygoogledrive'';
-      # ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
-      ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
-      ExecStop = ''${pkgs.fuse}/bin/fusermount -u /home/daniel/mnt/mygoogledrive'';
-      Restart = "always";
-      RestartSec = "10s";
-      Environment = [ "PATH=/run/wrappers/bin:$PATH" ];
-    };
-  };
+  systemd.services.NetworkManager-wait-online.enable = false;
+  # systemd.services.rcloneGDrive = {
+  #   wantedBy = [ "default.target" ]; # [ "multi-user.target" ]
+  #   after = [ "network-online.target" ];
+  #   wants = [ "network-online.target" ];
+  #   description = "rclone: Remote FUSE filesystem for cloud storage config mygoogledrive";
+  #   serviceConfig = {
+  #     Type = "notify";
+  #     User = "daniel";
+  #     ExecStartPre = ''-${pkgs.coreutils}/bin/mkdir -p /home/daniel/mnt/mygoogledrive'';
+  #     # ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
+  #     ExecStart = ''${pkgs.rclone}/bin/rclone mount --config=/home/daniel/.config/rclone/rclone.conf --vfs-cache-mode writes --vfs-cache-max-size 100M --log-level INFO --log-file /tmp/rclone-mygoogledrive.log --umask 022 --allow-other mygoogledrive: /home/daniel/mnt/mygoogledrive'';
+  #     ExecStop = ''${pkgs.fuse}/bin/fusermount -u /home/daniel/mnt/mygoogledrive'';
+  #     Restart = "always";
+  #     RestartSec = "10s";
+  #     Environment = [ "PATH=/run/wrappers/bin:$PATH" ];
+  #   };
+  # };
   security.wrappers = {
     fusermount.source = "${pkgs.fuse}/bin/fusermount";
   };
