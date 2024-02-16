@@ -34,7 +34,7 @@ plugins = ->
     -- plug 'B4mbus/todo-comments.nvim' -- list todo comments in Trouble
     -- plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
     plug 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', requires: {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
-    plug 'kevinhwang91/nvim-ufo', requires: {'kevinhwang91/promise-async'} -- pretty folding
+    -- plug 'kevinhwang91/nvim-ufo', requires: {'kevinhwang91/promise-async'} -- pretty folding
     plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
     plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
     plug 'edluffy/specs.nvim' -- highlight cursor jumps
@@ -76,6 +76,7 @@ plugins = ->
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
     plug 'tpope/vim-fugitive' -- use git from vim
     plug 'junegunn/gv.vim' -- git commit browser
+    plug 'benlubas/molten-nvim', version: "^1.0.0", run: ':UpdateRemotePlugins' -- interact with Jupyter
     -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
     -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
     plug 'nvim-neotest/neotest', requires: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim

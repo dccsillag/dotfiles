@@ -14,6 +14,7 @@
 
 -- Imports.
 
+import Data.Monoid (All(..))
 import Control.Monad (unless, when)
 import Data.Aeson
 import Data.ByteString.Lazy.UTF8 (fromString)

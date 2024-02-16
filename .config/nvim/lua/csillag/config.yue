@@ -430,47 +430,47 @@ do
             show_unloaded: true -- ???
 
     -- nvim-ufo
-    (require "ufo").setup
-        open_fold_hl_timeout: 0
-        fold_virt_text_handler: (virtText, lnum, endLnum, width, truncate) ->
-            newVirtText = {}
-            suffix = " ⋯ "
-            targetWidth = width - vim.fn.strdisplaywidth suffix
-            curWidth = 0
-            if #virtText > 0
-                chunkText = virtText[1][1]
-                hlGroup = virtText[1][2]
-                str = ""
-                shiftwidth = vim.o.shiftwidth
-                pos = 1
-                for c in chunkText\gmatch"."
-                    if c != ' '
-                        break
-                    if math.fmod(pos - 1, shiftwidth) == 0
-                        table.insert newVirtText, {str, hlGroup}
-                        table.insert newVirtText, {"│", "IndentBlanklineChar"}
-                        str = ""
-                    else
-                        str = str .. c
-                    pos = pos + 1
-                table.insert newVirtText, {str .. (chunkText\sub pos, -1), hlGroup}
-                table.remove virtText, 1
-            for _, chunk in ipairs virtText
-                chunkText = chunk[1]
-                chunkWidth = vim.fn.strdisplaywidth chunkText
-                if targetWidth > curWidth + chunkWidth
-                    table.insert newVirtText, chunk
-                else
-                    chunkText = truncate chunkText, targetWidth - curWidth
-                    hlGroup = chunk[2]
-                    table.insert newVirtText, {chunkText, hlGroup}
-                    chunkwidth = vim.fn.strdisplaywidth chunkText
-                    if curWidth + chunkWidth < targetWidth
-                        suffix = suffix .. (' ')\rep(targetWidth - curWidth - chunkWidth)
-                    break
-                curWidth = curWidth + chunkWidth
-            table.insert newVirtText, {suffix, 'MoreMsg'}
-            newVirtText
+    -- (require "ufo").setup
+    --     open_fold_hl_timeout: 0
+    --     fold_virt_text_handler: (virtText, lnum, endLnum, width, truncate) ->
+    --         newVirtText = {}
+    --         suffix = " ⋯ "
+    --         targetWidth = width - vim.fn.strdisplaywidth suffix
+    --         curWidth = 0
+    --         if #virtText > 0
+    --             chunkText = virtText[1][1]
+    --             hlGroup = virtText[1][2]
+    --             str = ""
+    --             shiftwidth = vim.o.shiftwidth
+    --             pos = 1
+    --             for c in chunkText\gmatch"."
+    --                 if c != ' '
+    --                     break
+    --                 if math.fmod(pos - 1, shiftwidth) == 0
+    --                     table.insert newVirtText, {str, hlGroup}
+    --                     table.insert newVirtText, {"│", "IndentBlanklineChar"}
+    --                     str = ""
+    --                 else
+    --                     str = str .. c
+    --                 pos = pos + 1
+    --             table.insert newVirtText, {str .. (chunkText\sub pos, -1), hlGroup}
+    --             table.remove virtText, 1
+    --         for _, chunk in ipairs virtText
+    --             chunkText = chunk[1]
+    --             chunkWidth = vim.fn.strdisplaywidth chunkText
+    --             if targetWidth > curWidth + chunkWidth
+    --                 table.insert newVirtText, chunk
+    --             else
+    --                 chunkText = truncate chunkText, targetWidth - curWidth
+    --                 hlGroup = chunk[2]
+    --                 table.insert newVirtText, {chunkText, hlGroup}
+    --                 chunkwidth = vim.fn.strdisplaywidth chunkText
+    --                 if curWidth + chunkWidth < targetWidth
+    --                     suffix = suffix .. (' ')\rep(targetWidth - curWidth - chunkWidth)
+    --                 break
+    --             curWidth = curWidth + chunkWidth
+    --         table.insert newVirtText, {suffix, 'MoreMsg'}
+    --         newVirtText
 
     -- popui
     vim.ui.select = require "popui.ui-overrider"

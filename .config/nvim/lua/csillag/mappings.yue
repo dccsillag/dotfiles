@@ -160,17 +160,18 @@ applyKeymaps myKeymaps
             vim.cmd "tabedit term://" .. command
 
         -- magma-nvim
-        'r':
-            '<expr>': -> (require "magma").run_code_operator!
-            'r': -> (require "magma").run_code_line!
-            'o': -> (require 'magma').show_output!
-            -- '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
-            -- '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
-            -- 'r': vimcmd 'MagmaEvaluateLine'
-            -- 'c': vimcmd 'MagmaReevaluateCell'
-            -- 'd': vimcmd 'MagmaDelete'
-            -- 'o': vimcmd 'MagmaShowOutput'
-            -- 'n': vimcmd 'MagmaInit'
+        'r': vimcmd 'MoltenEvaluateOperator'
+        -- 'r':
+        --     '<expr>': -> (require "magma").run_code_operator!
+        --     'r': -> (require "magma").run_code_line!
+        --     'o': -> (require 'magma').show_output!
+        --     -- '<expr>': 'nvim_exec("MagmaEvaluateOperator", v:true)'
+        --     -- '<visual>': ':<C-u>MagmaEvaluateVisual<CR>'
+        --     -- 'r': vimcmd 'MagmaEvaluateLine'
+        --     -- 'c': vimcmd 'MagmaReevaluateCell'
+        --     -- 'd': vimcmd 'MagmaDelete'
+        --     -- 'o': vimcmd 'MagmaShowOutput'
+        --     -- 'n': vimcmd 'MagmaInit'
 
         -- ultest
         't':
