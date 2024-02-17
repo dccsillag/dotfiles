@@ -88,7 +88,7 @@ in
     enableContribAndExtras = true;
     extraPackages = haskellPackages: with haskellPackages; [
       #containers_0_6_5_1
-      directory_1_3_7_1
+      # directory_1_3_7_1
       aeson
       utf8-string
       process_1_6_18_0
