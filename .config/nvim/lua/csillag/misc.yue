@@ -5,9 +5,14 @@ vim.cmd 'colorscheme csillag'
 if vim.fn.exists('neovide')
     -- We're in Neovide
 
-    -- vim.g.neovide_transparency = 0.9
+    vim.g.neovide_transparency = 0.9
     vim.g.neovide_floating_blur_amount_x = 3.0
     vim.g.neovide_floating_blur_amount_y = 3.0
+
+    vim.g.neovide_padding_top = 3
+    vim.g.neovide_padding_bottom = 3
+    vim.g.neovide_padding_right = 3
+    vim.g.neovide_padding_left = 3
 
     global set_font, gui_default_font_size, gui_font_size
     global increase_font_size, decrease_font_size, reset_font_size
@@ -15,7 +20,7 @@ if vim.fn.exists('neovide')
     gui_font_size = gui_default_font_size
 
     set_font = ->
-        vim.o.guifont = 'FantasqueSansMono Nerd Font:h' .. gui_font_size
+        vim.o.guifont = 'FantasqueSansM Nerd Font:h' .. gui_font_size
     increase_font_size = ->
         gui_font_size = math.min(gui_font_size + 1, 60)
         set_font!
@@ -25,6 +30,8 @@ if vim.fn.exists('neovide')
     reset_font_size = ->
         gui_font_size = gui_default_font_size
         set_font!
+
+    vim.o.linespace = 4
 
     set_font!
 

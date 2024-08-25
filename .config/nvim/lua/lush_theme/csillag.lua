@@ -37,7 +37,8 @@ local syntax_string = hsl(120, 40, 70)
 local syntax_number = hsl(190, 60, 70)
 local syntax_statement = hsl(10, 80, 75)
 -- local syntax_identifier = hsl(300, 100, 92)
-local syntax_identifier = foreground       -- hsl(50, 100, 90) -- hsl(100, 90, 96) -- hsl(300, 0, 88)  -- hsl(250, 80, 85)
+local syntax_identifier =
+foreground                                 -- hsl(50, 100, 90) -- hsl(100, 90, 96) -- hsl(300, 0, 88)  -- hsl(250, 80, 85)
 local syntax_local_identifier = foreground -- hsl(50, 100, 90)  -- hsl(230, 60, 93)
 local syntax_operator = foreground
 local syntax_attribute = foreground.darken(10)
@@ -106,7 +107,7 @@ local theme = lush(function(injected_functions)
         ConflictMarkerTheirs { bg = "#344f69" },
         ConflictMarkerEnd { bg = "#2f628e" },
         ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
-        EndOfBuffer { bg = background.darken(5) },                              -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+        EndOfBuffer {},                                                         -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
         VertSplit { fg = foreground_ui },                                       -- the column separating vertically split windows
         Folded {},                                                              -- line used for closed folds
         FoldColumn { fg = foreground_ui, bg = background_gutter },              -- 'foldcolumn'

@@ -76,6 +76,7 @@ plugins = ->
     plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
     plug 'tpope/vim-fugitive' -- use git from vim
     plug 'junegunn/gv.vim' -- git commit browser
+    plug 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
     plug 'benlubas/molten-nvim', version: "^1.0.0", run: ':UpdateRemotePlugins' -- interact with Jupyter
     -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
     -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
@@ -102,6 +103,7 @@ plugins = ->
     plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
     plug 'stevearc/aerial.nvim' -- show code outline
     plug 'mfussenegger/nvim-dap' -- debugging
+    plug 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
     plug 'rcarriga/nvim-dap-ui' -- an UI for debugging
     plug 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
 

@@ -63,7 +63,7 @@ vimcmd = (cmd) -> '<cmd>' .. cmd .. '<CR>'
 luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
 dapcmd = (cmd) -> luacmd 'if require"dap".session() ~= nil then ' .. cmd .. ' else print("no DAP session!") end'
 plug = (op) -> '<Plug>(' .. op .. ')'
-addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
+addspecs = (op) -> op -- addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
 telescope = (provider) -> vimcmd 'Telescope ' .. provider
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 blankline = (op) -> op .. '<CMD>IndentBlanklineRefresh<CR>'
@@ -198,7 +198,7 @@ applyKeymaps myKeymaps
 
         'G': vimcmd 'tab G' -- open fugitive
 
-        ';': luacmd 'specs.show_specs()' -- highlight the cursor
+        -- ';': luacmd 'specs.show_specs()' -- highlight the cursor
 
         -- 'S': vimcmd 'set spell!' -- toggle spell
         -- 's': ':set spelllang=' -- set spell language
@@ -228,7 +228,8 @@ applyKeymaps myKeymaps
             "x": luacmd 'require"gitsigns.actions".reset_hunk()'
             "<visual>x": luacmd 'require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})'
             "d": luacmd 'require"gitsigns".preview_hunk()'
-            "b": luacmd 'require"gitsigns".blame_line{full = true}'
+            "w": luacmd 'require"gitsigns".blame_line{full = true}'
+            "b": telescope "git_branches"
 
     "[c": luacmd 'require"gitsigns.actions".prev_hunk()'
     "]c": luacmd 'require"gitsigns.actions".next_hunk()'
