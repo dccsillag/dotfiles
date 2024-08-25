@@ -36,7 +36,7 @@ require_yuescript "config"
 require_yuescript "misc"
 require_yuescript "mappings"
 
-if RECOMPILED_SOMETHING then
-    print "Running :PackerCompile"
-    vim.cmd "PackerCompile"
-end
+-- if RECOMPILED_SOMETHING then
+--     print "Running :PackerCompile"
+--     vim.cmd "PackerCompile"
+-- end

@@ -1,182 +1,161 @@
-vim.cmd 'packadd packer.nvim'
+-- vim.cmd 'packadd packer.nvim'
 
-plugins = ->
-    plug = (name, table) ->
-        table or= {}
-        table[1] = name
-        use table
+lazypath = (vim.fn.stdpath "data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath)
+    lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    out = vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
+    if vim.v.shell_error != 0
+        vim.api.nvim_echo { {"Failed to clone lazy.nvim:\n", "ErrorMsg"}, {out, "WarningMsg"}, {"\nPress any key to exit..."} }, true, {}
+        vim.fn.getchar!
+        os.exit(1)
+vim.opt.rtp\prepend lazypath
 
-    plugown = (name, table) ->
-        maybepath = "~/code/#{name}"
-        local resolved_name
-        if (os.execute "[ -d #{maybepath} ]")
-            resolved_name = maybepath
-        else
-            resolved_name = "dccsillag/#{name}"
-        plug resolved_name, table
+(require "lazy").setup
+    spec:
+        -- Core
+        * [1]: 'svermeulen/vimpeccable' -- convenience Lua functions for config
+        * [1]: 'LionC/nest.nvim' -- easy API for creating mappings
+        * [1]: 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
-    -- Core
-    plug 'wbthomason/packer.nvim' -- plugin manager
-    plug 'svermeulen/vimpeccable' -- convenience Lua functions for config
-    plug 'LionC/nest.nvim' -- easy API for creating mappings
-    plug 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
+        -- Interface
+        * [1]: 'nvim-lualine/lualine.nvim' -- statusline
+        * [1]: 'romgrk/barbar.nvim' -- tabline
+        * [1]: 'junegunn/fzf', build: './install --bin' -- fuzzy finder
+        * [1]: 'ibhagwan/fzf-lua', dependencies: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
+        * [1]: 'nvim-telescope/telescope.nvim', dependencies: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
+        * [1]: 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
+        * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
+        * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
+        * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region
+        * [1]: 'edluffy/specs.nvim' -- highlight cursor jumps
+        * [1]: 'folke/zen-mode.nvim' -- toggleable zen mode for editing
+        * [1]: 'lewis6991/gitsigns.nvim' -- show git diff in the signcolumn
+        * [1]: 'junegunn/limelight.vim' -- a spotlight for code, good for presenting bit-by-bit
+        * [1]: 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
+        * [1]: 'lukas-reineke/indent-blankline.nvim' -- indent guides
+        * [1]: 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
+        * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
+        * [1]: 'andymass/vim-matchup' -- better delimiter matching
+        * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
+        * [1]: 'rcarriga/nvim-notify' -- show notifications
+        * [1]: 'folke/noice.nvim', dependencies: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
+        * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
+        * [1]: 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' -- show diagnostics with virtual lines
+        * [1]: 'goolord/alpha-nvim' -- custom startup screen
+        * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
+        * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
+        * [1]: 'moll/vim-bbye' -- better buffer closing
+        * [1]: 'nvim-colortils/colortils.nvim' -- color picker
+        * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
+        -- plug 'wellle/context.vim' -- show code context on top of the buffer
+        -- plug 'kshenoy/vim-signature' -- show marks in the sign column
 
-    -- Interface
-    plug 'nvim-lualine/lualine.nvim' -- statusline
-    plug 'romgrk/barbar.nvim' -- tabline
-    -- plug 'alvarosevilla95/luatab.nvim' -- tabline
-    -- plug 'nanozuki/tabby.nvim', requires: {'kyazdani42/nvim-web-devicons'} -- tabline
-    plug 'junegunn/fzf', run: './install --bin' -- fuzzy finder
-    plug 'ibhagwan/fzf-lua', requires: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
-    plug 'nvim-telescope/telescope.nvim', requires: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
-    plug 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
-    -- plug 'folke/trouble.nvim', requires: {'kyazdani42/nvim-web-devicons'} -- pretty diagnostic list
-    -- plug 'B4mbus/todo-comments.nvim' -- list todo comments in Trouble
-    -- plug 'SidOfc/carbon.nvim' -- neat and minimal file tree viewer
-    plug 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', requires: {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
-    -- plug 'kevinhwang91/nvim-ufo', requires: {'kevinhwang91/promise-async'} -- pretty folding
-    plug 'hood/popui.nvim', requires: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
-    plug 'machakann/vim-highlightedyank' -- briefly highlight yanked region
-    plug 'edluffy/specs.nvim' -- highlight cursor jumps
-    plug 'folke/zen-mode.nvim' -- toggleable zen mode for editing
-    plug 'lewis6991/gitsigns.nvim' -- show git diff in the signcolumn
-    plug 'junegunn/limelight.vim' -- a spotlight for code, good for presenting bit-by-bit
-    plug 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
-    plug 'lukas-reineke/indent-blankline.nvim' -- indent guides
-    plug 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
-    plug 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
-    plug 'andymass/vim-matchup' -- better delimiter matching
-    -- plug 'wellle/context.vim' -- show code context on top of the buffer
-    -- plug 'kshenoy/vim-signature' -- show marks in the sign column
-    plug 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
-    plug 'rcarriga/nvim-notify' -- show notifications
-    plug 'folke/noice.nvim', requires: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
-    plug 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
-    plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' -- show diagnostics with virtual lines
-    plug 'goolord/alpha-nvim' -- custom startup screen
-    plug 'sunjon/Shade.nvim' -- fade out inactive windows
-    plug 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
-    plug 'moll/vim-bbye' -- better buffer closing
-    plug 'nvim-colortils/colortils.nvim' -- color picker
-    plug 'dstein64/vim-startuptime' -- profile startup time neatly
+        -- Behaviour
+        * [1]: 'tpope/vim-repeat' -- better `.` key
+        * [1]: 'chaoren/vim-wordmotion' -- improve the `w` key and similar
+        * [1]: 'haya14busa/vim-asterisk' -- improve `*` and `#`
+        * [1]: 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
+        * [1]: 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
+        * [1]: 'lambdalisue/suda.vim' -- for editting files which require root permission
+        * [1]: 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
 
-    -- Behaviour
-    plug 'tpope/vim-repeat' -- better `.` key
-    plug 'chaoren/vim-wordmotion' -- improve the `w` key and similar
-    plug 'haya14busa/vim-asterisk' -- improve `*` and `#`
-    plug 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
-    plug 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
-    plug 'lambdalisue/suda.vim' -- for editting files which require root permission
-    plug 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
+        -- Peripherals
+        * [1]: 'tpope/vim-eunuch' -- add nice commands for shell commands
+        * [1]: 'direnv/direnv.vim' -- direnv integration
+        * [1]: 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
+        * [1]: 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
+        * [1]: 'tpope/vim-fugitive' -- use git from vim
+        * [1]: 'junegunn/gv.vim' -- git commit browser
+        * [1]: 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
+        * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
+        * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
+        * [1]: 'nvim-neotest/neotest-plenary'
+        * [1]: 'nvim-neotest/neotest-python'
+        * [1]: 'rouge8/neotest-rust'
+        * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
+        -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
+        -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
 
-    -- Peripherals
-    plug 'tpope/vim-eunuch' -- add nice commands for shell commands
-    plug 'direnv/direnv.vim' -- direnv integration
-    plug 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
-    plug 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
-    plug 'tpope/vim-fugitive' -- use git from vim
-    plug 'junegunn/gv.vim' -- git commit browser
-    plug 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
-    plug 'benlubas/molten-nvim', version: "^1.0.0", run: ':UpdateRemotePlugins' -- interact with Jupyter
-    -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
-    -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
-    plug 'nvim-neotest/neotest', requires: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
-    plug 'nvim-neotest/neotest-plenary'
-    plug 'nvim-neotest/neotest-python'
-    plug 'rouge8/neotest-rust'
-    plug 'nvim-neotest/neotest-vim-test', requires: {"vim-test/vim-test"}
+        -- Completion
+        * [1]: 'hrsh7th/nvim-cmp', dependencies: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim
+        * [1]: 'hrsh7th/cmp-nvim-lsp'
+        * [1]: 'hrsh7th/cmp-path'
+        * [1]: 'Saecki/crates.nvim'
+        -- plug 'hrsh7th/cmp-buffer'
 
-    -- Completion
-    plug 'hrsh7th/nvim-cmp', requires: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim
-    plug 'hrsh7th/cmp-nvim-lsp'
-    -- plug 'hrsh7th/cmp-buffer'
-    plug 'hrsh7th/cmp-path'
-    plug 'Saecki/crates.nvim'
+        -- LSP / TreeSitter / Formatting
+        * [1]: 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
+        * [1]: 'neovim/nvim-lspconfig' -- easily configure LSP
+        * [1]: 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
+        * [1]: 'David-Kunz/treesitter-unit' -- treesitter-based selection & highlight
+        * [1]: 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter-based text objects
+        * [1]: 'nvim-treesitter/playground' -- treesitter playground
+        * [1]: 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
+        * [1]: 'stevearc/aerial.nvim' -- show code outline
+        * [1]: 'mfussenegger/nvim-dap' -- debugging
+        * [1]: 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
+        * [1]: 'rcarriga/nvim-dap-ui' -- an UI for debugging
+        * [1]: 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
 
-    -- LSP / TreeSitter / Formatting
-    plug 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
-    plug 'neovim/nvim-lspconfig' -- easily configure LSP
-    plug 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
-    plug 'David-Kunz/treesitter-unit' -- treesitter-based selection & highlight
-    plug 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter-based text objects
-    plug 'nvim-treesitter/playground' -- treesitter playground
-    plug 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
-    plug 'stevearc/aerial.nvim' -- show code outline
-    plug 'mfussenegger/nvim-dap' -- debugging
-    plug 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
-    plug 'rcarriga/nvim-dap-ui' -- an UI for debugging
-    plug 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
+        -- Color Schemes
+        * [1]: 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
+        * [1]: 'joshdick/onedark.vim' -- onedark colorscheme from Atom
+        * [1]: 'pbrisbin/vim-colors-off' -- a plain colorscheme that pretty much disables highlighting
+        * [1]: 'arcticicestudio/nord-vim' -- nord colorscheme
+        * [1]: 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
+        -- * [1]: 'catppuccin/nvim', as: 'catppuccin' -- catppuccin colorscheme
+        * [1]: 'folke/tokyonight.nvim' -- tokyonight colorscheme
+        * [1]: 'EdenEast/nightfox.nvim' -- nightfox colorscheme
+        * [1]: 'Shatur/neovim-ayu' -- ayu colorscheme
 
-    -- Color Schemes
-    plug 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
-    plug 'joshdick/onedark.vim' -- onedark colorscheme from Atom
-    plug 'pbrisbin/vim-colors-off' -- a plain colorscheme that pretty much disables highlighting
-    plug 'arcticicestudio/nord-vim' -- nord colorscheme
-    plug 'arzg/vim-substrata' -- a cold, dark colorscheme for Vim
-    plug 'catppuccin/nvim', as: 'catppuccin' -- catppuccin colorscheme
-    plug 'folke/tokyonight.nvim' -- tokyonight colorscheme
-    plug 'EdenEast/nightfox.nvim' -- nightfox colorscheme
-    plug 'Shatur/neovim-ayu' -- ayu colorscheme
+        -- Editing Help
+        * [1]: 'rhysd/conflict-marker.vim' -- easily solve git conflicts
+        * [1]: 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
+        * [1]: 'numToStr/Comment.nvim' -- comment/uncomment code
+        * [1]: 'windwp/nvim-autopairs' -- automatic delimiter pair closing
+        * [1]: 'godlygeek/tabular' -- aligns code
+        * [1]: 'dhruvasagar/vim-table-mode' -- painlessly edit tables
+        * [1]: 'tommcdo/vim-exchange' -- exchange text around
+        * [1]: 'svermeulen/vim-subversive' -- replace text with current yank
+        * [1]: 'monaqa/dial.nvim' -- better increment/decrement
+        -- plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
 
-    -- Editing Help
-    plug 'rhysd/conflict-marker.vim' -- easily solve git conflicts
-    plug 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
-    plug 'numToStr/Comment.nvim' -- comment/uncomment code
-    plug 'windwp/nvim-autopairs' -- automatic delimiter pair closing
-    -- plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
-    plug 'godlygeek/tabular' -- aligns code
-    plug 'dhruvasagar/vim-table-mode' -- painlessly edit tables
-    plug 'tommcdo/vim-exchange' -- exchange text around
-    plug 'svermeulen/vim-subversive' -- replace text with current yank
-    plug 'monaqa/dial.nvim' -- better increment/decrement
+        -- Text Objects
+        * [1]: 'wellle/targets.vim' -- better text objects
+        * [1]: 'michaeljsmith/vim-indent-object' -- text object for indented text
+        * [1]: 'kana/vim-textobj-entire', dependencies: {'kana/vim-textobj-user'} -- text object for the entire buffer
+        * [1]: 'kana/vim-textobj-syntax', dependencies: {'kana/vim-textobj-user'} -- text object for text in the same highlight group
 
-    -- Text Objects
-    plug 'wellle/targets.vim' -- better text objects
-    plug 'michaeljsmith/vim-indent-object' -- text object for indented text
-    plug 'kana/vim-textobj-entire' -- text object for the entire buffer
-    plug 'kana/vim-textobj-syntax' -- text object for text in the same highlight group
-    plug 'kana/vim-textobj-user' -- framework for creating text objects [used by other plugins]
+        -- Language Support
+        * [1]: 'NoahTheDuke/vim-just' -- Justfile syntax highlight
+        * [1]: 'vim-python/python-syntax' -- better Python syntax highlight
+        * [1]: 'petRUShka/vim-sage' -- language support for SageMath
+        * [1]: 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
+        * [1]: 'bfrg/vim-cpp-modern' -- better C++ syntax highlight
+        * [1]: 'gabrielelana/vim-markdown', dependencies: {'godlygeek/tabular'} -- better Markdown support
+        * [1]: 'lukas-reineke/headlines.nvim' -- better headings for markdown & friends
+        * [1]: 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
+        * [1]: 'gisraptor/vim-lilypond-integrator' -- language support for Lilypond
+        * [1]: 'tomlion/vim-solidity' -- language support for Solidity
+        * [1]: 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
+        * [1]: 'manicmaniac/coconut.vim' -- language support for Coconut
+        * [1]: 'neovimhaskell/haskell-vim' -- better support for Haskell
+        * [1]: 'edwinb/idris2-vim' -- language support for Idris
+        * [1]: 'mrk21/yaml-vim' -- better language support for YAML
+        * [1]: 'cespare/vim-toml' -- language support for TOML
+        * [1]: 'LnL7/vim-nix' -- language support for Nix
+        * [1]: 'neoclide/vim-jsx-improve' -- language support for JSX
+        * [1]: 'dart-lang/dart-vim-plugin' -- language support for Dart
+        * [1]: 'tikhomirov/vim-glsl' -- language support for GLSL
+        * [1]: 'aklt/plantuml-syntax' -- for PlantUML syntax support
+        * [1]: 'wlangstroth/vim-racket' -- language support for Racket
+        * [1]: 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
+        * [1]: 'pest-parser/pest.vim' -- language support for Pest grammars
+        -- plug 'kaarmu/typst.vim' -- Typst syntax highlight
+        -- plug 'rust-lang/rust.vim' -- better Rust syntax support
+        -- plugown 'nail.vim' -- Nail syntax highlight
 
-    -- Language Support
-    plugown 'nail.vim' -- Nail syntax highlight
-    plug 'NoahTheDuke/vim-just' -- Justfile syntax highlight
-    plug 'vim-python/python-syntax' -- better Python syntax highlight
-    -- plug 'kaarmu/typst.vim' -- Typst syntax highlight
-    plug 'petRUShka/vim-sage' -- language support for SageMath
-    plug 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
-    plug 'bfrg/vim-cpp-modern' -- better C++ syntax highlight
-    plug 'gabrielelana/vim-markdown', requires: {'godlygeek/tabular'} -- better Markdown support
-    plug 'lukas-reineke/headlines.nvim' -- better headings for markdown & friends
-    plug 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
-    plug 'gisraptor/vim-lilypond-integrator' -- language support for Lilypond
-    plug 'tomlion/vim-solidity' -- language support for Solidity
-    plug 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
-    plug 'manicmaniac/coconut.vim' -- language support for Coconut
-    -- plug 'rust-lang/rust.vim' -- better Rust syntax support
-    plug 'neovimhaskell/haskell-vim' -- better support for Haskell
-    plug 'edwinb/idris2-vim' -- language support for Idris
-    plug 'mrk21/yaml-vim' -- better language support for YAML
-    plug 'cespare/vim-toml' -- language support for TOML
-    plug 'LnL7/vim-nix' -- language support for Nix
-    plug 'neoclide/vim-jsx-improve' -- language support for JSX
-    plug 'dart-lang/dart-vim-plugin' -- language support for Dart
-    plug 'tikhomirov/vim-glsl' -- language support for GLSL
-    plug 'aklt/plantuml-syntax' -- for PlantUML syntax support
-    plug 'wlangstroth/vim-racket' -- language support for Racket
-    plug 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
-    plug 'pest-parser/pest.vim' -- language support for Pest grammars
-
-import 'packer.util' as packer_util
-
-(require 'packer').startup
-    * plugins
-    config:
-        max_jobs: 8
-        display:
-            open_fn: -> packer_util.float border: 'single'
-            working_sym: "•"
-            error_sym: "✗"
-            done_sym: "✓"
-            removed_sym: "-"
-            moved_sym: "→"
-            header_sym: "━"
+    -- install:
+    --     colorscheme: {"habamax"}
+    checker:
+        enabled: true

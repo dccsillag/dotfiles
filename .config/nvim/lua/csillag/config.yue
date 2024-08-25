@@ -73,9 +73,9 @@ do
                     * button "m", " ", "New markdown file", "<cmd>enew | setf markdown<CR>"
                     * button "e", " ", "Edit a file", "<cmd>EditFile<CR>"
                     * button "c", " ", "Change directory", "<cmd>norm \\c<CR>"
-                    * button "pi"," ", "Install plugins", "<cmd>PackerInstall<CR>"
-                    * button "pu"," ", "Update plugins", "<cmd>PackerUpdate<CR>"
-                    * button "pc"," ", "Clean plugins", "<cmd>PackerClean<CR>"
+                    * button "p", " ", "Manage plugins", "<cmd>Lazy<CR>"
+                    -- * button "pu"," ", "Update plugins", "<cmd>PackerUpdate<CR>"
+                    -- * button "pc"," ", "Clean plugins", "<cmd>PackerClean<CR>"
                     * button "de"," ", "Edit a dotfile", "<cmd>EditDotFile<CR>"
             *
                 type: 'padding'
