@@ -57,101 +57,133 @@ do
 
     (require 'colortils').setup!
 
-    -- statusline
-    my_theme = {
-        a:
-            bg: '#C8ACF6'
-            fg: '#000000'
-        b:
-            bg: '#4F535A'
-            fg: '#FFFFFF'
-            gui: 'bold'
-        c:
-            bg: '#2F333A'
-            fg: '#cccccc'
-    }
-    winbar =
-        lualine_a: {}
-        lualine_b: {{
-            'filename',
-            path: 1 -- show the relative path
-        }}
-        lualine_c:
-            * ->
-                ft = vim.o.filetype
-                has_lsp = #vim.lsp.buf_get_clients(0) > 0
-                if #ft == 0
-                    ""
-                else
-                    if has_lsp
-                        ft .. "⁺"
-                    else
-                        ft
-            * 'b:keymap_name'
-            * {
-                'diagnostics',
-                colored: true
-                sections:
-                    * 'error'
-                    * 'warn'
-                    * 'info'
-            }
-        lualine_x:
-            * 'location'
-        lualine_y: {}
-        lualine_z: {}
-    (require 'lualine').setup
-        options:
-            theme:
-                normal: my_theme
-                insert: my_theme
-                visual: my_theme
-                replace: my_theme
-                command: my_theme
-                inactive: my_theme
-            component_separators:
-                left: ''
-                right: ''
-            section_separators:
-                left: ''
-                right: ''
-            always_divide_middle: true
-            globalstatus: true
-            disabled_filetypes:
-                winbar:
-                    * 'neo-tree'
-                    * 'Trouble'
-        winbar: winbar
-        inactive_winbar: winbar
-        sections:
-            lualine_a:
-                * 'branch'
-            lualine_b:
-                * -> vim.fn.getcwd!
-            lualine_c: {}
-            lualine_x:
-                * -> vim.fn.expand '$USER'
-            lualine_y:
-                * 'hostname'
-            lualine_z:
-                * ->
-                    import 'dap'
-                    if dap.session! ~= nil
-                        "Debugging"
-                    else
-                        ""
-                * ->
-                    register = vim.fn.reg_recording!
-                    if register == ""
-                        ""
-                    else
-                        "recording @#{register}"
-        extensions:
-            * 'aerial'
-            * 'fzf'
-            * 'fugitive'
-            * 'quickfix'
-            * 'neo-tree'
+    -- -- statusline
+    -- my_theme = {
+    --     a:
+    --         bg: '#C8ACF6'
+    --         fg: '#000000'
+    --     b:
+    --         bg: '#4F535A'
+    --         fg: '#FFFFFF'
+    --         gui: 'bold'
+    --     c:
+    --         bg: '#2F333A'
+    --         fg: '#cccccc'
+    -- }
+    -- winbar =
+    --     lualine_a: {}
+    --     lualine_b: {{
+    --         'filename',
+    --         path: 1 -- show the relative path
+    --     }}
+    --     lualine_c:
+    --         * ->
+    --             ft = vim.o.filetype
+    --             has_lsp = #vim.lsp.buf_get_clients(0) > 0
+    --             if #ft == 0
+    --                 ""
+    --             else
+    --                 if has_lsp
+    --                     ft .. "⁺"
+    --                 else
+    --                     ft
+    --         * 'b:keymap_name'
+    --         * {
+    --             'diagnostics',
+    --             colored: true
+    --             sections:
+    --                 * 'error'
+    --                 * 'warn'
+    --                 * 'info'
+    --         }
+    --     lualine_x:
+    --         * 'location'
+    --     lualine_y: {}
+    --     lualine_z: {}
+    -- (require 'lualine').setup
+    --     options:
+    --         theme:
+    --             normal: my_theme
+    --             insert: my_theme
+    --             visual: my_theme
+    --             replace: my_theme
+    --             command: my_theme
+    --             inactive: my_theme
+    --         component_separators:
+    --             left: ''
+    --             right: ''
+    --         section_separators:
+    --             left: ''
+    --             right: ''
+    --         always_divide_middle: true
+    --         globalstatus: true
+    --         disabled_filetypes:
+    --             winbar:
+    --                 * 'neo-tree'
+    --                 * 'Trouble'
+    --     winbar: winbar
+    --     inactive_winbar: winbar
+    --     sections:
+    --         lualine_a:
+    --             * 'branch'
+    --         lualine_b:
+    --             * -> vim.fn.getcwd!
+    --         lualine_c: {}
+    --         lualine_x:
+    --             * -> vim.fn.expand '$USER'
+    --         lualine_y:
+    --             * 'hostname'
+    --         lualine_z:
+    --             * ->
+    --                 import 'dap'
+    --                 if dap.session! ~= nil
+    --                     "Debugging"
+    --                 else
+    --                     ""
+    --             * ->
+    --                 register = vim.fn.reg_recording!
+    --                 if register == ""
+    --                     ""
+    --                 else
+    --                     "recording @#{register}"
+    --     extensions:
+    --         * 'aerial'
+    --         * 'fzf'
+    --         * 'fugitive'
+    --         * 'quickfix'
+    --         * 'neo-tree'
+
+    devicons = require 'nvim-web-devicons'
+    (require "incline").setup
+        render: (props) ->
+            filename = vim.fn.fnamemodify (vim.api.nvim_buf_get_name props.buf), ':t'
+            if filename == '' then filename = '[No Name]'
+
+            -- filetype = vim.o.filetype
+            filetype = vim.fn.getbufvar props.buf, "&filetype"
+            has_lsp = #(vim.lsp.get_clients bufnr: tonumber(props.buf)) > 0
+            if #filetype > 0 and has_lsp
+                filetype = filetype .. "⁺"
+
+            -- -- ft_icon, ft_color = devicons.get_icon_color filename
+            -- ft_icon, ft_color = devicons.get_icon_color_by_filetype filetype
+
+            modified = vim.bo[props.buf].modified
+
+            -- bgcolor = "#28303e"
+            bgcolor = "#555555"
+            return
+                * { '', guifg: bgcolor }
+                *
+                    *
+                        -- * if ft_icon then { ft_icon, '  ', filetype, ' ¦ ' } else ''
+                        -- * if ft_icon then { filetype, ' ¦ ' } else ''
+                        * if #filetype > 0 then { filetype, ' ' } else ''
+                        guifg: "#888888"
+                    * filename
+                    * modified and { '*', guifg: '#888888', gui: 'bold' } or ''
+                    guibg: bgcolor
+                * { '', guifg: bgcolor }
 
     -- (require 'luatab').setup
     --     windowCount: -> ''
@@ -1101,7 +1133,7 @@ do
 
     --- Setup statusbar
     vim.o.showmode = false -- don't show the current mode below the statusbar
-    vim.o.laststatus = 3 -- use a global statusline
+    vim.o.laststatus = 0 -- use a global statusline
     vim.o.cmdheight = 0 -- hide the command line if there's nothing to show
     -- vim.o.statusline = [[%h%w%q%f %r %m (%L lines) @ %l:%c (%p%%)%=%y LSP]] -- set the statusline to a horizontal separator
     vim.o.ruler = false -- remove the ruler

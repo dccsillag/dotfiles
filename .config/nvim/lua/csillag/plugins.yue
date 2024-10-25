@@ -18,7 +18,8 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
         -- Interface
-        * [1]: 'nvim-lualine/lualine.nvim' -- statusline
+        -- * [1]: 'nvim-lualine/lualine.nvim' -- statusline
+        * [1]: 'b0o/incline.nvim' -- floating lightweight statuslines/winbars
         * [1]: 'romgrk/barbar.nvim' -- tabline
         * [1]: 'junegunn/fzf', build: './install --bin' -- fuzzy finder
         * [1]: 'ibhagwan/fzf-lua', dependencies: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
