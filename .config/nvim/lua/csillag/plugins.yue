@@ -179,4 +179,4 @@ vim.opt.rtp\prepend lazypath
     -- install:
     --     colorscheme: {"habamax"}
     checker:
-        enabled: true
+        enabled: false
