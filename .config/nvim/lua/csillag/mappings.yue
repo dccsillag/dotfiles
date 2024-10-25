@@ -117,6 +117,7 @@ applyKeymaps myKeymaps
 
         -- FZF
         'e': telescope 'git_files'
+        'D': vimcmd "EditDotFile"
         'E': telescope 'find_files'
         'b': telescope 'buffers'
         'H': telescope 'help_tags'
