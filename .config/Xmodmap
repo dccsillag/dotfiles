@@ -16,9 +16,12 @@ keycode 23 = Alt_L
 ! Alt_R -> Compose
 keycode 64 = Multi_key
 ! Alt_R -> Compose
-keycode 108 = asterisk ampersand
+! keycode 108 = asterisk ampersand
+keycode 108 = Multi_key
 ! Control_R -> Asterisk / Ampersand
 keycode 105 = asterisk ampersand
+! Control_R -> Compose
+keycode 97 = asterisk ampersand
 ! Escape -> Super_L
 keycode 9 = grave asciitilde
 ! Fix space
