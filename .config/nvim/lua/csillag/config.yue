@@ -672,6 +672,9 @@ do
         suppress_missing_scope:
             projects_v2: true
 
+    -- hunk.nvim
+    (require "hunk").setup!
+
     -- -- magma-nvim
     -- if (os.getenv "NO_MAGMA") == nil
     --     (require 'magma').setup
@@ -840,7 +843,9 @@ do
             border: "rounded"
 
     -- treesitter
+    vim.opt.runtimepath\append "$HOME/.local/share/treesitter"
     (require 'nvim-treesitter.configs').setup
+        parser_install_dir: "$HOME/.local/share/treesitter"
         highlight:
             enable: true
             additional_vim_regex_highlighting: false
@@ -1017,6 +1022,10 @@ do
     -- vim.g.ultest_fail_sign = "✗"
     -- vim.g.ultest_running_sign = "⊙"
     -- vim.g.ultest_not_run_sign = "?"
+
+    -- -- AI
+    -- (require "avante").setup
+    --     provider: "claude"
 
     -- Comment.nvim
     (require 'Comment').setup!

@@ -24,7 +24,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'ibhagwan/fzf-lua', dependencies: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
         * [1]: 'nvim-telescope/telescope.nvim', dependencies: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
         * [1]: 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
-        * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
+        * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
         * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
         * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region
         * [1]: 'edluffy/specs.nvim' -- highlight cursor jumps
@@ -67,6 +67,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'tpope/vim-fugitive' -- use git from vim
         * [1]: 'junegunn/gv.vim' -- git commit browser
         * [1]: 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
+        * [1]: 'julienvincent/hunk.nvim' -- jujutsu diff editor
         * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
         * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
         * [1]: 'nvim-neotest/neotest-plenary'
@@ -96,6 +97,27 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
         * [1]: 'rcarriga/nvim-dap-ui' -- an UI for debugging
         * [1]: 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
+
+        -- AI
+        *
+            [1]: 'yetone/avante.nvim' -- AI assistance, Cursor style. Not sure if it will be useful, but it's worth trying...
+            -- event: "VeryLazy"
+            build: "nix-shell -p cargo rustc gnumake --run 'make clean && make BUILD_FROM_SOURCE=true luajit'"
+            -- opts: {...}
+            dependencies:
+                * "nvim-tree/nvim-web-devicons"
+                * "stevearc/dressing.nvim"
+                * "nvim-lua/plenary.nvim"
+                * "MunifTanjim/nui.nvim"
+                *
+                    [1]: "MeanderingProgrammer/render-markdown.nvim"
+                    opts:
+                        file_types:
+                            -- * "markdown"
+                            * "Avante"
+                    ft:
+                        -- * "markdown"
+                        * "Avante"
 
         -- Color Schemes
         * [1]: 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim

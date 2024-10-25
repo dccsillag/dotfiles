@@ -196,7 +196,15 @@ applyKeymaps myKeymaps
             'r': dapcmd 'require"dap".repl.open()'
             'v': dapcmd 'require"dapui".eval()'
 
-        'G': vimcmd 'tab G' -- open fugitive
+        -- 'G': vimcmd 'tab G' -- open fugitive
+        'G': -> -- open jujutsu (via jjui) or fugitive
+            if (vim.fn.isdirectory ".jj") == 1 then
+                -- Looks like it's a jujutsu repo! Open jjui.
+                vim.cmd "tabedit term://jjui"
+                vim.cmd "startinsert"
+            else
+                -- Open Fugitive.
+                vim.cmd "G"
 
         -- ';': luacmd 'specs.show_specs()' -- highlight the cursor
 
