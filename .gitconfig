@@ -28,6 +28,7 @@
 [push]
 	rebase = true
 	followTags = True
+	autoSetupRemote = True
 [rebase]
 	autoStash = true
 [delta]
