@@ -22,6 +22,11 @@ myScratchpads =
        , query = className =? "Brave-browser" <&&> appName =? "web.whatsapp.com"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "todos"
+       , cmd   = "brave --app=https://todoist.com/"
+       , query = className =? "Brave-browser" <&&> appName =? "todoist.com"
+       , hook  = floatingScratchpad
+       }
   , NS { name  = "telegram"
        , cmd   = "telegram-desktop"
        , query = className =? "TelegramDesktop"
@@ -32,9 +37,9 @@ myScratchpads =
        , query = className =? "scratchterm"
        , hook  = floatingScratchpad
        }
-  , NS { name  = "calculator"
-       , cmd   = termRun' "calculator" "insect"
-       , query = className =? "calculator"
+  , NS { name  = "calendar"
+       , cmd   = "gnome-calendar"
+       , query = className =? "gnome-calendar"
        , hook  = floatingScratchpad
        }
   , NS { name  = "audio"
@@ -59,8 +64,8 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "mail"
-       , cmd   = "geary"
-       , query = className =? "Geary"
+       , cmd   = "mailspring --password-store=gnome-libsecret" -- "geary"
+       , query = className =? "Mailspring" -- "Geary"
        , hook  = floatingScratchpad
        }
   , NS { name  = "element"

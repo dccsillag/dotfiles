@@ -113,13 +113,13 @@ myKeys =
       -- Scratchpads
       ("M-s M-b", addName "Toggle scratchpad 'sysmon'" $ namedScratchpadAction myScratchpads "sysmon"),
       ("M-s M-q", addName "Toggle scratchpad 'terminal'" $ namedScratchpadAction myScratchpads "terminal"),
-      ("M-s M-c", addName "Toggle scratchpad 'calculator'" $ namedScratchpadAction myScratchpads "calculator"),
+      ("M-s M-c", addName "Toggle scratchpad 'calendar'" $ namedScratchpadAction myScratchpads "calendar"),
       ("M-s M-a", addName "Toggle scratchpad 'audio'" $ namedScratchpadAction myScratchpads "audio"),
       ("M-s M-S-m", addName "Toggle scratchpad 'deezer'" $ namedScratchpadAction myScratchpads "deezer"),
       ("M-s M-s", addName "Toggle scratchpad 'slack'" $ namedScratchpadAction myScratchpads "slack"),
       ("M-s M-d", addName "Toggle scratchpad 'discord'" $ namedScratchpadAction myScratchpads "discord"),
       ("M-s M-w", addName "Toggle scratchpad 'whatsapp'" $ namedScratchpadAction myScratchpads "whatsapp"),
-      ("M-s M-t", addName "Toggle scratchpad 'telegram'" $ namedScratchpadAction myScratchpads "telegram"),
+      ("M-s M-t", addName "Toggle scratchpad 'todos'" $ namedScratchpadAction myScratchpads "todos"),
       ("M-s M-e", addName "Toggle scratchpad 'mail'" $ namedScratchpadAction myScratchpads "mail"),
       ("M-s M-m", addName "Toggle scratchpad 'element'" $ namedScratchpadAction myScratchpads "element"),
       -- Passwords
