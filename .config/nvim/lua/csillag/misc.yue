@@ -86,9 +86,8 @@ do
     autocmd 'FileType', pattern: 'carbon', command: [[set sw=2]]
 
     -- Better setup for carbon buffers
-    autocmd 'FileType', command: [[set nonumber]], pattern:
+    autocmd 'FileType', command: [[setl nonumber]], pattern:
         * 'carbon'
-        * 'markdown'
         * 'fugitive'
 
     vim.api.nvim_create_autocmd 'FileType',
