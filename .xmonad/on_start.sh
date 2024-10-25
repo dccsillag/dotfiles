@@ -45,3 +45,5 @@ xset s 3600 3600
 # /usr/lib/geoclue-2.0/demos/agent &
 
 xinput set-prop 'SYNA32A1:00 06CB:CE17 Touchpad' 'libinput Natural Scrolling Enabled' 1
+xinput set-prop 'DELL0B24:00 27C6:0D42 Touchpad' 'libinput Natural Scrolling Enabled' 1
+xinput set-prop 'DELL0B24:00 27C6:0D42 Touchpad' 'libinput Accel Speed' -0.2
