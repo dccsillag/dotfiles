@@ -741,7 +741,7 @@ do
         nvim_lsp.rnix.setup
             :on_attach
             :capabilities
-        nvim_lsp.tsserver.setup
+        nvim_lsp.ts_ls.setup
             :on_attach
             :capabilities
         -- nvim_lsp.denols.setup
