@@ -12,6 +12,9 @@ let
     "steam-original"
     "android-studio-stable"
     "snes9x-gtk"
+
+    "nvidia-x11"
+    "nvidia-settings"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -38,6 +41,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_6_0;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelParams = [ "module_blacklist=i915" ];
 
   # Setup a swapfile
   swapDevices = [
@@ -78,6 +82,36 @@ in
   #   keyMap = "us";
   # };
 
+  # Setup Vulkan
+  hardware.opengl.enable = true;
+
+  # # Setup NVIDIA GPU
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.opengl = {
+  #   enable = true;
+  #   driSupport = true;
+  #   driSupport32Bit = true;
+  # };
+  # hardware.nvidia = {
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #
+  #   modesetting.enable = false;  # true;
+  #   powerManagement.enable = false;
+  #   powerManagement.finegrained = false;
+  #   open = false;
+  #   nvidiaSettings = true;
+  #
+  #   # For laptop:
+  #   prime = {
+  #     intelBusId = "PCI:0:2:0";  # pci@0000:00:02.0 ==> 00:02.0 ==> 0:2:0
+  #     nvidiaBusId = "PCI:1:0:0";  # pci@0000:01:00.0 ==> 01:00.0 ==> 1:0:0
+  #
+  #     # sync.enable = true;
+  #     reverseSync.enable = true;
+  #     allowExternalGpu = false;
+  #   };
+  # };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   # services.xserver.displayManager.defaultSession = "none+xmonad";
@@ -91,7 +125,7 @@ in
       # directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_18_0
+      process_1_6_20_0
       xmobar
       bimap
       JuicyPixels
@@ -117,7 +151,7 @@ in
   };
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
   };
 
   # Enable sound.
@@ -125,7 +159,7 @@ in
   hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
   services.xserver.wacom.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -216,7 +250,7 @@ in
 
     # Text editor
     vim
-    (neovim.override {
+    (unstable.neovim.override {
       withPython3 = true;
       extraPython3Packages = p: with p; [
         pynvim
@@ -242,7 +276,9 @@ in
     haskell-language-server
     texlab
     # TODO vimls
-    rnix-lsp
+    # rnix-lsp
+    unstable.tinymist
+    unstable.aider-chat  # not quite an LSP, but...
 
     # Download tools
     wget
@@ -251,6 +287,7 @@ in
     unstable.yt-dlp
     git # ... and git
     gitoxide
+    unstable.jujutsu
     gh
 
     # Misc linux utils
@@ -262,6 +299,7 @@ in
     nix-index
     comma
     socat
+    nixos-shell
 
     # Misc tools
     ripgrep
@@ -286,7 +324,7 @@ in
     sshfs
     rclone
     gpp
-    unstable.taskell
+    # unstable.taskell
     hyperfine
     zoxide
     unstable.vhs
@@ -312,6 +350,7 @@ in
     cargo-tarpaulin
     # cargo-llvm-cov
     cargo-nextest
+    python3Packages.jupytext
 
     # Image tools
     imagemagick
@@ -348,7 +387,7 @@ in
     # Desktop
     xterm
     alacritty
-    unstable.neovide
+    neovide
     stack
     eww # my-eww
     dzen2
@@ -383,6 +422,7 @@ in
     xclip
     pulsemixer
     libnotify
+    libsecret
     brightnessctl
     pamixer
     screenkey
@@ -399,11 +439,12 @@ in
     # Password manager
     pass
     pinentry
-    pinentry-gnome
+    pinentry-gnome3
+    pinentry-tty
 
     # GUI Programs
     luakit
-    unstable.qutebrowser
+    # unstable.qutebrowser
     brave
     mpv
     libreoffice
@@ -412,13 +453,15 @@ in
     unstable.nsxiv
     zathura
     xournalpp
-    unstable.rnote
+    rnote
     slack
     unstable.discord
-    # mailspring
+    mailspring  # unstable.mailspring
+    gnome.gnome-calendar
     gnome.geary
     thunderbird
     snes9x-gtk
+    ryujinx
   ];
 
   # trace: warning: xdg-desktop-portal 1.17 reworked how portal implementations are loaded, you
@@ -497,7 +540,7 @@ in
   # };
   # services.x2goserver.enable = true;
 
-  services.xserver.libinput = {
+  services.libinput = {
     mouse = {
       naturalScrolling = true;
     };
@@ -509,6 +552,11 @@ in
 
   # Enable the keyring for Mailspring
   services.gnome.gnome-keyring.enable = true;
+
+  # For GNOME Calendar:
+  programs.dconf.enable = true;
+  services.gnome.evolution-data-server.enable = true;
+  services.gnome.gnome-online-accounts.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 3389 8080 ];
