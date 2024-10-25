@@ -17,6 +17,7 @@ application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
 image/svg+xml=sxivsvg-usercreated-1.desktop;
 image/png=sxiv.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-TISJ30.desktop
+x-scheme-handler/discord-455712169795780630=discord-455712169795780630.desktop
 
 [Added Associations]
 x-scheme-handler/tg=userapp-Telegram Desktop-TISJ30.desktop;
