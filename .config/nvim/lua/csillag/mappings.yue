@@ -74,7 +74,8 @@ applyKeymaps myKeymaps
         vim.cmd 'IndentBlanklineRefresh'
         vim.cmd 'redraw'
     -- Redo
-    'U': "<C-r>"
+    'U': vimcmd "silent redo"
+    'u': vimcmd "silent undo"
 
     -- LSP
     'gd': -> vim.lsp.buf.definition!
