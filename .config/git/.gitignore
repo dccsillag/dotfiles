@@ -12,3 +12,6 @@ latex.out/
 .target-rust_analyzer_check
 shell.nix
 .envrc
+
+run.sh
+tasks.md
