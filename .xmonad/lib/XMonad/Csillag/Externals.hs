@@ -3,16 +3,16 @@ module XMonad.Csillag.Externals where
 -- Terminal Emulator
 
 termSpawn :: String
-termSpawn = "alacritty"
+termSpawn = "kitty --single-instance" -- "alacritty"
 
 termSpawn' :: String -> String
-termSpawn' cls = "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
+termSpawn' cls = "kitty --single-instance --class '" ++ cls ++ "'" -- "alacritty --class '" ++ cls ++ "," ++ cls ++ "'"
 
 termRun :: String -> String
-termRun cmd = "alacritty -e sh -c '" ++ cmd ++ "'"
+termRun cmd = "kitty --single-instance -e sh -c '" ++ cmd ++ "'" -- "alacritty -e sh -c '" ++ cmd ++ "'"
 
 termRun' :: String -> String -> String
-termRun' cls cmd = "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
+termRun' cls cmd = "kitty --single-instance --class '" ++ cls ++ "' -e sh -c '" ++ cmd ++ "'" -- "alacritty --class '" ++ cls ++ "," ++ cls ++ "' -e sh -c '" ++ cmd ++ "'"
 
 -- Text Editor
 

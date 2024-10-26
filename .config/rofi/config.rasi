@@ -1,5 +1,5 @@
 configuration {
-    terminal: "alacritty";
+    terminal: "kitty --single-instance";
 
     drun {
         display-name: "Launch";
