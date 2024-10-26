@@ -25,6 +25,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'ibhagwan/fzf-lua', dependencies: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
         * [1]: 'nvim-telescope/telescope.nvim', dependencies: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
         * [1]: 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
+        * [1]: 'axkirillov/easypick.nvim' -- custom pickers for telescope
         * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
         * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
         * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region

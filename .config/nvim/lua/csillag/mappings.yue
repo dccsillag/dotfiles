@@ -68,6 +68,8 @@ telescope = (provider) -> vimcmd 'Telescope ' .. provider
 fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 blankline = (op) -> op .. '<CMD>IndentBlanklineRefresh<CR>'
 
+is_jujutsu = () -> (vim.fn.isdirectory ".jj") == 1
+
 applyKeymaps myKeymaps
     -- Redraw
     '<C-r>': ->
@@ -117,7 +119,11 @@ applyKeymaps myKeymaps
             'n': -> vim.diagnostic.goto_next wrap: false, float: false
 
         -- FZF
-        'e': telescope 'git_files'
+        'e': ->
+            if is_jujutsu! then
+                (require "easypick").one_off "jj file list"
+            else
+                vim.cmd 'Telescope git_files'
         'D': vimcmd "EditDotFile"
         'E': telescope 'find_files'
         'b': telescope 'buffers'
@@ -200,7 +206,7 @@ applyKeymaps myKeymaps
 
         -- 'G': vimcmd 'tab G' -- open fugitive
         'G': -> -- open jujutsu (via jjui) or fugitive
-            if (vim.fn.isdirectory ".jj") == 1 then
+            if is_jujutsu! then
                 -- Looks like it's a jujutsu repo! Open jjui.
                 -- vim.cmd "tabedit term://jj log --color=always --no-pager \\| tac; echo; jj st --color=always --no-pager; echo; zsh"
                 vim.cmd "tabedit term://~/.local/scripts/jjenv.sh"
