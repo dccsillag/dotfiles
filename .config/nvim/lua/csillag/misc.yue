@@ -78,7 +78,7 @@ do
             * "*.hpp"
 
     -- Map 'q' in terminal normal mode to close the window
-    autocmd 'TermOpen', command: [[nnoremap <buffer><silent> q :bd<CR>]]
+    autocmd 'TermOpen', command: [[nnoremap <buffer><silent> q :Bdelete<CR>]]
     autocmd 'TermOpen', command: [[setl nonumber signcolumn=auto:3 nocursorline]]
     autocmd 'TermOpen', command: [[norm! G]]
 
