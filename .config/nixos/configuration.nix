@@ -387,6 +387,7 @@ in
     # Desktop
     xterm
     alacritty
+    unstable.kitty
     neovide
     stack
     eww # my-eww
