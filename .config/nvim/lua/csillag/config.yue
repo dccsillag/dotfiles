@@ -1133,10 +1133,11 @@ do
 
     --- Setup statusbar
     vim.o.showmode = false -- don't show the current mode below the statusbar
-    vim.o.laststatus = 0 -- use a global statusline
+    vim.o.laststatus = 3 -- use a global statusline
     vim.o.cmdheight = 0 -- hide the command line if there's nothing to show
     -- vim.o.statusline = [[%h%w%q%f %r %m (%L lines) @ %l:%c (%p%%)%=%y LSP]] -- set the statusline to a horizontal separator
     vim.o.ruler = false -- remove the ruler
+    vim.o.statusline = " "
 
     --- Setup tabbar
     vim.o.showtabline = 2 -- always show the tabline
