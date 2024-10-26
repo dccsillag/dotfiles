@@ -159,7 +159,7 @@ applyKeymaps myKeymaps
                         return
 
             -- vim.cmd "split term://" .. command
-            vim.cmd "tabedit term://" .. command
+            vim.cmd "e term://" .. command
 
         -- magma-nvim
         'r': vimcmd 'MoltenEvaluateOperator'
