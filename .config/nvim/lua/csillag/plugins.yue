@@ -35,7 +35,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
         * [1]: 'lukas-reineke/indent-blankline.nvim' -- indent guides
         * [1]: 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
-        * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
+        -- * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
         * [1]: 'andymass/vim-matchup' -- better delimiter matching
         * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
         * [1]: 'rcarriga/nvim-notify' -- show notifications

@@ -527,31 +527,31 @@ do
         char: "╵"
     vim.opt.colorcolumn = "+1"
 
-    -- nvim-treesitter-context
-    (require 'treesitter-context').setup
-        enable: true
-        throttle: true
-        max_lines: 6
-        patterns:
-            default:
-                * "class"
-                * "function"
-                * "method"
-                * "for"
-                * "while"
-                * "if"
-                * "switch"
-                * "case"
-            rust:
-                * "impl_item"
-                * "struct_item"
-                * "enum_item"
-                * "match_arm"
-                * "match_expression"
-                * "else_clause"
-                * "loop_expression"
-                * "mod_item"
-        separator: "╴"
+    -- -- nvim-treesitter-context
+    -- (require 'treesitter-context').setup
+    --     enable: true
+    --     throttle: true
+    --     max_lines: 6
+    --     patterns:
+    --         default:
+    --             * "class"
+    --             * "function"
+    --             * "method"
+    --             * "for"
+    --             * "while"
+    --             * "if"
+    --             * "switch"
+    --             * "case"
+    --         rust:
+    --             * "impl_item"
+    --             * "struct_item"
+    --             * "enum_item"
+    --             * "match_arm"
+    --             * "match_expression"
+    --             * "else_clause"
+    --             * "loop_expression"
+    --             * "mod_item"
+    --     separator: "╴"
 
     (require 'treesitter-unit').setup {}
     -- (require 'treesitter-unit').toggle_highlighting "TreeHighlight"
