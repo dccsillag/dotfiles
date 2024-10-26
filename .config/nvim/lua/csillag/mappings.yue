@@ -242,6 +242,10 @@ applyKeymaps myKeymaps
             "w": luacmd 'require"gitsigns".blame_line{full = true}'
             "b": telescope "git_branches"
 
+            "g": ->
+                vim.cmd "tabedit term://jj split"
+                vim.cmd "startinsert"
+
     "[c": luacmd 'require"gitsigns.actions".prev_hunk()'
     "]c": luacmd 'require"gitsigns.actions".next_hunk()'
 
