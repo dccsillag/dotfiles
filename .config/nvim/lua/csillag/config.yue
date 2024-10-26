@@ -1146,7 +1146,7 @@ do
     vim.o.grepprg = [[rg --vimgrep --hidden --glob '!.git']]
 
     --- Setup line wrap
-    vim.o.wrap = false -- wrap lines
+    vim.o.wrap = true -- wrap lines
     vim.o.linebreak = true -- don't break words on wrap
     vim.o.breakindent = true -- indent wrapped lines
     vim.o.showbreak = "… " -- prefix for wrapped lines
