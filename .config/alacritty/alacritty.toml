@@ -35,9 +35,13 @@ style = "Italic"
 family = "FantasqueSansM Nerd Font"
 style = "Regular"
 
-[font.offset]
-x = 0
-y = 4
+# [font.offset]
+# x = 0
+# y = 4
+#
+# [font.glyph_offset]
+# x = 0
+# y = 1
 
 [[keyboard.bindings]]
 action = "Paste"
@@ -82,5 +86,5 @@ mods = "Control"
 dynamic_padding = true
 
 [window.padding]
-x = 3
-y = 3
+x = 2
+y = 0
