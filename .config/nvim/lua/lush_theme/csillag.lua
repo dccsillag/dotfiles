@@ -14,7 +14,8 @@ local background_popup = background.lighten(20)
 local background_gutter = background -- hsl(200, 10, 20)
 local background_tabs = background.lighten(7)
 local foreground = hsl(0, 0, 100)
-local foreground_ui = hsl(0, 0, 50)
+local foreground_ui = hsl(0, 0, 27)
+local foreground_ui2 = hsl(0, 0, 50)
 local foreground_ui_highlight = hsl(200, 40, 85)
 local foreground_virtual = hsl(200, 80, 80)
 local cursor_highlight = background.lighten(10)
@@ -71,9 +72,11 @@ local theme = lush(function(injected_functions)
                 PopupNotification { fg = foreground, bg = background_popup },                  -- Popup menu for notifications
                 IndentBlanklineChar { fg = foreground_ui.darken(20) },                         -- Color to use for indent guides (indent-blankline.nvim)
                 VirtualIndentBlanklineChar { fg = foreground_ui.darken(30) },                  -- Color to use for indent guides in virtual lines
+                IblIndent { fg = foreground_ui2.darken(30) },                                  -- Color to use for indent guides (indent-blankline.nvim)
+                IblScope { fg = foreground_ui2.darken(30) },                                   -- Color to use for indent guides (indent-blankline.nvim)
                 ColorColumn {},                                                                -- used for the columns set with 'colorcolumn'
-                Whitespace { fg = foreground_ui },                                             -- "nbsp", "space", "tab" and "trail" in 'listchars'
-                NonText { fg = foreground_ui },                                                -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+                Whitespace { fg = foreground_ui2 },                                             -- "nbsp", "space", "tab" and "trail" in 'listchars'
+                NonText { fg = foreground_ui2 },                                                -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
                 Conceal { fg = foreground_virtual },                                           -- placeholder characters substituted for concealed text (see 'conceallevel')
                 SpecialKey { fg = foreground_virtual.rotate(100), gui = "bold" },              -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
                 Cursor { gui = "standout" },                                                   -- character under the cursor
@@ -109,18 +112,19 @@ local theme = lush(function(injected_functions)
                 ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
                 EndOfBuffer {},                                                         -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
                 VertSplit { fg = foreground_ui },                                       -- the column separating vertically split windows
+                WinSeparator { fg = foreground_ui },                                       -- the column separating vertically split windows
                 Folded {},                                                              -- line used for closed folds
-                FoldColumn { fg = foreground_ui, bg = background_gutter },              -- 'foldcolumn'
-                SignColumn { fg = foreground_ui, bg = background_gutter },              -- column where |signs| are displayed
-                LineNr { fg = foreground_ui, bg = background_gutter },                  -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+                FoldColumn { fg = foreground_ui2, bg = background_gutter },              -- 'foldcolumn'
+                SignColumn { fg = foreground_ui2, bg = background_gutter },              -- column where |signs| are displayed
+                LineNr { fg = foreground_ui2, bg = background_gutter },                  -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
                 CursorLineNr { fg = foreground_ui_highlight, bg = background_gutter },  -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
                 SignatureMarkText { fg = mark, bg = background_gutter, gui = "bold" },  -- Color to use for marker signs (signature.vim)
-                MsgArea { fg = foreground_ui, bg = background },                        -- Area for messages and cmdline
+                MsgArea { fg = foreground_ui2, bg = background },                        -- Area for messages and cmdline
                 ErrorMsg { fg = error, bg = background, gui = "bold" },                 -- error messages on the command line
                 WarningMsg { fg = warning, bg = background, gui = "bold" },             -- warning messages
-                ModeMsg { fg = foreground_ui, bg = background },                        -- 'showmode' message (e.g., "-- INSERT -- ")
-                MsgSeparator { fg = foreground_ui, bg = background },                   -- Separator for scrolled messages, `msgsep` flag of 'display'
-                MoreMsg { fg = foreground_ui, bg = background },                        -- |more-prompt|
+                ModeMsg { fg = foreground_ui2, bg = background },                        -- 'showmode' message (e.g., "-- INSERT -- ")
+                MsgSeparator { fg = foreground_ui2, bg = background },                   -- Separator for scrolled messages, `msgsep` flag of 'display'
+                MoreMsg { fg = foreground_ui2, bg = background },                        -- |more-prompt|
                 Question { fg = foreground, bg = background },                          -- |hit-enter| prompt and yes/no questions
                 Search { fg = hsl(0, 0, 0), bg = background_search, gui = "bold" },     -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
                 IncSearch { fg = hsl(0, 0, 0), bg = background_search, gui = "bold" },  -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
@@ -129,8 +133,8 @@ local theme = lush(function(injected_functions)
                 TelescopeNormal { bg = background },
                 TelescopeSelection { bg = background.lighten(20), gui = 'bold' },
                 TelescopeMatching { bg = background_search },
-                TelescopePromptPrefix { fg = foreground_ui, gui = 'bold' },
-                TelescopeSelectionCaret { fg = foreground_ui, bg = TelescopeSelection.bg, gui = 'bold' },
+                TelescopePromptPrefix { fg = foreground_ui2, gui = 'bold' },
+                TelescopeSelectionCaret { fg = foreground_ui2, bg = TelescopeSelection.bg, gui = 'bold' },
                 TelescopeMultiSelection { bg = background.lighten(15), gui = 'bold' },
                 -- TelescopeBorder
                 -- TelescopePromptBorder
@@ -140,8 +144,8 @@ local theme = lush(function(injected_functions)
                 -- TODO better colors
                 StatusLine { fg = foreground_ui, bg = background_gutter },                                   -- status line of current window
                 StatusLineNC { fg = foreground_ui, bg = background_gutter.darken(10) },                      -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-                TabLine { fg = foreground_ui, bg = background_tabs },                                        -- tab pages line, not active tab page label
-                TabLineFill { fg = foreground_ui, bg = background_tabs },                                    -- tab pages line, where there are no labels
+                TabLine { fg = foreground_ui2, bg = background_tabs },                                        -- tab pages line, not active tab page label
+                TabLineFill { fg = foreground_ui2, bg = background_tabs },                                    -- tab pages line, where there are no labels
                 TabLineSel { fg = foreground_ui_highlight, bg = background_tabs.lighten(20), gui = 'bold' }, -- tab pages line, active tab page label
 
                 SpellBad { gui = "undercurl" },                                                              -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
@@ -261,7 +265,7 @@ local theme = lush(function(injected_functions)
                 AerialStruct {},
                 AerialLine {},
                 AerialLineNC {},
-                AerialGuide { fg = foreground_ui.darken(20) },
+                AerialGuide { fg = foreground_ui },
 
                 -- TODO update:
                 QuickFixLine { gui = "bold" },                             -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
