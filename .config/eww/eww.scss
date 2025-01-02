@@ -40,10 +40,50 @@
     border-radius: 9px;
 }
 
+.sensor {
+  font: 16px Lato Regular;
+  padding: 5px;
+  margin: 2px 4px;
+}
+.indicator {
+  font: 16px Lato Regular;
+  padding: 5px;
+  margin: 2px 4px;
+}
+
+.sensor-idle {
+  /* color: #444444; */
+  color: #CCCCCC;
+}
+.sensor-light {
+  /* color: #ffe119; */
+  /* color: #bfa813; */
+  color: #eecf45;
+}
+.sensor-med {
+  /* color: #f58231; */
+  color: #f57523;
+}
+.sensor-heavy {
+  color: #e6194B;
+  /* color: #e60001; */
+}
+
+.indicator-off {
+  color: #CCCCCC;
+}
+.indicator-on {
+  color: #e6194B;
+}
+
 .caution-ok {
+    border-radius: 6px;
+    padding: 0px 8px;
 }
 
 .caution-danger {
+    border-radius: 6px;
+    padding: 0px 8px;
     background-color: #e6194B;
 }
 

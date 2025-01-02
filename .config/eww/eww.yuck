@@ -3,10 +3,10 @@
            :geometry (geometry :x "0%"
                                :y "0%"
                                :width "100%"
-                               :height "23px"
+                               :height "32px"
                                :anchor "top center")
            :stacking "fg"
-           :reserve (struts :distance "23px" :side "top")
+           :reserve (struts :distance "32px" :side "top")
            :windowtype "dock"
            :wm-ignore false
            (centerbox :orientation "horizontal" (sysmonitor) (datetime) (wmcontrols)))
@@ -15,22 +15,48 @@
            (box :orientation "horizontal"
                 :halign "center"
                 :class "datetime"
-                "${datetime}"))
+                :space-evenly false
+                :spacing 18
+                "${datetime}"
+                (battery)))
 (defpoll datetime
          :interval "1s"
          `date +"%a,  %b %d %Y  %H:%M:%S"`)
+(defwidget battery []
+           (box :orientation "horizontal"
+                :class {EWW_BATTERY.BAT0.capacity >= 20 ? "caution-ok" : "caution-danger"}
+                :space-evenly false
+                :spacing 4
+                (box :class "battery-label" "󰂀")
+                (box :class "battery-value" {"${EWW_BATTERY.BAT0.capacity}%" + {"Charging": "↑", "Discharging": "↓", "Not charging": " ", "Full": "✓", "Unknown": "?"}[EWW_BATTERY.BAT0.status]})))
 
 (defwidget sysmonitor []
            (box :orientation "horizontal"
                 :halign "start"
                 :class "metrics"
-                (metric :label "" (caution :t 60 :leq "ok" :gt "danger" :value {round(EWW_CPU.avg, 0)} :postfix "%"))
-                (metric :label "" (caution :t 25 :leq "ok" :gt "danger" :value {round(EWW_RAM.used_mem_perc, 0)} :postfix "%"))
-                (metric :label "" (caution :t 80 :leq "ok" :gt "danger" :value {round(100 * (EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)} :postfix "%"))
-                (metric :label "" (caution :t 50 :leq "ok" :gt "danger" :value {EWW_TEMPS.CORETEMP_PACKAGE_ID_0} :postfix "℃"))
-                (metric :label "󰂀" (caution :t 20 :leq "danger" :gt "ok" :value {EWW_BATTERY.BAT0.capacity} :postfix {"%" + {"Charging": "↑", "Discharging": "↓", "Not charging": " ", "Full": "✓", "Unknown": "?"}[EWW_BATTERY.BAT0.status]}))
-                (metric :label "" (literal :content "${mic}"))
-                (metric :label "󰄀" (literal :content "${camera}"))))
+                :space-evenly false
+                :spacing 8
+                (box :orientation "horizontal"
+                     :space-evenly true
+                     (sensor :label " " :value {round(EWW_CPU.avg, 0)} :postfix "%" :threshold-light 10 :threshold-med 30 :threshold-heavy 80)
+                     (sensor :label " " :value {round(EWW_RAM.used_mem_perc, 0)} :postfix "%" :threshold-light 10 :threshold-med 40 :threshold-heavy 80)
+                     (sensor :label " " :value {round(100 * (EWW_RAM.total_swap - EWW_RAM.free_swap) / EWW_RAM.total_swap, 0)} :postfix "%" :threshold-light 10 :threshold-med 40 :threshold-heavy 80)
+                     (sensor :label " " :value {EWW_TEMPS.CORETEMP_PACKAGE_ID_0} :postfix "℃" :threshold-light 55 :threshold-med 65 :threshold-heavy 75))
+                ;; (metric :label "󰂀" (caution :t 20 :leq "danger" :gt "ok" :value {EWW_BATTERY.BAT0.capacity} :postfix {"%" + {"Charging": "↑", "Discharging": "↓", "Not charging": " ", "Full": "✓", "Unknown": "?"}[EWW_BATTERY.BAT0.status]}))
+                (box :orientation "horizontal" :space-evenly true
+                     (indicator :label " " :onoff "${mic}")
+                     (indicator :label "󰄀 " :onoff "${camera}"))
+                ;; (metric :label "" (literal :content "${mic}"))
+                ;; (metric :label "󰄀" (literal :content "${camera}"))
+                ))
+(defwidget sensor [label threshold-light threshold-med threshold-heavy value postfix]
+           (box :orientation "horizontal"
+                :class "sensor"
+                (box :class {value <= threshold-light ? "sensor-idle" : value <= threshold-med ? "sensor-light" : value <= threshold-heavy ? "sensor-med" : "sensor-heavy"} "${label}")))
+(defwidget indicator [label onoff]
+           (box :orientation "horizontal"
+                :class "indicator"
+                (box :class {onoff == "ON" ? "indicator-on" : "indicator-off"} "${label}")))
 (defwidget metric [label]
            (box :orientation "horizontal"
                 :class "metric"
@@ -40,10 +66,10 @@
            (box :class {value <= t ? "caution-${leq}" : "caution-${gt}"} "${value}${postfix}"))
 (defpoll mic
          :interval "200ms"
-         `if { pacmd list-sources | grep -q "muted: no"; }; then echo "(box :class 'mic-on' 'ON')"; else echo "(box :class 'mic-off' 'OFF')"; fi`)
+         `if { pacmd list-sources | grep -q "muted: no"; }; then echo "ON"; else echo "OFF"; fi`)
 (defpoll camera
          :interval "1000ms"
-         `if [ $(lsmod | grep ^uvcvideo | tr -s ' ' | cut -d' ' -f3) = 0 ]; then echo "(box :class 'mic-off' 'OFF')"; else echo "(box :class 'mic-on' 'ON')"; fi`)
+         `if [ $(lsmod | grep ^uvcvideo | tr -s ' ' | cut -d' ' -f3) = 0 ]; then echo "OFF"; else echo "ON"; fi`)
 
 (defwidget wmcontrols []
            (box :orientation "horizontal"
