@@ -150,31 +150,11 @@ myKeys =
       -- -- Mouse actions
       -- , ("M-C-S-m", addName "Open mouse actions gridselect" mouseActionsGridSelect)
       -- Function Keys
-      ( "M-<Right>",
-        addName "Raise brightness" $
-          spawn "brightnessctl set +5%"
-            >> spawnOSD "Brightness" (asciibar . (/ 256) . (* 100) . getNumber <$> cmdout "brightnessctl" ["get"])
-      ),
-      ( "M-<Left>",
-        addName "Lower brightness" $
-          spawn "brightnessctl set 5%-"
-            >> spawnOSD "Brightness" (asciibar . (/ 256) . (* 100) . getNumber <$> cmdout "brightnessctl" ["get"])
-      ),
-      ( "M-<Up>",
-        addName "Raise volume" $
-          spawn ("pamixer -i 2; paplay " ++ volumeChangeSound)
-            >> spawnOSD "Volume" (asciibar . getNumber <$> cmdout "pamixer" ["--get-volume"])
-      ),
-      ( "M-<Down>",
-        addName "Lower volume" $
-          spawn ("pamixer -d 2; paplay " ++ volumeChangeSound)
-            >> spawnOSD "Volume" (asciibar . getNumber <$> cmdout "pamixer" ["--get-volume"])
-      ),
-      ( "M-*",
-        addName "Toggle mute" $
-          spawn ("pamixer -t; paplay " ++ volumeChangeSound)
-            >> spawnOSD "Volume" ((\case "true\n" -> "Muted."; "false\n" -> "Unmuted."; _ -> "?") <$> cmdout "pamixer" ["--get-mute"])
-      ),
+      ( "M-<Right>", addName "Raise brightness" $ spawn "brightnessctl set +5%" >> spawnBrightnessOSD),
+      ( "M-<Left>", addName "Lower brightness" $ spawn "brightnessctl set 5%-" >> spawnBrightnessOSD),
+      ( "M-<Up>", addName "Raise volume" $ spawn ("pamixer -i 2; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
+      ( "M-<Down>", addName "Lower volume" $ spawn ("pamixer -d 2; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
+      ( "M-*", addName "Toggle mute" $ spawn ("pamixer -t; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
       ("M-C-v", addName "Play test sound" $ spawnOSD "Sound" (pure "Played test sound.") >> spawn ("paplay " ++ volumeChangeSound))
     ]
 
@@ -240,6 +220,12 @@ promptWorkspaces prompt maybe_message = withWindowSet \ws -> do
 
 notify :: String -> X ()
 notify msg = spawn $ "dunstify -a xmonad XMonad '" ++ msg ++ "'"
+
+spawnVolumeOSD :: X ()
+spawnVolumeOSD = spawn "eww open volume --duration 1s"
+
+spawnBrightnessOSD :: X ()
+spawnBrightnessOSD = spawn "eww open brightness --duration 1s"
 
 spawnOSD :: String -> X String -> X ()
 spawnOSD what extra = do

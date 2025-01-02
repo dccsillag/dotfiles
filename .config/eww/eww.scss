@@ -131,3 +131,27 @@
     font: 22px Lato Regular;
     padding: 20px;
 }
+
+// -------
+
+.osd {
+    background-color: #333333;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.osd-icon {
+    font: 106px Lato Regular;
+}
+
+progress {
+  min-height: 10px;
+  border-radius: 5px;
+  background-color: #469990;
+}
+
+trough {
+  min-height: 10px;
+  border-radius: 5px;
+  background-color: #444444;
+}

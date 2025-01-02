@@ -98,4 +98,49 @@
            :wm-ignore false
            (calendar))
 
+; ---
+
+(defwindow volume
+           :monitor 0
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "200px"
+                               :height "200px"
+                               :anchor "center center")
+           :stacking "fg"
+           :windowtype "dock"
+           :wm-ignore false
+           (osd :icon " " :value volume))
+(defpoll volume
+         :interval "10000ms"
+         `pamixer --get-volume`)
+
+(defwindow brightness
+           :monitor 0
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "200px"
+                               :height "200px"
+                               :anchor "center center")
+           :stacking "fg"
+           :windowtype "dock"
+           :wm-ignore false
+           (osd :icon "󰌵" :value {100 * brightness / max-brightness}))
+(defpoll brightness
+         :interval "10000ms"
+         `brightnessctl get`)
+(defpoll max-brightness
+         :interval "10000ms"
+         `brightnessctl max`)
+
+(defwidget osd [icon value]
+           (box :orientation "vertical"
+                :space-evenly false
+                :spacing 8
+                :valign "center"
+                :class "osd"
+                (box :class "osd-icon" icon)
+                (progress :class "asdf" :value value :orientation "horizontal")
+                (box :height 10)))
+
 ; vim: ft=lisp
