@@ -13,7 +13,7 @@
     monitor              = 0
 
     # font                 = "Lato Regular 11"
-    font                 = "FantasqueSansM Nerd Font 14"
+    font                 = "FantasqueSansM Nerd Font 12"
 
     allow_markup         = yes
     markup               = full
@@ -35,7 +35,7 @@
     height               = 200
     origin               = top-center
     shrink               = false
-    corner_radius        = 6
+    corner_radius        = 12
 
     idle_threshold       = 120
     show_age_threshold   = 60
@@ -51,15 +51,15 @@
     follow               = none
 
     separator_height     = 1
-    padding              = 10
-    horizontal_padding   = 10
+    padding              = 15
+    horizontal_padding   = 20
     separator_color      = frame
 
     startup_notification = false
 
     dmenu                = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
 
-    browser              = chromium-browser
+    browser              = brave
 
     # icon_path            = /usr/share/icons/Paper/512x512/actions/:/usr/share/icons/Paper/512x512/apps/:/usr/share/icons/Paper/512x512/categories/:/usr/share/icons/Paper/512x512/devices/:/usr/share/icons/Paper/512x512/emblems/:/usr/share/icons/Paper/512x512/emotes/:/usr/share/icons/Paper/512x512/mimetypes/:/usr/share/icons/Paper/512x512/panel/:/usr/share/icons/Paper/512x512/places/:/usr/share/icons/Paper/512x512/status/:/usr/share/icons/Paper/512x512/web
     icon_position        = off
