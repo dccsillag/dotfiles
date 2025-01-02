@@ -3,31 +3,41 @@
 }
 
 .bar {
-    background-color: #222222;
     color: #FFFFFF;
     padding: 5px;
 }
 
+.bubble {
+    /* background-color: #222222; */
+    padding: 3px 15px;
+    border-radius: 15px;
+}
+
 .datetime {
+    background-color: #333333;
+    padding: 3px 20px;
+    border-radius: 15px;
     font: 16px Lato Regular;
 }
 
-.metric {
+.metrics {
     background-color: #333333;
-    padding: 2px;
+    padding: 3px 15px;
+    border-radius: 15px;
+}
+
+.metric {
     margin: 2px;
-    border-radius: 3px;
 }
 
 .metric-label {
     padding: 2px;
-    font: 11px Lato Regular;
+    font: 16px Lato Regular;
 }
 
 .metric-value {
     background-color: #444444;
-    padding: 2px;
-    border-radius: 3px;
+    border-radius: 9px;
 }
 
 .caution-ok {
@@ -42,8 +52,8 @@
     background-color: #C8ACF6;
     color: #000000;
     font: 16px Lato Regular;
-    padding: 5px;
-    border-radius: 3px;
+    padding: 3px 15px;
+    border-radius: 15px;
 }
 
 .mic-off {
