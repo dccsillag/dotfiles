@@ -155,7 +155,7 @@ myKeys =
       ( "M-<Up>", addName "Raise volume" $ spawn ("pamixer -i 2; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
       ( "M-<Down>", addName "Lower volume" $ spawn ("pamixer -d 2; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
       ( "M-*", addName "Toggle mute" $ spawn ("pamixer -t; paplay " ++ volumeChangeSound) >> spawnVolumeOSD),
-      ("M-C-v", addName "Play test sound" $ spawnOSD "Sound" (pure "Played test sound.") >> spawn ("paplay " ++ volumeChangeSound))
+      ("M-C-v", addName "Play test sound" $ spawnVolumeOSD >> spawn ("paplay " ++ volumeChangeSound))
     ]
 
 myMouse config =
@@ -226,12 +226,6 @@ spawnVolumeOSD = spawn "eww open volume --duration 1s"
 
 spawnBrightnessOSD :: X ()
 spawnBrightnessOSD = spawn "eww open brightness --duration 1s"
-
-spawnOSD :: String -> X String -> X ()
-spawnOSD what extra = do
-  io $ threadDelay $ seconds 0.05 -- FIXME: run this in another thread
-  extra' <- extra
-  spawn $ "dunstify -a xmonad-osd -r 2166983 -- '" ++ what ++ "' '" ++ extra' ++ "'"
 
 getNumber :: String -> Double
 getNumber = read . takeWhile isDigit
