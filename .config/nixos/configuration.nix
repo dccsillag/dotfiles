@@ -280,6 +280,8 @@ in
     unstable.tinymist
     unstable.aider-chat  # not quite an LSP, but...
 
+    unstable.uv
+
     # Download tools
     wget
     curl
@@ -385,6 +387,7 @@ in
     vpn-slice
 
     # Desktop
+    unstable.picom
     xterm
     alacritty
     unstable.kitty
