@@ -55,3 +55,5 @@ export NNN_FIFO=/tmp/nnn.fifo
 export NNN_PLUG='p:preview-tabbed'
 
 test -f ~/.profile_local && . ~/.profile_local
+
+[ -n "$SSH_CLIENT" ] && export DBUS_SESSION_BUS_ADDRESS=/dev/null
