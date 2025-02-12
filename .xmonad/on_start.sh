@@ -28,10 +28,10 @@ xset s 3600 3600
 
 # Warn low battery
 # batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
-# battery-monitor &
+battery-monitor &
 
 # Set background image
-# .local/scripts/background-setter.sh set &
+background-setter set &
 
 # Launch redshift
 # redshift &
