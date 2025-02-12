@@ -413,3 +413,6 @@ unset '_comps[nail]'
 # }
 #
 # greet
+
+# Turso
+export PATH="$PATH:/home/daniel/.turso"
