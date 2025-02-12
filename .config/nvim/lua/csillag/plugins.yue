@@ -10,6 +10,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath)
         os.exit(1)
 vim.opt.rtp\prepend lazypath
 
+plugown = (name) -> dir: "/home/daniel/code/#{name}"
+
 (require "lazy").setup
     spec:
         -- Core
@@ -50,6 +52,14 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
         -- plug 'wellle/context.vim' -- show code context on top of the buffer
         -- plug 'kshenoy/vim-signature' -- show marks in the sign column
+        * [1]: 'nvzone/typr' -- typing game
+        * [1]: 'nvzone/volt' -- for typr
+        * [1]: 'sphamba/smear-cursor.nvim', opts: -- for animated cursor
+            smear_between_buffers: true
+            smear_between_neighbor_lines: true
+            scroll_buffer_spcae: true
+            legacy_computing_symbols_support: false
+            smear_insert_model: true
 
         -- Behaviour
         * [1]: 'tpope/vim-repeat' -- better `.` key
@@ -77,6 +87,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
         -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
         -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
+        * plugown 'acaraje.nvim' -- LLM editing and such
 
         -- Completion
         * [1]: 'hrsh7th/nvim-cmp', dependencies: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim
