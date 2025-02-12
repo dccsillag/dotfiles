@@ -757,6 +757,7 @@ do
         nvim_lsp.tinymist.setup
             :on_attach
             :capabilities
+            offset_encoding: "utf-8"
         -- nvim_lsp.typst_lsp.setup
         --     :on_attach
         --     :capabilities
