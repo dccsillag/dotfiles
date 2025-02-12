@@ -1,9 +1,9 @@
 #!/bin/sh
 
-LOW_BATTERIES=$(echo 25; echo 15; echo 10; echo 5)
-HIBERNATE_BAT=9
+LOW_BATTERIES=$(echo 20; echo 15; echo 10; echo 5; echo 2)
+SUSPEND_BAT=1
 
-SLEEP=5
+SLEEP=10
 LOWBATPATH=/tmp/low_battery
 
 rm -f "$LOWBATPATH"
@@ -18,7 +18,8 @@ do
         then
             if ! [ -f "$LOWBATPATH$LOW_BATTERY" ]
             then
-                notify-send -u critical 'Low battery!' "$battery%"
+                # notify-send -u critical 'Low battery!' "$battery%"
+                eww open low-battery --duration 4.5s
                 touch "$LOWBATPATH$LOW_BATTERY"
             fi
         else
@@ -26,15 +27,15 @@ do
         fi
     done
 
-    if [ "$battery" -le "$HIBERNATE_BAT" ]
+    if [ "$battery" -le "$SUSPEND_BAT" ]
     then
-        if ! [ -f "$LOWBATPATH"hibernate ]
+        if ! [ -f "$LOWBATPATH"suspend ]
         then
-            systemctl hibernate
-            touch "$LOWBATPATH"hibernate
+            systemctl suspend
+            touch "$LOWBATPATH"suspend
         fi
     else
-        test -f "$LOWBATPATH"hibernate && rm "$LOWBATPATH"hibernate
+        test -f "$LOWBATPATH"suspend && rm "$LOWBATPATH"suspend
     fi
 
     sleep $SLEEP
