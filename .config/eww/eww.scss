@@ -15,6 +15,7 @@
 
 .datetime {
     background-color: #333333;
+    /* border: 2px #222222 solid; */
     padding: 3px 20px;
     border-radius: 15px;
     font: 16px Lato Regular;
@@ -22,6 +23,7 @@
 
 .metrics {
     background-color: #333333;
+    /* border: 2px #222222 solid; */
     padding: 3px 15px;
     border-radius: 15px;
 }
@@ -90,6 +92,7 @@
 .workspace-bit {
     // background-color: #7F9BC7;
     background-color: #C8ACF6;
+    /* border: 2px #222222 solid; */
     color: #000000;
     font: 16px Lato Regular;
     padding: 3px 15px;
@@ -154,4 +157,22 @@ trough {
   min-height: 10px;
   border-radius: 5px;
   background-color: #444444;
+}
+
+.osd-low-battery {
+    background-color: #e6194B;
+    animation: bgColor 1s infinite linear;
+    padding: 16px;
+    border-radius: 16px;
+}
+@keyframes bgColor {
+  50% {
+    /* background-color: #800000; */
+    background-color: #333333;
+  }
+}
+
+.osd-low-battery-text {
+    font: 24px Lato Regular;
+    font-weight: bold;
 }

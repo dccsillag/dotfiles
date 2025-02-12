@@ -35,7 +35,7 @@
                 :halign "start"
                 :class "metrics"
                 :space-evenly false
-                :spacing 8
+                :spacing 14
                 (box :orientation "horizontal"
                      :space-evenly true
                      (sensor :label " " :value {round(EWW_CPU.avg, 0)} :postfix "%" :threshold-light 10 :threshold-med 30 :threshold-heavy 80)
@@ -133,12 +133,46 @@
          :interval "10000ms"
          `brightnessctl max`)
 
-(defwidget osd [icon value]
+;; (defwindow low-battery
+;;            :monitor 0
+;;            :geometry (geometry :x "0px"
+;;                                :y "0px"
+;;                                :width "200px"
+;;                                :height "200px"
+;;                                :anchor "center center")
+;;            :stacking "fg"
+;;            :windowtype "dock"
+;;            :wm-ignore false
+;;            (box :class "low-battery" (osd :class "osd-low-battery" :icon "󰂃" :value battery-level)))
+(defwindow low-battery
+           :monitor 0
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "200px"
+                               :height "200px"
+                               :anchor "center center")
+           :stacking "fg"
+           :windowtype "dock"
+           :wm-ignore false
+           (box :orientation "vertical"
+                :space-evenly false
+                :spacing 2
+                :valign "center"
+                :class "osd-low-battery"
+                (box :class "osd-icon" "󰂃")
+                ;; (progress :class "asdf" :value battery-level :orientation "horizontal")
+                (box :class "osd-low-battery-text" "${battery-level}%")
+                (box :height 4)))
+(defpoll battery-level
+         :interval "10000ms"
+         `battery charge`)
+
+(defwidget osd [?class icon value]
            (box :orientation "vertical"
                 :space-evenly false
                 :spacing 8
                 :valign "center"
-                :class "osd"
+                :class {class == "" ? "osd" : class}
                 (box :class "osd-icon" icon)
                 (progress :class "asdf" :value value :orientation "horizontal")
                 (box :height 10)))
