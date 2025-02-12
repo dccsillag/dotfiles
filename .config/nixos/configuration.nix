@@ -125,7 +125,7 @@ in
       # directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_20_0
+      process_1_6_25_0
       xmobar
       bimap
       JuicyPixels
@@ -155,8 +155,9 @@ in
   };
 
   # Enable sound.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = true;
+  services.pipewire.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -370,6 +371,7 @@ in
 
     # File manager
     lf
+    yazi
 
     # Pandoc
     pandoc
@@ -528,6 +530,9 @@ in
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;
+
+  # Ollama:
+  services.ollama.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
