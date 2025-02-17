@@ -20,7 +20,6 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
         -- Interface
-        -- * [1]: 'nvim-lualine/lualine.nvim' -- statusline
         * [1]: 'b0o/incline.nvim' -- floating lightweight statuslines/winbars
         * [1]: 'romgrk/barbar.nvim' -- tabline
         * [1]: 'junegunn/fzf', build: './install --bin' -- fuzzy finder
@@ -31,11 +30,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
         * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
         * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region
-        * [1]: 'edluffy/specs.nvim' -- highlight cursor jumps
-        * [1]: 'folke/zen-mode.nvim' -- toggleable zen mode for editing
         * [1]: 'lewis6991/gitsigns.nvim' -- show git diff in the signcolumn
-        * [1]: 'junegunn/limelight.vim' -- a spotlight for code, good for presenting bit-by-bit
-        * [1]: 'junegunn/goyo.vim' -- make things pretty, for more elegant presentations
         * [1]: 'lukas-reineke/indent-blankline.nvim' -- indent guides
         * [1]: 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
         -- * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
@@ -43,17 +38,17 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
         * [1]: 'rcarriga/nvim-notify' -- show notifications
         * [1]: 'folke/noice.nvim', dependencies: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
-        * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
+        -- * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
         * [1]: 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' -- show diagnostics with virtual lines
-        * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
+        -- * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
         * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
         * [1]: 'moll/vim-bbye' -- better buffer closing
-        * [1]: 'nvim-colortils/colortils.nvim' -- color picker
-        * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
+        -- * [1]: 'nvim-colortils/colortils.nvim' -- color picker
+        -- * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
         -- plug 'wellle/context.vim' -- show code context on top of the buffer
         -- plug 'kshenoy/vim-signature' -- show marks in the sign column
-        * [1]: 'nvzone/typr' -- typing game
-        * [1]: 'nvzone/volt' -- for typr
+        -- * [1]: 'nvzone/typr' -- typing game
+        -- * [1]: 'nvzone/volt' -- for typr
         * [1]: 'sphamba/smear-cursor.nvim', opts: -- for animated cursor
             smear_between_buffers: true
             smear_between_neighbor_lines: true
@@ -65,26 +60,26 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'tpope/vim-repeat' -- better `.` key
         * [1]: 'chaoren/vim-wordmotion' -- improve the `w` key and similar
         * [1]: 'haya14busa/vim-asterisk' -- improve `*` and `#`
-        * [1]: 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
-        * [1]: 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
+        -- * [1]: 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
+        -- * [1]: 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
         * [1]: 'lambdalisue/suda.vim' -- for editting files which require root permission
         * [1]: 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
 
         -- Peripherals
         * [1]: 'tpope/vim-eunuch' -- add nice commands for shell commands
         * [1]: 'direnv/direnv.vim' -- direnv integration
-        * [1]: 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
-        * [1]: 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
+        -- * [1]: 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
+        -- * [1]: 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
         * [1]: 'tpope/vim-fugitive' -- use git from vim
         * [1]: 'junegunn/gv.vim' -- git commit browser
         * [1]: 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
         * [1]: 'julienvincent/hunk.nvim' -- jujutsu diff editor
-        * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
-        * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
-        * [1]: 'nvim-neotest/neotest-plenary'
-        * [1]: 'nvim-neotest/neotest-python'
-        * [1]: 'rouge8/neotest-rust'
-        * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
+        -- * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
+        -- * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
+        -- * [1]: 'nvim-neotest/neotest-plenary'
+        -- * [1]: 'nvim-neotest/neotest-python'
+        -- * [1]: 'rouge8/neotest-rust'
+        -- * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
         -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
         -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
         * plugown 'acaraje.nvim' -- LLM editing and such
@@ -147,8 +142,8 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
         * [1]: 'numToStr/Comment.nvim' -- comment/uncomment code
         * [1]: 'windwp/nvim-autopairs' -- automatic delimiter pair closing
-        * [1]: 'godlygeek/tabular' -- aligns code
-        * [1]: 'dhruvasagar/vim-table-mode' -- painlessly edit tables
+        -- * [1]: 'godlygeek/tabular' -- aligns code
+        -- * [1]: 'dhruvasagar/vim-table-mode' -- painlessly edit tables
         * [1]: 'tommcdo/vim-exchange' -- exchange text around
         * [1]: 'svermeulen/vim-subversive' -- replace text with current yank
         * [1]: 'monaqa/dial.nvim' -- better increment/decrement

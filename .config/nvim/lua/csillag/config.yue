@@ -55,103 +55,7 @@ do
             gitsigns: false -- true
             -- search: true -- requires hlslens
 
-    (require 'colortils').setup!
-
-    -- -- statusline
-    -- my_theme = {
-    --     a:
-    --         bg: '#C8ACF6'
-    --         fg: '#000000'
-    --     b:
-    --         bg: '#4F535A'
-    --         fg: '#FFFFFF'
-    --         gui: 'bold'
-    --     c:
-    --         bg: '#2F333A'
-    --         fg: '#cccccc'
-    -- }
-    -- winbar =
-    --     lualine_a: {}
-    --     lualine_b: {{
-    --         'filename',
-    --         path: 1 -- show the relative path
-    --     }}
-    --     lualine_c:
-    --         * ->
-    --             ft = vim.o.filetype
-    --             has_lsp = #vim.lsp.buf_get_clients(0) > 0
-    --             if #ft == 0
-    --                 ""
-    --             else
-    --                 if has_lsp
-    --                     ft .. "⁺"
-    --                 else
-    --                     ft
-    --         * 'b:keymap_name'
-    --         * {
-    --             'diagnostics',
-    --             colored: true
-    --             sections:
-    --                 * 'error'
-    --                 * 'warn'
-    --                 * 'info'
-    --         }
-    --     lualine_x:
-    --         * 'location'
-    --     lualine_y: {}
-    --     lualine_z: {}
-    -- (require 'lualine').setup
-    --     options:
-    --         theme:
-    --             normal: my_theme
-    --             insert: my_theme
-    --             visual: my_theme
-    --             replace: my_theme
-    --             command: my_theme
-    --             inactive: my_theme
-    --         component_separators:
-    --             left: ''
-    --             right: ''
-    --         section_separators:
-    --             left: ''
-    --             right: ''
-    --         always_divide_middle: true
-    --         globalstatus: true
-    --         disabled_filetypes:
-    --             winbar:
-    --                 * 'neo-tree'
-    --                 * 'Trouble'
-    --     winbar: winbar
-    --     inactive_winbar: winbar
-    --     sections:
-    --         lualine_a:
-    --             * 'branch'
-    --         lualine_b:
-    --             * -> vim.fn.getcwd!
-    --         lualine_c: {}
-    --         lualine_x:
-    --             * -> vim.fn.expand '$USER'
-    --         lualine_y:
-    --             * 'hostname'
-    --         lualine_z:
-    --             * ->
-    --                 import 'dap'
-    --                 if dap.session! ~= nil
-    --                     "Debugging"
-    --                 else
-    --                     ""
-    --             * ->
-    --                 register = vim.fn.reg_recording!
-    --                 if register == ""
-    --                     ""
-    --                 else
-    --                     "recording @#{register}"
-    --     extensions:
-    --         * 'aerial'
-    --         * 'fzf'
-    --         * 'fugitive'
-    --         * 'quickfix'
-    --         * 'neo-tree'
+    -- (require 'colortils').setup!
 
     devicons = require 'nvim-web-devicons'
     (require "incline").setup
@@ -396,79 +300,9 @@ do
             group_empty_dirs: false
             show_unloaded: true -- ???
 
-    -- nvim-ufo
-    -- (require "ufo").setup
-    --     open_fold_hl_timeout: 0
-    --     fold_virt_text_handler: (virtText, lnum, endLnum, width, truncate) ->
-    --         newVirtText = {}
-    --         suffix = " ⋯ "
-    --         targetWidth = width - vim.fn.strdisplaywidth suffix
-    --         curWidth = 0
-    --         if #virtText > 0
-    --             chunkText = virtText[1][1]
-    --             hlGroup = virtText[1][2]
-    --             str = ""
-    --             shiftwidth = vim.o.shiftwidth
-    --             pos = 1
-    --             for c in chunkText\gmatch"."
-    --                 if c != ' '
-    --                     break
-    --                 if math.fmod(pos - 1, shiftwidth) == 0
-    --                     table.insert newVirtText, {str, hlGroup}
-    --                     table.insert newVirtText, {"│", "IndentBlanklineChar"}
-    --                     str = ""
-    --                 else
-    --                     str = str .. c
-    --                 pos = pos + 1
-    --             table.insert newVirtText, {str .. (chunkText\sub pos, -1), hlGroup}
-    --             table.remove virtText, 1
-    --         for _, chunk in ipairs virtText
-    --             chunkText = chunk[1]
-    --             chunkWidth = vim.fn.strdisplaywidth chunkText
-    --             if targetWidth > curWidth + chunkWidth
-    --                 table.insert newVirtText, chunk
-    --             else
-    --                 chunkText = truncate chunkText, targetWidth - curWidth
-    --                 hlGroup = chunk[2]
-    --                 table.insert newVirtText, {chunkText, hlGroup}
-    --                 chunkwidth = vim.fn.strdisplaywidth chunkText
-    --                 if curWidth + chunkWidth < targetWidth
-    --                     suffix = suffix .. (' ')\rep(targetWidth - curWidth - chunkWidth)
-    --                 break
-    --             curWidth = curWidth + chunkWidth
-    --         table.insert newVirtText, {suffix, 'MoreMsg'}
-    --         newVirtText
-
     -- popui
     vim.ui.select = require "popui.ui-overrider"
     vim.g.popui_border_style = "rounded"
-
-    -- -- specs
-    -- global specs, should_show_specs, maybe_show_specs
-    -- import 'specs'
-    --
-    -- should_show_specs = false -- vim.fn.exists('neovide') == 0
-    --
-    -- specs.setup
-    --     show_jumps: should_show_specs
-    --     min_jump: 2
-    --     popup:
-    --         delay_ms: 0
-    --         inc_ms: 8
-    --         blend: 60
-    --         width: 25
-    --         winhl: 'Specs'
-    --         fader: specs.empty_fader
-    --         resizer: specs.shrink_resizer
-    --     ignore_filetypes:
-    --         * "dashboard"
-    --     ignore_buftypes:
-    --         "nofile": true
-    --
-    -- maybe_show_specs = -> specs.show_specs! if should_show_specs
-
-    -- zen-mode
-    (require 'zen-mode').setup!
 
     -- gitsigns
     (require 'gitsigns').setup
@@ -498,10 +332,6 @@ do
             relative: 'cursor'
             row: 1
             col: 0
-
-    -- limelight
-    vim.g.limelight_conceal_ctermfg = 242
-    vim.g.limelight_conceal_guifg = '#606060'
 
     -- indent-blankline
     (require 'ibl').setup
@@ -615,15 +445,15 @@ do
         stages: "slide"
         timeout: 750
 
-    -- nvim-pqf
-    (require 'pqf').setup!
+    -- -- nvim-pqf
+    -- (require 'pqf').setup!
 
     -- vim-wordmotion
     vim.g.wordmotion_spaces = ''
 
-    -- vim-localvimrc
-    vim.g.localvimrc_persistent = 1
-    vim.g.localvimrc_persistence_file = vim.fn.expand "~/.local/misc/localvimrc_persistent"
+    -- -- vim-localvimrc
+    -- vim.g.localvimrc_persistent = 1
+    -- vim.g.localvimrc_persistence_file = vim.fn.expand "~/.local/misc/localvimrc_persistent"
 
     -- suda.vim
     vim.g.suda_smart_edit = 1
@@ -655,6 +485,9 @@ do
     --     -- vim.g.magma_automatically_open_output = false
     --     -- vim.g.magma_show_mimetype_debug = true
     --     -- vim.g.magma_image_provider = "ueberzug"
+
+    -- acaraje.nvim
+    (require "acaraje").setup {}
 
     -- vim-test
     vim.g['test#strategy'] = 'neovim'
@@ -944,52 +777,52 @@ do
 
     (require 'dapui').setup!
 
-    -- neotest
-    (require 'neotest').setup
-        adapters:
-            * (require "neotest-python")
-                dap:
-                    justMyCode: false
-            * (require "neotest-plenary")
-            -- * (require "neotest-rust")
-            * (require "neotest-vim-test")
-                ignore_file_types:
-                    * "python"
-                    * "vim"
-                    * "lua"
-                    -- * "rust"
-        discovery:
-            enabled: true
-        icons:
-            child_indent: "│"
-            child_prefix: "├"
-            collapsed: "─"
-            expanded: "┬"
-            final_child_indent: " "
-            final_child_prefix: "╰"
-            non_collapsible: "─"
-            failed: "✗"
-            passed: "✓"
-            running: "…"
-            skipped: " "
-            unknown: "?"
-        summary:
-            enabled: true
-        output:
-            enabled: true
-        diagnostic:
-            enabled: false
-        status:
-            enabled: true
-            virtual_text: true
-            signs: false
-    -- TODO neotest.diagnostic
-    -- TODO neotest.status
-    -- vim.g.ultest_output_on_line = false
-    -- vim.g.ultest_pass_sign = "✓"
-    -- vim.g.ultest_fail_sign = "✗"
-    -- vim.g.ultest_running_sign = "⊙"
-    -- vim.g.ultest_not_run_sign = "?"
+    -- -- neotest
+    -- (require 'neotest').setup
+    --     adapters:
+    --         * (require "neotest-python")
+    --             dap:
+    --                 justMyCode: false
+    --         * (require "neotest-plenary")
+    --         -- * (require "neotest-rust")
+    --         * (require "neotest-vim-test")
+    --             ignore_file_types:
+    --                 * "python"
+    --                 * "vim"
+    --                 * "lua"
+    --                 -- * "rust"
+    --     discovery:
+    --         enabled: true
+    --     icons:
+    --         child_indent: "│"
+    --         child_prefix: "├"
+    --         collapsed: "─"
+    --         expanded: "┬"
+    --         final_child_indent: " "
+    --         final_child_prefix: "╰"
+    --         non_collapsible: "─"
+    --         failed: "✗"
+    --         passed: "✓"
+    --         running: "…"
+    --         skipped: " "
+    --         unknown: "?"
+    --     summary:
+    --         enabled: true
+    --     output:
+    --         enabled: true
+    --     diagnostic:
+    --         enabled: false
+    --     status:
+    --         enabled: true
+    --         virtual_text: true
+    --         signs: false
+    -- -- TODO neotest.diagnostic
+    -- -- TODO neotest.status
+    -- -- vim.g.ultest_output_on_line = false
+    -- -- vim.g.ultest_pass_sign = "✓"
+    -- -- vim.g.ultest_fail_sign = "✗"
+    -- -- vim.g.ultest_running_sign = "⊙"
+    -- -- vim.g.ultest_not_run_sign = "?"
 
     -- -- AI
     -- (require "avante").setup
@@ -1082,10 +915,6 @@ do
     -- vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
     --
     -- vim.g.pear_tree_pairs = basic_pairs
-
-    -- vim-table-mode
-    vim.g.table_mode_map_prefix = '<Leader><Bar>'
-    vim.g.table_mode_toggle_map = '<Bar>'
 
     -- python-syntax
     vim.g.python_version_2                          = false

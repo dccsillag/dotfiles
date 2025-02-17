@@ -168,7 +168,7 @@ applyKeymaps myKeymaps
             vim.cmd "e term://" .. command
 
         -- magma-nvim
-        'r': vimcmd 'MoltenEvaluateOperator'
+        -- 'r': vimcmd 'MoltenEvaluateOperator'
         -- 'r':
         --     '<expr>': -> (require "magma").run_code_operator!
         --     'r': -> (require "magma").run_code_line!
@@ -275,11 +275,11 @@ applyKeymaps myKeymaps
         -- misc window operations
         'w': "<C-w>"
 
-        -- text alignment
-        'a':
-            '=': vimcmd [[Tabularize /=]]
-            ':': vimcmd [[Tabularize /:\zs]]
-            ' ': vimcmd [[Tabularize /,\zs]]
+        -- -- text alignment
+        -- 'a':
+        --     '=': vimcmd [[Tabularize /=]]
+        --     ':': vimcmd [[Tabularize /:\zs]]
+        --     ' ': vimcmd [[Tabularize /,\zs]]
 
     'z':
         -- open aerial view
