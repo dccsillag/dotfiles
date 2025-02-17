@@ -36,10 +36,9 @@ local special = hsl(280, 100, 81)
 local syntax_comment = foreground.darken(25)
 local syntax_string = hsl(120, 40, 70)
 local syntax_number = hsl(190, 60, 70)
-local syntax_statement = hsl(10, 80, 75)
+local syntax_statement = foreground -- hsl(10, 80, 75)
 -- local syntax_identifier = hsl(300, 100, 92)
-local syntax_identifier =
-    foreground                             -- hsl(50, 100, 90) -- hsl(100, 90, 96) -- hsl(300, 0, 88)  -- hsl(250, 80, 85)
+local syntax_identifier = foreground -- hsl(50, 100, 90) -- hsl(100, 90, 96) -- hsl(300, 0, 88)  -- hsl(250, 80, 85)
 local syntax_local_identifier = foreground -- hsl(50, 100, 90)  -- hsl(230, 60, 93)
 local syntax_operator = foreground
 local syntax_attribute = foreground.darken(10)
@@ -158,7 +157,7 @@ local theme = lush(function(injected_functions)
                 Italic { gui = "italic" },
                 TSEmphasis { gui = "italic" },      -- For text to be represented with emphasis.
                 TSStrike { gui = "strikethrough" }, -- For strikethrough text.
-                TSText {},                          -- For strings considered text in a markup language.
+                TSText { fg = foreground },                          -- For strings considered text in a markup language.
 
                 sym("@lsp.type.namespace") { fg = syntax_identifier },
                 sym("@lsp.type.type") { fg = syntax_identifier },
@@ -188,16 +187,16 @@ local theme = lush(function(injected_functions)
                 sym("@lsp.type.operator") { fg = syntax_operator },
                 sym("@lsp.type.decorator") { fg = syntax_statement },
 
-                sym("@lsp.mod.declaration") {},
-                sym("@lsp.mod.definition") {},
-                sym("@lsp.mod.readonly") {},
-                sym("@lsp.mod.static") {},
-                sym("@lsp.mod.deprecated") { gui = "strikethrough" },
-                sym("@lsp.mod.abstract") {},
-                sym("@lsp.mod.async") {},
-                sym("@lsp.mod.modification") {},
-                sym("@lsp.mod.documentation") {},
-                sym("@lsp.mod.defaultLibrary") {},
+                sym("@lsp.mod.declaration") { fg = syntax_identifier },
+                sym("@lsp.mod.definition") { fg = syntax_identifier },
+                sym("@lsp.mod.readonly") { fg = syntax_identifier },
+                sym("@lsp.mod.static") { fg = syntax_identifier },
+                sym("@lsp.mod.deprecated") { fg = syntax_identifier, gui = "strikethrough" },
+                sym("@lsp.mod.abstract") { fg = syntax_identifier },
+                sym("@lsp.mod.async") { fg = syntax_identifier },
+                sym("@lsp.mod.modification") { fg = syntax_identifier },
+                sym("@lsp.mod.documentation") { fg = syntax_comment.darken(2), gui = "bold" },
+                sym("@lsp.mod.defaultLibrary") { fg = syntax_identifier },
                 sym("@lsp.typemod.comment.documentation") { fg = syntax_comment, gui = "bold" },
                 Comment { fg = syntax_comment },                                           -- any comment
                 SpecialComment { fg = syntax_comment, gui = "bold" },                      -- special things inside a comment
@@ -227,44 +226,44 @@ local theme = lush(function(injected_functions)
                 Label { fg = syntax_statement },                                           --    case, default, etc.
                 TSAnnotation { fg = syntax_attribute },                                    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
                 TSAttribute { fg = syntax_attribute },                                     -- (unstable) TODO: docs
-                Constant {},                                                               -- (preferred) any constant
+                Constant { fg = foreground },                                                               -- (preferred) any constant
                 TSVariableBuiltin { fg = syntax_special },                                 -- Variable names that are defined by the languages, like `this` or `self`.
                 TSConstBuiltin { fg = syntax_special },                                    -- For constant that are built in the language: `nil` in Lua. FIXME other color?
-                TSBoolean {},                                                              -- For booleans.
-                Identifier {},                                                             -- (preferred) any variable name
-                Function {},                                                               -- function name (also: methods for classes)
-                Type {},                                                                   -- (preferred) int, long, char, etc.
-                Special {},                                                                -- (preferred) any special symbol
-                Delimiter {},                                                              --  character that needs attention
-                TSPunctDelimiter {},                                                       -- For delimiters ie: `.`
-                TSPunctBracket {},                                                         -- For brackets and parens.
-                TSPunctSpecial {},                                                         -- For special punctutation that does not fall in the catagories before.
-                TSConstructor {},                                                          -- For constructor calls and definitions: ` { }` in Lua, and Java constructors.
-                Debug {},                                                                  --    debugging statements
-                Error {},                                                                  -- (preferred) any erroneous construct
-                TSError {},                                                                -- For syntax/parser errors.
+                TSBoolean { fg = foreground },                                                              -- For booleans.
+                Identifier { fg = foreground },                                                             -- (preferred) any variable name
+                Function { fg = foreground },                                                               -- function name (also: methods for classes)
+                Type { fg = foreground },                                                                   -- (preferred) int, long, char, etc.
+                Special { fg = foreground },                                                                -- (preferred) any special symbol
+                Delimiter { fg = foreground },                                                              --  character that needs attention
+                TSPunctDelimiter { fg = foreground },                                                       -- For delimiters ie: `.`
+                TSPunctBracket { fg = foreground },                                                         -- For brackets and parens.
+                TSPunctSpecial { fg = foreground },                                                         -- For special punctutation that does not fall in the catagories before.
+                TSConstructor { fg = foreground },                                                          -- For constructor calls and definitions: ` { }` in Lua, and Java constructors.
+                Debug { fg = foreground },                                                                  --    debugging statements
+                Error { fg = foreground },                                                                  -- (preferred) any erroneous construct
+                TSError { fg = foreground },                                                                -- For syntax/parser errors.
                 TSURI { fg = hsl(190, 80, 65), gui = 'underline' },                        -- Any URI like a link or email.
                 Todo { fg = hsl(0, 0, 0), bg = hsl(60, 100, 50), gui = "bold" },           -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
                 -- TSNone               { };    -- TODO: docs
 
                 AerialClassIcon { fg = syntax_statement, gui = 'bold' },
-                AerialClass {},
+                AerialClass { fg = foreground },
                 AerialConstructorIcon { fg = syntax_statement, gui = 'bold' },
-                AerialConstructor {},
+                AerialConstructor { fg = foreground },
                 AerialEnumIcon { fg = syntax_statement, gui = 'bold' },
-                AerialEnum {},
+                AerialEnum { fg = foreground },
                 AerialFunctionIcon { fg = syntax_statement, gui = 'bold' },
-                AerialFunction {},
+                AerialFunction { fg = foreground },
                 AerialInterfaceIcon { fg = syntax_statement, gui = 'bold' },
-                AerialInterface {},
+                AerialInterface { fg = foreground },
                 AerialModuleIcon { fg = syntax_statement, gui = 'bold' },
-                AerialModule {},
+                AerialModule { fg = foreground },
                 AerialMethodIcon { fg = syntax_statement, gui = 'bold' },
-                AerialMethod {},
+                AerialMethod { fg = foreground },
                 AerialStructIcon { fg = syntax_statement, gui = 'bold' },
-                AerialStruct {},
-                AerialLine {},
-                AerialLineNC {},
+                AerialStruct { fg = foreground },
+                AerialLine { fg = foreground },
+                AerialLineNC { fg = foreground },
                 AerialGuide { fg = foreground_ui },
 
                 -- TODO update:
