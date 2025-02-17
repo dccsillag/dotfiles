@@ -34,7 +34,7 @@ local mark = "#f2b409"
 local special = hsl(280, 100, 81)
 
 local syntax_comment = foreground.darken(25)
-local syntax_string = hsl(120, 40, 70)
+local syntax_string = hsl(120, 40, 82)
 local syntax_number = hsl(190, 60, 70)
 local syntax_statement = foreground -- hsl(10, 80, 75)
 -- local syntax_identifier = hsl(300, 100, 92)
@@ -218,6 +218,8 @@ local theme = lush(function(injected_functions)
                 PreCondit { fg = syntax_statement },                                       --  preprocessor #if, #else, #endif, etc.
                 Define { fg = syntax_statement },                                          --   preprocessor #define
                 Macro { fg = syntax_statement },                                           --    same as Define
+                Variable { fg = syntax_identifier },                                       --    same as Define
+                sym("@variable") { fg = syntax_identifier },                               --    same as Define
                 PreProc { fg = syntax_statement },                                         -- (preferred) generic Preprocessor
                 StorageClass { fg = syntax_statement },                                    -- static, register, volatile, etc.
                 Structure { fg = syntax_statement },                                       --  struct, union, enum, etc.
