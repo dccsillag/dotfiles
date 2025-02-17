@@ -44,16 +44,16 @@ do
     --     overlay_opacity: 80
     --     opacity_step: 1
 
-    (require 'scrollbar').setup
-        excluded_filetypes:
-            * "prompt"
-            * "TelescopePrompt"
-            * "noice"
-            -- * "neo-tree"
-        handlers:
-            cursor: false
-            gitsigns: false -- true
-            -- search: true -- requires hlslens
+    -- (require 'scrollbar').setup
+    --     excluded_filetypes:
+    --         * "prompt"
+    --         * "TelescopePrompt"
+    --         * "noice"
+    --         -- * "neo-tree"
+    --     handlers:
+    --         cursor: false
+    --         gitsigns: false -- true
+    --         -- search: true -- requires hlslens
 
     -- (require 'colortils').setup!
 

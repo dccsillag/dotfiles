@@ -41,7 +41,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
         * [1]: 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' -- show diagnostics with virtual lines
         -- * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
-        * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
+        -- * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
         * [1]: 'moll/vim-bbye' -- better buffer closing
         -- * [1]: 'nvim-colortils/colortils.nvim' -- color picker
         -- * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
@@ -55,6 +55,18 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
             scroll_buffer_spcae: true
             legacy_computing_symbols_support: false
             smear_insert_model: true
+        * [1]: 'karb94/neoscroll.nvim', opts: -- for animated scrolling
+            mappings:
+                * '<C-u>'
+                * '<C-d>'
+                * '<C-b>'
+                * '<C-f>'
+                * 'zt'
+                * 'zz'
+                * 'zb'
+            duration_multiplier: 0.3
+            easing: "quintic"
+        -- * [1]: 'bassamsdata/namu.nvim' -- file navigation by symbols
 
         -- Behaviour
         * [1]: 'tpope/vim-repeat' -- better `.` key
