@@ -338,6 +338,17 @@ local theme = lush(function(injected_functions)
                 NeotestMarked { fg = mark, bg = background, gui = 'bold' },
                 NeotestWinSelect {}, -- ???
 
+                NoiceCmdlineIcon { fg = "#cccccc", gui = "bold" },
+                NoiceCmdlineIconSearch { fg = "#efc809", gui = "bold" },
+                NoiceCmdlinePopupBorder { fg = "#cccccc", gui = "bold" },
+                NoiceCmdlinePopupBorderSearch { fg = "#efc809", gui = "bold" },
+                NoiceCmdlinePopupTitle { fg = "#cccccc", gui = "bold" },
+                NoiceConfirmBorder { fg = "#cccccc", gui = "bold" },
+                NoiceFormatLevelError { fg = "#ff795B", gui = "bold" },
+                NoiceFormatLevelInfo { fg = "#cccccc", gui = "bold" },
+                NoiceFormatLevelWarn { fg = "#efc809", gui = "bold" },
+                NoiceVirtualText { fg = "#cccccc", gui = "bold" },
+
                 -- NeoTreeBufferNumber
                 -- NeoTreeCursorLine
                 -- NeoTreeDimText
