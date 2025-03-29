@@ -124,6 +124,9 @@ applyKeymaps myKeymaps
             't': -> (require "lsp_lines").toggle!
             'N': -> vim.diagnostic.goto_prev wrap: false, float: false
             'n': -> vim.diagnostic.goto_next wrap: false, float: false
+            'e': ->
+                vim.diagnostic.open_float nil, border: "rounded"
+                vim.diagnostic.open_float nil, border: "rounded" -- call it a second time to enter the window
 
         -- FZF
         'e': ->

@@ -525,7 +525,9 @@ do
                 convert: (item) -> { abbr: item.label\gsub('%b()', '') }
 
             vim.diagnostic.config
-                virtual_lines: true
+                virtual_text: true
+                virtual_lines: false
+                severity_sort: true
                 underline: true
                 signs: false
                 update_in_insert: true
