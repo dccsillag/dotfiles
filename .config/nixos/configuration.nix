@@ -83,7 +83,7 @@ in
   # };
 
   # Setup Vulkan
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   # # Setup NVIDIA GPU
   # services.xserver.videoDrivers = [ "nvidia" ];
@@ -417,7 +417,7 @@ in
     scrot
     maim
     feh
-    gnome.zenity
+    zenity
     xorg.xmodmap
     xorg.xwininfo
     wmctrl
@@ -434,7 +434,7 @@ in
     screenkey
     xlayoutdisplay
     mons
-    gnome.gnome-boxes
+    gnome-boxes
     bottles
 
     # GTK themes
@@ -463,8 +463,8 @@ in
     slack
     unstable.discord
     mailspring  # unstable.mailspring
-    gnome.gnome-calendar
-    gnome.geary
+    gnome-calendar
+    geary
     thunderbird
     snes9x-gtk
     ryujinx
