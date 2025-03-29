@@ -406,6 +406,8 @@ do
     (require "noice").setup
         lsp_progress:
             enabled: false
+        popupmenu:
+            enabled: false
         routes:
             * -- hide 'written' messages
                 filter:
@@ -428,21 +430,20 @@ do
                 size:
                     width: 60
                     height: "auto"
-            popupmenu:
-                relative: "editor"
-                position:
-                    row: 8
-                    col: "50%"
-                size:
-                    width: 60
-                    height: 10
-                border:
-                    style: "rounded"
-                    padding: {0, 1}
-                win_options:
-                    winhighlight:
-                        Normal: "Normal"
-                        FloatBorder: "DiagnosticInfo"
+            -- popupmenu:
+            --     relative: "editor"
+            --     position:
+            --         row: 8
+            --         col: "50%"
+            --     size:
+            --         width: 60
+            --         height: 10
+            --     border:
+            --         style: "none"
+            --     win_options:
+            --         winhighlight:
+            --             Normal: "Normal"
+            --             FloatBorder: "DiagnosticInfo"
 
     -- nvim-notify
     vim.o.termguicolors = true

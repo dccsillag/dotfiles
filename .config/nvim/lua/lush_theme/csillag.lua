@@ -10,7 +10,7 @@ local lush = require('lush')
 local hsl = lush.hsl
 
 local background = hsl(218, 22, 20)
-local background_popup = background.lighten(20)
+local background_popup = background.lighten(8)
 local background_gutter = background -- hsl(200, 10, 20)
 local background_tabs = background.lighten(7)
 local foreground = hsl(0, 0, 100)
@@ -65,9 +65,9 @@ local theme = lush(function(injected_functions)
                 NormalNC { fg = foreground, bg = background },                                 -- normal text in non-current windows
                 NormalFloat { fg = foreground, bg = background },                              -- Normal text in floating windows.
                 Pmenu { fg = foreground, bg = background_popup },                              -- Popup menu: normal item.
-                PmenuSel { fg = foreground, bg = background_popup, gui = "standout,bold" },    -- Popup menu: selected item.
+                PmenuSel { fg = foreground, bg = background_popup.lighten(15), gui = "bold" }, -- Popup menu: selected item.
                 PmenuSbar { fg = foreground, bg = background_popup },                          -- Popup menu: scrollbar.
-                PmenuThumb { fg = foreground, bg = background_popup },                         -- Popup menu: Thumb of the scrollbar.
+                PmenuThumb { fg = foreground, bg = background_popup.lighten(25) },             -- Popup menu: Thumb of the scrollbar.
                 PopupNotification { fg = foreground, bg = background_popup },                  -- Popup menu for notifications
                 IndentBlanklineChar { fg = foreground_ui.darken(20) },                         -- Color to use for indent guides (indent-blankline.nvim)
                 VirtualIndentBlanklineChar { fg = foreground_ui.darken(30) },                  -- Color to use for indent guides in virtual lines
