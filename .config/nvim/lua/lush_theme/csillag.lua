@@ -297,11 +297,15 @@ local theme = lush(function(injected_functions)
                 DiagnosticVirtualTextWarn { fg = "#efc809", bg = "#625234", gui = "bold" },  -- Used for "Warning" diagnostic virtual text
                 DiagnosticVirtualTextInfo { fg = "#cccccc", bg = "#444454", gui = "bold" },  -- Used for "Information" diagnostic virtual text
                 DiagnosticVirtualTextHint { fg = "#cccccc", bg = "#444454", gui = "bold" },  -- Used for "Hint" diagnostic virtual text
+                DiagnosticError { fg = "#ff795B", bg = "#822234", gui = "bold" }, -- Used for "Error" diagnostic virtual text
+                DiagnosticWarn { fg = "#efc809", bg = "#625234", gui = "bold" },  -- Used for "Warning" diagnostic virtual text
+                DiagnosticInfo { fg = "#cccccc", bg = "#444454", gui = "bold" },  -- Used for "Information" diagnostic virtual text
+                DiagnosticHint { fg = "#cccccc", bg = "#444454", gui = "bold" },  -- Used for "Hint" diagnostic virtual text
 
-                DiagnosticUnderlineError {},                                                 -- Used for "Error" diagnostic virtual text
-                DiagnosticUnderlineWarn {},                                                  -- Used for "Warning" diagnostic virtual text
-                DiagnosticUnderlineInfo {},                                                  -- Used for "Information" diagnostic virtual text
-                DiagnosticUnderlineHint {},                                                  -- Used for "Hint" diagnostic virtual text
+                DiagnosticUnderlineError { gui = "undercurl" },                                                 -- Used for "Error" diagnostic virtual text
+                DiagnosticUnderlineWarn { gui = "undercurl" },                                                  -- Used for "Warning" diagnostic virtual text
+                DiagnosticUnderlineInfo { gui = "undercurl" },                                                  -- Used for "Information" diagnostic virtual text
+                DiagnosticUnderlineHint { gui = "undercurl" },                                                  -- Used for "Hint" diagnostic virtual text
 
                 -- LspDiagnosticsSignError              { }, -- Used for "Error" signs in sign column
                 -- LspDiagnosticsSignWarning            { }, -- Used for "Warning" signs in sign column

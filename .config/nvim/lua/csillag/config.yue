@@ -505,9 +505,6 @@ do
     (require 'lsp-format').setup
         sync: true
 
-    -- virt_lines.nvim
-    (require 'lsp_lines').setup!
-
     -- LSP
     do
         import 'lspconfig' as nvim_lsp
@@ -521,6 +518,12 @@ do
             vim.lsp.completion.enable true, client.id, bufnr,
                 autotrigger: false
                 convert: (item) -> { abbr: item.label\gsub('%b()', '') }
+
+            vim.diagnostic.config
+                virtual_lines: true
+                underline: true
+                signs: false
+                update_in_insert: true
 
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
@@ -598,16 +601,6 @@ do
 
         nvim_lsp.lambdapitau.setup
             :on_attach
-
-        vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
-                virtual_text: false
-                virtual_lines: true
-                underline: true
-                signs: false
-                update_in_insert: true
-
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with vim.lsp.handlers.hover,
-            border: "rounded"
 
     -- treesitter
     vim.opt.runtimepath\append "$HOME/.local/share/treesitter"
