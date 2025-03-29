@@ -73,5 +73,10 @@ myScratchpads =
        , query = className =? "Element"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "localsend"
+       , cmd   = "localsend_app"
+       , query = className =? "Localsend_app"
+       , hook  = floatingScratchpad
+       }
   ]
   where floatingScratchpad = customFloating $ W.RationalRect 0.05 0.05 0.9 0.9

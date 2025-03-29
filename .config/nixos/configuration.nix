@@ -578,6 +578,9 @@ in
     rootless = {
       enable = true;
       setSocketVariable = true;
+  # LocalSend
+  programs.localsend.enable = true;
+
     };
   };
 

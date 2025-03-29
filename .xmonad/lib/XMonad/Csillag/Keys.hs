@@ -122,6 +122,7 @@ myKeys =
       ("M-s M-t", addName "Toggle scratchpad 'todos'" $ namedScratchpadAction myScratchpads "todos"),
       ("M-s M-e", addName "Toggle scratchpad 'mail'" $ namedScratchpadAction myScratchpads "mail"),
       ("M-s M-m", addName "Toggle scratchpad 'element'" $ namedScratchpadAction myScratchpads "element"),
+      ("M-s M-l", addName "Toggle scratchpad 'localsend'" $ namedScratchpadAction myScratchpads "localsend"),
       -- Passwords
       ("M-p M-p", addName "Get a password" $ spawn "rofi-pass"),
       -- Screenshots
