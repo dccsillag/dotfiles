@@ -59,6 +59,12 @@ do
 
     devicons = require 'nvim-web-devicons'
     (require "incline").setup
+        window:
+            margin:
+                horizontal: 0
+                vertical: 0
+        hide:
+            cursorline: true
         render: (props) ->
             filename = vim.fn.fnamemodify (vim.api.nvim_buf_get_name props.buf), ':t'
             if filename == '' then filename = '[No Name]'
