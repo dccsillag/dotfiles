@@ -172,6 +172,8 @@ applyKeymaps myKeymaps
                         command = "stack runhaskell %"
                     when "typst"
                         command = "typst watch %"
+                    when "latex"
+                        command = "latexrun %"
                     else
                         print "No default run command for filetype '" .. vim.o.filetype .. "'; please add to config.yue or create a run.sh"
                         return
