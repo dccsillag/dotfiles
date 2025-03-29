@@ -235,7 +235,7 @@ do
     (require "neo-tree").setup
         close_if_last_window: false -- sure?
         popup_border_style: "rounded"
-        enable_git_status: true
+        enable_git_status: false
         enable_diagnostics: false
         sort_case_insensitive: true
         default_component_configs:
@@ -298,7 +298,7 @@ do
             follow_current_file:
                 enabled: true
             group_empty_dirs: false
-            show_unloaded: true -- ???
+            show_unloaded: true
 
     -- popui
     vim.ui.select = require "popui.ui-overrider"
