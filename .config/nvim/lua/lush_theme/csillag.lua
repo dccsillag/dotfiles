@@ -111,6 +111,7 @@ local theme = lush(function(injected_functions)
                 ConflictMarkerCommonAncestorsHunk { bg = "#754a81" },
                 EndOfBuffer {},                                                         -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
                 VertSplit { fg = foreground_ui },                                       -- the column separating vertically split windows
+                FloatBorder { fg = foreground_ui },                                       -- the column separating vertically split windows
                 WinSeparator { fg = foreground_ui },                                       -- the column separating vertically split windows
                 Folded {},                                                              -- line used for closed folds
                 FoldColumn { fg = foreground_ui2, bg = background_gutter },              -- 'foldcolumn'
