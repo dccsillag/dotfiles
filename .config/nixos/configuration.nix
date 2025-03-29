@@ -280,6 +280,8 @@ in
     # rnix-lsp
     unstable.tinymist
     unstable.aider-chat  # not quite an LSP, but...
+    harper
+    basedpyright
 
     unstable.uv
 
