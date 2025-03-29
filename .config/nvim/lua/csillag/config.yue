@@ -92,30 +92,30 @@ do
     -- (require 'luatab').setup
     --     windowCount: -> ''
 
-    (require 'bufferline').setup
-        animation: true
-        auto_hide: false
-        tabpages: true
-        closable: true
-        clickable: true
-        -- diagnostics: {}
-        -- exclude_ft:
-        -- exclude_name:
-        -- hide
-        highlight_alternate: true
-        highlight_visible: true
-        icons:
-            filetype:
-                enabled: true
-        icon_custom_colors: false
-    -- vim.api.nvim_create_autocmd 'BufWinEnter'
-    --     pattern: "*"
-    --     callback: -> if vim.bo.filetype == 'neo-tree'
-    --         (require 'bufferline.api').set_offset 40, ''
-    -- vim.api.nvim_create_autocmd 'BufWinLeave'
-    --     pattern: "*"
-    --     callback: -> if vim.fn.expand('<afile>')\match('neo-tree')
-    --         (require 'bufferline.api').set_offset 0, ''
+    -- (require 'bufferline').setup
+    --     animation: true
+    --     auto_hide: false
+    --     tabpages: true
+    --     closable: true
+    --     clickable: true
+    --     -- diagnostics: {}
+    --     -- exclude_ft:
+    --     -- exclude_name:
+    --     -- hide
+    --     highlight_alternate: true
+    --     highlight_visible: true
+    --     icons:
+    --         filetype:
+    --             enabled: true
+    --     icon_custom_colors: false
+    -- -- vim.api.nvim_create_autocmd 'BufWinEnter'
+    -- --     pattern: "*"
+    -- --     callback: -> if vim.bo.filetype == 'neo-tree'
+    -- --         (require 'bufferline.api').set_offset 40, ''
+    -- -- vim.api.nvim_create_autocmd 'BufWinLeave'
+    -- --     pattern: "*"
+    -- --     callback: -> if vim.fn.expand('<afile>')\match('neo-tree')
+    -- --         (require 'bufferline.api').set_offset 0, ''
 
     -- do
     --     theme =
@@ -929,7 +929,7 @@ do
     vim.o.statusline = " "
 
     --- Setup tabbar
-    vim.o.showtabline = 2 -- always show the tabline
+    -- vim.o.showtabline = 2 -- always show the tabline
 
     --- Setup :grep
     vim.o.grepprg = [[rg --vimgrep --hidden --glob '!.git']]
