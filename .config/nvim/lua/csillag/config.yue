@@ -81,9 +81,8 @@ do
             modified = vim.bo[props.buf].modified
 
             -- bgcolor = "#28303e"
-            bgcolor = "#555555"
             return
-                * { '', guifg: bgcolor }
+                * { '', group: 'InclineCsillagOuter' }
                 *
                     *
                         -- * if ft_icon then { ft_icon, '  ', filetype, ' ¦ ' } else ''
@@ -92,8 +91,8 @@ do
                         guifg: "#888888"
                     * filename
                     * modified and { '*', guifg: '#888888', gui: 'bold' } or ''
-                    guibg: bgcolor
-                * { '', guifg: bgcolor }
+                    group: 'InclineCsillagInner'
+                * { '', group: 'InclineCsillagOuter' }
 
     -- (require 'luatab').setup
     --     windowCount: -> ''

@@ -388,9 +388,14 @@ local theme = lush(function(injected_functions)
 
                 TreeHighlight { bg = background.lighten(2) }, -- Highlight of the current treesitter node.
 
+                -- TabLine { fg = foreground_ui2, bg = background_tabs },                                        -- tab pages line, not active tab page label
+                -- TabLineFill { fg = foreground_ui2, bg = background_tabs },                                    -- tab pages line, where there are no labels
+                -- TabLineSel { fg = foreground_ui_highlight, bg = background_tabs.lighten(20), gui = 'bold' }, -- tab pages line, active tab page label
                 InclineContent { bg = background.lighten(10) },
                 InclineNormal { Normal },
-                InclineNormalNC { InclineNormal }
+                InclineNormalNC { InclineNormal },
+                InclineCsillagInner { bg = background_tabs, fg = foreground.darken(10) },
+                InclineCsillagOuter { fg = background_tabs }
         }
 end)
 
