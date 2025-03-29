@@ -494,25 +494,6 @@ do
     vim.g['test#neovim#start_normal'] = 1
     vim.g['test#basic#start_normal'] = 1
 
-    -- nvim-cmp
-    import 'cmp'
-    cmp.setup
-        -- completion:
-        --     autocomplete: false
-        mapping:
-            "<C-c>": cmp.mapping.complete!
-            "<C-l>": cmp.mapping.confirm select: true
-            "<C-j>": cmp.mapping.select_next_item behaviour: cmp.SelectBehavior.Select
-            "<C-k>": cmp.mapping.select_prev_item behaviour: cmp.SelectBehavior.Select
-            "<C-h>": cmp.mapping.close!
-        sources:
-            * name: "crates"
-            * name: "nvim_lsp"
-            * name: "path"
-            -- * name: "buffer"
-        snippet:
-            expand: (args) -> vim.fn["vsnip#anonymous"] args.body
-
     -- crates.nvim
     (require 'crates').setup!
     -- vim.api.nvim_create_autocmd "DiagnosticChanged",
@@ -531,22 +512,20 @@ do
     do
         import 'lspconfig' as nvim_lsp
 
-        capabilities = (require 'cmp_nvim_lsp').default_capabilities!
-        capabilities.textDocument.foldingRange =
-            dynamicRegistration: false
-            lineFoldingOnly: true
-
-        on_attach = (client) ->
+        on_attach = (client, bufnr) ->
             -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
             --     buffer: vim.api.nvim_get_current_buf!
             --     callback: -> vim.lsp.buf.format!
             (require 'lsp-format').on_attach client
 
+            vim.lsp.completion.enable true, client.id, bufnr,
+                autotrigger: false
+                convert: (item) -> { abbr: item.label\gsub('%b()', '') }
+
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
         -- Configure LSPs
         nvim_lsp.rust_analyzer.setup
-            :capabilities
             :on_attach
             settings:
                 ["rust-analyzer"]:
@@ -562,17 +541,14 @@ do
                     diagnostics:
                         enable: false
         nvim_lsp.zls.setup
-            :capabilities
             :on_attach
         nvim_lsp.clangd.setup
-            :capabilities
             :on_attach
             cmd:
                 * "clangd"
                 * "--background-index"
                 * "--clang-tidy"
         nvim_lsp.lua_ls.setup
-            :capabilities
             :on_attach
             cmd:
                 * "lua-language-server"
@@ -580,45 +556,33 @@ do
                 * "/usr/share/lua-language-server/main.lua"
         -- nvim_lsp.pyright.setup
         --     :on_attach
-        --     :capabilities
         nvim_lsp.pylsp.setup
             :on_attach
-            :capabilities
         nvim_lsp.hls.setup
             :on_attach
-            :capabilities
         nvim_lsp.tinymist.setup
             :on_attach
-            :capabilities
             offset_encoding: "utf-8"
         -- nvim_lsp.typst_lsp.setup
         --     :on_attach
-        --     :capabilities
         --     settings:
         --         -- ["typst-lsp"]:
         --         -- exportPdf: "onType"
         --         exportPdf: "onSave"
         -- nvim_lsp.texlab.setup
         --     :on_attach
-        --     :capabilities
         nvim_lsp.vimls.setup
             :on_attach
-            :capabilities
         nvim_lsp.rnix.setup
             :on_attach
-            :capabilities
         nvim_lsp.ts_ls.setup
             :on_attach
-            :capabilities
         -- nvim_lsp.denols.setup
         --     :on_attach
-        --     :capabilities
         nvim_lsp.sourcekit.setup
             :on_attach
-            :capabilities
         nvim_lsp.harper_ls.setup
             :on_attach
-            :capabilities
 
         vim.cmd [[autocmd BufNewFile,BufRead *.lpt setf lambdapitau]]
         (require 'lspconfig.configs').lambdapitau =
@@ -634,7 +598,6 @@ do
 
         nvim_lsp.lambdapitau.setup
             :on_attach
-            :capabilities
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics,
                 virtual_text: false

@@ -91,6 +91,13 @@ applyKeymaps myKeymaps
     '[t': plug 'ultest-prev-fail'
     ']t': plug 'ultest-next-fail'
 
+    -- Completion
+    '<insert><C-c>': '<C-x><C-o>' -- open completion meno
+    '<insert><C-l>': '<C-y>' -- select completion
+    '<insert><C-j>': '<C-n>'
+    '<insert><C-k>': '<C-p>'
+    '<insert><C-h>': '<C-e>' -- close completion meno
+
     -- :cn and :cp
     '[q': vimcmd 'cp'
     ']q': vimcmd 'cn'

@@ -95,13 +95,6 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
         * plugown 'acaraje.nvim' -- LLM editing and such
 
-        -- Completion
-        * [1]: 'hrsh7th/nvim-cmp', dependencies: {"hrsh7th/vim-vsnip"} -- completion framework for NeoVim
-        * [1]: 'hrsh7th/cmp-nvim-lsp'
-        * [1]: 'hrsh7th/cmp-path'
-        * [1]: 'Saecki/crates.nvim'
-        -- plug 'hrsh7th/cmp-buffer'
-
         -- LSP / TreeSitter / Formatting
         * [1]: 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
         * [1]: 'neovim/nvim-lspconfig' -- easily configure LSP
@@ -167,6 +160,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'kana/vim-textobj-syntax', dependencies: {'kana/vim-textobj-user'} -- text object for text in the same highlight group
 
         -- Language Support
+        * [1]: 'Saecki/crates.nvim' -- Cargo.toml crate checking for Rust
         * [1]: 'NoahTheDuke/vim-just' -- Justfile syntax highlight
         * [1]: 'vim-python/python-syntax' -- better Python syntax highlight
         * [1]: 'petRUShka/vim-sage' -- language support for SageMath
