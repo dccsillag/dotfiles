@@ -133,13 +133,13 @@ applyKeymaps myKeymaps
                 vim.cmd 'Telescope git_files'
         'D': vimcmd "EditDotFile"
         'E': telescope 'find_files'
-        'b': telescope 'buffers'
         'H': telescope 'help_tags'
         'F': telescope 'filetypes'
         's': telescope 'live_grep'
 
-        -- toggle file tree
-        'f': vimcmd 'Neotree focus toggle'
+        -- toggle file and buffer tree
+        'f': vimcmd 'Neotree focus toggle filesystem'
+        'b': vimcmd 'Neotree focus toggle buffers'
 
         -- cd
         'c': telescope 'zoxide list'

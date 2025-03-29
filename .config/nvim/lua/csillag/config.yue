@@ -277,7 +277,7 @@ do
                     staged: "" -- ""
                     conflict: "!"
         window:
-            -- ...
+            position: "right"
         nesting_rules: {}
         filesystem:
             filtered_items:
