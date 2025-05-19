@@ -119,6 +119,7 @@ myKeys =
       ("M-s M-s", addName "Toggle scratchpad 'slack'" $ namedScratchpadAction myScratchpads "slack"),
       ("M-s M-d", addName "Toggle scratchpad 'discord'" $ namedScratchpadAction myScratchpads "discord"),
       ("M-s M-w", addName "Toggle scratchpad 'whatsapp'" $ namedScratchpadAction myScratchpads "whatsapp"),
+      ("M-s M-g", addName "Toggle scratchpad 'googlechat'" $ namedScratchpadAction myScratchpads "googlechat"),
       ("M-s M-t", addName "Toggle scratchpad 'todos'" $ namedScratchpadAction myScratchpads "todos"),
       ("M-s M-e", addName "Toggle scratchpad 'mail'" $ namedScratchpadAction myScratchpads "mail"),
       ("M-s M-m", addName "Toggle scratchpad 'element'" $ namedScratchpadAction myScratchpads "element"),

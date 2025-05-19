@@ -22,6 +22,11 @@ myScratchpads =
        , query = className =? "Brave-browser" <&&> appName =? "web.whatsapp.com"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "googlechat"
+       , cmd   = "brave --app=https://chat.google.com/"
+       , query = className =? "Brave-browser" <&&> appName =? "chat.google.com"
+       , hook  = floatingScratchpad
+       }
   , NS { name  = "todos"
        , cmd   = "brave --app=https://todoist.com/"
        , query = className =? "Brave-browser" <&&> appName =? "todoist.com"
