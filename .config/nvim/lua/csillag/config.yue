@@ -402,48 +402,48 @@ do
         text:
             spinner: "dots"
 
-    -- noice.nvim
-    (require "noice").setup
-        lsp_progress:
-            enabled: false
-        popupmenu:
-            enabled: false
-        routes:
-            * -- hide 'written' messages
-                filter:
-                    event: "msg_show"
-                    kind: ""
-                    find: "written"
-                opts:
-                    skip: true
-            * -- hide search count
-                filter:
-                    event: "msg_show"
-                    kind: "search_count"
-                opts:
-                    skip: true
-        views:
-            cmdline_popup:
-                position:
-                    row: 5
-                    col: "50%"
-                size:
-                    width: 60
-                    height: "auto"
-            -- popupmenu:
-            --     relative: "editor"
-            --     position:
-            --         row: 8
-            --         col: "50%"
-            --     size:
-            --         width: 60
-            --         height: 10
-            --     border:
-            --         style: "none"
-            --     win_options:
-            --         winhighlight:
-            --             Normal: "Normal"
-            --             FloatBorder: "DiagnosticInfo"
+    -- -- noice.nvim
+    -- (require "noice").setup
+    --     lsp_progress:
+    --         enabled: false
+    --     popupmenu:
+    --         enabled: false
+    --     routes:
+    --         * -- hide 'written' messages
+    --             filter:
+    --                 event: "msg_show"
+    --                 kind: ""
+    --                 find: "written"
+    --             opts:
+    --                 skip: true
+    --         * -- hide search count
+    --             filter:
+    --                 event: "msg_show"
+    --                 kind: "search_count"
+    --             opts:
+    --                 skip: true
+    --     views:
+    --         cmdline_popup:
+    --             position:
+    --                 row: 5
+    --                 col: "50%"
+    --             size:
+    --                 width: 60
+    --                 height: "auto"
+    --         -- popupmenu:
+    --         --     relative: "editor"
+    --         --     position:
+    --         --         row: 8
+    --         --         col: "50%"
+    --         --     size:
+    --         --         width: 60
+    --         --         height: 10
+    --         --     border:
+    --         --         style: "none"
+    --         --     win_options:
+    --         --         winhighlight:
+    --         --             Normal: "Normal"
+    --         --             FloatBorder: "DiagnosticInfo"
 
     -- nvim-notify
     vim.o.termguicolors = true
@@ -587,6 +587,21 @@ do
         nvim_lsp.rnix.setup
             :on_attach
         nvim_lsp.ts_ls.setup
+            :on_attach
+            settings:
+                typescript:
+                    format:
+                        indentSize: 2
+                        tabSize: 2
+                        convertTabsToSpaces: true
+                javascript:
+                    format:
+                        indentSize: 2
+                        tabSize: 2
+                        convertTabsToSpaces: true
+        nvim_lsp.tailwindcss.setup
+            :on_attach
+        nvim_lsp.mdx_analyzer.setup
             :on_attach
         -- nvim_lsp.denols.setup
         --     :on_attach
@@ -919,6 +934,9 @@ do
 
     -- Typst
     vim.cmd [[autocmd BufNewFile,BufRead *.typ setf typst]]
+
+    -- Disable built-in JSX&TSX syntax highlight
+    vim.cmd [[autocmd FileType typescript,javascript,typescriptreact,javascriptreact syn off]]
 
 -- Lots of Vim options
 do

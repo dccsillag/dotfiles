@@ -37,7 +37,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'andymass/vim-matchup' -- better delimiter matching
         * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
         * [1]: 'rcarriga/nvim-notify' -- show notifications
-        * [1]: 'folke/noice.nvim', dependencies: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
+        -- * [1]: 'folke/noice.nvim', dependencies: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
         -- * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
         -- * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
         -- * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
@@ -177,7 +177,6 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'mrk21/yaml-vim' -- better language support for YAML
         * [1]: 'cespare/vim-toml' -- language support for TOML
         * [1]: 'LnL7/vim-nix' -- language support for Nix
-        * [1]: 'neoclide/vim-jsx-improve' -- language support for JSX
         * [1]: 'dart-lang/dart-vim-plugin' -- language support for Dart
         * [1]: 'tikhomirov/vim-glsl' -- language support for GLSL
         * [1]: 'aklt/plantuml-syntax' -- for PlantUML syntax support
