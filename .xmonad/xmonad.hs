@@ -112,7 +112,8 @@ myXMonadConfig = do
                     handleEventHook =
                       serverModeEventHookF "XMONAD_COMMAND" (flip whenJust commandHandler . decode . fromString)
                         <+> handleTimerEvent
-                        <+> Hacks.windowedFullscreenFixEventHook,
+                        <+> Hacks.windowedFullscreenFixEventHook
+                        <+> Hacks.fixSteamFlicker,
                     startupHook = startup, -- (on startup)
                     mouseBindings = myMouse
                   }

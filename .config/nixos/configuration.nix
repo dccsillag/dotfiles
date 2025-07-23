@@ -9,7 +9,10 @@ let
     "slack"
     "discord"
     "zoom"
+    "steam"
     "steam-original"
+    "steam-unwrapped"
+    "steam-run"
     "android-studio-stable"
     "snes9x-gtk"
 
@@ -125,7 +128,7 @@ in
       # directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_25_0
+      process_1_6_26_0
       xmobar
       bimap
       JuicyPixels
@@ -156,7 +159,7 @@ in
 
   # Enable sound.
   # sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  services.pulseaudio.enable = true;
   services.pipewire.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -204,27 +207,27 @@ in
       installPhase = ''mkdir -p $out/bin && make install DESTDIR=$out INSTALL_PREFIX= SHELL=${bash}/bin/bash'';
     };
 
-    streambinder-vpnc = stdenv.mkDerivation rec {
-      name = "vpnc";
-      version = "0.5.3";
-      src = fetchFromGitHub {
-        owner = "streambinder";
-        repo = "vpnc";
-        rev = "c8bb5371b881f8853f191c495e762f834c9def5d";
-        sha256 = "1j1p83nfc2fpwczjcggsby0b44hk97ky0s6vns6md3awlbpgdn57";
-        fetchSubmodules = true;
-      };
-
-      buildInputs = [ pkg-config perl libgcrypt gnutls ];
-
-      postPatch = ''patchShebangs src/makeman.pl'';
-
-      makeFlags = [
-        "PREFIX=$(out)"
-        "ETCDIR=$(out)/etc/vpnc"
-        "SCRIPT_PATH=$(out)/etc/vpnc/vpnc-script"
-      ];
-    };
+    # streambinder-vpnc = stdenv.mkDerivation rec {
+    #   name = "vpnc";
+    #   version = "0.5.3";
+    #   src = fetchFromGitHub {
+    #     owner = "streambinder";
+    #     repo = "vpnc";
+    #     rev = "c8bb5371b881f8853f191c495e762f834c9def5d";
+    #     sha256 = "1j1p83nfc2fpwczjcggsby0b44hk97ky0s6vns6md3awlbpgdn57";
+    #     fetchSubmodules = true;
+    #   };
+    #
+    #   buildInputs = [ pkg-config perl libgcrypt gnutls ];
+    #
+    #   postPatch = ''patchShebangs src/makeman.pl'';
+    #
+    #   makeFlags = [
+    #     "PREFIX=$(out)"
+    #     "ETCDIR=$(out)/etc/vpnc"
+    #     "SCRIPT_PATH=$(out)/etc/vpnc/vpnc-script"
+    #   ];
+    # };
 
     # my-eww = rustPlatform.buildRustPackage rec {
     #   pname = "eww";
@@ -265,6 +268,7 @@ in
       ];
     })
     yuescript
+    unstable.typst
 
     # LSPs
     rust-analyzer
@@ -282,6 +286,8 @@ in
     unstable.aider-chat  # not quite an LSP, but...
     harper
     basedpyright
+    nodePackages.typescript-language-server
+    unstable.ty
 
     unstable.uv
 
@@ -293,6 +299,7 @@ in
     git # ... and git
     gitoxide
     unstable.jujutsu
+    unstable.jjui
     gh
 
     # Misc linux utils
@@ -351,7 +358,7 @@ in
     cargo-valgrind
     cargo-watch
     cargo-flamegraph
-    cargo-asm
+    cargo-show-asm
     cargo-tarpaulin
     # cargo-llvm-cov
     cargo-nextest
@@ -385,10 +392,10 @@ in
     direnv
     nix-direnv
 
-    # VPN
-    streambinder-vpnc
-    vpnc-scripts
-    vpn-slice
+    # # VPN
+    # streambinder-vpnc
+    # vpnc-scripts
+    # vpn-slice
 
     # Desktop
     unstable.picom
@@ -438,6 +445,7 @@ in
     mons
     gnome-boxes
     bottles
+    napari
 
     # GTK themes
     arc-theme
@@ -472,6 +480,20 @@ in
     ryujinx
   ];
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+
+  xdg.mime.defaultApplications = {
+    "application/pdf" = "zathura.desktop";
+    "image/png" = "nsxiv.desktop";
+    "image/jpeg" = "nsxiv.desktop";
+    "video/mp4" = "mpv.desktop";
+  };
+
   # trace: warning: xdg-desktop-portal 1.17 reworked how portal implementations are loaded, you
   # should either set `xdg.portal.config` or `xdg.portal.configPackages`
   # to specify which portal backend to use for the requested interface.
@@ -482,9 +504,8 @@ in
   # portal implementation found in lexicographical order, use the following:
   xdg.portal.config.common.default = "*";
   fonts.packages = with pkgs; [
-    nerdfonts
     google-fonts
-  ];
+  ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues nerd-fonts);
 
   programs.firejail = {
     enable = true;
