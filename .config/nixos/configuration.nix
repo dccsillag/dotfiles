@@ -32,13 +32,9 @@ in
       ./local-configuration.nix
     ];
 
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-  };
-
-  nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
-  ];
+  # nixpkgs.overlays = [
+  #   (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
+  # ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -131,6 +127,7 @@ in
   services.xserver.enable = true;
   # services.xserver.displayManager.defaultSession = "none+xmonad";
   services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.autoSuspend = false;
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
@@ -319,7 +316,7 @@ in
     nodePackages.typescript-language-server
     unstable.ty
 
-    unstable.uv
+    uv
 
     # Download tools
     wget
@@ -511,6 +508,9 @@ in
     snes9x-gtk
     ryujinx
     unstable.dolphin-emu
+
+    # Remote access
+    sunshine
   ];
 
   programs.steam = {
