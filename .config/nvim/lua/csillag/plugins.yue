@@ -92,7 +92,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
         -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
         -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
-        * plugown 'acaraje.nvim' -- LLM editing and such
+        -- * plugown 'acaraje.nvim' -- LLM editing and such
 
         -- LSP / TreeSitter / Formatting
         * [1]: 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP

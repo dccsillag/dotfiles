@@ -493,7 +493,7 @@ do
     --     -- vim.g.magma_image_provider = "ueberzug"
 
     -- acaraje.nvim
-    (require "acaraje").setup {}
+    -- (require "acaraje").setup {}
 
     -- vim-test
     vim.g['test#strategy'] = 'neovim'
