@@ -44,7 +44,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_6_0;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelParams = [ "module_blacklist=i915" ];
+  # boot.kernelParams = [ "i915.force_probe=64a0" ];
 
   # Setup a swapfile
   swapDevices = [
@@ -87,6 +87,16 @@ in
 
   # Setup Vulkan
   hardware.graphics.enable = true;
+
+  # # Setup Intel GPU
+  # services.xserver.videoDrivers = [ "intel" ];
+  # hardware.graphics.extraPackages = with pkgs; [
+  #   vpl-gpu-rt
+  #   libvdpau-va-gl
+  #   intel-media-driver
+  #   intel-compute-runtime
+  # ];
+  # hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [ intel-vaapi-driver ];
 
   # # Setup NVIDIA GPU
   # services.xserver.videoDrivers = [ "nvidia" ];
@@ -159,8 +169,26 @@ in
 
   # Enable sound.
   # sound.enable = true;
-  services.pulseaudio.enable = true;
-  services.pipewire.enable = false;
+  # services.pulseaudio.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # wireplumber.extraConfig.bluetoothEnhancements = {
+    #   "monitor.bluez.properties" = {
+    #     "bluez5.enable-sbc-xq" = true;
+    #     "bluez5.enable-msbc" = true;
+    #     "bluez5.enable-hw-volume" = true;
+    #     "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+    #   };
+    # };
+  };
+  # hardware.bluetooth.settings = {
+  #   General = {
+  #     Enable = "Source,Sink,Media,Socket";
+  #   };
+  # };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -398,6 +426,7 @@ in
     # vpn-slice
 
     # Desktop
+    pulseaudio
     unstable.picom
     xterm
     alacritty
@@ -446,6 +475,7 @@ in
     gnome-boxes
     bottles
     napari
+    galaxy-buds-client
 
     # GTK themes
     arc-theme
@@ -478,6 +508,7 @@ in
     thunderbird
     snes9x-gtk
     ryujinx
+    unstable.dolphin-emu
   ];
 
   programs.steam = {
