@@ -607,8 +607,8 @@ do
         --     :on_attach
         nvim_lsp.sourcekit.setup
             :on_attach
-        nvim_lsp.harper_ls.setup
-            :on_attach
+        -- nvim_lsp.harper_ls.setup
+        --     :on_attach
 
         vim.cmd [[autocmd BufNewFile,BufRead *.lpt setf lambdapitau]]
         (require 'lspconfig.configs').lambdapitau =
