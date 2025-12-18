@@ -83,5 +83,10 @@ myScratchpads =
        , query = className =? "Localsend_app"
        , hook  = floatingScratchpad
        }
+  , NS { name  = "galaxybuds"
+       , cmd   = "GalaxyBudsClient"
+       , query = className =? "GalaxyBudsClient"
+       , hook  = floatingScratchpad
+       }
   ]
   where floatingScratchpad = customFloating $ W.RationalRect 0.05 0.05 0.9 0.9
