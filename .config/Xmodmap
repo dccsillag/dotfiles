@@ -16,8 +16,8 @@ keycode 23 = Alt_L
 ! Alt_R -> Compose
 keycode 64 = Multi_key
 ! Alt_R -> Compose
-! keycode 108 = asterisk ampersand
-keycode 108 = Multi_key
+keycode 108 = asterisk ampersand
+! keycode 108 = Multi_key
 ! Control_R -> Asterisk / Ampersand
 keycode 105 = asterisk ampersand
 ! 'Copilot Key' -> Asterisk / Ampersand
@@ -30,6 +30,8 @@ keycode 9 = grave asciitilde
 keycode 65 = space
 ! Fix Grave&Tilde
 keycode 49 = grave asciitilde
+! Fix key on PT-BR keyboard to be a backslash
+keycode 97 = backslash bar
 
 ! Assign a key for quotes
 keycode 16 = 7 apostrophe
@@ -56,3 +58,5 @@ add mod3 = Hyper_L
 add mod4 = Super_L Super_R
 ! Set mod5 keys
 add mod5 = Mode_switch ISO_Level3_Shift
+
+
