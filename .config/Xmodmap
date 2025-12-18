@@ -20,6 +20,8 @@ keycode 64 = Multi_key
 keycode 108 = Multi_key
 ! Control_R -> Asterisk / Ampersand
 keycode 105 = asterisk ampersand
+! 'Copilot Key' -> Asterisk / Ampersand
+keycode 133 = asterisk ampersand
 ! Control_R -> Compose
 keycode 97 = asterisk ampersand
 ! Escape -> Super_L
