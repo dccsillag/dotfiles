@@ -126,9 +126,9 @@ in
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # services.xserver.displayManager.defaultSession = "none+xmonad";
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.autoSuspend = false;
+  # services.displayManager.defaultSession = "none+xmonad";
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.autoSuspend = false;
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
@@ -138,7 +138,7 @@ in
       # directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_26_0
+      process_1_6_26_1
       xmobar
       bimap
       JuicyPixels
@@ -286,7 +286,7 @@ in
       withPython3 = true;
       extraPython3Packages = p: with p; [
         pynvim
-        jupyter_client
+        jupyter-client
         pillow
         cairosvg
 
@@ -303,7 +303,7 @@ in
     zls
     clang-tools # this provides clangd
     lldb
-    sumneko-lua-language-server
+    lua-language-server
     pyright
     # python39Packages.python-lsp-server # already present way later
     haskell-language-server
@@ -441,7 +441,7 @@ in
     dunst
     (python3.withPackages (ps: with ps; [
       pynvim
-      jupyter_client
+      jupyter-client
       pillow
       cairosvg
 
@@ -484,7 +484,6 @@ in
 
     # Password manager
     pass
-    pinentry
     pinentry-gnome3
     pinentry-tty
 
@@ -507,7 +506,7 @@ in
     geary
     thunderbird
     snes9x-gtk
-    ryujinx
+    ryubing
     unstable.dolphin-emu
 
     # Remote access
