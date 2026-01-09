@@ -6,8 +6,10 @@ $nix_shell\
 $directory\
 $git_branch\
 $git_commit\
+${custom.jj}\
 $git_state\
 $git_status\
+${custom.jjstatus}\
 $hg_branch\
 $docker_context\
 $conda\
@@ -41,6 +43,33 @@ staged = "+"
 renamed = "~"
 deleted = "-"
 style = "bold purple"
+
+[custom.jj]
+when = "jj --ignore-working-copy root"
+symbol = '[\(JJ\)](purple) '
+
+[custom.jjstatus]
+command = '''
+jj log --revisions @ --limit 1 --ignore-working-copy --no-graph --color always  --template '
+  separate(" ",
+    bookmarks.map(|x| truncate_end(10, x.name(), "…")).join(" "),
+    tags.map(|x| truncate_end(10, x.name(), "…")).join(" "),
+    surround("\"", "\"", truncate_end(12, description.first_line(), "…")),
+    if(conflict, "conflict"),
+    if(divergent, "divergent"),
+    if(hidden, "hidden"),
+    if(immutable, "immutable"),
+  )
+'
+'''
+when = "jj --ignore-working-copy root"
+symbol = ''
+
+# [custom.jjstate]
+# when = "jj --ignore-working-copy root"
+# command = '''
+# jj log -r@ -n1 --ignore-working-copy --no-graph -T "" --stat | tail -n1 | sd "(\d+) files? changed, (\d+) insertions?\(\+\), (\d+) deletions?\(-\)" ' ${1}m ${2}+ ${3}-' | sd " 0." ""
+# '''
 
 [jobs]
 format = "[$symbol$number]($style) "
