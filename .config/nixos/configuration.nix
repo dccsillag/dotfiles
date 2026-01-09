@@ -42,7 +42,7 @@ in
   boot.loader.systemd-boot.memtest86.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_6_0;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   # boot.kernelParams = [ "i915.force_probe=64a0" ];
 
   # Setup a swapfile
