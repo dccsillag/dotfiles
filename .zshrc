@@ -129,6 +129,14 @@ if ! zgen saved; then
     zgen save
 fi
 
+# Up/down arrow history search should match prefix
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
 # History
 # # How much to save
 HISTSIZE=10000
