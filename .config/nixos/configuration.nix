@@ -347,7 +347,6 @@ in
     procs
     eza
     delta
-    difftastic
     bat
     viu
     tokei
@@ -368,6 +367,15 @@ in
     hyperfine
     zoxide
     unstable.vhs
+    # smartcat
+    (llm.withPlugins {
+      llm-anthropic = true;
+      llm-gemini = true;
+      llm-groq = true;
+      llm-ollama = true;
+      llm-jq = true;
+    })
+    unstable.opencode
 
     # Development tools
     rustfmt
