@@ -362,31 +362,33 @@ do
         char: "╵"
     vim.opt.colorcolumn = "+1"
 
-    -- -- nvim-treesitter-context
-    -- (require 'treesitter-context').setup
-    --     enable: true
-    --     throttle: true
-    --     max_lines: 6
-    --     patterns:
-    --         default:
-    --             * "class"
-    --             * "function"
-    --             * "method"
-    --             * "for"
-    --             * "while"
-    --             * "if"
-    --             * "switch"
-    --             * "case"
-    --         rust:
-    --             * "impl_item"
-    --             * "struct_item"
-    --             * "enum_item"
-    --             * "match_arm"
-    --             * "match_expression"
-    --             * "else_clause"
-    --             * "loop_expression"
-    --             * "mod_item"
-    --     separator: "╴"
+    -- nvim-treesitter-context
+    (require 'treesitter-context').setup
+        enable: true
+        throttle: true
+        max_lines: 5
+        trim_scope: "inner"
+        mode: "topline"
+        -- patterns:
+        --     default:
+        --         * "class"
+        --         * "function"
+        --         * "method"
+        --         * "for"
+        --         * "while"
+        --         * "if"
+        --         * "switch"
+        --         * "case"
+        --     rust:
+        --         * "impl_item"
+        --         * "struct_item"
+        --         * "enum_item"
+        --         * "match_arm"
+        --         * "match_expression"
+        --         * "else_clause"
+        --         * "loop_expression"
+        --         * "mod_item"
+        separator: "╴"
 
     (require 'treesitter-unit').setup {}
     -- (require 'treesitter-unit').toggle_highlighting "TreeHighlight"
@@ -478,6 +480,10 @@ do
     -- hunk.nvim
     (require "hunk").setup!
 
+    -- difftastic.nvim
+    (require "difftastic-nvim").setup
+        download: true
+
     -- -- magma-nvim
     -- if (os.getenv "NO_MAGMA") == nil
     --     (require 'magma').setup
@@ -513,8 +519,6 @@ do
 
     -- LSP
     do
-        import 'lspconfig' as nvim_lsp
-
         on_attach = (client, bufnr) ->
             -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
             --     buffer: vim.api.nvim_get_current_buf!
@@ -536,7 +540,7 @@ do
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
         -- Configure LSPs
-        nvim_lsp.rust_analyzer.setup
+        vim.lsp.config "rust_analyzer",
             :on_attach
             settings:
                 ["rust-analyzer"]:
@@ -551,27 +555,25 @@ do
                         enable: true
                     diagnostics:
                         enable: false
-        nvim_lsp.zls.setup
+        vim.lsp.config "zls",
             :on_attach
-        nvim_lsp.clangd.setup
+        vim.lsp.config "clangd",
             :on_attach
             cmd:
                 * "clangd"
                 * "--background-index"
                 * "--clang-tidy"
-        nvim_lsp.lua_ls.setup
+        vim.lsp.config "lua_ls",
             :on_attach
             cmd:
                 * "lua-language-server"
                 * "-E"
                 * "/usr/share/lua-language-server/main.lua"
-        -- nvim_lsp.pyright.setup
-        --     :on_attach
-        nvim_lsp.pylsp.setup
+        vim.lsp.config "pylsp",
             :on_attach
-        nvim_lsp.hls.setup
+        vim.lsp.config "hls",
             :on_attach
-        nvim_lsp.tinymist.setup
+        vim.lsp.config "tinymist",
             :on_attach
             offset_encoding: "utf-8"
         -- nvim_lsp.typst_lsp.setup
@@ -582,11 +584,11 @@ do
         --         exportPdf: "onSave"
         -- nvim_lsp.texlab.setup
         --     :on_attach
-        nvim_lsp.vimls.setup
+        vim.lsp.config "vimls",
             :on_attach
-        nvim_lsp.rnix.setup
+        vim.lsp.config "rnix",
             :on_attach
-        nvim_lsp.ts_ls.setup
+        vim.lsp.config "ts_ls",
             :on_attach
             settings:
                 typescript:
@@ -599,31 +601,31 @@ do
                         indentSize: 2
                         tabSize: 2
                         convertTabsToSpaces: true
-        nvim_lsp.tailwindcss.setup
+        vim.lsp.config "tailwindcss",
             :on_attach
-        nvim_lsp.mdx_analyzer.setup
+        vim.lsp.config "mdx_analyzer",
             :on_attach
-        -- nvim_lsp.denols.setup
+        -- vim.lsp.config "denols",
         --     :on_attach
-        nvim_lsp.sourcekit.setup
+        vim.lsp.config "sourcekit",
             :on_attach
-        -- nvim_lsp.harper_ls.setup
+        -- vim.lsp.config "harper_ls",
         --     :on_attach
 
-        vim.cmd [[autocmd BufNewFile,BufRead *.lpt setf lambdapitau]]
-        (require 'lspconfig.configs').lambdapitau =
-            default_config:
-                cmd:
-                    * "cargo"
-                    * "run"
-                    * "lsp"
-                filetypes:
-                    * "lambdapitau"
-                root_dir: (fname) -> (require 'lspconfig.util').find_git_ancestor(fname)
-                settings: {}
-
-        nvim_lsp.lambdapitau.setup
-            :on_attach
+        -- vim.cmd [[autocmd BufNewFile,BufRead *.lpt setf lambdapitau]]
+        -- (require 'lspconfig.configs').lambdapitau =
+        --     default_config:
+        --         cmd:
+        --             * "cargo"
+        --             * "run"
+        --             * "lsp"
+        --         filetypes:
+        --             * "lambdapitau"
+        --         root_dir: (fname) -> (require 'lspconfig.util').find_git_ancestor(fname)
+        --         settings: {}
+        --
+        -- nvim_lsp.lambdapitau.setup
+        --     :on_attach
 
     -- treesitter
     vim.opt.runtimepath\append "$HOME/.local/share/treesitter"
@@ -937,6 +939,10 @@ do
 
     -- Disable built-in JSX&TSX syntax highlight
     vim.cmd [[autocmd FileType typescript,javascript,typescriptreact,javascriptreact syn off]]
+
+    -- OpenCode
+    vim.cmd [[autocmd BufEnter term://*:opencode startinsert]]
+    vim.cmd [[tnoremap <C-\><C-\> <C-\><C-n><C-w><C-p>]]
 
 -- Lots of Vim options
 do

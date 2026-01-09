@@ -30,10 +30,10 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
         * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
         * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region
-        * [1]: 'lewis6991/gitsigns.nvim' -- show git diff in the signcolumn
+        * [1]: 'lewis6991/gitsigns.nvim', lazy: true -- show git diff in the signcolumn
         * [1]: 'lukas-reineke/indent-blankline.nvim' -- indent guides
         * [1]: 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
-        -- * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
+        * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
         * [1]: 'andymass/vim-matchup' -- better delimiter matching
         * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
         * [1]: 'rcarriga/nvim-notify' -- show notifications
@@ -81,9 +81,11 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- * [1]: 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
         -- * [1]: 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
         * [1]: 'tpope/vim-fugitive' -- use git from vim
+        * [1]: 'yannvanhalewyn/jujutsu.nvim' -- use jj from nvim
         * [1]: 'junegunn/gv.vim' -- git commit browser
         * [1]: 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
         * [1]: 'julienvincent/hunk.nvim' -- jujutsu diff editor
+        * [1]: 'clabby/difftastic.nvim', dependencies: {"MunifTanjim/nui.nvim"} -- jujutsu diff editor
         -- * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
         -- * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
         -- * [1]: 'nvim-neotest/neotest-plenary'
@@ -94,19 +96,20 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
         -- * plugown 'acaraje.nvim' -- LLM editing and such
 
-        -- LSP / TreeSitter / Formatting
+        -- LSP / TreeSitter / Formatting / AI
         * [1]: 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
         * [1]: 'neovim/nvim-lspconfig' -- easily configure LSP
         * [1]: 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
         * [1]: 'David-Kunz/treesitter-unit' -- treesitter-based selection & highlight
         * [1]: 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter-based text objects
         * [1]: 'nvim-treesitter/playground' -- treesitter playground
-        * [1]: 'nvim-treesitter/nvim-treesitter', 'run': ':TSUpdate' -- easy treesitter config
+        * [1]: 'nvim-treesitter/nvim-treesitter', lazy: false, build: ':TSUpdate' -- easy treesitter config
         * [1]: 'stevearc/aerial.nvim' -- show code outline
         * [1]: 'mfussenegger/nvim-dap' -- debugging
         * [1]: 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
         * [1]: 'rcarriga/nvim-dap-ui' -- an UI for debugging
         * [1]: 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
+        * [1]: 'NickvanDyke/opencode.nvim', dependencies: {"folke/snacks.nvim"} -- AI agent (trying it out i guess)
 
         -- Color Schemes
         * [1]: 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
@@ -128,7 +131,7 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         -- * [1]: 'dhruvasagar/vim-table-mode' -- painlessly edit tables
         * [1]: 'tommcdo/vim-exchange' -- exchange text around
         * [1]: 'svermeulen/vim-subversive' -- replace text with current yank
-        * [1]: 'monaqa/dial.nvim' -- better increment/decrement
+        -- * [1]: 'monaqa/dial.nvim' -- better increment/decrement
         -- plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
 
         -- Text Objects

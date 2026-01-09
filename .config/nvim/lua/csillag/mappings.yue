@@ -69,6 +69,14 @@ fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
 blankline = (op) -> op .. '<CMD>IndentBlanklineRefresh<CR>'
 
 is_jujutsu = () -> (vim.fn.isdirectory ".jj") == 1
+focus_opencode = () ->
+    provider = (require "opencode.config").provider
+    if not provider
+        return
+    winid = provider.winid
+    if winid == nil
+        return
+    vim.api.nvim_set_current_win winid
 
 applyKeymaps myKeymaps
     -- Redraw
@@ -127,6 +135,27 @@ applyKeymaps myKeymaps
             'e': ->
                 vim.diagnostic.open_float nil, border: "rounded"
                 vim.diagnostic.open_float nil, border: "rounded" -- call it a second time to enter the window
+
+        -- AI
+        'a':
+            'a': ->
+                (require "opencode").prompt "@this "
+                focus_opencode!
+            'A': ->
+                (require "opencode").prompt ""
+                focus_opencode!
+            '<visual>a': ->
+                (require "opencode").operator "@this "
+                vim.cmd [[normal! g@]] -- trigger the operation
+                focus_opencode!
+            't': ->
+                (require "opencode").toggle!
+                focus_opencode!
+            'o': ->
+                (require "opencode").start!
+                focus_opencode!
+            'q': ->
+                (require "opencode").stop!
 
         -- FZF
         'e': ->
@@ -221,11 +250,14 @@ applyKeymaps myKeymaps
         -- 'G': vimcmd 'tab G' -- open fugitive
         'G': -> -- open jujutsu (via jjui) or fugitive
             if is_jujutsu! then
-                -- Looks like it's a jujutsu repo! Open jjui.
-                -- vim.cmd "tabedit term://jj log --color=always --no-pager \\| tac; echo; jj st --color=always --no-pager; echo; zsh"
-                vim.cmd "tabedit term://jjui"
-                -- vim.cmd "tabedit term://~/.local/scripts/jjenv.sh"
-                vim.cmd "startinsert"
+                -- Looks like it's a jujutsu repo! Open jujutsu.nvim.
+                vim.cmd "JJ"
+                vim.cmd "norm gg"
+                -- -- Looks like it's a jujutsu repo! Open jjui.
+                -- -- vim.cmd "tabedit term://jj log --color=always --no-pager \\| tac; echo; jj st --color=always --no-pager; echo; zsh"
+                -- vim.cmd "tabedit term://jjui"
+                -- -- vim.cmd "tabedit term://~/.local/scripts/jjenv.sh"
+                -- vim.cmd "startinsert"
             else
                 -- Open Fugitive.
                 vim.cmd "tab G"
@@ -247,7 +279,7 @@ applyKeymaps myKeymaps
         --     't': vimcmd 'TroubleClose' -- close trouble window
         'q': vimcmd 'Bdelete'
 
-        'n': vimcmd 'set number!' -- toggle line numbers
+        -- 'n': vimcmd 'set number!' -- toggle line numbers
 
         'T': -> -- open taskell
             vim.cmd "tabedit term://taskell"
