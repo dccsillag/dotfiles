@@ -57,3 +57,7 @@ export NNN_PLUG='p:preview-tabbed'
 test -f ~/.profile_local && . ~/.profile_local
 
 [ -n "$SSH_CLIENT" ] && export DBUS_SESSION_BUS_ADDRESS=/dev/null
+
+# JAX
+
+export JAX_NUMPY_RANK_PROMOTION=warn
