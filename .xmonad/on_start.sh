@@ -31,7 +31,14 @@ xset s 3600 3600
 battery-monitor &
 
 # Set background image
-background-setter set &
+case "$(hostname)" in
+    nikodym)
+        xrandr --output eDP-1 --mode 2560x1600 --scale 0.95x0.95
+        ;;
+    *)
+        background-setter set &
+        ;;
+esac
 
 # Launch redshift
 # redshift &
