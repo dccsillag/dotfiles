@@ -54,3 +54,5 @@ esac
 xinput set-prop 'SYNA32A1:00 06CB:CE17 Touchpad' 'libinput Natural Scrolling Enabled' 1
 xinput set-prop 'DELL0B24:00 27C6:0D42 Touchpad' 'libinput Natural Scrolling Enabled' 1
 xinput set-prop 'DELL0B24:00 27C6:0D42 Touchpad' 'libinput Accel Speed' -0.2
+
+eww open bar
