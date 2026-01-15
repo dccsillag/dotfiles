@@ -142,8 +142,7 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   # services.displayManager.defaultSession = "none+xmonad";
-  services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.autoSuspend = false;
+  services.displayManager.ly.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
