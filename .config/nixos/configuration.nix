@@ -42,8 +42,23 @@ in
   boot.loader.systemd-boot.memtest86.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_6_0;
-  boot.kernelPackages = pkgs.linuxPackages;
-  # boot.kernelParams = [ "i915.force_probe=64a0" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # "silent" boot:
+  boot.plymouth = {
+    enable = true;
+    # theme = "spinner";  # solar
+    # theme = "cuts_alt";
+    # theme = "connect";
+    # theme = "hexagon_dots";
+    theme = "hexagon_dots_alt";
+    themePackages = [ pkgs.adi1090x-plymouth-themes ];
+    extraConfig = ''DeviceScale=1'';
+  };
+  boot.consoleLogLevel = 0;
+  boot.initrd.verbose = false;
+  boot.kernelParams = [ "quiet" "splash" "boot.shell_on_fail" "loglevel=3" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_priority=3" ];
+  boot.initrd.systemd.enable = true;
 
   # Setup a swapfile
   swapDevices = [
