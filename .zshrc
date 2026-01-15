@@ -19,12 +19,6 @@ unset RPS1
 # Autosuggestions Color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 
-# Done Notifications
-zstyle ':notify:*' command-complete-timeout 10
-zstyle ':notify:*' app-name zsh
-zstyle ':notify:*' error-title "Command FAILED (in #{time_elapsed})"
-zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
-
 # Abbreviations temp directory
 ABBR_TMPDIR="$HOME/.local/share/zsh-abbr/"
 
@@ -136,6 +130,12 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
+
+# Done Notifications
+zstyle ':notify:*' command-complete-timeout 10
+zstyle ':notify:*' app-name zsh
+zstyle ':notify:*' error-title "Command FAILED (in #{time_elapsed})"
+zstyle ':notify:*' success-title "Command finished (in #{time_elapsed})"
 
 # History
 # # How much to save
