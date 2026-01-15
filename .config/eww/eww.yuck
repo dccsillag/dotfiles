@@ -66,10 +66,11 @@
            (box :class {value <= t ? "caution-${leq}" : "caution-${gt}"} "${value}${postfix}"))
 (defpoll mic
          :interval "200ms"
-         `if { pacmd list-sources | grep -q "muted: no"; }; then echo "ON"; else echo "OFF"; fi`)
+         ;; `if { pactl list sources | grep -q "Mute: no"; }; then echo "ON"; else echo "OFF"; fi`)
+         `if { pactl get-source-mute @DEFAULT_SOURCE@ | grep -q "Mute: no"; }; then echo "ON"; else echo "OFF"; fi`)
 (defpoll camera
-         :interval "1000ms"
-         `if [ $(lsmod | grep ^uvcvideo | tr -s ' ' | cut -d' ' -f3) = 0 ]; then echo "OFF"; else echo "ON"; fi`)
+         :interval "2000ms"
+         `if [ -z "$(lsof /dev/video*)" ]; then echo "OFF"; else echo "ON"; fi`)
 
 (defwidget wmcontrols []
            (box :orientation "horizontal"
