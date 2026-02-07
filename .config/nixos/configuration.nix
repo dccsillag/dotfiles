@@ -642,6 +642,9 @@ in
   # LocalSend
   programs.localsend.enable = true;
 
+  # KDE Connect
+  programs.kdeconnect.enable = true;
+
   # virtualisation.docker = {
   #   enable = true;
   #   rootless = {
@@ -649,6 +652,8 @@ in
   #     setSocketVariable = true;
   #   };
   # };
+
+  programs.nix-ld.enable = true;
 
   powerManagement.enable = true;
   services.thermald.enable = true;
