@@ -540,6 +540,7 @@ do
             vim.notify "Ready.", "info", title: "LSP", timeout: 500
 
         -- Configure LSPs
+        vim.lsp.enable "rust_analyzer"
         vim.lsp.config "rust_analyzer",
             :on_attach
             settings:
@@ -555,24 +556,34 @@ do
                         enable: true
                     diagnostics:
                         enable: false
+        vim.lsp.enable "zls"
         vim.lsp.config "zls",
             :on_attach
+        vim.lsp.enable "clangd"
         vim.lsp.config "clangd",
             :on_attach
             cmd:
                 * "clangd"
                 * "--background-index"
                 * "--clang-tidy"
+        vim.lsp.enable "lua_ls"
         vim.lsp.config "lua_ls",
             :on_attach
             cmd:
                 * "lua-language-server"
                 * "-E"
                 * "/usr/share/lua-language-server/main.lua"
+        vim.lsp.enable "pylsp"
         vim.lsp.config "pylsp",
             :on_attach
+        vim.lsp.enable "hls"
         vim.lsp.config "hls",
             :on_attach
+            filetypes:
+                * "haskell"
+                * "lhaskell"
+                * "cabal"
+        vim.lsp.enable "tinymist"
         vim.lsp.config "tinymist",
             :on_attach
             offset_encoding: "utf-8"
@@ -584,10 +595,13 @@ do
         --         exportPdf: "onSave"
         -- nvim_lsp.texlab.setup
         --     :on_attach
+        vim.lsp.enable "vimls"
         vim.lsp.config "vimls",
             :on_attach
+        vim.lsp.enable "rnix"
         vim.lsp.config "rnix",
             :on_attach
+        vim.lsp.enable "ts_ls"
         vim.lsp.config "ts_ls",
             :on_attach
             settings:
@@ -601,12 +615,15 @@ do
                         indentSize: 2
                         tabSize: 2
                         convertTabsToSpaces: true
+        vim.lsp.enable "tailwindcss"
         vim.lsp.config "tailwindcss",
             :on_attach
+        vim.lsp.enable "mdx_analyzer"
         vim.lsp.config "mdx_analyzer",
             :on_attach
         -- vim.lsp.config "denols",
         --     :on_attach
+        vim.lsp.enable "sourcekit"
         vim.lsp.config "sourcekit",
             :on_attach
         -- vim.lsp.config "harper_ls",
@@ -925,9 +942,6 @@ do
 
     -- vim-markdown
     vim.g.markdown_enable_insert_mode_leader_mappings = false
-
-    -- headlines.nvim
-    (require 'headlines').setup!
 
     -- moonscript-vim
     -- the official YueScript syntax is too slow for me, so I'll use MoonScript syntax for YueScript

@@ -148,7 +148,6 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
         * [1]: 'bfrg/vim-cpp-modern' -- better C++ syntax highlight
         * [1]: 'gabrielelana/vim-markdown', dependencies: {'godlygeek/tabular'} -- better Markdown support
-        * [1]: 'lukas-reineke/headlines.nvim' -- better headings for markdown & friends
         * [1]: 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
         * [1]: 'gisraptor/vim-lilypond-integrator' -- language support for Lilypond
         * [1]: 'tomlion/vim-solidity' -- language support for Solidity
