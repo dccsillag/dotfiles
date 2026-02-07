@@ -78,7 +78,14 @@ in
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      # runAsRoot = true;
+      swtpm.enable = true;
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -142,7 +149,21 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   # services.displayManager.defaultSession = "none+xmonad";
-  services.displayManager.ly.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      asterisk = "0x2022";
+      # bigclock = "en";
+      clear_password = true;
+      margin_box_h = 4;
+      margin_box_v = 1;
+      blank_box = false;
+      hide_borders = true;
+      hide_version_string = true;
+      brightness_up_key = null;
+      brightness_down_key = null;
+    };
+  };
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
@@ -211,7 +232,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.daniel = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "libvirt" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "libvirt" "libvirtd" "kvm" "qemu-libvirtd" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
@@ -495,6 +516,7 @@ in
     xlayoutdisplay
     mons
     gnome-boxes
+    dnsmasq  # for VM networking
     bottles
     napari
     galaxy-buds-client
@@ -534,6 +556,7 @@ in
     # Remote access
     sunshine
   ];
+  programs.slock.enable = true;
 
   programs.steam = {
     enable = true;
@@ -658,6 +681,9 @@ in
 
   # KDE Connect
   programs.kdeconnect.enable = true;
+
+  # virt-manager
+  programs.virt-manager.enable = true;
 
   # virtualisation.docker = {
   #   enable = true;
