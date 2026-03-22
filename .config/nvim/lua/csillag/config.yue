@@ -958,6 +958,16 @@ do
     vim.cmd [[autocmd BufEnter term://*:opencode startinsert]]
     vim.cmd [[tnoremap <C-\><C-\> <C-\><C-n><C-w><C-p>]]
 
+    -- Clipboard
+    vim.g.clipboard =
+        name: "OSC 52"
+        copy:
+            "+": (require "vim.ui.clipboard.osc52").copy("+")
+            "*": (require "vim.ui.clipboard.osc52").copy("*")
+        paste:
+            "+": (require "vim.ui.clipboard.osc52").paste("+")
+            "*": (require "vim.ui.clipboard.osc52").paste("*")
+
 -- Lots of Vim options
 do
     -- Set the regex engine
