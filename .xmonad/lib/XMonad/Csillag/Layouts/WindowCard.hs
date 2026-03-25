@@ -202,7 +202,7 @@ redrawWindow WindowCardConfig {barSize, buttonSize, buttonSizeIncrease, buttonSp
     hoverColor' <- stringToPixel d hoverColor
 
     let x = fi $ (barSize - buttonSize) `div` 2
-    let y = fi $ buttonSpacing * (i + 1) + fi buttonSize * i
+    let y = fi $ buttonSpacing * (i + 1) + fi buttonSize * i + 1
 
     let is_focused = case maybe_y of
           Just y' | fi y <= y' && y' <= fi y + fi buttonSize -> True
