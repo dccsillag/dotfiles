@@ -4,7 +4,7 @@
 xmodmap ~/.config/Xmodmap
 # xcape -e "Control_L=Escape;Alt_L=Tab;Control_R=Shift_L|asterisk"
 # xcape -e "Control_L=Escape;Super_R=Tab;Control_R=Shift_L|asterisk"
-pgrep xcape || xcape -e "Control_L=Escape;Alt_L=Tab"
+pgrep xcape || xcape -e "Control_L=Escape;Super_R=Tab"
 
 # Enable push-to-talk
 xbindkeys -f ~/.config/xbindkeys/config

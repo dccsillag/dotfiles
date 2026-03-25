@@ -91,7 +91,7 @@ myXMonadConfig = do
               docks $
                 def
                   { terminal = termSpawn,
-                    modMask = mod1Mask, -- Super key
+                    modMask = mod4Mask, -- Super key
                     focusFollowsMouse = False,
                     normalBorderColor = "#282C33", -- "#cccccc"
                     focusedBorderColor = "#DDDDDD",
