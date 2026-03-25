@@ -25,9 +25,9 @@
 window {
     background-color:   @bg0;
 
-    location:       center;
+    location:       north;
     width:          850;
-    y-offset:       -300;
+    y-offset:       25%;
     border-radius:  8;
     border-color:   #555555;
     border: 1px;
