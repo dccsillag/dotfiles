@@ -9,7 +9,10 @@
            :reserve (struts :distance "32px" :side "top")
            :windowtype "dock"
            :wm-ignore false
-           (centerbox :orientation "horizontal" (sysmonitor) (datetime) (wmcontrols)))
+           (box
+             :orientation "horizontal"
+             :class "bar-inner"
+             (centerbox :orientation "horizontal" (sysmonitor) (datetime) (wmcontrols))))
 
 (defwidget datetime []
            (box :orientation "horizontal"

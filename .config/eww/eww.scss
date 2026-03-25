@@ -6,6 +6,11 @@
     color: #FFFFFF;
     padding: 5px;
 }
+.bar-inner {
+    margin: 3px 8px;
+    background-color: #333333;
+    border-radius: 15px;
+}
 
 .bubble {
     /* background-color: #222222; */
@@ -17,6 +22,7 @@
     background-color: #333333;
     /* border: 2px #222222 solid; */
     padding: 3px 20px;
+    padding-top: 5px;
     border-radius: 15px;
     font: 16px Lato Regular;
 }
