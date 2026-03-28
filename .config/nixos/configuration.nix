@@ -467,6 +467,7 @@ in
     # streambinder-vpnc
     # vpnc-scripts
     # vpn-slice
+    unstable.proton-vpn-cli
 
     # Desktop
     pulseaudio
