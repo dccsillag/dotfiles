@@ -122,8 +122,8 @@ normalLayout = {- desktopBackground (Just "/home/daniel/static/backgrounds/lands
     where
         spacing' = spacingRaw False (Border gapsize' gapsize' gapsize' gapsize') True (Border gapsize gapsize gapsize gapsize) True
 
-        gapsize = 12
-        gapsize' = 14
+        gapsize = 8
+        gapsize' = 6
 
         windowCardConfig = WindowCardConfig
             { barSize = 30
