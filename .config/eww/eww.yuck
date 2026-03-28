@@ -6,7 +6,7 @@
                                :height "32px"
                                :anchor "top center")
            :stacking "fg"
-           :reserve (struts :distance "32px" :side "top")
+           :reserve (struts :distance "50px" :side "top")
            :windowtype "dock"
            :wm-ignore false
            (box
@@ -121,7 +121,7 @@
            :stacking "fg"
            :windowtype "dock"
            :wm-ignore false
-           (osd :icon " " :value volume))
+           (osd :icon "  󰕾 " :value volume))
 (defpoll volume
          :interval "10000ms"
          `pamixer --get-volume`)

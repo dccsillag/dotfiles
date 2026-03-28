@@ -7,8 +7,9 @@
     padding: 5px;
 }
 .bar-inner {
-    margin: 3px 8px;
-    background-color: #333333;
+    /* margin: 3px 8px; */
+    margin: 7px 8px;
+    background-color: #242424;
     border-radius: 15px;
 }
 
@@ -19,16 +20,18 @@
 }
 
 .datetime {
-    background-color: #333333;
+    background-color: #2d2d2d;
     /* border: 2px #222222 solid; */
     padding: 3px 20px;
     padding-top: 5px;
+    padding-left: 28px; // HACK so that it looks more even
+    padding-right: 15px; // HACK so that it looks more even
     border-radius: 15px;
     font: 16px Lato Regular;
 }
 
 .metrics {
-    background-color: #333333;
+    background-color: #2d2d2d;
     /* border: 2px #222222 solid; */
     padding: 3px 15px;
     border-radius: 15px;
@@ -151,7 +154,7 @@
 // -------
 
 .osd {
-    background-color: #333333;
+    background-color: #242424;
     padding: 16px;
     border-radius: 16px;
 }
@@ -181,7 +184,7 @@ trough {
 @keyframes bgColor {
   50% {
     /* background-color: #800000; */
-    background-color: #333333;
+    background-color: #242424;
   }
 }
 
