@@ -1,95 +1,16 @@
 -- Apply my color scheme
 vim.cmd 'colorscheme csillag'
 
--- Neovide (GUI) options
-if vim.fn.exists('neovide')
-    -- We're in Neovide
-
-    vim.g.neovide_transparency = 0.9
-    vim.g.neovide_floating_blur_amount_x = 3.0
-    vim.g.neovide_floating_blur_amount_y = 3.0
-
-    vim.g.neovide_padding_top = 3
-    vim.g.neovide_padding_bottom = 3
-    vim.g.neovide_padding_right = 3
-    vim.g.neovide_padding_left = 3
-
-    global set_font, gui_default_font_size, gui_font_size
-    global increase_font_size, decrease_font_size, reset_font_size
-    gui_default_font_size = 8
-    gui_font_size = gui_default_font_size
-
-    set_font = ->
-        vim.o.guifont = 'FantasqueSansM Nerd Font:h' .. gui_font_size
-    increase_font_size = ->
-        gui_font_size = math.min(gui_font_size + 1, 60)
-        set_font!
-    decrease_font_size = ->
-        gui_font_size = math.max(gui_font_size - 1, 4)
-        set_font!
-    reset_font_size = ->
-        gui_font_size = gui_default_font_size
-        set_font!
-
-    vim.o.linespace = 4
-
-    set_font!
-
 -- Autocommands
 do
-    import map_command from require 'vimp'
-
     autocmd = vim.api.nvim_create_autocmd
-
-    -- AutoView
-    -- vim.cmd [[
-    --     augroup autoview
-    --         autocmd!
-    --         autocmd BufWinLeave,VimLeave,BufWritePost * if expand("%") != "" | silent! mkview | endif
-    --         autocmd BufWinEnter,BufReadPost * if expand("%") != "" | silent! loadview | endif
-    --     augroup END
-    -- ]]
-
-    -- -- SHADA
-    -- autocmd 'FocusGained', command: [[if exists(':rshada') | rshada | endif]]
-    -- autocmd 'FocusLost', command: [[if exists(':wshada') | wshada | endif]]
-
-    -- -- SpellCheck
-    -- vim.cmd [[
-    --     augroup spellcheck
-    --         autocmd!
-    --         autocmd FileType markdown  set spell
-    --         autocmd FileType tex       set spell
-    --         autocmd FileType html      set spell
-    --         autocmd FileType gitcommit set spell
-    --     augroup END
-    -- ]]
-
-    -- Autommatic compilation of markup documents
-    autocmd 'BufReadPre', pattern: "*.tex", command: [[compiler latexrun]]
-    autocmd 'BufReadPre', pattern: "*.mmd", command: [[compiler mermaid]]
-    autocmd 'BufReadPre', pattern: "*.uml", command: [[compiler plantuml]]
-    --autocmd 'BufReadPre', pattern: {"*.ly", "*.ily"}, command: [[compiler lilypond]]
-    autocmd 'BufReadPost', command: [[AsyncStop | sleep 100m | AsyncRun -program=make]]
-        pattern:
-            * "*.c"
-            * "*.h"
-            * "*.cpp"
-            * "*.hpp"
 
     -- Map 'q' in terminal normal mode to close the window
     autocmd 'TermOpen', command: [[nnoremap <buffer><silent> q :Bdelete<CR>]]
     autocmd 'TermOpen', command: [[setl nonumber signcolumn=auto:3 nocursorline]]
     autocmd 'TermOpen', command: [[norm! G]]
 
-    -- Better setup for carbon buffers
-    autocmd 'FileType', pattern: 'carbon', command: [[set sw=2]]
-
-    -- Better setup for carbon buffers
-    autocmd 'FileType', command: [[setl nonumber]], pattern:
-        * 'carbon'
-        * 'fugitive'
-
+    -- Make it so that ZQ/`:q!` in gitcommit cancels the commit
     vim.api.nvim_create_autocmd 'FileType',
         pattern: "gitcommit"
         callback: ->

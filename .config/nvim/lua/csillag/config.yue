@@ -39,24 +39,6 @@ do
             :opts
         }
 
-    -- shade.nvim
-    -- (require 'shade').setup
-    --     overlay_opacity: 80
-    --     opacity_step: 1
-
-    -- (require 'scrollbar').setup
-    --     excluded_filetypes:
-    --         * "prompt"
-    --         * "TelescopePrompt"
-    --         * "noice"
-    --         -- * "neo-tree"
-    --     handlers:
-    --         cursor: false
-    --         gitsigns: false -- true
-    --         -- search: true -- requires hlslens
-
-    -- (require 'colortils').setup!
-
     devicons = require 'nvim-web-devicons'
     (require "incline").setup
         window:
@@ -94,67 +76,8 @@ do
                     group: 'InclineCsillagInner'
                 * { '', group: 'InclineCsillagOuter' }
 
-    -- (require 'luatab').setup
-    --     windowCount: -> ''
-
-    -- (require 'bufferline').setup
-    --     animation: true
-    --     auto_hide: false
-    --     tabpages: true
-    --     closable: true
-    --     clickable: true
-    --     -- diagnostics: {}
-    --     -- exclude_ft:
-    --     -- exclude_name:
-    --     -- hide
-    --     highlight_alternate: true
-    --     highlight_visible: true
-    --     icons:
-    --         filetype:
-    --             enabled: true
-    --     icon_custom_colors: false
-    -- -- vim.api.nvim_create_autocmd 'BufWinEnter'
-    -- --     pattern: "*"
-    -- --     callback: -> if vim.bo.filetype == 'neo-tree'
-    -- --         (require 'bufferline.api').set_offset 40, ''
-    -- -- vim.api.nvim_create_autocmd 'BufWinLeave'
-    -- --     pattern: "*"
-    -- --     callback: -> if vim.fn.expand('<afile>')\match('neo-tree')
-    -- --         (require 'bufferline.api').set_offset 0, ''
-
-    -- do
-    --     theme =
-    --         fill: "TabLineFill"
-    --         head: "TabLine"
-    --         current_tab: "TabLineSel"
-    --         fg: "Normal"
-    --         tab: "TabLine"
-    --
-    --     (require 'tabby.tabline').set((line) -> {
-    --         {
-    --             line.sep(" ", theme.head, theme.fill),
-    --         },
-    --         line.tabs().foreach((tab) ->
-    --             hl = tab.is_current! and theme.current_tab or theme.tab
-    --             {
-    --                 line.sep("⎸", theme.fg, hl),
-    --                 -- tab.current_win!.buf!.type!,
-    --                 -- tab.is_current! and " " or " ",
-    --                 tab.number!,
-    --                 tab.name!,
-    --                 line.sep("⎹", theme.fg, hl),
-    --                 hl: hl,
-    --                 margin: ' ',
-    --             }
-    --         ),
-    --         line.spacer!,
-    --         hl: theme.fill,
-    --     })
-
     -- fzf-lua
     (require 'fzf-lua').setup
-        -- fzf_opts:
-        --     "--layout": 'default'
         keymap:
             builtin:
                 "<C-l>": "toggle-preview"
@@ -187,55 +110,6 @@ do
             default:
                 after_action: (selection) ->
                     vim.notify "Directory changed to " .. selection.path
-
-    -- (require 'trouble').setup
-    --     height: 5
-    --     padding: false
-    --     indent_lines: false
-    --     auto_preview: false
-    --     auto_open: true
-    --     auto_close: true
-
-    -- (require 'todo-comments').setup
-    --     signs: false
-    --     keywords:
-    --         FIX:
-    --             icon: " "
-    --             color: "error"
-    --             alt:
-    --                 * "FIXME"
-    --                 * "BUG"
-    --                 * "FIXIT"
-    --                 * "ISSUE"
-    --         TODO:
-    --             icon: " "
-    --             color: "info"
-    --         HACK:
-    --             icon: " "
-    --             color: "warning"
-    --         WARN:
-    --             icon: " "
-    --             color: "warning"
-    --             alt:
-    --                 * "WARNING"
-    --                 * "XXX"
-    --         PERF:
-    --             icon: " "
-    --             alt:
-    --                 * "OPTIM"
-    --                 * "PERFORMANCE"
-    --                 * "OPTIMIZE"
-    --     highlight:
-    --         comments_only: true
-    --     search:
-    --         command: "rg"
-    --         args:
-    --             * "--color=never"
-    --             * "--no-heading"
-    --             * "--with-filename"
-    --             * "--line-number"
-    --             * "--column"
-    --         pattern: [[\b(KEYWORDS)\b]]
 
     (require "neo-tree").setup
         close_if_last_window: false -- sure?
@@ -315,22 +189,6 @@ do
         numhl: false
         linehl: false
         word_diff: false  -- true
-        -- keymaps:
-        --     noremap: true
-        --     ['n [c']: { expr: true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" }
-        --     ['n ]c']: { expr: true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" }
-        --
-        --     ["n <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk()<CR>'
-        --     ["v <leader>gs"]: '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
-        --     ["n <leader>gu"]: '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>'
-        --     ["n <leader>gx"]: '<cmd>lua require"gitsigns".reset_hunk()<CR>'
-        --     ["v <leader>gx"]: '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>'
-        --     -- ["n <leader>gX"]: '<cmd>lua require"gitsigns".reset_buffer()<CR>'
-        --     ["n <leader>gd"]: '<cmd>lua require"gitsigns".preview_hunk()<CR>'
-        --     ["n <leader>gb"]: '<cmd>lua require"gitsigns".blame_line{full = true}<CR>'
-        --
-        --     ["o ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
-        --     ["x ih"]: ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
         preview_config:
             border: 'rounded'
             style: 'minimal'
@@ -342,7 +200,6 @@ do
     (require 'ibl').setup
       indent:
         char: "│"
-      -- vim.g.indent_blankline_show_trailing_blankline_indent = false
       exclude:
         buftypes:
           * "terminal"
@@ -369,29 +226,9 @@ do
         max_lines: 5
         trim_scope: "inner"
         mode: "topline"
-        -- patterns:
-        --     default:
-        --         * "class"
-        --         * "function"
-        --         * "method"
-        --         * "for"
-        --         * "while"
-        --         * "if"
-        --         * "switch"
-        --         * "case"
-        --     rust:
-        --         * "impl_item"
-        --         * "struct_item"
-        --         * "enum_item"
-        --         * "match_arm"
-        --         * "match_expression"
-        --         * "else_clause"
-        --         * "loop_expression"
-        --         * "mod_item"
         separator: "╴"
 
     (require 'treesitter-unit').setup {}
-    -- (require 'treesitter-unit').toggle_highlighting "TreeHighlight"
 
     -- context.vim
     -- vim.g.context_nvim_no_redraw = 1
@@ -404,64 +241,14 @@ do
         text:
             spinner: "dots"
 
-    -- -- noice.nvim
-    -- (require "noice").setup
-    --     lsp_progress:
-    --         enabled: false
-    --     popupmenu:
-    --         enabled: false
-    --     routes:
-    --         * -- hide 'written' messages
-    --             filter:
-    --                 event: "msg_show"
-    --                 kind: ""
-    --                 find: "written"
-    --             opts:
-    --                 skip: true
-    --         * -- hide search count
-    --             filter:
-    --                 event: "msg_show"
-    --                 kind: "search_count"
-    --             opts:
-    --                 skip: true
-    --     views:
-    --         cmdline_popup:
-    --             position:
-    --                 row: 5
-    --                 col: "50%"
-    --             size:
-    --                 width: 60
-    --                 height: "auto"
-    --         -- popupmenu:
-    --         --     relative: "editor"
-    --         --     position:
-    --         --         row: 8
-    --         --         col: "50%"
-    --         --     size:
-    --         --         width: 60
-    --         --         height: 10
-    --         --     border:
-    --         --         style: "none"
-    --         --     win_options:
-    --         --         winhighlight:
-    --         --             Normal: "Normal"
-    --         --             FloatBorder: "DiagnosticInfo"
-
     -- nvim-notify
     vim.o.termguicolors = true
     (require 'notify').setup
         stages: "slide"
         timeout: 750
 
-    -- -- nvim-pqf
-    -- (require 'pqf').setup!
-
     -- vim-wordmotion
     vim.g.wordmotion_spaces = ''
-
-    -- -- vim-localvimrc
-    -- vim.g.localvimrc_persistent = 1
-    -- vim.g.localvimrc_persistence_file = vim.fn.expand "~/.local/misc/localvimrc_persistent"
 
     -- suda.vim
     vim.g.suda_smart_edit = 1
@@ -484,23 +271,6 @@ do
     (require "difftastic-nvim").setup
         download: true
 
-    -- -- magma-nvim
-    -- if (os.getenv "NO_MAGMA") == nil
-    --     (require 'magma').setup
-    --         automatically_open_output: true
-    --         wrap_output: true
-    --         output_window_borders: true
-    --         cell_highlight_group: "CursorLine"
-    --         save_path: vim.fn.stdpath("data") .. "/magma"
-    --         image_provider: "None"
-    --         show_mimetype_debug: true
-    --     -- vim.g.magma_automatically_open_output = false
-    --     -- vim.g.magma_show_mimetype_debug = true
-    --     -- vim.g.magma_image_provider = "ueberzug"
-
-    -- acaraje.nvim
-    -- (require "acaraje").setup {}
-
     -- vim-test
     vim.g['test#strategy'] = 'neovim'
     vim.g['test#neovim#start_normal'] = 1
@@ -508,10 +278,6 @@ do
 
     -- crates.nvim
     (require 'crates').setup!
-    -- vim.api.nvim_create_autocmd "DiagnosticChanged",
-    --     callback: -> do
-    --         row, _col = vim.api.nvim_win_get_cursor(0)
-    --         vim.cmd "norm " .. (if row == 0 then "jk" else "kj")
 
     -- Automatic formatting
     (require 'lsp-format').setup
@@ -520,9 +286,6 @@ do
     -- LSP
     do
         on_attach = (client, bufnr) ->
-            -- vim.api.nvim_create_autocmd {'InsertLeave', 'CursorHold'},
-            --     buffer: vim.api.nvim_get_current_buf!
-            --     callback: -> vim.lsp.buf.format!
             (require 'lsp-format').on_attach client
 
             vim.lsp.completion.enable true, client.id, bufnr,
@@ -627,21 +390,6 @@ do
         vim.lsp.config "sourcekit",
             :on_attach
         -- vim.lsp.config "harper_ls",
-        --     :on_attach
-
-        -- vim.cmd [[autocmd BufNewFile,BufRead *.lpt setf lambdapitau]]
-        -- (require 'lspconfig.configs').lambdapitau =
-        --     default_config:
-        --         cmd:
-        --             * "cargo"
-        --             * "run"
-        --             * "lsp"
-        --         filetypes:
-        --             * "lambdapitau"
-        --         root_dir: (fname) -> (require 'lspconfig.util').find_git_ancestor(fname)
-        --         settings: {}
-        --
-        -- nvim_lsp.lambdapitau.setup
         --     :on_attach
 
     -- treesitter
@@ -778,144 +526,11 @@ do
 
     (require 'dapui').setup!
 
-    -- -- neotest
-    -- (require 'neotest').setup
-    --     adapters:
-    --         * (require "neotest-python")
-    --             dap:
-    --                 justMyCode: false
-    --         * (require "neotest-plenary")
-    --         -- * (require "neotest-rust")
-    --         * (require "neotest-vim-test")
-    --             ignore_file_types:
-    --                 * "python"
-    --                 * "vim"
-    --                 * "lua"
-    --                 -- * "rust"
-    --     discovery:
-    --         enabled: true
-    --     icons:
-    --         child_indent: "│"
-    --         child_prefix: "├"
-    --         collapsed: "─"
-    --         expanded: "┬"
-    --         final_child_indent: " "
-    --         final_child_prefix: "╰"
-    --         non_collapsible: "─"
-    --         failed: "✗"
-    --         passed: "✓"
-    --         running: "…"
-    --         skipped: " "
-    --         unknown: "?"
-    --     summary:
-    --         enabled: true
-    --     output:
-    --         enabled: true
-    --     diagnostic:
-    --         enabled: false
-    --     status:
-    --         enabled: true
-    --         virtual_text: true
-    --         signs: false
-    -- -- TODO neotest.diagnostic
-    -- -- TODO neotest.status
-    -- -- vim.g.ultest_output_on_line = false
-    -- -- vim.g.ultest_pass_sign = "✓"
-    -- -- vim.g.ultest_fail_sign = "✗"
-    -- -- vim.g.ultest_running_sign = "⊙"
-    -- -- vim.g.ultest_not_run_sign = "?"
-
-    -- -- AI
-    -- (require "avante").setup
-    --     provider: "claude"
-
     -- Comment.nvim
     (require 'Comment').setup!
 
     -- nvim-autopairs
     (require 'nvim-autopairs').setup {}
-
-    -- -- pear-tree
-    -- vim.g.pear_tree_repeatable_expand = 0
-    -- vim.g.pear_tree_ft_disabled =
-    --     * 'telescope'
-    --
-    -- global all_peartree_pairs
-    -- all_peartree_pairs =
-    --     basic_pairs: -- parentheses, bracktes, etc.
-    --         ["("]: closer: ")"
-    --         ["["]: closer: "]"
-    --         ["{"]: closer: "}"
-    --     quotes_and_apostrophes: -- quotes, apostrophes, etc.
-    --         ["\""]: closer: "\""
-    --         ["'"]: closer: "'"
-    --         ["`"]: closer: "`"
-    --     math_dolars: -- inline&display math
-    --         ["$"]: closer: "$"
-    --         ["$$"]: closer: "$$"
-    --     texmath: -- TeX Math
-    --         -- -- delimiters
-    --         ["\\\\("]: closer: "\\\\)"
-    --         ["\\\\["]: closer: "\\\\]"
-    --         ["\\\\left("]: closer: "\\\\right)"
-    --         ["\\\\left["]: closer: "\\\\right]"
-    --         ["\\\\{"]: closer: "\\\\}"
-    --         ["\\\\left\\\\{"]: closer: "\\\\right\\\\}"
-    --         ["\\\\lceil"]: closer: "\\\\rceil"
-    --         ["\\\\left\\\\lceil"]: closer: "\\\\right\\\\rceil"
-    --         ["\\\\lfloor"]: closer: "\\\\rfloor"
-    --         ["\\\\left\\\\lfloor"]: closer: "\\\\right\\\\rfloor"
-    --         ["\\\\lvert"]: closer: "\\\\rvert"
-    --         ["\\\\left\\\\lvert"]: closer: "\\\\right\\\\rvert"
-    --         ["\\\\lVert"]: closer: "\\\\rVert"
-    --         ["\\\\left\\\\lVert"]: closer: "\\\\right\\\\rVert"
-    --         -- -- multi-args
-    --         ["\\\\frac"]: closer: "{}{}"
-    --         ["\\\\inn"]: closer: "{}{}"
-    --         ["\\\\diff"]: closer: "{}{}"
-    --         ["\\\\pdiff"]: closer: "{}{}"
-    --         ["\\\\sqrt["]: closer: "]{}"
-    --         -- -- LaTeX environments
-    --         ["\\\\begin{*}"]: closer: "\\\\end{*}", until: "}"
-    --     xml: -- XML tags
-    --         ["<!--"]: closer: "-->"
-    --         ["<*>"]: closer: "</*>", until: "\\W"
-    --     markdown: -- Markdown formatting
-    --         ["\\*"]: closer: "\\*"
-    --         ["\\*\\*"]: closer: "\\*\\*"
-    --         ["```"]: closer: "```"
-    --         [":::"]: closer: ":::"
-    --     templates: -- c++ templates / rust type variables
-    --         ["<"]: closer: ">", not_at: {"\\W", "^"}
-    --
-    -- global pairs_per_filetype, set_pairs_for_filetype
-    -- pairs_per_filetype =
-    --     xml:        {'xml'}
-    --     html:       {'xml'}
-    --     tex:        {'basic_pairs', 'math_dolars', 'texmath'}
-    --     markdown:   {'basic_pairs', 'math_dolars', 'markdown', 'xml'}
-    --     python:     {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-    --     rust:       {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-    --     cpp:        {'basic_pairs', 'quotes_and_apostrophes', 'templates'}
-    --     python:     {'basic_pairs', 'quotes_and_apostrophes'}
-    --     -- TODO: javascript
-    --     -- TODO: haskell
-    --     -- TODO: lua
-    -- set_pairs_for_filetype = (filetype) ->
-    --     outpairs = {}
-    --     pair_names_for_filetype = pairs_per_filetype[filetype]
-    --     if pair_names_for_filetype == nil
-    --         outpairs = vim.g.pear_tree_pairs
-    --     else
-    --         for _, subpairs_name in ipairs pair_names_for_filetype
-    --             subpairs = all_peartree_pairs[subpairs_name]
-    --             for k, v in pairs subpairs
-    --                 outpairs[k] = v
-    --     vim.b.pear_tree_pairs = outpairs
-    --
-    -- vim.cmd [[autocmd FileType * lua set_pairs_for_filetype(vim.o.filetype)]]
-    --
-    -- vim.g.pear_tree_pairs = basic_pairs
 
     -- python-syntax
     vim.g.python_version_2                          = false
