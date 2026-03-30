@@ -1,143 +1,81 @@
--- Plugin configurations
-do
-    -- vimpeccable
-    import 'vimp'
-    import map_command, nnoremap from require 'vimp'
-    vimp.always_override = true
+-- vimpeccable
+import 'vimp'
+import map_command from require 'vimp'
+vimp.always_override = true
 
-    -- startup screen
-    map_command 'EditFile', ->
-        in_git_repository = os.execute "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
-        if in_git_repository == 0
-            vim.cmd "norm \\e"
-        else
-            vim.cmd "norm \\E"
-    map_command 'EditDotFile', ->
-        vim.env.GIT_DIR = vim.fn.expand("~/.dotfiles.git")
-        vim.env.GIT_WORK_TREE = vim.fn.expand("~")
-        vim.cmd 'EditFile'
+-- autocmd helper
+autocmd = vim.api.nvim_create_autocmd
 
-    -- LSP
-    do
-        on_attach = (client, bufnr) ->
-            (require 'lsp-format').on_attach client
 
-            vim.lsp.completion.enable true, client.id, bufnr,
-                autotrigger: false
-                convert: (item) -> { abbr: item.label\gsub('%b()', '') }
+-- Apply my color scheme
+vim.cmd 'colorscheme csillag'
 
-            vim.diagnostic.config
-                virtual_text: true
-                virtual_lines: false
-                severity_sort: true
-                underline: true
-                signs: false
-                update_in_insert: true
+-- startup screen
+map_command 'EditFile', ->
+    in_git_repository = os.execute "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+    if in_git_repository == 0
+        vim.cmd "norm \\e"
+    else
+        vim.cmd "norm \\E"
+map_command 'EditDotFile', ->
+    vim.env.GIT_DIR = vim.fn.expand("~/.dotfiles.git")
+    vim.env.GIT_WORK_TREE = vim.fn.expand("~")
+    vim.cmd 'EditFile'
 
-            vim.notify "Ready.", "info", title: "LSP", timeout: 500
+-- Disable built-in JSX&TSX syntax highlight
+vim.cmd [[autocmd FileType typescript,javascript,typescriptreact,javascriptreact syn off]]
 
-        -- Configure LSPs
-        vim.lsp.enable "rust_analyzer"
-        vim.lsp.config "rust_analyzer",
-            :on_attach
-            settings:
-                ["rust-analyzer"]:
-                    checkOnSave:
-                        command: "clippy"
-                        -- extraArgs:
-                        --     * "--target-dir"
-                        --     * ".target-rust_analyzer_check"
-                    cargo:
-                        loadOutDirsFromCheck: true
-                    procMacro:
-                        enable: true
-                    diagnostics:
-                        enable: false
-        vim.lsp.enable "zls"
-        vim.lsp.config "zls",
-            :on_attach
-        vim.lsp.enable "clangd"
-        vim.lsp.config "clangd",
-            :on_attach
-            cmd:
-                * "clangd"
-                * "--background-index"
-                * "--clang-tidy"
-        vim.lsp.enable "lua_ls"
-        vim.lsp.config "lua_ls",
-            :on_attach
-            cmd:
-                * "lua-language-server"
-                * "-E"
-                * "/usr/share/lua-language-server/main.lua"
-        vim.lsp.enable "pylsp"
-        vim.lsp.config "pylsp",
-            :on_attach
-        vim.lsp.enable "hls"
-        vim.lsp.config "hls",
-            :on_attach
-            filetypes:
-                * "haskell"
-                * "lhaskell"
-                * "cabal"
-        vim.lsp.enable "tinymist"
-        vim.lsp.config "tinymist",
-            :on_attach
-            offset_encoding: "utf-8"
-        -- nvim_lsp.typst_lsp.setup
-        --     :on_attach
-        --     settings:
-        --         -- ["typst-lsp"]:
-        --         -- exportPdf: "onType"
-        --         exportPdf: "onSave"
-        -- nvim_lsp.texlab.setup
-        --     :on_attach
-        vim.lsp.enable "vimls"
-        vim.lsp.config "vimls",
-            :on_attach
-        vim.lsp.enable "rnix"
-        vim.lsp.config "rnix",
-            :on_attach
-        vim.lsp.enable "ts_ls"
-        vim.lsp.config "ts_ls",
-            :on_attach
-            settings:
-                typescript:
-                    format:
-                        indentSize: 2
-                        tabSize: 2
-                        convertTabsToSpaces: true
-                javascript:
-                    format:
-                        indentSize: 2
-                        tabSize: 2
-                        convertTabsToSpaces: true
-        vim.lsp.enable "tailwindcss"
-        vim.lsp.config "tailwindcss",
-            :on_attach
-        vim.lsp.enable "mdx_analyzer"
-        vim.lsp.config "mdx_analyzer",
-            :on_attach
-        -- vim.lsp.config "denols",
-        --     :on_attach
-        vim.lsp.enable "sourcekit"
-        vim.lsp.config "sourcekit",
-            :on_attach
-        -- vim.lsp.config "harper_ls",
-        --     :on_attach
+-- Clipboard
+vim.g.clipboard =
+    name: "OSC 52"
+    copy:
+        "+": (require "vim.ui.clipboard.osc52").copy("+")
+        "*": (require "vim.ui.clipboard.osc52").copy("*")
+    paste:
+        "+": (require "vim.ui.clipboard.osc52").paste("+")
+        "*": (require "vim.ui.clipboard.osc52").paste("*")
 
-    -- Disable built-in JSX&TSX syntax highlight
-    vim.cmd [[autocmd FileType typescript,javascript,typescriptreact,javascriptreact syn off]]
+-- Map 'q' in terminal normal mode to close the window
+autocmd 'TermOpen', command: [[nnoremap <buffer><silent> q :Bdelete<CR>]]
+autocmd 'TermOpen', command: [[setl nonumber signcolumn=auto:3 nocursorline]]
+autocmd 'TermOpen', command: [[norm! G]]
 
-    -- Clipboard
-    vim.g.clipboard =
-        name: "OSC 52"
-        copy:
-            "+": (require "vim.ui.clipboard.osc52").copy("+")
-            "*": (require "vim.ui.clipboard.osc52").copy("*")
-        paste:
-            "+": (require "vim.ui.clipboard.osc52").paste("+")
-            "*": (require "vim.ui.clipboard.osc52").paste("*")
+-- Make it so that ZQ/`:q!` in gitcommit cancels the commit
+autocmd 'FileType',
+    pattern: "gitcommit"
+    callback: ->
+        vim.api.nvim_buf_set_lines 0, 0, -1, true, {}
+        vim.cmd "silent w"
+        vim.cmd "norm! u"
+
+
+global open_corresponding_pdf
+open_corresponding_pdf = ->
+    filename = vim.fn.expand("%:r") .. ".pdf"
+    if not vim.fn.filereadable filename
+        vim.cmd "echoerr 'No such file: #{filename}'"
+        return
+    vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
+
+global insert_line_above
+insert_line_above = ->
+    count = vim.v.count1 - 1
+    vim.cmd [[norm! Oa]]
+    for _ = 1, count
+        vim.cmd [[put _]]
+        vim.cmd [[norm! k]]
+    vim.cmd [[norm! ^"_D]]
+    vim.cmd [[startinsert!]]
+global insert_line_below
+insert_line_below = ->
+    count = vim.v.count1 - 1
+    vim.cmd [[norm! oa]]
+    for _ = 1, count
+        vim.cmd [[put! _]]
+        vim.cmd [[norm! j]]
+    vim.cmd [[norm! ^"_D]]
+    vim.cmd [[startinsert!]]
+
 
 -- Lots of Vim options
 do

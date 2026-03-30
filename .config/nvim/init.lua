@@ -33,7 +33,6 @@ end
 
 require_yuescript "plugins"
 require_yuescript "config"
-require_yuescript "misc"
 require_yuescript "mappings"
 
 -- if RECOMPILED_SOMETHING then
