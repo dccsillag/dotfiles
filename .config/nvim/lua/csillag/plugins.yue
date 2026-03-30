@@ -10,8 +10,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath)
         os.exit(1)
 vim.opt.rtp\prepend lazypath
 
-plugown = (name) -> dir: "/home/daniel/code/#{name}"
-
 (require "lazy").setup
     spec:
         -- Core
@@ -19,42 +17,220 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'LionC/nest.nvim' -- easy API for creating mappings
         * [1]: 'nvim-lua/plenary.nvim' -- convenience Lua functions for plugins
 
+        -- =========
         -- Interface
-        * [1]: 'b0o/incline.nvim' -- floating lightweight statuslines/winbars
-        -- * [1]: 'romgrk/barbar.nvim' -- tabline
-        * [1]: 'junegunn/fzf', build: './install --bin' -- fuzzy finder
-        * [1]: 'ibhagwan/fzf-lua', dependencies: {'vijaymarupudi/nvim-fzf'} -- fuzzy finder from neovim
-        * [1]: 'nvim-telescope/telescope.nvim', dependencies: {'nvim-lua/plenary.nvim'} -- another fuzzy finder
-        * [1]: 'jvgrootveld/telescope-zoxide' -- easy cd with telescope via zoxide
-        * [1]: 'axkirillov/easypick.nvim' -- custom pickers for telescope
-        * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'} -- file tree viewer
-        * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"} -- pretty and practical UI for vim.ui.select
-        * [1]: 'machakann/vim-highlightedyank' -- briefly highlight yanked region
-        * [1]: 'lewis6991/gitsigns.nvim', lazy: true -- show git diff in the signcolumn
-        * [1]: 'lukas-reineke/indent-blankline.nvim' -- indent guides
-        * [1]: 'lukas-reineke/virt-column.nvim' -- prettier textwidth column
-        * [1]: 'romgrk/nvim-treesitter-context' -- show code context on top of the buffer
-        * [1]: 'andymass/vim-matchup' -- better delimiter matching
-        * [1]: 'j-hui/fidget.nvim', tag: "legacy" -- LSP progress indicator
-        * [1]: 'rcarriga/nvim-notify' -- show notifications
-        -- * [1]: 'folke/noice.nvim', dependencies: {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"} -- pretty UI
-        -- * [1]: 'https://gitlab.com/yorickpeterse/nvim-pqf.git' -- prettier quickfix list
-        -- * [1]: 'sunjon/Shade.nvim' -- fade out inactive windows
-        -- * [1]: 'petertriho/nvim-scrollbar' -- neat buffer scrollbar
-        * [1]: 'moll/vim-bbye' -- better buffer closing
-        -- * [1]: 'nvim-colortils/colortils.nvim' -- color picker
-        -- * [1]: 'dstein64/vim-startuptime' -- profile startup time neatly
-        -- plug 'wellle/context.vim' -- show code context on top of the buffer
-        -- plug 'kshenoy/vim-signature' -- show marks in the sign column
-        -- * [1]: 'nvzone/typr' -- typing game
-        -- * [1]: 'nvzone/volt' -- for typr
-        * [1]: 'sphamba/smear-cursor.nvim', opts: -- for animated cursor
+        -- =========
+
+        -- lightweight floating statuslines/winbars
+        * [1]: 'b0o/incline.nvim', opts:
+            window:
+                margin:
+                    horizontal: 0
+                    vertical: 0
+            hide:
+                cursorline: true
+            render: (props) ->
+                filename = vim.fn.fnamemodify (vim.api.nvim_buf_get_name props.buf), ':t'
+                if filename == '' then filename = '[No Name]'
+
+                -- filetype = vim.o.filetype
+                filetype = vim.fn.getbufvar props.buf, "&filetype"
+                has_lsp = #(vim.lsp.get_clients bufnr: tonumber(props.buf)) > 0
+                if #filetype > 0 and has_lsp
+                    filetype = filetype .. "⁺"
+
+                modified = vim.bo[props.buf].modified
+
+                -- bgcolor = "#28303e"
+                return
+                    * { '', group: 'InclineCsillagOuter' }
+                    *
+                        *
+                            -- * if ft_icon then { ft_icon, '  ', filetype, ' ¦ ' } else ''
+                            -- * if ft_icon then { filetype, ' ¦ ' } else ''
+                            * if #filetype > 0 then { filetype, ' ' } else ''
+                            guifg: "#888888"
+                        * filename
+                        * modified and { '*', guifg: '#888888', gui: 'bold' } or ''
+                        group: 'InclineCsillagInner'
+                    * { '', group: 'InclineCsillagOuter' }
+
+        -- fuzzy finder
+        * [1]: 'nvim-telescope/telescope.nvim', dependencies: {'nvim-lua/plenary.nvim'}, opts:
+            defaults:
+                sorting_strategy: 'ascending'
+                layout_strategy: 'vertical'
+                layout_config:
+                    prompt_position: 'top'
+                    mirror: true
+                    preview_height: 0.3
+            pickers:
+                buffers:
+                    show_all_buffers: false
+                    ignore_current_buffer: true
+                    sort_mru: true
+                    sort_lastused: true
+        -- easy cd with telescope via zoxide
+        * [1]: 'jvgrootveld/telescope-zoxide', dependencies: {'nvim-telescope/telescope.nvim'}, config: () ->
+            (require 'telescope').load_extension 'zoxide'
+            (require 'telescope._extensions.zoxide.config').setup do
+                mappings:
+                    default:
+                        after_action: (selection) ->
+                            vim.notify "Directory changed to " .. selection.path
+        -- custom pickers for telescope
+        * [1]: 'axkirillov/easypick.nvim'
+
+        * [1]: 'nvim-neo-tree/neo-tree.nvim', branch: 'v3.x', dependencies: {'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim'}, opts: -- file tree viewer
+            close_if_last_window: false -- sure?
+            popup_border_style: "rounded"
+            enable_git_status: false
+            enable_diagnostics: false
+            sort_case_insensitive: true
+            default_component_configs:
+                container:
+                    enable_character_fade: true
+                indent:
+                    indent_size: 2
+                    padding: 1
+                    with_markers: false
+                    indent_maker: "│"
+                    last_indent_marker: "│"
+                    highlight: "IndentBlanklineChar"
+                    with_expanders: true
+                    expander_collapsed: ""
+                    expander_expanded: ""
+                    expander_highlight: "NeoTreeExpander"
+                icon:
+                    folder_closed: ""
+                    folder_empty: ""
+                    folder_empty: ""
+                    default: "*"
+                    highlight: "NeoTreeFileIcon"
+                modified:
+                    symbbol: "[+]"
+                    highlight: "NeoTreeModified"
+                name:
+                    trailing_slash: true
+                    use_git_status_colors: false
+                    highlight: "NeoTreeFileName"
+                git_status:
+                    symbols:
+                        added: "A"
+                        modified: "M"
+                        deleted: "D"
+                        renamed: "R"
+                        untracked: "?"
+                        ignored: "(I)"
+                        unstaged: "" -- ""
+                        staged: "" -- ""
+                        conflict: "!"
+            window:
+                position: "right"
+            nesting_rules: {}
+            filesystem:
+                filtered_items:
+                    visible: false
+                    hide_dotfiles: false
+                    hide_hidden: false
+                    hide_gitignored: true
+                    hide_by_name:
+                        * ".git"
+                    never_show:
+                        * ".DS_Store"
+                follow_current_file:
+                    enabled: true
+                group_empty_dirs: false
+                hijack_netrw_behaviour: "open_default"
+                -- use_libuv_file_watcher: false
+            buffers:
+                follow_current_file:
+                    enabled: true
+                group_empty_dirs: false
+                show_unloaded: true
+
+        -- pretty and practical UI for vim.ui.select
+        * [1]: 'hood/popui.nvim', dependencies: {"RishabhRD/popfix"}, init: () -> do
+            vim.ui.select = require "popui.ui-overrider"
+            vim.g.popui_border_style = "rounded"
+
+        -- briefly highlight yanked region
+        * [1]: 'machakann/vim-highlightedyank'
+
+        -- show git diff in the signcolumn
+        * [1]: 'lewis6991/gitsigns.nvim', lazy: true, opts:
+            signcolumn: true
+            numhl: false
+            linehl: false
+            word_diff: false  -- true
+            preview_config:
+                border: 'rounded'
+                style: 'minimal'
+                relative: 'cursor'
+                row: 1
+                col: 0
+
+        -- indent guides
+        * [1]: 'lukas-reineke/indent-blankline.nvim', config: () -> do
+            (require 'ibl').setup {
+                indent:
+                    char: "│"
+                exclude:
+                    buftypes:
+                        * "terminal"
+                    filetypes:
+                        * 'dashboard'
+                        * 'alpha'
+                        * 'packer'
+                        * 'help'
+                        * 'Outline'
+                        * 'aerial'
+                        * 'Trouble'
+                        * "neo-tree"
+            }
+
+        -- prettier textwidth column
+        * [1]: 'lukas-reineke/virt-column.nvim', opts:
+            -- char: "·"
+            -- char: "╷"
+            char: "╵"
+
+        -- show code context on top of the buffer
+        * [1]: 'romgrk/nvim-treesitter-context', opts:
+            enable: true
+            throttle: true
+            max_lines: 5
+            trim_scope: "inner"
+            mode: "topline"
+            separator: "╴"
+
+        -- better delimiter matching
+        * [1]: 'andymass/vim-matchup', init: () -> do
+            vim.g.matchup_matchparen_offscreen = {}
+
+        -- LSP progress indicator
+        * [1]: 'j-hui/fidget.nvim', tag: "legacy", opts:
+            text:
+                spinner: "dots"
+
+        -- show notifications
+        * [1]: 'rcarriga/nvim-notify', opts:
+            stages: "slide"
+            timeout: 750
+
+        -- better buffer closing
+        * [1]: 'moll/vim-bbye'
+
+        -- for animated cursor
+        * [1]: 'sphamba/smear-cursor.nvim', opts:
             smear_between_buffers: true
             smear_between_neighbor_lines: true
             scroll_buffer_spcae: true
             legacy_computing_symbols_support: false
             smear_insert_model: true
-        * [1]: 'karb94/neoscroll.nvim', opts: -- for animated scrolling
+
+        -- for animated scrolling
+        * [1]: 'karb94/neoscroll.nvim', opts:
             mappings:
                 * '<C-u>'
                 * '<C-d>'
@@ -66,52 +242,211 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
             duration_multiplier: 0.3
             easing: "quintic"
 
+        -- =========
         -- Behaviour
-        * [1]: 'tpope/vim-repeat' -- better `.` key
-        * [1]: 'chaoren/vim-wordmotion' -- improve the `w` key and similar
-        * [1]: 'haya14busa/vim-asterisk' -- improve `*` and `#`
-        -- * [1]: 'embear/vim-localvimrc' -- for using local [e.g., project-specific] vimrcs
-        -- * [1]: 'vim-scripts/let-modeline.vim' -- have a specific modeline for configuring plugins
-        * [1]: 'lambdalisue/suda.vim' -- for editting files which require root permission
-        * [1]: 'aymericbeaumet/vim-symlink' -- edit the real file, not symlinks
+        -- =========
 
+        -- better `.` key
+        * [1]: 'tpope/vim-repeat'
+
+        -- improve the `w` key and similar
+        * [1]: 'chaoren/vim-wordmotion', init: () -> do
+            vim.g.wordmotion_spaces = ''
+
+        -- improve `*` and `#`
+        * [1]: 'haya14busa/vim-asterisk'
+
+        -- for editting files which require root permission
+        * [1]: 'lambdalisue/suda.vim', init: () -> do
+            vim.g.suda_smart_edit = 1
+
+        -- edit the real file, not symlinks
+        * [1]: 'aymericbeaumet/vim-symlink'
+
+        -- ===========
         -- Peripherals
-        * [1]: 'tpope/vim-eunuch' -- add nice commands for shell commands
-        * [1]: 'direnv/direnv.vim' -- direnv integration
-        -- * [1]: 'skywind3000/asyncrun.vim' -- for running stuff in the background, async
-        -- * [1]: 'itspriddle/vim-shellcheck' -- run shellcheck from Vim as a :compiler
-        * [1]: 'tpope/vim-fugitive' -- use git from vim
-        * [1]: 'yannvanhalewyn/jujutsu.nvim' -- use jj from nvim
-        * [1]: 'junegunn/gv.vim' -- git commit browser
-        * [1]: 'pwntester/octo.nvim' -- work with github (issues, PRs, etc.) from nvim
-        * [1]: 'julienvincent/hunk.nvim' -- jujutsu diff editor
-        * [1]: 'clabby/difftastic.nvim', dependencies: {"MunifTanjim/nui.nvim"} -- jujutsu diff editor
-        -- * [1]: 'benlubas/molten-nvim', version: "^1.0.0", build: ':UpdateRemotePlugins' -- interact with Jupyter
-        -- * [1]: 'nvim-neotest/neotest', dependencies: {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim"} -- run tests from NeoVim
-        -- * [1]: 'nvim-neotest/neotest-plenary'
-        -- * [1]: 'nvim-neotest/neotest-python'
-        -- * [1]: 'rouge8/neotest-rust'
-        -- * [1]: 'nvim-neotest/neotest-vim-test', dependencies: {"vim-test/vim-test"}
-        -- plugown 'magma-nvim', run: ':UpdateRemotePlugins' -- interact with Jupyter
-        -- plugown 'magma-nvim.rs', run: ':UpdateRemotePlugins' -- interact with Jupyter
-        -- * plugown 'acaraje.nvim' -- LLM editing and such
+        -- ===========
 
+        -- add nice commands for shell commands
+        * [1]: 'tpope/vim-eunuch'
+
+        -- direnv integration
+        * [1]: 'direnv/direnv.vim'
+
+        -- use git from vim
+        * [1]: 'tpope/vim-fugitive', init: () -> do
+            import map_command, nnoremap from require 'vimp'
+            map_command 'Fugitive', ->
+                vim.cmd ":G"
+                vim.cmd "only"
+                nnoremap {"buffer"}, "gq", ":qa!<CR>"
+
+        -- use jj from nvim
+        * [1]: 'yannvanhalewyn/jujutsu.nvim'
+
+        -- git commit browser
+        * [1]: 'junegunn/gv.vim'
+
+        -- work with github (issues, PRs, etc.) from nvim
+        * [1]: 'pwntester/octo.nvim', opts:
+            suppress_missing_scope:
+                projects_v2: true
+
+        -- jujutsu diff editor
+        * [1]: 'julienvincent/hunk.nvim', opts: {}
+
+        -- jujutsu diff editor
+        * [1]: 'clabby/difftastic.nvim', dependencies: {"MunifTanjim/nui.nvim"}, opts:
+            download: true
+
+        -- ==================================
         -- LSP / TreeSitter / Formatting / AI
-        * [1]: 'nvim-lua/lsp_extensions.nvim' -- extra easy configurations for LSP
-        * [1]: 'neovim/nvim-lspconfig' -- easily configure LSP
-        * [1]: 'RRethy/nvim-treesitter-textsubjects' -- treesitter-based text objects
-        * [1]: 'David-Kunz/treesitter-unit' -- treesitter-based selection & highlight
-        * [1]: 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter-based text objects
-        * [1]: 'nvim-treesitter/playground' -- treesitter playground
-        * [1]: 'nvim-treesitter/nvim-treesitter', lazy: false, build: ':TSUpdate' -- easy treesitter config
-        * [1]: 'stevearc/aerial.nvim' -- show code outline
-        * [1]: 'mfussenegger/nvim-dap' -- debugging
-        * [1]: 'nvim-neotest/nvim-nio' -- required for nvim-dap-ui
-        * [1]: 'rcarriga/nvim-dap-ui' -- an UI for debugging
-        * [1]: 'lukas-reineke/lsp-format.nvim' -- automatic code formatting on save
-        * [1]: 'NickvanDyke/opencode.nvim', dependencies: {"folke/snacks.nvim"} -- AI agent (trying it out i guess)
+        -- ==================================
 
+        -- extra easy configurations for LSP
+        * [1]: 'nvim-lua/lsp_extensions.nvim'
+
+        -- easily configure LSP
+        * [1]: 'neovim/nvim-lspconfig'
+
+        -- treesitter-based text objects
+        * [1]: 'RRethy/nvim-treesitter-textsubjects'
+
+        -- treesitter-based selection & highlight
+        * [1]: 'David-Kunz/treesitter-unit', opts: {}
+
+        -- treesitter-based text objects
+        * [1]: 'nvim-treesitter/nvim-treesitter-textobjects'
+
+        -- treesitter playground
+        * [1]: 'nvim-treesitter/playground'
+
+        -- easy treesitter config
+        * [1]: 'nvim-treesitter/nvim-treesitter', lazy: false, build: ':TSUpdate', config: () -> do
+            vim.opt.runtimepath\append "$HOME/.local/share/treesitter"
+            (require 'nvim-treesitter.configs').setup {
+                parser_install_dir: "$HOME/.local/share/treesitter"
+                highlight:
+                    enable: true
+                    additional_vim_regex_highlighting: false
+                    disable:
+                        * "dart"
+                incremental_selection:
+                    enable: true
+                    keymaps:
+                        init_selection: 'g.'
+                        node_decremental: ','
+                        node_incremental: '.'
+                    disable:
+                        * "dart"
+                textsubjects:
+                    enable: true
+                    prev_selection: '`'
+                    keymaps:
+                        ["<CR>"]: 'textsubjects-smart'
+                        -- ["o<CR>"]: 'textsubjects-container-outer'
+                        -- ["i<CR>"]: 'textsubjects-container-inner'
+                    disable:
+                        * "dart"
+                textobjects:
+                    select:
+                        enable: true
+                        lookahead: true
+                        keymaps:
+                            "iA": "@attribute.inner"
+                            "aA": "@attribute.outer"
+                            "ib": "@block.inner"
+                            "ab": "@block.outer"
+                            "ic": "@call.inner"
+                            "ac": "@call.outer"
+                            "is": "@class.inner"
+                            "as": "@class.outer"
+                            "a-": "@comment.outer"
+                            "i-": "@comment.outer"
+                            "if": "@function.inner"
+                            "af": "@function.outer"
+                            "ia": "@parameter.inner"
+                            "aa": "@parameter.outer"
+                        selection_modes:
+                            "@parameter.outer": 'v'
+                            "@function.outer": 'V'
+                            '@class.outer': '<C-v>'
+                        include_surrounding_whitespace: true
+                    disable:
+                        * "dart"
+                playground:
+                    enable: true
+                    disable:
+                        * "dart"
+                indent:
+                    enable: false -- currently, this is broken.
+                    disable:
+                        * "dart"
+            }
+
+        -- show code outline
+        * [1]: 'stevearc/aerial.nvim', opts:
+            backends:
+                * "treesitter"
+                * "markdown"
+                * "lsp"
+            close_behaviour: "close"
+            post_jump_cmd: "normal! zt"
+            default_direction: "float"
+            float:
+                border: "rounded"
+                relative: "editor"
+                override: (conf) ->
+                    local stats = vim.api.nvim_list_uis![1]
+                    local width = stats.width
+                    local height = stats.height - 1 -- to account for the statusline
+                    local padding_x = math.floor(0.1 * width)
+                    local padding_y = math.floor(0.1 * height)
+
+                    conf.width = width - 2*padding_x
+                    conf.height = height - 2*padding_y
+                    conf.row = padding_y - 1
+                    conf.col = padding_x - 1
+                    conf.anchor = "NW"
+
+                    conf
+            min_width: 60
+            filter_kind:
+                * "Class"
+                * "Constructor"
+                * "Enum"
+                * "Function"
+                * "Interface"
+                * "Module"
+                * "Method"
+                * "Struct"
+            icons:
+                Class: "class"
+                Constructor: "func"
+                Enum: "enum"
+                Function: "func"
+                Interface: "trait"
+                Module: "module"
+                Method: "func"
+                Struct: "struct"
+            nerd_font: true
+            -- TODO post_jump_cmd       call beacon
+            close_on_select: true
+            show_guides: false
+
+        -- automatic code formatting on save
+        * [1]: 'lukas-reineke/lsp-format.nvim', opts:
+            sync: true
+
+        -- AI agent (trying it out i guess)
+        * [1]: 'NickvanDyke/opencode.nvim', dependencies: {"folke/snacks.nvim"}, config: () -> do
+            vim.cmd [[autocmd BufEnter term://*:opencode startinsert]]
+            vim.cmd [[tnoremap <C-\><C-\> <C-\><C-n><C-w><C-p>]]
+
+        -- =============
         -- Color Schemes
+        -- =============
+
         * [1]: 'rktjmp/lush.nvim', branch: 'main' -- easily create color schemes for NeoVim
         * [1]: 'joshdick/onedark.vim' -- onedark colorscheme from Atom
         * [1]: 'pbrisbin/vim-colors-off' -- a plain colorscheme that pretty much disables highlighting
@@ -122,51 +457,142 @@ plugown = (name) -> dir: "/home/daniel/code/#{name}"
         * [1]: 'EdenEast/nightfox.nvim' -- nightfox colorscheme
         * [1]: 'Shatur/neovim-ayu' -- ayu colorscheme
 
+        -- ============
         -- Editing Help
-        * [1]: 'rhysd/conflict-marker.vim' -- easily solve git conflicts
-        * [1]: 'tpope/vim-surround' -- surround text with stuff [parentheses, brackets, and much more]
-        * [1]: 'numToStr/Comment.nvim' -- comment/uncomment code
-        * [1]: 'windwp/nvim-autopairs' -- automatic delimiter pair closing
-        -- * [1]: 'godlygeek/tabular' -- aligns code
-        -- * [1]: 'dhruvasagar/vim-table-mode' -- painlessly edit tables
-        * [1]: 'tommcdo/vim-exchange' -- exchange text around
-        * [1]: 'svermeulen/vim-subversive' -- replace text with current yank
-        -- * [1]: 'monaqa/dial.nvim' -- better increment/decrement
-        -- plug 'tmsvg/pear-tree' -- automatic delimiter pair closing
+        -- ============
 
+        -- easily solve git conflicts
+        * [1]: 'rhysd/conflict-marker.vim'
+
+        -- surround text with stuff [parentheses, brackets, and much more]
+        * [1]: 'tpope/vim-surround'
+
+        -- comment/uncomment code
+        * [1]: 'numToStr/Comment.nvim', opts: {}
+
+        -- automatic delimiter pair closing
+        * [1]: 'windwp/nvim-autopairs', opts: {}
+
+        -- exchange text around
+        * [1]: 'tommcdo/vim-exchange'
+
+        -- replace text with current yank
+        * [1]: 'svermeulen/vim-subversive'
+
+        -- better increment/decrement
+        * [1]: 'monaqa/dial.nvim'
+
+        -- ============
         -- Text Objects
-        * [1]: 'wellle/targets.vim' -- better text objects
-        * [1]: 'michaeljsmith/vim-indent-object' -- text object for indented text
-        * [1]: 'kana/vim-textobj-entire', dependencies: {'kana/vim-textobj-user'} -- text object for the entire buffer
-        * [1]: 'kana/vim-textobj-syntax', dependencies: {'kana/vim-textobj-user'} -- text object for text in the same highlight group
+        -- ============
 
+        -- better text objects
+        * [1]: 'wellle/targets.vim'
+
+        -- text object for indented text
+        * [1]: 'michaeljsmith/vim-indent-object'
+
+        -- text object for the entire buffer
+        * [1]: 'kana/vim-textobj-entire', dependencies: {'kana/vim-textobj-user'}
+
+        -- text object for text in the same highlight group
+        * [1]: 'kana/vim-textobj-syntax', dependencies: {'kana/vim-textobj-user'}
+
+        -- ================
         -- Language Support
-        * [1]: 'Saecki/crates.nvim' -- Cargo.toml crate checking for Rust
-        * [1]: 'NoahTheDuke/vim-just' -- Justfile syntax highlight
-        * [1]: 'vim-python/python-syntax' -- better Python syntax highlight
-        * [1]: 'petRUShka/vim-sage' -- language support for SageMath
-        * [1]: 'Vimjas/vim-python-pep8-indent' -- indent Python code according to PEP8
-        * [1]: 'bfrg/vim-cpp-modern' -- better C++ syntax highlight
-        * [1]: 'gabrielelana/vim-markdown', dependencies: {'godlygeek/tabular'} -- better Markdown support
-        * [1]: 'leafo/moonscript-vim' -- language support for {Moon,Yue}Script
-        * [1]: 'gisraptor/vim-lilypond-integrator' -- language support for Lilypond
-        * [1]: 'tomlion/vim-solidity' -- language support for Solidity
-        * [1]: 'rubik/vim-dg' -- language support for DogeLang [aka. dg]
-        * [1]: 'manicmaniac/coconut.vim' -- language support for Coconut
-        * [1]: 'neovimhaskell/haskell-vim' -- better support for Haskell
-        * [1]: 'edwinb/idris2-vim' -- language support for Idris
-        * [1]: 'mrk21/yaml-vim' -- better language support for YAML
-        * [1]: 'cespare/vim-toml' -- language support for TOML
-        * [1]: 'LnL7/vim-nix' -- language support for Nix
-        * [1]: 'dart-lang/dart-vim-plugin' -- language support for Dart
-        * [1]: 'tikhomirov/vim-glsl' -- language support for GLSL
-        * [1]: 'aklt/plantuml-syntax' -- for PlantUML syntax support
-        * [1]: 'wlangstroth/vim-racket' -- language support for Racket
-        * [1]: 'goerz/jupytext.vim' -- edit Jupyter notebooks in vim
-        * [1]: 'pest-parser/pest.vim' -- language support for Pest grammars
-        -- plug 'kaarmu/typst.vim' -- Typst syntax highlight
-        -- plug 'rust-lang/rust.vim' -- better Rust syntax support
-        -- plugown 'nail.vim' -- Nail syntax highlight
+        -- ================
+
+        -- Cargo.toml crate checking for Rust
+        * [1]: 'Saecki/crates.nvim', opts: {}
+
+        -- Justfile syntax highlight
+        * [1]: 'NoahTheDuke/vim-just'
+
+        -- better Python syntax highlight
+        * [1]: 'vim-python/python-syntax', init: () -> do
+            vim.g.python_version_2                          = false
+            vim.g.python_highlight_builtins                 = true
+            vim.g.python_highlight_builtin_objs             = true
+            vim.g.python_highlight_builtin_types            = true
+            vim.g.python_highlight_builtin_funcs            = true
+            vim.g.python_highlight_builtin_funcs_kwarg      = false
+            vim.g.python_highlight_exceptions               = true
+            vim.g.python_highlight_string_formatting        = true
+            vim.g.python_highlight_string_format            = true
+            vim.g.python_highlight_string_templates         = true
+            vim.g.python_highlight_indent_errors            = false
+            vim.g.python_highlight_space_errors             = false
+            vim.g.python_highlight_doctests                 = true
+            vim.g.python_highlight_func_calls               = false
+            vim.g.python_highlight_class_vars               = true
+            vim.g.python_highlight_operators                = true
+            vim.g.python_highlight_file_headers_as_comments = true
+
+        -- language support for SageMath
+        * [1]: 'petRUShka/vim-sage'
+
+        -- indent Python code according to PEP8
+        * [1]: 'Vimjas/vim-python-pep8-indent'
+
+        -- better C++ syntax highlight
+        * [1]: 'bfrg/vim-cpp-modern', init: () -> do
+            vim.g.cpp_no_function_highlight        = false
+            vim.g.cpp_named_requirements_highlight = true
+
+        -- better Markdown support
+        * [1]: 'gabrielelana/vim-markdown', dependencies: {'godlygeek/tabular'}, init: () -> do
+            vim.g.markdown_enable_insert_mode_leader_mappings = false
+
+        -- language support for {Moon,Yue}Script
+        * [1]: 'leafo/moonscript-vim', init: () -> do
+            -- the official YueScript syntax is too slow for me, so I'll use MoonScript syntax for YueScript
+            --   (they are similar enough, I think it'll be fine).
+            vim.cmd [[autocmd BufNewFile,BufRead *.yue setf moon]]
+
+        -- language support for Lilypond
+        * [1]: 'gisraptor/vim-lilypond-integrator'
+
+        -- language support for Solidity
+        * [1]: 'tomlion/vim-solidity'
+
+        -- language support for DogeLang [aka. dg]
+        * [1]: 'rubik/vim-dg'
+
+        -- language support for Coconut
+        * [1]: 'manicmaniac/coconut.vim'
+
+        -- better support for Haskell
+        * [1]: 'neovimhaskell/haskell-vim'
+
+        -- language support for Idris
+        * [1]: 'edwinb/idris2-vim'
+
+        -- better language support for YAML
+        * [1]: 'mrk21/yaml-vim'
+
+        -- language support for TOML
+        * [1]: 'cespare/vim-toml'
+
+        -- language support for Nix
+        * [1]: 'LnL7/vim-nix'
+
+        -- language support for Dart
+        * [1]: 'dart-lang/dart-vim-plugin'
+
+        -- language support for GLSL
+        * [1]: 'tikhomirov/vim-glsl'
+
+        -- for PlantUML syntax support
+        * [1]: 'aklt/plantuml-syntax'
+
+        -- language support for Racket
+        * [1]: 'wlangstroth/vim-racket'
+
+        -- edit Jupyter notebooks in vim
+        * [1]: 'goerz/jupytext.vim'
+
+        -- language support for Pest grammars
+        * [1]: 'pest-parser/pest.vim'
 
     -- install:
     --     colorscheme: {"habamax"}
