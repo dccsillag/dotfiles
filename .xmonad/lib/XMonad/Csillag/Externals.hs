@@ -22,7 +22,7 @@ texteditorSpawn = "neovide --multigrid"
 -- File Manager
 
 filemanagerSpawn :: String
-filemanagerSpawn = termRun "lf" -- "nnn -nA"
+filemanagerSpawn = termRun "yazi"
 
 -- Browser
 
