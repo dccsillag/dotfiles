@@ -575,7 +575,7 @@ vim.opt.rtp\prepend lazypath
         * [1]: 'tpope/vim-surround'
 
         -- comment/uncomment code
-        * [1]: 'numToStr/Comment.nvim', opts: {}
+        -- * [1]: 'numToStr/Comment.nvim', opts: {}
 
         -- automatic delimiter pair closing
         * [1]: 'windwp/nvim-autopairs', opts: {}
