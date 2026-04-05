@@ -346,7 +346,7 @@ in
     # TODO vimls
     # rnix-lsp
     unstable.tinymist
-    unstable.aider-chat  # not quite an LSP, but...
+    # unstable.aider-chat  # not quite an LSP, but...
     harper
     basedpyright
     nodePackages.typescript-language-server
@@ -411,6 +411,7 @@ in
       llm-jq = true;
     })
     unstable.opencode
+    unstable.gemini-cli
 
     # Development tools
     rustfmt
@@ -536,6 +537,7 @@ in
     luakit
     # unstable.qutebrowser
     brave
+    firefox
     mpv
     libreoffice
     arandr
@@ -550,9 +552,10 @@ in
     gnome-calendar
     geary
     thunderbird
-    snes9x-gtk
+    # snes9x-gtk
     ryubing
     unstable.dolphin-emu
+    blender
 
     # Remote access
     sunshine
@@ -607,6 +610,8 @@ in
   services.pcscd.enable = true;
 
   # List services that you want to enable:
+
+  services.locate.enable = true;
 
   programs.fuse.userAllowOther = true;
   systemd.services.NetworkManager-wait-online.enable = false;
