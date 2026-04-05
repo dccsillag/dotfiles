@@ -7,7 +7,7 @@ xmodmap ~/.config/Xmodmap
 pgrep xcape || xcape -e "Control_L=Escape;Super_R=Tab"
 
 # Enable push-to-talk
-xbindkeys -f ~/.config/xbindkeys/config
+pgrep xbindkeys || xbindkeys -f ~/.config/xbindkeys/config
 # Remove key repeat for the push-to-talk key
 xset r rate 300 50
 xset -r 86
@@ -28,7 +28,7 @@ xset s 3600 3600
 
 # Warn low battery
 # batmon --warn-percentage 25 --panic-percentage 8 BAT0 &
-battery-monitor &
+pgrep -f --exact "/bin/sh $HOME/.local/bin/battery-monitor" || battery-monitor &
 
 # Set background image
 case "$(hostname)" in
