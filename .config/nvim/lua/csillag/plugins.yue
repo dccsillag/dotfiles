@@ -227,6 +227,7 @@ vim.pack.add {'https://github.com/rcarriga/nvim-notify'}
 (require "notify").setup
     stages: "slide"
     timeout: 750
+vim.notify = require "notify"
 
 -- better buffer closing
 vim.pack.add {'https://github.com/moll/vim-bbye'}
