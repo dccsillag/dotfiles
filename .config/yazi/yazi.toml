@@ -1,0 +1,15 @@
+[opener]
+view3d = [
+    { run = "napari $@", orphan = true, description = "Napari (3D viewer)" }
+]
+view-directory = [
+    { run = "nsxiv \"$(dirname \"$0\")\"", orphan = true, description = "View the images in the directory" }
+]
+
+[open]
+prepend_rules = [
+    { url = "*.npy", use = "view3d" }
+]
+append_rules = [
+    { mime = "image/*", use = "view-directory" }
+]
