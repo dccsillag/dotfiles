@@ -255,6 +255,9 @@ vim.pack.add {'https://github.com/karb94/neoscroll.nvim'}
     duration_multiplier: 0.3
     easing: "quintic"
 
+-- undotree
+vim.cmd.packadd "nvim.undotree" -- packadd because it's built-in
+
 
 -- =========
 -- Behaviour
