@@ -591,6 +591,8 @@ vim.pack.add
     * 'https://github.com/EdenEast/nightfox.nvim' -- nightfox colorscheme
     * 'https://github.com/Shatur/neovim-ayu' -- ayu colorscheme
 
+vim.cmd.colorscheme "csillag" -- set my colorscheme
+
 
 -- ============
 -- Editing Help

@@ -267,7 +267,12 @@ applyKeymaps myKeymaps
         -- 'S': vimcmd 'set spell!' -- toggle spell
         -- 's': ':set spelllang=' -- set spell language
 
-        'p': luacmd 'open_corresponding_pdf()' -- open corresponding PDF for the current [markup file]
+        'p': -> -- open corresponding PDF for the current [markup file]
+            filename = vim.fn.expand("%:r") .. ".pdf"
+            if not vim.fn.filereadable filename
+                vim.cmd "echoerr 'No such file: #{filename}'"
+                return
+            vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
 
         '.': vimcmd 'nohl' -- :nohl
 
@@ -375,8 +380,22 @@ applyKeymaps myKeymaps
     '<visual><rec>s': 'S'
 
     -- Change o/O to not insert text at multiple lines, when used with a count
-    'O': luacmd "insert_line_above()"
-    'o': luacmd "insert_line_below()"
+    'O': -> -- insert line above
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! Oa]]
+        for _ = 1, count
+            vim.cmd [[put _]]
+            vim.cmd [[norm! k]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]
+    'o': -> -- insert line below
+        count = vim.v.count1 - 1
+        vim.cmd [[norm! oa]]
+        for _ = 1, count
+            vim.cmd [[put! _]]
+            vim.cmd [[norm! j]]
+        vim.cmd [[norm! ^"_D]]
+        vim.cmd [[startinsert!]]
 
     -- Disable suspend
     '<C-z>': '<nop>'

@@ -7,10 +7,7 @@ vimp.always_override = true
 autocmd = vim.api.nvim_create_autocmd
 
 
--- Apply my color scheme
-vim.cmd 'colorscheme csillag'
-
--- startup screen
+-- file opening commands
 map_command 'EditFile', ->
     in_git_repository = os.execute "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
     if in_git_repository == 0
@@ -47,34 +44,6 @@ autocmd 'FileType',
         vim.api.nvim_buf_set_lines 0, 0, -1, true, {}
         vim.cmd "silent w"
         vim.cmd "norm! u"
-
-
-global open_corresponding_pdf
-open_corresponding_pdf = ->
-    filename = vim.fn.expand("%:r") .. ".pdf"
-    if not vim.fn.filereadable filename
-        vim.cmd "echoerr 'No such file: #{filename}'"
-        return
-    vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
-
-global insert_line_above
-insert_line_above = ->
-    count = vim.v.count1 - 1
-    vim.cmd [[norm! Oa]]
-    for _ = 1, count
-        vim.cmd [[put _]]
-        vim.cmd [[norm! k]]
-    vim.cmd [[norm! ^"_D]]
-    vim.cmd [[startinsert!]]
-global insert_line_below
-insert_line_below = ->
-    count = vim.v.count1 - 1
-    vim.cmd [[norm! oa]]
-    for _ = 1, count
-        vim.cmd [[put! _]]
-        vim.cmd [[norm! j]]
-    vim.cmd [[norm! ^"_D]]
-    vim.cmd [[startinsert!]]
 
 
 -- Lots of Vim options
