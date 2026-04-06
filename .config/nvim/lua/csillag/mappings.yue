@@ -93,9 +93,6 @@ applyKeymaps myKeymaps
     'gR': -> vim.lsp.buf.references!
     'gq': -> vim.lsp.buf.formatting!
 
-    '[g': -> vim.diagnostic.goto_prev wrap: false, float: false
-    ']g': -> vim.diagnostic.goto_next wrap: false, float: false
-
     '[t': plug 'ultest-prev-fail'
     ']t': plug 'ultest-next-fail'
 
