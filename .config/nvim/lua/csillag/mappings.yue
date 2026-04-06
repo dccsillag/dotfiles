@@ -135,6 +135,7 @@ applyKeymaps myKeymaps
             'e': ->
                 vim.diagnostic.open_float nil, border: "rounded"
                 vim.diagnostic.open_float nil, border: "rounded" -- call it a second time to enter the window
+            'f': vim.lsp.buf.format
 
         -- AI
         'a':

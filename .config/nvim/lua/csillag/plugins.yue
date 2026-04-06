@@ -514,13 +514,13 @@ vim.pack.add {'https://github.com/stevearc/aerial.nvim'}
     close_on_select: true
     show_guides: false
 
--- automatic code formatting on save
-vim.pack.add {'https://github.com/lukas-reineke/lsp-format.nvim'}
-(require "lsp-format").setup
-    sync: true
-vim.api.nvim_create_autocmd "LspAttach", callback: (args) -> do
-    client = assert vim.lsp.get_client_by_id args.data.client_id
-    (require 'lsp-format').on_attach client, args.buf
+-- -- automatic code formatting on save
+-- vim.pack.add {'https://github.com/lukas-reineke/lsp-format.nvim'}
+-- (require "lsp-format").setup
+--     sync: true
+-- vim.api.nvim_create_autocmd "LspAttach", callback: (args) -> do
+--     client = assert vim.lsp.get_client_by_id args.data.client_id
+--     (require 'lsp-format').on_attach client, args.buf
 
 
 -- AI agent (trying it out i guess)
