@@ -334,113 +334,64 @@ vim.pack.add {'https://github.com/nvim-lua/lsp_extensions.nvim'}
 -- easily configure LSP
 vim.pack.add {'https://github.com/neovim/nvim-lspconfig'}
 do
-    on_attach = (client, bufnr) ->
-        (require 'lsp-format').on_attach client
-
-        vim.lsp.completion.enable true, client.id, bufnr,
-            autotrigger: false
-            convert: (item) -> { abbr: item.label\gsub('%b()', '') }
-
-        vim.diagnostic.config {
-            virtual_text: true
-            virtual_lines: false
-            severity_sort: true
-            underline: true
-            signs: false
-            update_in_insert: true
-        }
-
-        vim.notify "Ready.", "info", title: "LSP", timeout: 500
-
-    -- Configure LSPs
+    -- Enable and configure LSPs
     vim.lsp.enable "rust_analyzer"
-    vim.lsp.config "rust_analyzer",
-        :on_attach
-        settings:
-            ["rust-analyzer"]:
-                checkOnSave:
-                    command: "clippy"
-                    -- extraArgs:
-                    --     * "--target-dir"
-                    --     * ".target-rust_analyzer_check"
-                cargo:
-                    loadOutDirsFromCheck: true
-                procMacro:
-                    enable: true
-                diagnostics:
-                    enable: false
-    vim.lsp.enable "zls"
-    vim.lsp.config "zls",
-        :on_attach
+    vim.lsp.config "rust_analyzer", settings:
+        ["rust-analyzer"]:
+            checkOnSave:
+                command: "clippy"
+                -- extraArgs:
+                --     * "--target-dir"
+                --     * ".target-rust_analyzer_check"
+            cargo:
+                loadOutDirsFromCheck: true
+            procMacro:
+                enable: true
+            diagnostics:
+                enable: false
+
     vim.lsp.enable "clangd"
-    vim.lsp.config "clangd",
-        :on_attach
-        cmd:
-            * "clangd"
-            * "--background-index"
-            * "--clang-tidy"
+    vim.lsp.config "clangd", cmd: {"clangd", "--background-index", "--clang-tidy"}
+
+    vim.lsp.enable "zls"
+
     vim.lsp.enable "lua_ls"
-    vim.lsp.config "lua_ls",
-        :on_attach
-        cmd:
-            * "lua-language-server"
-            * "-E"
-            * "/usr/share/lua-language-server/main.lua"
+    vim.lsp.config "lua_ls", cmd: {"lua-language-server", "-E", "/usr/share/lua-language-server/main.lua"}
+
     vim.lsp.enable "pylsp"
-    vim.lsp.config "pylsp",
-        :on_attach
+
     vim.lsp.enable "hls"
-    vim.lsp.config "hls",
-        :on_attach
-        filetypes:
-            * "haskell"
-            * "lhaskell"
-            * "cabal"
+    vim.lsp.config "hls", filetypes:
+        * "haskell"
+        * "lhaskell"
+        * "cabal"
+
     vim.lsp.enable "tinymist"
-    vim.lsp.config "tinymist",
-        :on_attach
-        offset_encoding: "utf-8"
-    -- nvim_lsp.typst_lsp.setup
-    --     :on_attach
-    --     settings:
-    --         -- ["typst-lsp"]:
-    --         -- exportPdf: "onType"
-    --         exportPdf: "onSave"
+    vim.lsp.config "tinymist", offset_encoding: "utf-8"
+
     -- nvim_lsp.texlab.setup
     --     :on_attach
+
     vim.lsp.enable "vimls"
-    vim.lsp.config "vimls",
-        :on_attach
+
     vim.lsp.enable "rnix"
-    vim.lsp.config "rnix",
-        :on_attach
+
     vim.lsp.enable "ts_ls"
-    vim.lsp.config "ts_ls",
-        :on_attach
-        settings:
-            typescript:
-                format:
-                    indentSize: 2
-                    tabSize: 2
-                    convertTabsToSpaces: true
-            javascript:
-                format:
-                    indentSize: 2
-                    tabSize: 2
-                    convertTabsToSpaces: true
+    vim.lsp.config "ts_ls", settings:
+        typescript:
+            format:
+                indentSize: 2
+                tabSize: 2
+                convertTabsToSpaces: true
+        javascript:
+            format:
+                indentSize: 2
+                tabSize: 2
+                convertTabsToSpaces: true
+
     vim.lsp.enable "tailwindcss"
-    vim.lsp.config "tailwindcss",
-        :on_attach
+
     vim.lsp.enable "mdx_analyzer"
-    vim.lsp.config "mdx_analyzer",
-        :on_attach
-    -- vim.lsp.config "denols",
-    --     :on_attach
-    vim.lsp.enable "sourcekit"
-    vim.lsp.config "sourcekit",
-        :on_attach
-    -- vim.lsp.config "harper_ls",
-    --     :on_attach
 
 -- treesitter config
 vim.pack.add
@@ -567,6 +518,10 @@ vim.pack.add {'https://github.com/stevearc/aerial.nvim'}
 vim.pack.add {'https://github.com/lukas-reineke/lsp-format.nvim'}
 (require "lsp-format").setup
     sync: true
+vim.api.nvim_create_autocmd "LspAttach", callback: (args) -> do
+    client = assert vim.lsp.get_client_by_id args.data.client_id
+    (require 'lsp-format').on_attach client, args.buf
+
 
 -- AI agent (trying it out i guess)
 vim.pack.add

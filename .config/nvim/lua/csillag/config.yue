@@ -45,6 +45,16 @@ autocmd 'FileType',
         vim.cmd "silent w"
         vim.cmd "norm! u"
 
+-- Diagnostic config
+vim.diagnostic.config
+    virtual_text: true
+    virtual_lines: false
+    severity_sort: true
+    underline: true
+    signs: false
+    update_in_insert: true
+
+
 
 -- Lots of Vim options
 do
