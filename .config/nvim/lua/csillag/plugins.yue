@@ -369,8 +369,7 @@ do
     vim.lsp.enable "tinymist"
     vim.lsp.config "tinymist", offset_encoding: "utf-8"
 
-    -- nvim_lsp.texlab.setup
-    --     :on_attach
+    vim.lsp.enable "texlab"
 
     vim.lsp.enable "vimls"
 
