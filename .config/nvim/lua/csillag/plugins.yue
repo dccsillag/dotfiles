@@ -358,7 +358,8 @@ do
     vim.lsp.enable "lua_ls"
     vim.lsp.config "lua_ls", cmd: {"lua-language-server", "-E", "/usr/share/lua-language-server/main.lua"}
 
-    vim.lsp.enable "pylsp"
+    -- vim.lsp.enable "pylsp"
+    vim.lsp.enable "ty"
 
     vim.lsp.enable "hls"
     vim.lsp.config "hls", filetypes:
