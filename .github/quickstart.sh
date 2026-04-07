@@ -23,7 +23,7 @@ then
     if [ ! -f "$HOME/.local/bin/zsh" ]
     then
         ( echo '$HOME/.local/bin/zsh'; echo 'exit $?' ) >> ~/.bash_profile  # TODO make this more seamless
-    do
+    fi
 fi
 
 echo
