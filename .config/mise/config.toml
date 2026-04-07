@@ -1,0 +1,59 @@
+[tools]
+
+neovim = "0.12"
+# TODO yuescript
+
+# TODO typst
+uv = "latest"
+rust = "latest"
+
+rust-analyzer = "latest"
+zls = "latest"
+# TODO clang-tools
+# TODO lldb
+lua-language-server = "latest"
+# TODO pyright
+# TODO haskell-language-server
+# TODO texlab
+# TODO harper
+"github:astral-sh/ty" = "latest"
+tinymist = "latest"
+
+# TODO wget
+# TODO curl
+# TODO git
+# TODO gitoxide
+# TODO jujutsu
+# TODO jjui
+# TODO github-cli = "latest"
+
+ripgrep = "latest"
+fd = "latest"
+# procs = "latest"
+eza = "latest"
+delta = "latest"
+bat = "latest"
+# TODO viu
+# TODO tokei = "latest"
+# TODO highlight
+# TODO tldr
+fzf = "latest"
+# TODO broot
+# TODO entr
+jq = "latest"
+# TODO parallel
+# TODO gpp
+hyperfine = "latest"
+zoxide = "latest"
+
+# TODO opencode = "latest"
+# TODO gemini-cli = "latest"
+
+imagemagick = "latest"
+
+bottom = "latest"
+yazi = "latest"
+pandoc = "latest"
+
+starship = "latest"
+direnv = "latest"
