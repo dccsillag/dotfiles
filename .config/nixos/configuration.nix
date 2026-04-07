@@ -668,6 +668,21 @@ in
     };
   };
 
+  services.redshift = {
+    enable = true;
+    temperature.day = 6500;
+    temperature.night = 5500;  # default is 4500
+  };
+  location.provider = "geoclue2";
+  services.geoclue2 = {
+    enable = true;
+    geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+  };
+  services.xserver.displayManager.sessionCommands = ''
+    # Start the Geoclue authorization agent for Redshift
+    systemctl --user start geoclue-agent.service &
+  '';
+
   # Enable the keyring for Mailspring
   services.gnome.gnome-keyring.enable = true;
 
