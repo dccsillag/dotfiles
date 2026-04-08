@@ -10,6 +10,12 @@
 
 source ~/.profile
 
+# Mise
+if command -v mise >/dev/null 2>&1
+then
+    eval "$(mise activate zsh)"
+fi
+
 # Setup starship prompt
 eval "$(starship init zsh)"
 
@@ -424,9 +430,3 @@ unset '_comps[nail]'
 
 # Turso
 export PATH="$PATH:/home/daniel/.turso"
-
-# Mise
-if command -v mise >/dev/null 2>&1
-then
-    eval "$(mise activate zsh)"
-fi
