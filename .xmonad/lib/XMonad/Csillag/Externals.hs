@@ -86,4 +86,4 @@ systemMonitor = "btm --battery"
 -- Calculator
 
 calculatorSpawn :: String
-calculatorSpawn = termRun "insect"
+calculatorSpawn = termRun "numbat"

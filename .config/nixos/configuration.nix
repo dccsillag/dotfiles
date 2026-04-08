@@ -454,6 +454,9 @@ in
     lf
     yazi
 
+    # Calculator
+    unstable.numbat
+
     # Pandoc
     pandoc
     # TODO pandoc-citeproc
