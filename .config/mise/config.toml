@@ -1,7 +1,7 @@
 [tools]
 
 neovim = "0.12"
-# TODO yuescript
+"github:IppClub/YueScript" = "latest"
 
 # TODO typst
 uv = "latest"
@@ -25,7 +25,7 @@ tinymist = "latest"
 # TODO gitoxide
 # TODO jujutsu
 # TODO jjui
-# TODO github-cli = "latest"
+github-cli = "latest"
 
 ripgrep = "latest"
 fd = "latest"
