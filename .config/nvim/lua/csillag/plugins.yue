@@ -255,6 +255,20 @@ vim.pack.add {'https://github.com/karb94/neoscroll.nvim'}
     duration_multiplier: 0.3
     easing: "quintic"
 
+-- code folding
+vim.pack.add
+    * 'https://github.com/kevinhwang91/promise-async'
+    * 'https://github.com/kevinhwang91/nvim-ufo'
+vim.o.foldcolumn = '0'
+vim.o.foldlevel = 99 -- for nvim-ufo
+vim.o.foldlevelstart = 99 -- for nvim-ufo
+vim.o.foldenable = true -- enable folds
+-- vim.o.foldminlines = 1 -- require at least 1 line of content to create a fold
+
+(require 'ufo').setup
+    provider_selector: (bufnr, filetype, buftype) -> {'treesitter', 'indent'}
+
+
 -- undotree
 vim.cmd.packadd "nvim.undotree" -- packadd because it's built-in
 

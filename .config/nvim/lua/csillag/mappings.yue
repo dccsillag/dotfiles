@@ -61,12 +61,8 @@ myKeymaps = (maps) ->
 
 vimcmd = (cmd) -> '<cmd>' .. cmd .. '<CR>'
 luacmd = (cmd) -> '<cmd>lua ' .. cmd .. '<CR>'
-dapcmd = (cmd) -> luacmd 'if require"dap".session() ~= nil then ' .. cmd .. ' else print("no DAP session!") end'
 plug = (op) -> '<Plug>(' .. op .. ')'
-addspecs = (op) -> op -- addspecs = (op) -> op .. ':lua maybe_show_specs()<CR>'
 telescope = (provider) -> vimcmd 'Telescope ' .. provider
-fzflua = (provider) -> vimcmd 'FzfLua ' .. provider
-blankline = (op) -> op .. '<CMD>IndentBlanklineRefresh<CR>'
 
 is_jujutsu = () -> (vim.fn.isdirectory ".jj") == 1
 focus_opencode = () ->
@@ -79,22 +75,9 @@ focus_opencode = () ->
     vim.api.nvim_set_current_win winid
 
 applyKeymaps myKeymaps
-    -- Redraw
-    '<C-r>': ->
-        vim.cmd 'IndentBlanklineRefresh'
-        vim.cmd 'redraw'
-    -- Redo
-    'U': vimcmd "silent redo"
-    'u': vimcmd "silent undo"
-
     -- LSP
     'gd': -> vim.lsp.buf.definition!
-    'gr': telescope "lsp_references"
-    'gR': -> vim.lsp.buf.references!
     'gq': -> vim.lsp.buf.formatting!
-
-    '[t': plug 'ultest-prev-fail'
-    ']t': plug 'ultest-next-fail'
 
     -- Completion
     '<insert><C-c>': '<C-x><C-o>' -- open completion meno
@@ -103,36 +86,14 @@ applyKeymaps myKeymaps
     '<insert><C-k>': '<C-p>'
     '<insert><C-h>': '<C-e>' -- close completion meno
 
-    -- :cn and :cp
-    '[q': vimcmd 'cp'
-    ']q': vimcmd 'cn'
-
     '<Leader>':
         -- LSP
         'l':
-            'h': -> vim.lsp.buf.hover!
-            'g': telescope "lsp_dynamic_workspace_symbols"
-            'G': telescope "lsp_document_symbols"
-            'i': telescope "lsp_implementations"
-            -- 'd': telescope 'lsp_definitions'
-            -- 'd': -> vim.diagnostic.open_float
-            --     source: true
-            --     -- header:
-            --     -- format:
-            --     -- prefix:
-            --     border: "rounded"
             'd': telescope "diagnostics"
             'D': telescope "diagnostics bufnr=0"
-            'r': -> vim.lsp.buf.rename!
-            'a': -> vim.lsp.buf.code_action()
-            '<visual>a': -> vim.lsp.buf.range_code_action()
-            't': -> (require "lsp_lines").toggle!
-            'N': -> vim.diagnostic.goto_prev wrap: false, float: false
-            'n': -> vim.diagnostic.goto_next wrap: false, float: false
             'e': ->
                 vim.diagnostic.open_float nil, border: "rounded"
                 vim.diagnostic.open_float nil, border: "rounded" -- call it a second time to enter the window
-            'f': vim.lsp.buf.format
 
         -- AI
         'a':
@@ -233,17 +194,6 @@ applyKeymaps myKeymaps
             'D': luacmd 'require"neotest".run.attach()'
             's': luacmd 'require"neotest".run.stop()'
             'l': luacmd 'require"neotest".run.run_last()'
-        'd':
-            'd': ->
-                import 'dapui'
-                dapui.toggle!
-            'b': luacmd 'require"dap".toggle_breakpoint()'
-            'j': dapcmd 'require"dap".step_over()'
-            'l': dapcmd 'require"dap".step_into()'
-            'h': dapcmd 'require"dap".step_out()'
-            'c': dapcmd 'require"dap".continue()'
-            'r': dapcmd 'require"dap".repl.open()'
-            'v': dapcmd 'require"dapui".eval()'
 
         -- 'G': vimcmd 'tab G' -- open fugitive
         'G': -> -- open jujutsu (via jjui) or fugitive
@@ -260,11 +210,6 @@ applyKeymaps myKeymaps
                 -- Open Fugitive.
                 vim.cmd "tab G"
 
-        -- ';': luacmd 'specs.show_specs()' -- highlight the cursor
-
-        -- 'S': vimcmd 'set spell!' -- toggle spell
-        -- 's': ':set spelllang=' -- set spell language
-
         'p': -> -- open corresponding PDF for the current [markup file]
             filename = vim.fn.expand("%:r") .. ".pdf"
             if not vim.fn.filereadable filename
@@ -273,20 +218,6 @@ applyKeymaps myKeymaps
             vim.cmd "silent exec '!nohup zathura #{filename} > /dev/null 2>&1 &'"
 
         '.': vimcmd 'nohl' -- :nohl
-
-        -- 'o': -- open windows
-        --     'c': vimcmd 'copen' -- open quickfix window
-        --     't': vimcmd 'Trouble' -- open trouble window
-        -- 'q': -- close windows
-        --     'c': vimcmd 'cclose' -- close quickfix window
-        --     't': vimcmd 'TroubleClose' -- close trouble window
-        'q': vimcmd 'Bdelete'
-
-        -- 'n': vimcmd 'set number!' -- toggle line numbers
-
-        'T': -> -- open taskell
-            vim.cmd "tabedit term://taskell"
-            vim.cmd "startinsert"
 
         "g":
             "s": luacmd 'require"gitsigns.actions".stage_hunk()'
@@ -304,9 +235,6 @@ applyKeymaps myKeymaps
 
     "[c": luacmd 'require"gitsigns.actions".prev_hunk()'
     "]c": luacmd 'require"gitsigns.actions".next_hunk()'
-
-    -- spell suggest
-    -- 'z=': fzflua 'spell_suggest'
 
     -- substitute
     '<C-s>':
@@ -331,26 +259,11 @@ applyKeymaps myKeymaps
         --     ':': vimcmd [[Tabularize /:\zs]]
         --     ' ': vimcmd [[Tabularize /,\zs]]
 
-    'z':
-        -- open aerial view
-        -- 'g': vimcmd 'AerialOpen'
-        'o': blankline 'zo'
-        'O': blankline 'zO'
-        'c': blankline 'zc'
-        'C': blankline 'zC'
-        'a': blankline 'za'
-        'A': blankline 'zA'
-        'v': blankline 'zv'
-        'x': blankline 'zx'
-        'X': blankline 'zX'
-        'm': blankline 'zm'
-        'M': blankline(luacmd "require'ufo'.closeAllFolds()")
-        'r': blankline 'zr'
-        'R': blankline(luacmd "require'ufo'.openAllFolds()")
+    -- required by nvim-ufo (for some reason)
+    'zM': (require 'ufo').closeAllFolds
+    'zR': (require 'ufo').openAllFolds
 
-    -- specs & asterisk
-    'n': addspecs 'n'
-    'N': addspecs 'N'
+    -- asterisk
     '<rec>*': addspecs plug 'asterisk-*'
     '<rec>#': addspecs plug 'asterisk-#'
     '<rec>g*': addspecs plug 'asterisk-g*'
@@ -364,18 +277,17 @@ applyKeymaps myKeymaps
     "'": "`"
     "`": "'"
 
-    -- Make Y work like D
-    'Y': 'y$'
-
-    -- Map Q to a nop
-    'Q': '<nop>'
-
-    -- Change S to behave kinda like X
-    'S': '"_Xi<CR><Esc>l'
-
-    -- Change s to ys (normal) / S (visual)
-    '<rec>s': 'ys'
-    '<visual><rec>s': 'S'
+    -- misc tweaks:
+    'Y': 'y$' -- Make Y work like D
+    'Q': '<nop>' -- Map Q to a nop
+    'S': '"_Xi<CR><Esc>l' -- Change S to behave kinda like X
+    '<rec>s': 'ys' -- Change s to ys (normal) [surround]
+    '<visual><rec>s': 'S' -- Change s to S (visual) [surround]
+    '<C-z>': '<nop>' -- Disable suspend
+    '<C-6>': '<C-^>' -- Map <C-6> to <C-^> (for GUIs)
+    '<C-r>': -> vim.cmd 'redraw' -- Redraw
+    'U': vimcmd "silent redo" -- U is redo
+    'u': vimcmd "silent undo" -- u is still undo
 
     -- Change o/O to not insert text at multiple lines, when used with a count
     'O': -> -- insert line above
@@ -394,19 +306,3 @@ applyKeymaps myKeymaps
             vim.cmd [[norm! j]]
         vim.cmd [[norm! ^"_D]]
         vim.cmd [[startinsert!]]
-
-    -- Disable suspend
-    '<C-z>': '<nop>'
-
-    -- Map <C-6> to <C-^> (for GUIs)
-    '<C-6>': '<C-^>'
-
-    '<Leader>[': vimcmd 'BufferPrevious'
-    '<Leader>]': vimcmd 'BufferNext'
-    '<Leader>{': vimcmd 'BufferMovePrevious'
-    '<Leader>}': vimcmd 'BufferMoveNext'
-
-    '<C-+>': increase_font_size
-    '<C-=>': increase_font_size
-    '<C-->': decrease_font_size
-    '<C-0>': reset_font_size
