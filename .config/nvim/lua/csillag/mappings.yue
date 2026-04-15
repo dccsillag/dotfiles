@@ -264,14 +264,14 @@ applyKeymaps myKeymaps
     'zR': (require 'ufo').openAllFolds
 
     -- asterisk
-    '<rec>*': addspecs plug 'asterisk-*'
-    '<rec>#': addspecs plug 'asterisk-#'
-    '<rec>g*': addspecs plug 'asterisk-g*'
-    '<rec>g#': addspecs plug 'asterisk-g#'
-    '<rec>z*': addspecs plug 'asterisk-z*'
-    '<rec>z#': addspecs plug 'asterisk-z#'
-    '<rec>gz*': addspecs plug 'asterisk-gz*'
-    '<rec>gz#': addspecs plug 'asterisk-gz#'
+    '<rec>*': plug 'asterisk-*'
+    '<rec>#': plug 'asterisk-#'
+    '<rec>g*': plug 'asterisk-g*'
+    '<rec>g#': plug 'asterisk-g#'
+    '<rec>z*': plug 'asterisk-z*'
+    '<rec>z#': plug 'asterisk-z#'
+    '<rec>gz*': plug 'asterisk-gz*'
+    '<rec>gz#': plug 'asterisk-gz#'
 
     -- swap "go to mark" maps
     "'": "`"
