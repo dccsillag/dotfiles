@@ -152,6 +152,10 @@
       "rev": "9e3edd38e44c8f3af5634c5e30a33ebd79227f11",
       "src": "https://github.com/RRethy/nvim-treesitter-textsubjects"
     },
+    "nvim-ufo": {
+      "rev": "ab3eb124062422d276fae49e0dd63b3ad1062cfc",
+      "src": "https://github.com/kevinhwang91/nvim-ufo"
+    },
     "nvim-web-devicons": {
       "rev": "40e9d5a6cc3db11b309e39593fc7ac03bb844e38",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
@@ -192,6 +196,10 @@
       "rev": "4d903e46fdb5eef25fa79ef1b598f5340a2674b0",
       "src": "https://github.com/hood/popui.nvim"
     },
+    "promise-async": {
+      "rev": "119e8961014c9bfaf1487bf3c2a393d254f337e2",
+      "src": "https://github.com/kevinhwang91/promise-async"
+    },
     "python-syntax": {
       "rev": "2cc00ba72929ea5f9456a26782db57fb4cc56a65",
       "src": "https://github.com/vim-python/python-syntax"
@@ -227,6 +235,10 @@
     "treesitter-unit": {
       "rev": "89968a1f8c72427691088e6d09d26a52c2ddc6f4",
       "src": "https://github.com/David-Kunz/treesitter-unit"
+    },
+    "trouble.nvim": {
+      "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
+      "src": "https://github.com/folke/trouble.nvim"
     },
     "vim-asterisk": {
       "rev": "77e97061d6691637a034258cc415d98670698459",
