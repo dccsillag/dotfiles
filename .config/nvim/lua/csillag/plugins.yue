@@ -216,6 +216,11 @@ vim.pack.add {'https://github.com/romgrk/nvim-treesitter-context'}
 vim.pack.add {'https://github.com/andymass/vim-matchup'}
 vim.g.matchup_matchparen_offscreen = {}
 
+vim.pack.add
+    * 'https://github.com/folke/trouble.nvim'
+    * 'https://github.com/nvim-tree/nvim-web-devicons'
+(require 'trouble').setup {}
+
 -- LSP progress indicator
 vim.pack.add {{src: 'https://github.com/j-hui/fidget.nvim', version: "legacy"}}
 (require "fidget").setup
