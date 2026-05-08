@@ -192,3 +192,29 @@ trough {
     font: 24px Lato Regular;
     font-weight: bold;
 }
+
+// .timezones {
+//     color: #FFFFFF;
+//     padding: 5px;
+// }
+.timezones-inner {
+    /* margin: 3px 8px; */
+    padding: 3em 0px;
+    margin: 7px 8px;
+    background-color: #242424;
+    border: 2px solid #8b8b8b;
+    border-radius: 15px;
+}
+.timezone-clock-container {
+  padding: 4em 8em;
+}
+.timezone-clock-name {
+    font: 24px Lato Regular;
+}
+.timezone-clock-time {
+    font: 24px Lato Regular;
+    font-weight: bold;
+}
+.timezone-clock-date {
+    font: 18px Lato Regular;
+}

@@ -188,4 +188,55 @@
                 (progress :class "asdf" :value value :orientation "horizontal")
                 (box :height 10)))
 
+(defwindow timezones
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "62px"
+                               :width "60%"
+                               :height "30%"
+                               :anchor "top center")
+           :stacking "fg"
+           :windowtype "dock"
+           :wm-ignore false
+           (box
+             :orientation "vertical"
+             :class "timezones-inner"
+             (centerbox
+               (box)
+               (box
+                   (timezone-clock :name "Brazil" :date-var date-brazil :time-var time-brazil)
+                   (timezone-clock :name "New York" :date-var date-ny :time-var time-ny)
+                   (timezone-clock :name "Los Angeles" :date-var date-la :time-var time-la))
+               (box))
+             (centerbox
+               (box)
+               (box
+                   (timezone-clock :name "France" :date-var date-france :time-var time-france)
+                   (timezone-clock :name "China" :date-var date-china :time-var time-china)
+                   (timezone-clock :name "AoE*" :date-var date-aoe :time-var time-aoe))
+               (box))
+             ))
+(defpoll date-brazil :interval "10s" `TZ=America/Sao_Paulo date +"%a, %b %d %Y"`)
+(defpoll time-brazil :interval "10s" `TZ=America/Sao_Paulo date +"%H:%M"`)
+(defpoll date-ny :interval "10s" `TZ=America/New_York date +"%a, %b %d %Y"`)
+(defpoll time-ny :interval "10s" `TZ=America/New_York date +"%H:%M"`)
+(defpoll date-la :interval "10s" `TZ=America/Los_Angeles date +"%a, %b %d %Y"`)
+(defpoll time-la :interval "10s" `TZ=America/Los_Angeles date +"%H:%M"`)
+(defpoll date-france :interval "10s" `TZ=Europe/Paris date +"%a, %b %d %Y"`)
+(defpoll time-france :interval "10s" `TZ=Europe/Paris date +"%H:%M"`)
+(defpoll date-china :interval "10s" `TZ=Asia/Shanghai date +"%a, %b %d %Y"`)
+(defpoll time-china :interval "10s" `TZ=Asia/Shanghai date +"%H:%M"`)
+(defpoll date-aoe :interval "10s" `TZ=UTC+12 date +"%a, %b %d %Y"`)
+(defpoll time-aoe :interval "10s" `TZ=UTC+12 date +"%H:%M"`)
+
+(defwidget timezone-clock [name date-var time-var]
+           (box :orientation "vertical"
+                :halign "start"
+                :class "timezone-clock-container"
+                (box :class "timezone-clock-name" "${name}")
+                (box :class "timezone-clock-date" "${date-var}")
+                (box :class "timezone-clock-time" "${time-var}")))
+
+
+
 ; vim: ft=lisp

@@ -150,6 +150,8 @@ myKeys =
       ("M-S-n M-S-c", addName "Close notification" $ spawn "dunstctl close"),
       ("M-S-n M-c", addName "Close all notifications" $ spawn "dunstctl close-all"),
       ("M-S-n M-S-r", addName "Redisplay the most recently closed notification" $ spawn "dunstctl history-pop"),
+      -- Timezones
+      ("M--", addName "Toggle timezones window" $ spawn "eww open timezones --toggle"),
       -- -- Mouse actions
       -- , ("M-C-S-m", addName "Open mouse actions gridselect" mouseActionsGridSelect)
       -- Function Keys
