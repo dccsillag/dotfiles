@@ -87,8 +87,9 @@ in
     };
   };
 
-  # Set your time zone.
-  time.timeZone = "America/Sao_Paulo";
+  # # Set your time zone.
+  # time.timeZone = "America/Sao_Paulo";
+  services.automatic-timezoned.enable = true;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
