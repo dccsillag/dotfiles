@@ -548,6 +548,7 @@ in
     pavucontrol
     unstable.nsxiv
     zathura
+    sioyek
     xournalpp
     rnote
     slack
@@ -669,13 +670,14 @@ in
     touchpad = {
       naturalScrolling = true;
       accelProfile = "flat";
+      # tappingButtonMap = "lrm";
     };
   };
 
   services.redshift = {
     enable = true;
     temperature.day = 6500;
-    temperature.night = 5500;  # default is 4500
+    temperature.night = 4500;  # default is 4500
   };
   location.provider = "geoclue2";
   services.geoclue2 = {
@@ -729,7 +731,7 @@ in
       turbo = "never";
     };
     charger = {
-      governor = "performance";
+      governor = "powersave";
       turbo = "auto";
     };
   };
