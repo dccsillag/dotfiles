@@ -19,6 +19,8 @@ let
     "nvidia-x11"
     "nvidia-settings"
     "corefonts"
+
+    "open-webui"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
@@ -239,6 +241,44 @@ let
     '';
   };
 
+  # Override llama-cpp to latest version with CUDA support
+  llama-cpp =
+    (pkgs.llama-cpp.override {
+      cudaSupport = false;
+      rocmSupport = false;
+      metalSupport = false;
+      # vulkanSupport = true;
+      # Enable BLAS for optimized CPU layer performance (OpenBLAS)
+      blasSupport = true;
+    }).overrideAttrs
+      (oldAttrs: rec {
+        # version = "7205";
+        version = "9433";
+        src = pkgs.fetchFromGitHub {
+          owner = "ggml-org";
+          repo = "llama.cpp";
+          tag = "b${version}";
+          hash = "sha256-AKfjMx9SF4qyiSDRJqZN29fFJq7bMHpwguDuO6tQuf8=";
+          leaveDotGit = true;
+          postFetch = ''
+            git -C "$out" rev-parse --short HEAD > $out/COMMIT
+            find "$out" -name .git -print0 | xargs -0 rm -rf
+          '';
+        };
+        # Enable native CPU optimizations (AVX, AVX2, etc.)
+        cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [
+          "-DGGML_NATIVE=ON"
+          "-DLLAMA_BUILD_EXAMPLES=ON"
+        ];
+        # nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
+        #   pkgs.spirv-headers
+        # ];
+        # Disable Nix's march=native stripping
+        preConfigure = ''
+          export NIX_ENFORCE_NO_NATIVE=0
+          ${oldAttrs.preConfigure or ""}
+        '';
+      });
 in
 {
   imports =
@@ -406,7 +446,7 @@ in
       # directory_1_3_7_1
       aeson
       utf8-string
-      process_1_6_26_1
+      process_1_6_28_0
       xmobar
       bimap
       JuicyPixels
@@ -558,9 +598,9 @@ in
         pillow
         cairosvg
 
-        python-lsp-server
-        pylsp-mypy
-        python-lsp-black
+        # python-lsp-server
+        # pylsp-mypy
+        # python-lsp-black
       ];
     })
     yuescript
@@ -582,7 +622,7 @@ in
     # unstable.aider-chat  # not quite an LSP, but...
     harper
     basedpyright
-    nodePackages.typescript-language-server
+    typescript-language-server
     unstable.ty
 
     uv
@@ -593,6 +633,7 @@ in
     #unstable.youtube-dl
     unstable.yt-dlp
     git # ... and git
+    git-lfs
     gitoxide
     unstable.jujutsu
     unstable.jjui
@@ -624,7 +665,6 @@ in
     broot
     entr
     jq
-    neofetch
     pfetch
     onefetch
     parallel
@@ -645,6 +685,8 @@ in
     })
     unstable.opencode
     unstable.gemini-cli
+    # llama-cpp
+    unstable.runpodctl
 
     # Development tools
     rustfmt
@@ -663,7 +705,7 @@ in
     cargo-valgrind
     cargo-watch
     cargo-flamegraph
-    cargo-show-asm
+    unstable.cargo-show-asm
     cargo-tarpaulin
     # cargo-llvm-cov
     cargo-nextest
@@ -727,19 +769,19 @@ in
       pillow
       cairosvg
 
-      python-lsp-server
+      # python-lsp-server
       rope
-      pylsp-mypy
+      # pylsp-mypy
       # python-lsp-ruff
-      python-lsp-black
+      # python-lsp-black
     ]))
     ueberzugpp
     scrot
     maim
     feh
     zenity
-    xorg.xmodmap
-    xorg.xwininfo
+    xmodmap
+    xwininfo
     wmctrl
     xdotool
     xdo
@@ -873,6 +915,46 @@ in
   security.wrappers = {
     fusermount.source = "${pkgs.fuse}/bin/fusermount";
   };
+
+  # # Configure llama-swap as a systemd service
+  # systemd.services.llama-swap = {
+  #   description = "llama-swap - OpenAI compatible proxy with automatic model swapping";
+  #   after = [ "network.target" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     User = "daniel";
+  #     Group = "users";
+  #     # Point to your declarative config file
+  #     ExecStart = "${pkgs.llama-swap}/bin/llama-swap --config /etc/llama-swap/config.yaml --listen 0.0.0.0:9292 --watch-config";
+  #     Restart = "always";
+  #     RestartSec = 10;
+  #
+  #     # Environment for CUDA support
+  #     Environment = [
+  #       "PATH=/run/current-system/sw/bin"
+  #       "LD_LIBRARY_PATH=/run/opengl-driver/lib:/run/opengl-driver-32/lib"
+  #     ];
+  #   };
+  # };
+  # services.llama-cpp = {
+  #   package = llama-cpp;
+  #   enable = true;
+  #   # model = "/home/daniel/library/models/Gemma-4-E4B-It-7.5B-BF16.Q8_0.gguf";
+  #   model = "/usr/models/Gemma-4-E4B-It-7.5B-BF16.Q8_0.gguf";
+  #   # model = "/usr/models/Gemma-4-E4B-It-7.5B-BF16.Q4_K_M.gguf";
+  #   host = "0.0.0.0";
+  #   port = 9091;
+  # };
+  # services.open-webui = {
+  #   enable = true;
+  #   host = "0.0.0.0";
+  #   port = 9090;
+  #   environment = {
+  #     "WEBUI_AUTH" = "False";
+  #   };
+  # };
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;
