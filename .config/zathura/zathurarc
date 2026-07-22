@@ -3,9 +3,9 @@ set default-bg '#282C33'
 set default-fg '#c5c8c6'
 
 # set recolor-lightcolor 'rgba(27, 35, 38, 0)'
-set recolor-lightcolor '#282C33'
-set recolor-darkcolor '#c5c8c6'
-set recolor-keephue true
+set recolor-lightcolor '#ffffff'
+set recolor-darkcolor '#000000'
+set recolor-keephue false
 
 set recolor true
 

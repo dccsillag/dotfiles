@@ -4,11 +4,16 @@
   "IS_MAXIMIZED": false,
   "IS_MINIMIZED": false,
   "WINDOW_BOUNDS": {
-    "x": 96,
-    "y": 60,
-    "width": 1728,
-    "height": 1080
+    "x": 121,
+    "y": 76,
+    "width": 2188,
+    "height": 1368
   },
   "chromiumSwitches": {},
-  "offloadAdmControls": false
+  "offloadAdmControls": true,
+  "enableHardwareAcceleration": true,
+  "openH264Enabled": true,
+  "DESKTOP_TTI_UPDATE_BACKOFF_MAX_MS": 10000,
+  "DESKTOP_TTI_DNSTCP_WARMUP": true,
+  "DESKTOP_TTI_REMOVE_V8_CACHE_CLEAR": true
 }

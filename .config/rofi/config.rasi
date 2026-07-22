@@ -6,6 +6,7 @@ configuration {
     }
     ssh {
         display-name: "SSH to";
+        ssh-command: "{terminal} -e kitten ssh {host}";
     }
 }
 

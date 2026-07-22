@@ -12,7 +12,7 @@
         "lsp": "allow",
         "patch": "ask",
         "skill": "ask",
-        "todowrite": "ask",
+        "todowrite": "allow",
         "todoread": "allow",
         "webfetch": "ask",
         "question": "allow",

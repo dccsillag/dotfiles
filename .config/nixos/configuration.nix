@@ -22,6 +22,223 @@ let
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
+
+  pkgs2311 = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-23.11.tar.gz") {
+    system = pkgs.stdenv.hostPlatform.system;
+  };
+
+  # 1. The Nody Greeter Derivation
+  nodyGreeter = pkgs.buildNpmPackage rec {
+    pname = "nody-greeter";
+    version = "1.6.2"; # Latest stable release
+
+    # Force Node 18 because Node 22's V8 engine breaks the node-gtk C++ bindings
+    nodejs = pkgs2311.nodejs_18;
+
+    # Tell NPM scripts not to bypass Nix and download external binaries
+    ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
+    PUPPETEER_SKIP_DOWNLOAD = "1";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "JezerM";
+      repo = "nody-greeter";
+      rev = version;
+      fetchSubmodules = true;
+      hash = "sha256-c9AANNLLKC5Rqb0BAJBr+sCCaJb/0cTa7VQgKKbayro=";
+    };
+
+    # Nix requires a hash for the entire node_modules dependency tree.
+    # It will fail on the second run and give you this hash.
+    npmDepsHash = "sha256-rKgXK9TyC1Rf4TUHTA0OQZ7FS8o2l3fF61H8+dEWC4o=";
+
+    # Dependencies for building native Node modules (node-gtk)
+    nativeBuildInputs = with pkgs; [
+      pkg-config
+      python311
+      gobject-introspection
+      vala
+    ];
+
+    buildInputs = with pkgs; [
+      gtk3
+      lightdm
+      glib
+      pkgs2311.electron
+    ];
+
+    # Override the default npm build phase to match Nody's instructions
+    buildPhase = ''
+      npm pkg set devDependencies.electron="${pkgs2311.electron.version}"
+
+      npm run rebuild
+
+      # Overwrite the broken theme script with a harmless 'echo' command.
+      # This bypasses the submodule typo entirely since we just want Litarvan anyway.
+      npm pkg set scripts.build:themes="echo 'Skipping broken default themes'"
+      mkdir -p ./themes/themes/
+      mkdir -p ./themes/themes/_vendor
+      mkdir -p ./themes/_vendor
+      mkdir -p ./node_modules/electron/dist/
+      echo "dummy executable" > ./node_modules/electron/dist/electron
+
+      npm run build
+    '';
+
+    installPhase = ''
+      mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
+
+      # 1. Copy the nested filesystem the packager created
+      cp -r build/unpacked/* $out/share/nody-greeter/
+
+      # 2. THE FIX: Dynamically find where the packager hid the app!
+      # This searches the copied files for either 'resources/app' or 'resources/app.asar'
+      APP_TARGET=$(find $out/share/nody-greeter | grep -E "resources/app$|resources/app.asar$" | head -n 1)
+
+      # 3. Create the launcher pointing to the dynamically found path
+      cat > $out/bin/nody-greeter <<EOF
+      #!/bin/sh
+      exec ${pkgs2311.electron}/bin/electron "$APP_TARGET" --no-sandbox --disable-gpu "\$@"
+      EOF
+      chmod +x $out/bin/nody-greeter
+
+      # 4. Generate the desktop file
+      cat > nody-greeter.desktop <<EOF
+      [Desktop Entry]
+      Name=nody-greeter
+      Comment=LightDM greeter using web technologies
+      Exec=$out/bin/nody-greeter
+      Type=Application
+      EOF
+
+      # Put it in the standard location AND the root directory (your fix!)
+      cp nody-greeter.desktop $out/share/xgreeters/
+      cp nody-greeter.desktop $out/
+    '';
+    # installPhase = ''
+    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
+    #   cp -r build/unpacked/* $out/share/nody-greeter/
+    #
+    #   # THE FIX: We let Nix correctly expand $out during the build,
+    #   # but we escape the bash variables (\$APP_PATH and \$@) for runtime.
+    #   cat > $out/bin/nody-greeter <<EOF
+    #   #!/bin/sh
+    #
+    #   APP_PATH="$out/share/nody-greeter/resources/app.asar"
+    #   if [ ! -f "\$APP_PATH" ]; then
+    #     APP_PATH="$out/share/nody-greeter/resources/app"
+    #   fi
+    #
+    #   exec ${pkgs.electron}/bin/electron "\$APP_PATH" --no-sandbox --disable-gpu "\$@"
+    #   EOF
+    #   chmod +x $out/bin/nody-greeter
+    #
+    #   # The desktop file also needs the unescaped $out
+    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
+    #   [Desktop Entry]
+    #   Name=Nody Greeter
+    #   Comment=LightDM greeter using web technologies
+    #   Exec=$out/bin/nody-greeter
+    #   Type=Application
+    #   EOF
+    #
+    #   cp $out/share/xgreeters/nody-greeter.desktop $out/nody-greeter.desktop
+    # '';
+    # installPhase = ''
+    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
+    #   cp -r build/unpacked/* $out/share/nody-greeter/
+    #
+    #   # THE FIX: Bulletproof the launcher, disable the sandbox, and add error logging!
+    #   cat > $out/bin/nody-greeter <<EOF
+    #   #!/bin/sh
+    #
+    #   # Determine if the app was packed into an asar archive or left as a directory
+    #   APP_PATH="\$out/share/nody-greeter/resources/app.asar"
+    #   if [ ! -f "\$APP_PATH" ]; then
+    #     APP_PATH="\$out/share/nody-greeter/resources/app"
+    #   fi
+    #
+    #   # Run system Electron with LightDM-safe flags and pipe all output to a log file
+    #   exec ${pkgs.electron}/bin/electron "\$APP_PATH" --no-sandbox --disable-gpu "\\\$@" > /tmp/nody-greeter-crash.log 2>&1
+    #   EOF
+    #   chmod +x $out/bin/nody-greeter
+    #
+    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
+    #   [Desktop Entry]
+    #   Name=Nody Greeter
+    #   Comment=LightDM greeter using web technologies
+    #   Exec=$out/bin/nody-greeter
+    #   Type=Application
+    #   EOF
+    # '';
+    # installPhase = ''
+    #   # Set up our system directories
+    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
+    #
+    #   # Copy the compiled Javascript/HTML resources over
+    #   cp -r build/unpacked/* $out/share/nody-greeter/
+    #
+    #   # THE LAUNCHER FIX: Create a custom executable that ignores the dummy files
+    #   # and instead forces the app to run using the native NixOS Electron engine.
+    #   cat > $out/bin/nody-greeter <<EOF
+    #   #!/bin/sh
+    #   exec ${pkgs.electron}/bin/electron $out/share/nody-greeter/resources/app "\$@"
+    #   EOF
+    #   chmod +x $out/bin/nody-greeter
+    #
+    #   # Register the greeter with LightDM
+    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
+    #   [Desktop Entry]
+    #   Name=Nody Greeter
+    #   Comment=LightDM greeter using web technologies
+    #   Exec=$out/bin/nody-greeter
+    #   Type=Application
+    #   EOF
+    # '';
+    # installPhase = ''
+    #   mkdir -p $out/bin $out/share/xgreeters $out/etc/lightdm
+    #   cp -r build/unpacked/* $out/
+    #
+    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
+    #   [Desktop Entry]
+    #   Name=Nody Greeter
+    #   Comment=LightDM greeter using web technologies
+    #   Exec=$out/bin/nody-greeter
+    #   Type=Application
+    #   EOF
+    # '';
+    # installPhase = ''
+    #   # The default 'node make install' tries to write to root /usr and /etc
+    #   # Instead, we manually grab the built output and put it in the Nix store
+    #   mkdir -p $out/bin $out/share/xgreeters $out/etc/lightdm
+    #
+    #   # Copy the compiled electron app
+    #   cp -r build/unpacked/* $out/
+    #
+    #   # Create the .desktop file so LightDM knows this greeter exists
+    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
+    #   [Desktop Entry]
+    #   Name=Nody Greeter
+    #   Comment=LightDM greeter using web technologies
+    #   Exec=$out/bin/nody-greeter
+    #   Type=Application
+    #   EOF
+    # '';
+  };
+
+  # 3. The Theme Derivation (Extracts the tarball natively)
+  nodyThemeLitarvan = pkgs.stdenv.mkDerivation {
+    name = "lightdm-theme-litarvan";
+    src = pkgs.fetchurl {
+      url = "https://github.com/Litarvan/lightdm-webkit-theme-litarvan/releases/download/v3.2.0/lightdm-webkit-theme-litarvan-3.2.0.tar.gz";
+      hash = "sha256-lt0ujW5TbxtXHfbNBUtPlMVUvibxqSPvPHmMgLEyCwc=";
+    };
+    sourceRoot = ".";
+    installPhase = ''
+      mkdir -p $out
+      cp -r * $out/
+    '';
+  };
+
 in
 {
   imports =
@@ -149,7 +366,6 @@ in
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # services.displayManager.defaultSession = "none+xmonad";
   services.displayManager.ly = {
     enable = true;
     settings = {
@@ -165,6 +381,22 @@ in
       brightness_down_key = null;
     };
   };
+  # services.xserver.displayManager.lightdm = {
+  #   enable = true;
+  #   greeters.gtk.enable = false;
+  #   greeter = {
+  #     enable = true;
+  #     name = "nody-greeter";
+  #     package = nodyGreeter;
+  #   };
+  # };
+  # environment.etc."lightdm/themes/litarvan".source = nodyThemeLitarvan;
+  # environment.etc."lightdm/web-greeter.yml".text = ''
+  #   greeter:
+  #     theme: litarvan
+  #   theme:
+  #     dir: /etc/lightdm/themes
+  # '';
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
@@ -475,6 +707,7 @@ in
     unstable.proton-vpn-cli
 
     # Desktop
+    # nodyGreeter
     pulseaudio
     unstable.picom
     xterm
@@ -553,7 +786,7 @@ in
     rnote
     slack
     unstable.discord
-    mailspring  # unstable.mailspring
+    unstable.mailspring
     gnome-calendar
     geary
     thunderbird
@@ -682,7 +915,8 @@ in
   location.provider = "geoclue2";
   services.geoclue2 = {
     enable = true;
-    geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+    # geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+    geoProviderUrl = "https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY_HERE";
   };
   services.xserver.displayManager.sessionCommands = ''
     # Start the Geoclue authorization agent for Redshift
@@ -691,6 +925,9 @@ in
 
   # Enable the keyring for Mailspring
   services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+  programs.seahorse.enable = true;
+  services.xserver.updateDbusEnvironment = true;
 
   # For GNOME Calendar:
   programs.dconf.enable = true;

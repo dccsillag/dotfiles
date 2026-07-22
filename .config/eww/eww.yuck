@@ -24,7 +24,7 @@
                 (battery)))
 (defpoll datetime
          :interval "1s"
-         `date +"%a,  %b %d %Y  %H:%M:%S"`)
+         `date +"%a,  %b %d %Y  %H:%M:%S  %Z"`)
 (defwidget battery []
            (box :orientation "horizontal"
                 :class {EWW_BATTERY.BAT0.capacity >= 20 ? "caution-ok" : "caution-danger"}

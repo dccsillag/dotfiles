@@ -17,7 +17,7 @@ termRun' cls cmd = "kitty --single-instance --class '" ++ cls ++ "' -e sh -c '" 
 -- Text Editor
 
 texteditorSpawn :: String
-texteditorSpawn = "neovide --multigrid"
+texteditorSpawn = termRun "nvim"
 
 -- File Manager
 
