@@ -126,7 +126,7 @@ myKeys =
       ("M-s M-m", addName "Toggle scratchpad 'element'" $ namedScratchpadAction myScratchpads "element"),
       ("M-s M-l", addName "Toggle scratchpad 'localsend'" $ namedScratchpadAction myScratchpads "localsend"),
       -- Passwords
-      ("M-p M-p", addName "Get a password" $ spawn "rofi-pass"),
+      ("M-p M-p", addName "Get a password" $ spawn "rofi-rbw -t password"),
       -- Screenshots
       ("M-y M-s", addName "Yank the whole screen" $ spawn scrotScreen),
       ("M-y M-f", addName "Yank the current window" $ spawn scrotThiswindow),
@@ -139,13 +139,15 @@ myKeys =
       ("M-q M-S-q", addName "Quit XMonad" $ io exitSuccess),
       ("M-q M-S-s", addName "Suspend" $ spawn "systemctl suspend"),
       ("M-q M-S-h", addName "Hibernate" $ spawn "systemctl hibernate"),
-      ("M-q M-b", addName "Blank the screen" $ spawn "sleep 0.5; xset dpms force off"),
-      ("M-q M-l", addName "Lock" $ spawn "slock"),
+      ("M-q M-B", addName "Blank the screen" $ spawn "sleep 0.5; xset dpms force off"),
+      ("M-q M-l", addName "Lock" $ spawn "dm-tool lock"),
       ("M-q M-d M-[", addName "Enable 'do not disturb'" $ spawn "dunstctl set-paused true"),
       ("M-q M-d M-]", addName "Disable 'do not disturb'" $ spawn "dunstctl set-paused false"),
       ("M-q M-=", addName "Toggle Statusbar" $ spawn "toggle_statusbar"),
       ("M-q M-v M-u", addName "Enable VPN" $ mvpn "up"),
       ("M-q M-v M-d", addName "Disable VPN" $ mvpn "down"),
+      ("M-q M-w", addName "Manage Wi-Fi" $ spawn "rofi-network-manager"),
+      ("M-q M-b", addName "Manage Bluetooth" $ spawn "rofi-bluetooth -i"),
       -- Notifications
       ("M-S-n M-S-c", addName "Close notification" $ spawn "dunstctl close"),
       ("M-S-n M-c", addName "Close all notifications" $ spawn "dunstctl close-all"),

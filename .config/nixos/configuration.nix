@@ -18,228 +18,13 @@ let
 
     "nvidia-x11"
     "nvidia-settings"
+    "nvidia-kernel-modules"
     "corefonts"
 
     "open-webui"
   ];
 
   unstable = import <nixos-unstable> { config.allowUnfreePredicate = allowUnfreePredicate; };
-
-  pkgs2311 = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-23.11.tar.gz") {
-    system = pkgs.stdenv.hostPlatform.system;
-  };
-
-  # 1. The Nody Greeter Derivation
-  nodyGreeter = pkgs.buildNpmPackage rec {
-    pname = "nody-greeter";
-    version = "1.6.2"; # Latest stable release
-
-    # Force Node 18 because Node 22's V8 engine breaks the node-gtk C++ bindings
-    nodejs = pkgs2311.nodejs_18;
-
-    # Tell NPM scripts not to bypass Nix and download external binaries
-    ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
-    PUPPETEER_SKIP_DOWNLOAD = "1";
-
-    src = pkgs.fetchFromGitHub {
-      owner = "JezerM";
-      repo = "nody-greeter";
-      rev = version;
-      fetchSubmodules = true;
-      hash = "sha256-c9AANNLLKC5Rqb0BAJBr+sCCaJb/0cTa7VQgKKbayro=";
-    };
-
-    # Nix requires a hash for the entire node_modules dependency tree.
-    # It will fail on the second run and give you this hash.
-    npmDepsHash = "sha256-rKgXK9TyC1Rf4TUHTA0OQZ7FS8o2l3fF61H8+dEWC4o=";
-
-    # Dependencies for building native Node modules (node-gtk)
-    nativeBuildInputs = with pkgs; [
-      pkg-config
-      python311
-      gobject-introspection
-      vala
-    ];
-
-    buildInputs = with pkgs; [
-      gtk3
-      lightdm
-      glib
-      pkgs2311.electron
-    ];
-
-    # Override the default npm build phase to match Nody's instructions
-    buildPhase = ''
-      npm pkg set devDependencies.electron="${pkgs2311.electron.version}"
-
-      npm run rebuild
-
-      # Overwrite the broken theme script with a harmless 'echo' command.
-      # This bypasses the submodule typo entirely since we just want Litarvan anyway.
-      npm pkg set scripts.build:themes="echo 'Skipping broken default themes'"
-      mkdir -p ./themes/themes/
-      mkdir -p ./themes/themes/_vendor
-      mkdir -p ./themes/_vendor
-      mkdir -p ./node_modules/electron/dist/
-      echo "dummy executable" > ./node_modules/electron/dist/electron
-
-      npm run build
-    '';
-
-    installPhase = ''
-      mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
-
-      # 1. Copy the nested filesystem the packager created
-      cp -r build/unpacked/* $out/share/nody-greeter/
-
-      # 2. THE FIX: Dynamically find where the packager hid the app!
-      # This searches the copied files for either 'resources/app' or 'resources/app.asar'
-      APP_TARGET=$(find $out/share/nody-greeter | grep -E "resources/app$|resources/app.asar$" | head -n 1)
-
-      # 3. Create the launcher pointing to the dynamically found path
-      cat > $out/bin/nody-greeter <<EOF
-      #!/bin/sh
-      exec ${pkgs2311.electron}/bin/electron "$APP_TARGET" --no-sandbox --disable-gpu "\$@"
-      EOF
-      chmod +x $out/bin/nody-greeter
-
-      # 4. Generate the desktop file
-      cat > nody-greeter.desktop <<EOF
-      [Desktop Entry]
-      Name=nody-greeter
-      Comment=LightDM greeter using web technologies
-      Exec=$out/bin/nody-greeter
-      Type=Application
-      EOF
-
-      # Put it in the standard location AND the root directory (your fix!)
-      cp nody-greeter.desktop $out/share/xgreeters/
-      cp nody-greeter.desktop $out/
-    '';
-    # installPhase = ''
-    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
-    #   cp -r build/unpacked/* $out/share/nody-greeter/
-    #
-    #   # THE FIX: We let Nix correctly expand $out during the build,
-    #   # but we escape the bash variables (\$APP_PATH and \$@) for runtime.
-    #   cat > $out/bin/nody-greeter <<EOF
-    #   #!/bin/sh
-    #
-    #   APP_PATH="$out/share/nody-greeter/resources/app.asar"
-    #   if [ ! -f "\$APP_PATH" ]; then
-    #     APP_PATH="$out/share/nody-greeter/resources/app"
-    #   fi
-    #
-    #   exec ${pkgs.electron}/bin/electron "\$APP_PATH" --no-sandbox --disable-gpu "\$@"
-    #   EOF
-    #   chmod +x $out/bin/nody-greeter
-    #
-    #   # The desktop file also needs the unescaped $out
-    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
-    #   [Desktop Entry]
-    #   Name=Nody Greeter
-    #   Comment=LightDM greeter using web technologies
-    #   Exec=$out/bin/nody-greeter
-    #   Type=Application
-    #   EOF
-    #
-    #   cp $out/share/xgreeters/nody-greeter.desktop $out/nody-greeter.desktop
-    # '';
-    # installPhase = ''
-    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
-    #   cp -r build/unpacked/* $out/share/nody-greeter/
-    #
-    #   # THE FIX: Bulletproof the launcher, disable the sandbox, and add error logging!
-    #   cat > $out/bin/nody-greeter <<EOF
-    #   #!/bin/sh
-    #
-    #   # Determine if the app was packed into an asar archive or left as a directory
-    #   APP_PATH="\$out/share/nody-greeter/resources/app.asar"
-    #   if [ ! -f "\$APP_PATH" ]; then
-    #     APP_PATH="\$out/share/nody-greeter/resources/app"
-    #   fi
-    #
-    #   # Run system Electron with LightDM-safe flags and pipe all output to a log file
-    #   exec ${pkgs.electron}/bin/electron "\$APP_PATH" --no-sandbox --disable-gpu "\\\$@" > /tmp/nody-greeter-crash.log 2>&1
-    #   EOF
-    #   chmod +x $out/bin/nody-greeter
-    #
-    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
-    #   [Desktop Entry]
-    #   Name=Nody Greeter
-    #   Comment=LightDM greeter using web technologies
-    #   Exec=$out/bin/nody-greeter
-    #   Type=Application
-    #   EOF
-    # '';
-    # installPhase = ''
-    #   # Set up our system directories
-    #   mkdir -p $out/bin $out/share/xgreeters $out/share/nody-greeter
-    #
-    #   # Copy the compiled Javascript/HTML resources over
-    #   cp -r build/unpacked/* $out/share/nody-greeter/
-    #
-    #   # THE LAUNCHER FIX: Create a custom executable that ignores the dummy files
-    #   # and instead forces the app to run using the native NixOS Electron engine.
-    #   cat > $out/bin/nody-greeter <<EOF
-    #   #!/bin/sh
-    #   exec ${pkgs.electron}/bin/electron $out/share/nody-greeter/resources/app "\$@"
-    #   EOF
-    #   chmod +x $out/bin/nody-greeter
-    #
-    #   # Register the greeter with LightDM
-    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
-    #   [Desktop Entry]
-    #   Name=Nody Greeter
-    #   Comment=LightDM greeter using web technologies
-    #   Exec=$out/bin/nody-greeter
-    #   Type=Application
-    #   EOF
-    # '';
-    # installPhase = ''
-    #   mkdir -p $out/bin $out/share/xgreeters $out/etc/lightdm
-    #   cp -r build/unpacked/* $out/
-    #
-    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
-    #   [Desktop Entry]
-    #   Name=Nody Greeter
-    #   Comment=LightDM greeter using web technologies
-    #   Exec=$out/bin/nody-greeter
-    #   Type=Application
-    #   EOF
-    # '';
-    # installPhase = ''
-    #   # The default 'node make install' tries to write to root /usr and /etc
-    #   # Instead, we manually grab the built output and put it in the Nix store
-    #   mkdir -p $out/bin $out/share/xgreeters $out/etc/lightdm
-    #
-    #   # Copy the compiled electron app
-    #   cp -r build/unpacked/* $out/
-    #
-    #   # Create the .desktop file so LightDM knows this greeter exists
-    #   cat > $out/share/xgreeters/nody-greeter.desktop <<EOF
-    #   [Desktop Entry]
-    #   Name=Nody Greeter
-    #   Comment=LightDM greeter using web technologies
-    #   Exec=$out/bin/nody-greeter
-    #   Type=Application
-    #   EOF
-    # '';
-  };
-
-  # 3. The Theme Derivation (Extracts the tarball natively)
-  nodyThemeLitarvan = pkgs.stdenv.mkDerivation {
-    name = "lightdm-theme-litarvan";
-    src = pkgs.fetchurl {
-      url = "https://github.com/Litarvan/lightdm-webkit-theme-litarvan/releases/download/v3.2.0/lightdm-webkit-theme-litarvan-3.2.0.tar.gz";
-      hash = "sha256-lt0ujW5TbxtXHfbNBUtPlMVUvibxqSPvPHmMgLEyCwc=";
-    };
-    sourceRoot = ".";
-    installPhase = ''
-      mkdir -p $out
-      cp -r * $out/
-    '';
-  };
 
   # Override llama-cpp to latest version with CUDA support
   llama-cpp =
@@ -279,6 +64,130 @@ let
           ${oldAttrs.preConfigure or ""}
         '';
       });
+
+  litarvanTheme = pkgs.buildNpmPackage {
+    pname = "lightdm-webkit-theme-litarvan";
+    version = "unstable-2023-03-10";
+
+    # Compatibility fork used by the existing Sea Greeter packaging.
+    src = pkgs.fetchFromGitHub {
+      owner = "dragonfly1033";
+      repo = "lightdm-webkit-theme-litarvan";
+      rev = "e4e977239156f415a8e1c511317bcf73cfb4015f";
+      hash = "sha256-03ttvg+w2Ikh/FfX0fgeL/KTy+C2DRaBXMwfMB+cppw=";
+    };
+
+    npmDepsHash =
+      "sha256-+gaS/8Dr35lMKqfH9NKlCgJTpaqA0AlWS3Cx5TNrWyk=";
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p "$out"
+      cp -r dist/. "$out/"
+
+      # Sea Greeter expects this file even when index.html is conventional.
+      if [[ ! -e "$out/index.yml" ]]; then
+        cat > "$out/index.yml" <<'EOF'
+primary_html: index.html
+EOF
+      fi
+
+      runHook postInstall
+    '';
+  };
+
+  seaGreeter = pkgs.stdenv.mkDerivation {
+    pname = "sea-greeter";
+    version = "unstable-2024-02-03";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "JezerM";
+      repo = "sea-greeter";
+      rev = "ffd2f3c52601127a46d478cd2cd4a9e03719c73f";
+      hash = "sha256-jAk1DTftPtG9mj0NmDX0zhzRZkHAFpdAklRgBE3Orrc=";
+      fetchSubmodules = true;
+    };
+
+    nativeBuildInputs = with pkgs; [
+      meson
+      ninja
+      pkg-config
+      typescript
+      # makeWrapper
+    ];
+
+    buildInputs = with pkgs; [
+      gtk3
+      webkitgtk_4_1
+      lightdm
+      glib
+      libyaml
+    ];
+
+    postPatch = ''
+      substituteInPlace src/meson.build \
+        --replace-fail "webkit2gtk-4.0" "webkit2gtk-4.1" \
+        --replace-fail "webkit2gtk-web-extension-4.0" \
+                       "webkit2gtk-web-extension-4.1"
+
+      substituteInPlace src/theme.c \
+        --replace-fail "/usr/share/web-greeter/themes/" \
+                       "$out/usr/share/web-greeter/themes/"
+
+      substituteInPlace src/settings.c \
+        --replace-fail "/etc/lightdm/web-greeter.yml" \
+                       "$out/etc/lightdm/web-greeter.yml" \
+        --replace-fail "/usr/share/web-greeter/themes/" \
+                       "$out/usr/share/web-greeter/themes/"
+
+      substituteInPlace data/web-greeter.yml \
+        --replace-fail "theme: gruvbox" "theme: litarvan" \
+        --replace-fail "/usr/share/" "$out/usr/share/"
+    '';
+
+    configurePhase = ''
+      runHook preConfigure
+
+      meson setup build \
+        --prefix=/usr \
+        -Dwith-webext-dir="$out/usr/lib/sea-greeter"
+
+      runHook postConfigure
+    '';
+
+    buildPhase = ''
+      runHook preBuild
+      ninja -C build
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+
+      meson install -C build --destdir="$out"
+
+      mkdir -p "$out/usr/share/web-greeter/themes"
+      ln -s ${litarvanTheme} \
+        "$out/usr/share/web-greeter/themes/litarvan"
+
+      # wrapProgram "$out/usr/bin/sea-greeter" \
+      #   --set WEBKIT_DISABLE_DMABUF_RENDERER 1
+
+      substituteInPlace \
+        "$out/usr/share/xgreeters/sea-greeter.desktop" \
+        --replace-fail \
+          "Exec=sea-greeter" \
+          "Exec=$out/usr/bin/sea-greeter"
+
+      # Required by NixOS's generic LightDM greeter option.
+      ln -s \
+        "$out/usr/share/xgreeters/sea-greeter.desktop" \
+        "$out/sea-greeter.desktop"
+
+      runHook postInstall
+    '';
+  };
 in
 {
   imports =
@@ -299,7 +208,7 @@ in
   boot.loader.systemd-boot.memtest86.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_6_0;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # "silent" boot:
   boot.plymouth = {
@@ -331,6 +240,8 @@ in
   # hardware.enableAllFirmware = true;
   # hardware.firmware = [ pkgs.linux-firmware ];
   # hardware.enableRedistributableFirmware = true;
+
+  services.udisks2.enable = true;
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -379,64 +290,68 @@ in
 
   # # Setup NVIDIA GPU
   # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
+  # # hardware.opengl = {
+  # #   enable = true;
+  # #   driSupport = true;
+  # #   driSupport32Bit = true;
+  # # };
   # hardware.nvidia = {
   #   package = config.boot.kernelPackages.nvidiaPackages.stable;
   #
-  #   modesetting.enable = false;  # true;
+  #   # modesetting.enable = false;  # true;
+  #   modesetting.enable = true;
   #   powerManagement.enable = false;
-  #   powerManagement.finegrained = false;
-  #   open = false;
+  #   powerManagement.finegrained = false;  # TODO  probably want to set this to `true`
+  #   open = true;
   #   nvidiaSettings = true;
   #
-  #   # For laptop:
-  #   prime = {
-  #     intelBusId = "PCI:0:2:0";  # pci@0000:00:02.0 ==> 00:02.0 ==> 0:2:0
-  #     nvidiaBusId = "PCI:1:0:0";  # pci@0000:01:00.0 ==> 01:00.0 ==> 1:0:0
-  #
-  #     # sync.enable = true;
-  #     reverseSync.enable = true;
-  #     allowExternalGpu = false;
-  #   };
+  #   # # For laptop:
+  #   # prime = {
+  #   #   intelBusId = "PCI:0:2:0";  # pci@0000:00:02.0 ==> 00:02.0 ==> 0:2:0
+  #   #   nvidiaBusId = "PCI:1:0:0";  # pci@0000:01:00.0 ==> 01:00.0 ==> 1:0:0
+  #   #
+  #   #   # sync.enable = true;
+  #   #   reverseSync.enable = true;
+  #   #   allowExternalGpu = false;
+  #   # };
   # };
+  # assertions = [
+  #   {
+  #     assertion = pkgs.lib.versionAtLeast config.hardware.nvidia.package.version "570.86.16";
+  #     message = ''
+  #       The RTX 5090 requires NVIDIA Linux driver 570.86.16 or newer.
+  #       Update the NixOS/nixpkgs channel or select a newer NVIDIA package.
+  #     '';
+  #   }
+  # ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.displayManager.ly = {
-    enable = true;
-    settings = {
-      asterisk = "0x2022";
-      # bigclock = "en";
-      clear_password = true;
-      margin_box_h = 4;
-      margin_box_v = 1;
-      blank_box = false;
-      hide_borders = true;
-      hide_version_string = true;
-      brightness_up_key = null;
-      brightness_down_key = null;
-    };
-  };
-  # services.xserver.displayManager.lightdm = {
+  # services.displayManager.ly = {
   #   enable = true;
-  #   greeters.gtk.enable = false;
-  #   greeter = {
-  #     enable = true;
-  #     name = "nody-greeter";
-  #     package = nodyGreeter;
+  #   settings = {
+  #     asterisk = "0x2022";
+  #     # bigclock = "en";
+  #     clear_password = true;
+  #     margin_box_h = 4;
+  #     margin_box_v = 1;
+  #     blank_box = false;
+  #     hide_borders = true;
+  #     hide_version_string = true;
+  #     brightness_up_key = null;
+  #     brightness_down_key = null;
   #   };
   # };
-  # environment.etc."lightdm/themes/litarvan".source = nodyThemeLitarvan;
-  # environment.etc."lightdm/web-greeter.yml".text = ''
-  #   greeter:
-  #     theme: litarvan
-  #   theme:
-  #     dir: /etc/lightdm/themes
-  # '';
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    greeters.gtk.enable = false;
+    greeter = {
+      enable = true;
+      name = "sea-greeter";
+      package = seaGreeter;
+    };
+  };
+  services.accounts-daemon.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.windowManager.xmonad = {
     enable = true;
@@ -504,6 +419,7 @@ in
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.daniel = {
+    description = "Daniel Csillag";
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "libvirt" "libvirtd" "kvm" "qemu-libvirtd" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
@@ -749,8 +665,9 @@ in
     unstable.proton-vpn-cli
 
     # Desktop
-    # nodyGreeter
+    udiskie
     pulseaudio
+    networkmanagerapplet
     unstable.picom
     xterm
     alacritty
@@ -762,6 +679,9 @@ in
     polybar
     rofi
     rofi-pass
+    rofi-rbw
+    rofi-network-manager
+    rofi-bluetooth
     dunst
     (python3.withPackages (ps: with ps; [
       pynvim
@@ -809,6 +729,7 @@ in
 
     # Password manager
     pass
+    rbw
     pinentry-gnome3
     pinentry-tty
 
