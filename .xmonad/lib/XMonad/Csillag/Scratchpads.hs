@@ -48,7 +48,7 @@ myScratchpads =
        , hook  = floatingScratchpad
        }
   , NS { name  = "audio"
-       , cmd   = termRun' "audiomanage" "pulsemixer"
+       , cmd   = termRun' "audiomanage" "kitten @ set-font-size 18; pulsemixer"
        , query = className =? "audiomanage"
        , hook  = floatingScratchpad
        }
