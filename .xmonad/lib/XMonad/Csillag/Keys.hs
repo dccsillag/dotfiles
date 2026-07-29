@@ -31,6 +31,7 @@ import XMonad.Csillag.Layouts.TreeLayout
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.LayoutCombinators (JumpToLayout (..))
 import XMonad.Layout.Maximize
+import XMonad.Actions.ToggleFullFloat
 import XMonad.Prompt (XPConfig, mkComplFunFromList')
 import XMonad.Prompt.Input
 import XMonad.Prompt.Pass
@@ -105,6 +106,7 @@ myKeys =
       ("M-6", addName "Switch with last workspace" $ windows \ws -> flip W.view ws $ W.tag $ head $ filter ((/= "NSP") . W.tag) $ W.hidden ws),
       -- Layouts & Layout Messages
       ("M-;", addName "Cycle to next layout" $ sendMessage NextLayout),
+      ("M-S-;", addName "Toggle true fullscreen" $ withFocused toggleFullFloat),
       -- ("M-[", addName "Shrink master area" $ sendMessage Shrink),
       -- ("M-]", addName "Expand master area" $ sendMessage Expand),
       ("M-<Return>", addName "Toggle magnifier" $ withFocused $ sendMessage . maximizeRestore),
