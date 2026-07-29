@@ -2,7 +2,7 @@ configuration {
     terminal: "kitty --single-instance";
 
     scroll-method: 1;
-    cycle: false;
+    cycle: true;
 
     drun {
         display-name: "Launch";
