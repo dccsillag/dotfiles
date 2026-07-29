@@ -245,6 +245,13 @@ in
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
+  systemd.user.services.mpris-proxy2 = {
+    enable = true;
+    description = "Mpris proxy";
+    after = [ "network.target" "sound.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+  };
 
   virtualisation.libvirtd = {
     enable = true;
@@ -683,6 +690,7 @@ in
     rofi-network-manager
     rofi-bluetooth
     dunst
+    playerctl
     (python3.withPackages (ps: with ps; [
       pynvim
       jupyter-client
