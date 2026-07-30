@@ -1,15 +1,21 @@
 [opener]
 view3d = [
-    { run = "napari $@", orphan = true, description = "Napari (3D viewer)" }
+    { run = "napari $@", orphan = true, desc = "Napari (3D viewer)" }
 ]
 view-directory = [
-    { run = "nsxiv \"$(dirname \"$0\")\"", orphan = true, description = "View the images in the directory" }
+    { run = "nsxiv \"$(dirname \"$0\")\"", orphan = true, desc = "View the images in the directory" }
+]
+pympress = [
+    { run = "pympress $@", orphan = true, desc = "Pympress (Slide presenter)" }
 ]
 
 [open]
 prepend_rules = [
-    { url = "*.npy", use = "view3d" }
+    { url = "*.npy", use = "view3d" },
+    { mime = "application/pdf", use = ["open", "pympress", "reveal", "exif"] },
 ]
 append_rules = [
-    { mime = "image/*", use = "view-directory" }
+    { mime = "image/*", use = "view-directory" },
 ]
+# rules = [
+# ]

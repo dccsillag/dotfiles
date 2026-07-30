@@ -752,6 +752,7 @@ in
     pavucontrol
     unstable.nsxiv
     zathura
+    pympress
     sioyek
     xournalpp
     rnote
