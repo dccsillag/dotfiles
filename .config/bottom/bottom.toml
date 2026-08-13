@@ -111,28 +111,26 @@ process_command = true
 # All widgets must have the type value set to one of ["cpu", "mem", "proc", "net", "temp", "disk", "empty"].
 # All layout components have a ratio value - if this is not set, then it defaults to 1. 
 # The default widget layout:
-#[[row]]
-#  ratio=30
-#  [[row.child]]
-#  type="cpu"
-#[[row]]
-#    ratio=40
-#    [[row.child]]
-#      ratio=4
-#      type="mem"
-#    [[row.child]]
-#      ratio=3
-#      [[row.child.child]]
-#        type="temp"
-#      [[row.child.child]]
-#        type="disk"
-#[[row]]
-#  ratio=30
-#  [[row.child]]
-#    type="net"
-#  [[row.child]]
-#    type="proc"
-#    default=true
+[[row]]
+ ratio=30
+ [[row.child]]
+ type="cpu"
+[[row]]
+   ratio=40
+   [[row.child]]
+     ratio=4
+     type="mem"
+   [[row.child]]
+     ratio=3
+     [[row.child.child]]
+       type="temp_graph"
+[[row]]
+ ratio=30
+ [[row.child]]
+   type="net"
+ [[row.child]]
+   type="proc"
+   default=true
 
 
 # Filters - you can hide specific temperature sensors, network interfaces, and disks using filters.  This is admittedly
